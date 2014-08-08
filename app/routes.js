@@ -2,6 +2,9 @@
  * Created by Bill on 14-8-8.
  */
 
+var multiparty = require('connect-multiparty');
+var multipartyMiddleware = multiparty();
+
 var isAuthenticated = require('../config/authenticate');
 
 module.exports = function(app, router)
@@ -19,6 +22,12 @@ module.exports = function(app, router)
         {
             res.json(homeLinks);
         });
+
+    // Image API Route
+    var images = require('./controller/images');
+
+    router.route('/images')
+        .post(multipartyMiddleware, images.post);
 
     // Apply API Routes
     app.use('/api', router);
