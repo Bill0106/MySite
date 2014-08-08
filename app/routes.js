@@ -23,6 +23,18 @@ module.exports = function(app, router)
     // Apply API Routes
     app.use('/api', router);
 
+    // Admin Route
+    app.route('/admin')
+        .get(function (req, res) {
+            var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
+
+            if (ip == '127.0.0.1') {
+                res.sendfile('./public/views/admin.html');
+            } else {
+                res.redirect('/');
+            }
+        });
+
     // Fronted Route
     app.route('*')
         .get(function(req, res)
