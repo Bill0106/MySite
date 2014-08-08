@@ -4,7 +4,7 @@
 
 var myApp = angular.module('myApp',['ngRoute', 'ngAnimate', 'appRoutes', 'homeCtrl', 'homeService']);
 
-myApp.controller('TitleController', ['$scope', '$route', function($scope, $route)
+myApp.controller('titleController', ['$scope', '$route', function($scope, $route)
 {
     $scope.$on('$routeChangeSuccess', function()
     {
@@ -12,7 +12,7 @@ myApp.controller('TitleController', ['$scope', '$route', function($scope, $route
     });
 }]);
 
-myApp.controller('HeaderController', ['$scope', '$location', function($scope, $location)
+myApp.controller('headerController', ['$scope', '$location', function($scope, $location)
 {
     $scope.isActive = function(viewLocation)
     {
