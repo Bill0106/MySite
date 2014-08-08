@@ -1,0 +1,15 @@
+{
+    "name": "bill0106.com",
+    "version": "1.0.0",
+    "author": "Bill",
+    "dependencies": {
+        "bootstrap": "~3.2.*",
+        "html5shiv": "~3.7.*",
+        "respond": "~1.4.*",
+        "font-awesome": "~4.1.*",
+        "angular": "~1.2.*",
+        "angular-route": "~1.2.*",
+        "angular-animate": "~1.2.*",
+        "animate.css": "~3.2.*"
+    }
+}
