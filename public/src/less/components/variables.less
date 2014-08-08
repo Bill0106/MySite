@@ -1,0 +1,62 @@
+// Color
+@black: #000;
+@white: #fff;
+
+// Font Family
+body {
+  font-family: "proxima-nova","Helvetica Neue","HelveticaNeue",Arial,sans-serif;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: "quatro-slab","Helvetica Neue","HelveticaNeue",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: @black;
+}
+
+// Transition Animation
+.transition (@transition){
+  -webkit-transition: @transition;
+  -moz-transition: @transition;
+  -ms-transition: @transition;
+  -o-transition: @transition;
+  transition: @transition;
+}
+
+// Scale Animation
+.scale (@scale){
+  -webkit-transform: @scale;
+  -moz-transform: @scale;
+  -ms-transform: @scale;
+  -o-transform: @scale;
+  transform: @scale;
+}
+
+// Opacity
+.opacity(@opacity) {
+  opacity: @opacity / 100;
+  filter: ~"alpha(opacity=@{opacity})";
+}
+.opacity-show {
+  .opacity(100);
+}
+.opacity-hide {
+  .opacity(0);
+}
+
+// Gradient
+.gradient(@deg, @start, @end) {
+  background: -webkit-linear-gradient(@deg, @start, @end);
+  background: -moz-linear-gradient(@deg, @start, @end);
+  background: -o-linear-gradient(@deg, @start, @end);
+  background: -ms-linear-gradient(@deg, @start, @end);
+  background: linear-gradient(@deg, @start, @end);
+}
+
+// Animation
+.animation(@animation) {
+  animation: @animation;
+  -webkit-animation: @animation;
+}

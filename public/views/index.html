@@ -1,0 +1,22 @@
+<section class="home-list" ng-home>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 home-title">
+                <h1>Bill's Hobby | Write As a Interest</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 col-md-2 home-list-item" ng-repeat="homeLink in homeLinks">
+                <img class="img-circle home-item-background" ng-src="http://bill0106.com//images/{{ homeLink.background }}" alt="{{ homeLink.title }}" title="{{ homeLink.title }}" />
+                <a class="img-circle home-item-link" href="{{ homeLink.url }}" ng-mouseenter="mouseEnter(homeLink)" ng-mouseleave="mouseLeave()">
+                    <img class="home-item-icon" ng-src="http://bill0106.com//images/{{ homeLink.icon }}" alt="{{ homeLink.title }}" title="{{ homeLink.title }}"/>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 home-item-title">
+                <h2>{{ title }}</h2>
+            </div>
+        </div>
+    </div>
+</section>

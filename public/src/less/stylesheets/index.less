@@ -1,0 +1,52 @@
+section.home-list {
+  position: absolute;
+  top: 52px;
+  bottom: 0;
+  padding-top: 80px;
+  width: 100%;
+  background-image: url('http://bill0106.com/images/505afb6ff668f345f4b5ea4cd1fba976.jpg');
+  background-repeat: no-repeat;
+  background-position: bottom right;
+  .opacity(0);
+  .home-title {
+    text-align: center;
+    h1 {
+      font-size: 45px;
+      color: @white;
+    }
+  }
+  .home-list-item {
+    margin: 50px 0;
+    text-align: center;
+    .home-item-background {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      z-index: 1;
+    }
+    .home-item-link {
+      display: block;
+      position: relative;
+      margin: -150px auto 0;
+      width: 150px;
+      height: 150px;
+      background-color: @white;
+      line-height: 150px;
+      text-align: center;
+      z-index: 2;
+      .transition(all 0.3s linear);
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.6);
+      }
+      .home-item-icon {
+        width: 80px;
+        height: 80px;
+        vertical-align: middle;
+      }
+    }
+  }
+  .home-item-title {
+    text-align: center;
+    color: @white;
+  }
+}
