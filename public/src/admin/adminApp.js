@@ -24,3 +24,29 @@ app.controller('imageUploadController', function($scope, $upload)
         });
     };
 });
+
+app.controller('GamePostController', function($scope, $http)
+{
+    $scope.formData = {};
+    $scope.fields = ['title', 'name', 'company', 'date', 'rate', 'image'];
+    $scope.platforms = [
+        {name: 'PlatStation 3'},
+        {name: 'PlatStation 4'},
+        {name: 'PlatStation Vita'}
+    ];
+
+    $scope.createGame = function()
+    {
+        $http.post('/api/games', $scope.formData)
+            .success(function(data)
+            {
+                $scope.formData = {};
+                $scope.game = data;
+                $scope.show = true;
+            })
+            .error(function(data)
+            {
+                console.log('Error: ' + data);
+            });
+    };
+});
