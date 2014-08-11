@@ -13,6 +13,11 @@ module.exports = function(grunt)
             options: {
                 mangle: false
             },
+            admin: {
+                files: {
+                    'public/dist/javascripts/adminApp.min.js': ['public/src/admin/adminApp.js']
+                }
+            },
             build: {
                 files: {
                     'public/dist/javascripts/app.min.js': ['public/src/javascripts/**/*.js', 'public/src/javascripts/*.js']
@@ -38,11 +43,11 @@ module.exports = function(grunt)
 
         watch: {
             css: {
-                files: ['public/src/less/style.less'],
+                files: ['public/src/**/*.less'],
                 tasks: ['less', 'cssmin']
             },
             js: {
-                files: ['public/src/js/**/*.js'],
+                files: ['public/src/**/*.js'],
                 tasks: ['jshint', 'uglify']
             }
         },
