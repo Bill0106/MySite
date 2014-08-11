@@ -29,6 +29,13 @@ module.exports = function(app, router)
     router.route('/images')
         .post(multipartyMiddleware, images.post);
 
+    // PlayStation Games API Route
+    var games = require('./controller/games');
+
+    router.route('/games')
+        .get(games.list)
+        .post(games.post);
+
     // Apply API Routes
     app.use('/api', router);
 
