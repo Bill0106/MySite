@@ -11,6 +11,11 @@ angular.module('appRoutes', [])
                 controller: 'homeController',
                 title: 'Home'
             })
+            .when('/playstation', {
+                templateUrl: 'views/playstation.html',
+                controller: 'playStationController',
+                title: 'PlayStation'
+            })
             .otherwise({
                 redirectTo: '/'
             });
