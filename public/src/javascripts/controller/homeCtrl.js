@@ -35,7 +35,7 @@ homeCtrl.directive('ngHome', ['$timeout', function(timer)
             {
                 var backgroundImage = new Image();
 
-                $(backgroundImage).attr('src', 'http://bill0106.com/images/505afb6ff668f345f4b5ea4cd1fba976.jpg').bind('load', function()
+                $(backgroundImage).attr('src', 'http://zhuhaolin.com/images/505afb6ff668f345f4b5ea4cd1fba976.jpg').bind('load', function()
                 {
                     $("div.page-loading").addClass('animated fadeOut');
                     setTimeout(function()
