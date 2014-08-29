@@ -28,7 +28,7 @@ app.controller('imageUploadController', function($scope, $upload)
 app.controller('GamePostController', function($scope, $http)
 {
     $scope.formData = {};
-    $scope.fields = ['title', 'name', 'company', 'date', 'rate', 'image'];
+    $scope.fields = ['title', 'name', 'genre', 'company', 'date', 'rate', 'image'];
     $scope.platforms = [
         {name: 'PlatStation 3'},
         {name: 'PlatStation 4'},
