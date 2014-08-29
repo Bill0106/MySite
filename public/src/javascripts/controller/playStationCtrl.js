@@ -10,36 +10,27 @@ playStationCtrl.controller('playStationController', function($scope, Games)
     Games.get().success(function(data)
     {
         var gamesData = data.reverse();
-        var length  = gamesData.length;
-        var count = Math.ceil(length / 3);
-        var start = 0;
-        var gamesArray = [];
+        var length = gamesData.length;
 
-        for (var i = 0; i < count; i++) {
-            var end = start + 3;
-            if (end > length) {
-                end = length;
-            }
-            gamesArray.push(gamesData.slice(start, end));
-            start += 3;
-        }
-
-        $scope.gamesArray = gamesArray.splice(0, 4);
+        $scope.games = gamesData.splice(0, 24);
 
         $scope.loadMore = function()
         {
-            var num = 2;
-            var total = gamesArray.length;
-
-            if (total < num) {
-                num = total;
+            if (length === 0) {
+                return false;
             }
 
-            var gamesMore = gamesArray.splice(0, num);
+            var num = 12;
 
-            angular.forEach(gamesMore, function(value)
+            if (num > length) {
+                num = length;
+            }
+
+            var moreGames = gamesData.splice(0, num);
+
+            angular.forEach(moreGames, function(value)
             {
-                $scope.gamesArray.push(value);
+                $scope.games.push(value);
             });
         };
     });
@@ -49,3 +40,33 @@ playStationCtrl.controller('playStationController', function($scope, Games)
         return new Array(num);
     };
 });
+
+playStationCtrl.directive('ngPlayStation', ['$timeout', function(timer)
+{
+    return {
+        restrict: 'A',
+        replace: true,
+        scope: {
+            val: '=gamesModel'
+        },
+        link: function(scope, element, attrs) {
+            var imageLoad = function()
+            {
+                $(".playstation-game-item").hover(function()
+                {
+                    $(".game-item-image", $(this)).addClass('flipOutY');
+                }, function()
+                {
+                    $(".game-item-image", $(this)).removeClass('flipOutY').addClass('animated flipInY');
+                });
+            };
+
+            scope.$watch('val', function(newValue, oldValue)
+            {
+                if (newValue) {
+                    timer(imageLoad, 200);
+                }
+            }, true);
+        }
+    };
+}]);

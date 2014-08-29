@@ -1,17 +1,15 @@
-<section class="playstation-games-list">
-    <div class="container" infinite-scroll="loadMore()">
-        <div class="playstation-games-row clearfix" ng-repeat="games in gamesArray">
-            <div class="col-md-4 col-sm-12 playstation-game-item" ng-repeat="game in games">
-                <div class="game-item-image"></div>
-                <div class="game-item-wrapper">
-                    <img src="http://bill0106.com/images/d3104b3e17b19798d83632574ce7511e.png" alt=""/>
-                </div>
-                <div class="game-item-title">
-                    <h1 class="game-title">{{ game.title }}</h1>
-                    <div class="game-name">{{ game.ename }}</div>
-                    <div class="game-rate">
-                        <i class="fa fa-star" ng-repeat="i in getNumber(game.rate) track by $index"></i>&nbsp;
-                    </div>
+<section class="playstation-games-list" games-model="games" ng-play-station>
+    <div class="container-fluid">
+        <div class="row" infinite-scroll="loadMore()">
+            <div class="col-md-2 col-sm-3 playstation-game-item" ng-repeat="game in games">
+                <img class="animated game-item-image" src="../test.jpg" alt=""/>
+                <div class="game-item-info">
+                    <h1 class="game-item-title">{{ game.title }}</h1>
+                    <h2 class="game-item-name">{{ game.ename }}</h2>
+                    <span class="game-item-date">{{ game.date }}</span>
+                    <span class="game-item-rate">
+                        <i class="fa fa-star" ng-repeat="i in getNumber(game.rate) track by $index"></i>
+                    </span>
                 </div>
             </div>
         </div>
