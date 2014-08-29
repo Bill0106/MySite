@@ -9,6 +9,7 @@ var GameSchema = new Schema({
     title       : String,
     name        : String,
     platform    : String,
+    genre       : String,
     company     : String,
     date        : String,
     rate        : Number,
