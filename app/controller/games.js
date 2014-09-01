@@ -17,7 +17,6 @@ exports.list = function(req, res)
 
 exports.post = function(req, res)
 {
-    console.log(req.body);
     Game.create({
         title       : req.body.title,
         name        : req.body.name,
