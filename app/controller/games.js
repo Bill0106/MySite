@@ -17,11 +17,12 @@ exports.list = function(req, res)
 
 exports.post = function(req, res)
 {
+    console.log(req.body);
     Game.create({
         title       : req.body.title,
         name        : req.body.name,
         platform    : req.body.platform.name,
-        genre       : req.body.genre,
+        genre       : req.body.genre.name,
         company     : req.body.company,
         date        : req.body.date,
         rate        : req.body.rate,
