@@ -41,11 +41,24 @@ module.exports = function(app, router)
 
     // Admin Route
     app.route('/admin')
-        .get(function (req, res) {
+        .get(function (req, res)
+        {
             var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
 
             if (ip == '127.0.0.1') {
                 res.sendfile('./public/views/admin.html');
+            } else {
+                res.redirect('/');
+            }
+        });
+
+    app.route('/admin/database')
+        .get(function(req, res)
+        {
+            var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
+
+            if (ip == '127.0.0.1') {
+                res.redirect('http://localhost:8081');
             } else {
                 res.redirect('/');
             }
