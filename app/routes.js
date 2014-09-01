@@ -52,18 +52,6 @@ module.exports = function(app, router)
             }
         });
 
-    app.route('/admin/database')
-        .get(function(req, res)
-        {
-            var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
-
-            if (ip == '127.0.0.1') {
-                res.redirect('http://localhost:8081');
-            } else {
-                res.redirect('/');
-            }
-        });
-
     // Fronted Route
     app.route('*')
         .get(function(req, res)
