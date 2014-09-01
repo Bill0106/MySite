@@ -19,6 +19,7 @@ Dependencies
    - AngularJS
      - angular-route
      - angular-animate
+     - angular-file-upload
    - Bootstrap
    - FontAwesome
    - animate.css
