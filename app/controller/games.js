@@ -21,6 +21,7 @@ exports.post = function(req, res)
         title       : req.body.title,
         name        : req.body.name,
         platform    : req.body.platform.name,
+        genre       : req.body.genre.name,
         company     : req.body.company,
         date        : req.body.date,
         rate        : req.body.rate,

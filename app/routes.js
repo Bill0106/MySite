@@ -41,7 +41,8 @@ module.exports = function(app, router)
 
     // Admin Route
     app.route('/admin')
-        .get(function (req, res) {
+        .get(function (req, res)
+        {
             var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
 
             if (ip == '127.0.0.1') {

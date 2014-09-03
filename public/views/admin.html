@@ -27,6 +27,9 @@
                     </div>
                 </form>
             </div>
+            <div class="well">
+                <h3><a href="http://zhuhaolin.com:8081" target="_blank">Database Web-Viewer</a></h3>
+            </div>
         </div>
         <div class="col-sm-6" ng-controller="GamePostController">
             <div class="well clearfix">
@@ -38,6 +41,11 @@
                     <div class="form-group">
                         <select class="form-control" ng-model="formData.platform" ng-options="platform.name for platform in platforms">
                             <option value="">Choose platform</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" ng-model="formData.genre" ng-options="genre.name for genre in genres">
+                            <option value="">Choose genre</option>
                         </select>
                     </div>
                     <div class="form-group">

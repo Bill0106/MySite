@@ -1,8 +1,12 @@
 {
-    "name": "bill0106.com",
+    "name": "zhuhaolin.com",
     "version": "1.0.0",
     "author": "Bill",
     "main": "server.js",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/bill0106/repository.git"
+    },
     "dependencies": {
         "express"            : "~4.8.*",
         "connect-multiparty" : "~1.0.*",

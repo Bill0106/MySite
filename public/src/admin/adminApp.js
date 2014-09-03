@@ -30,9 +30,18 @@ app.controller('GamePostController', function($scope, $http)
     $scope.formData = {};
     $scope.fields = ['title', 'name', 'company', 'date', 'rate', 'image'];
     $scope.platforms = [
-        {name: 'PlatStation 3'},
-        {name: 'PlatStation 4'},
-        {name: 'PlatStation Vita'}
+        {name: 'PlayStation 3'},
+        {name: 'PlayStation 4'},
+        {name: 'PlayStation Vita'},
+    ];
+    $scope.genres = [
+        {name: 'Action'},
+        {name: 'Adventure'},
+        {name: 'Fighting'},
+        {name: 'Racing'},
+        {name: 'Role-Playing'},
+        {name: 'Sports'},
+        {name: 'Third-person shooter'},
     ];
 
     $scope.createGame = function()
