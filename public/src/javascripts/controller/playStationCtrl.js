@@ -7,6 +7,8 @@ var playStationCtrl = angular.module('playStationCtrl', []);
 
 playStationCtrl.controller('playStationController', function($scope, Games)
 {
+    $scope.busy = true;
+
     Games.get().success(function(data)
     {
         var gamesData = data.reverse();
@@ -16,6 +18,8 @@ playStationCtrl.controller('playStationController', function($scope, Games)
 
         $scope.loadMore = function()
         {
+            $scope.busy = true;
+
             if (length === 0) {
                 return false;
             }
@@ -47,11 +51,44 @@ playStationCtrl.directive('ngPlayStation', ['$timeout', function(timer)
         restrict: 'A',
         replace: true,
         scope: {
-            val: '=gamesModel'
+            val: '=gamesModel',
+            busy: '=scrollBusy'
         },
         link: function(scope, element, attrs) {
-            var imageLoad = function()
+
+            var playStation = function()
             {
+                var length = $("div.playstation-game-item").length;
+                var visible = $("div.playstation-game-item[class$='fadeIn']").length;
+                var pageLoad = $(".playstation-page-loading");
+                var count = 0;
+
+                if (visible !== 0) {
+                    pageLoad.removeClass('fadeOut').addClass('page-loading-show fadeIn');
+                }
+
+                for (var i = 0; i < length; i++) {
+                    var item = $("div.playstation-game-item").eq(i);
+                    var image = $(".game-item-image", item);
+
+                    image.bind('load', function()
+                    {
+                        count++;
+                        if (count + visible == length) {
+                            $("div.page-loading").addClass('fadeOut');
+                            pageLoad.removeClass('fadeIn').addClass('fadeOut');
+                            $(".playstation-game-item").css('display', 'block');
+                            setTimeout(function()
+                            {
+                                $(".playstation-game-item").addClass('fadeIn');
+                                pageLoad.removeClass('page-loading-show');
+                                scope.busy = false;
+                                scope.$apply();
+                            }, 350);
+                        }
+                    });
+                }
+
                 $(".playstation-game-item").hover(function()
                 {
                     $(".game-item-image", $(this)).addClass('flipOutY');
@@ -64,7 +101,7 @@ playStationCtrl.directive('ngPlayStation', ['$timeout', function(timer)
             scope.$watch('val', function(newValue, oldValue)
             {
                 if (newValue) {
-                    timer(imageLoad, 200);
+                    timer(playStation, 200);
                 }
             }, true);
         }

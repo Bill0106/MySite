@@ -1,16 +1,21 @@
-<section class="playstation-games-list" games-model="games" ng-play-station>
+<section class="playstation-games-list" scroll-busy="busy" games-model="games" ng-play-station>
     <div class="container-fluid">
-        <div class="row" infinite-scroll="loadMore()">
-            <div class="col-md-2 col-sm-3 playstation-game-item" ng-repeat="game in games">
-                <img class="animated game-item-image" src="../test.jpg" alt=""/>
+        <div class="row" infinite-scroll="loadMore()" infinite-scroll-disabled=busy>
+            <div class="col-md-2 col-sm-3 playstation-game-item animated" ng-repeat="game in games">
+                <img class="animated game-item-image" ng-src="http://zhuhaolin.com/images/{{ game.image }}" alt="{{ game.title }}" title="{{ game.title }}"/>
                 <div class="game-item-info">
                     <h1 class="game-item-title">{{ game.title }}</h1>
-                    <h2 class="game-item-name">{{ game.ename }}</h2>
-                    <span class="game-item-date">{{ game.date }}</span>
+                    <h2 class="game-item-name">{{ game.name }}</h2>
+                    <span class="game-item-genre">{{ game.genre }}</span>
                     <span class="game-item-rate">
                         <i class="fa fa-star" ng-repeat="i in getNumber(game.rate) track by $index"></i>
                     </span>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="playstation-page-loading animated">
+                <i class="fa fa-circle-o-notch fa-spin fa-4x"></i>
             </div>
         </div>
     </div>

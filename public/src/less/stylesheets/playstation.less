@@ -1,8 +1,10 @@
 section.playstation-games-list {
   margin-top: -20px;
   .playstation-game-item {
+    display: none;
     position: relative;
     padding: 0;
+    .opacity(0);
     .game-item-image {
       position: relative;
       width: 100%;
@@ -24,9 +26,19 @@ section.playstation-games-list {
       .game-item-name {
         font-size: @font-size-base;
       }
-      .game-item-rate {
+      .game-item-rate, .game-item-genre {
         display: block;
       }
     }
+  }
+  .playstation-page-loading {
+    display: none;
+    padding: 20px 0;
+    text-align: center;
+    color: @white;
+    .opacity(0);
+  }
+  .page-loading-show {
+    display: block;
   }
 }
