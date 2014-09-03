@@ -2701,3 +2701,50 @@ section.home-list .home-item-title {
   text-align: center;
   color: #ffffff;
 }
+section.playstation-games-list {
+  margin-top: -20px;
+}
+section.playstation-games-list .playstation-game-item {
+  display: none;
+  position: relative;
+  padding: 0;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+section.playstation-games-list .playstation-game-item .game-item-image {
+  position: relative;
+  width: 100%;
+  height: auto;
+  z-index: 2;
+}
+section.playstation-games-list .playstation-game-item .game-item-info {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  color: #ffffff;
+  z-index: 1;
+}
+section.playstation-games-list .playstation-game-item .game-item-info .game-item-title {
+  font-size: 18px;
+}
+section.playstation-games-list .playstation-game-item .game-item-info .game-item-name {
+  font-size: 14px;
+}
+section.playstation-games-list .playstation-game-item .game-item-info .game-item-rate,
+section.playstation-games-list .playstation-game-item .game-item-info .game-item-genre {
+  display: block;
+}
+section.playstation-games-list .playstation-page-loading {
+  display: none;
+  padding: 20px 0;
+  text-align: center;
+  color: #ffffff;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+section.playstation-games-list .page-loading-show {
+  display: block;
+}

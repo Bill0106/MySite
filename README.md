@@ -20,6 +20,7 @@ Dependencies
      - angular-route
      - angular-animate
      - angular-file-upload
+     - ngInfiniteScroll
    - Bootstrap
    - FontAwesome
    - animate.css

@@ -2,7 +2,7 @@
  * Created by Bill on 14-8-8.
  */
 
-var myApp = angular.module('myApp',['ngRoute', 'ngAnimate', 'appRoutes', 'homeCtrl', 'homeService']);
+var myApp = angular.module('myApp',['ngRoute', 'ngAnimate', 'infinite-scroll', 'appRoutes', 'homeCtrl', 'homeService', 'playStationCtrl', 'playStationService']);
 
 myApp.controller('titleController', ['$scope', '$route', function($scope, $route)
 {
