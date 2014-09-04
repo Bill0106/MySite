@@ -70,9 +70,10 @@ playStationCtrl.directive('ngPlayStation', ['$timeout', function(timer)
 
                 for (var i = 0; i < length; i++) {
                     var item = $("div.playstation-game-item").eq(i);
-                    var image = $(".game-item-image", item);
+                    var src = $(".game-item-image", item).attr('src');
+                    var image = new Image();
 
-                    image.bind('load', function()
+                    $(image).attr('src', src).bind('load', function()
                     {
                         count++;
                         var value = Math.round(count / length * 100);
