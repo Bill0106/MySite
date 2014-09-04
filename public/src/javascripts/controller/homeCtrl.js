@@ -31,13 +31,15 @@ homeCtrl.directive('ngHome', ['$timeout', function(timer)
         replace: true,
         link: function(scope, element, attrs)
         {
+            $("div.page-loading").removeClass('fadeOut').addClass('fadeIn');
+
             var imageLoad = function()
             {
                 var backgroundImage = new Image();
 
                 $(backgroundImage).attr('src', 'http://zhuhaolin.com/images/505afb6ff668f345f4b5ea4cd1fba976.jpg').bind('load', function()
                 {
-                    $("div.page-loading").addClass('animated fadeOut');
+                    $("div.page-loading").removeClass('fadeIn').addClass('fadeOut');
                     setTimeout(function()
                     {
                         element.addClass('animated fadeIn');
