@@ -55,6 +55,7 @@ playStationCtrl.directive('ngPlayStation', ['$timeout', function(timer)
             busy: '=scrollBusy'
         },
         link: function(scope, element, attrs) {
+            $(".progress").removeClass('fadeOut').addClass('fadeIn');
 
             var playStation = function()
             {
@@ -74,14 +75,17 @@ playStationCtrl.directive('ngPlayStation', ['$timeout', function(timer)
                     image.bind('load', function()
                     {
                         count++;
+                        var value = Math.round(count / length * 100);
+
+                        $(".progress-bar").css('width', value + '%').attr('aria-valuenow', value).text(value + '%');
                         if (count + visible == length) {
-                            $("div.page-loading").addClass('fadeOut');
                             pageLoad.removeClass('fadeIn').addClass('fadeOut');
                             $(".playstation-game-item").css('display', 'block');
                             setTimeout(function()
                             {
                                 $(".playstation-game-item").addClass('fadeIn');
                                 pageLoad.removeClass('page-loading-show');
+                                $(".progress").removeClass('fadeIn').addClass('fadeOut');
                                 scope.busy = false;
                                 scope.$apply();
                             }, 350);
