@@ -36,6 +36,9 @@ module.exports = function(app, router)
         .get(games.list)
         .post(games.post);
 
+    router.route('/game/:game_url')
+        .get(games.find);
+
     // Apply API Routes
     app.use('/api', router);
 
