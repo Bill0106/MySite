@@ -2685,7 +2685,7 @@ select[multiple].input-lg {
   transform: translate3d(0, 0, 0);
 }
 body {
-  font-family: "proxima-nova", "Helvetica Neue", "HelveticaNeue", Arial, sans-serif;
+  font-family: "Microsoft YaHei", "Hiragino Sans GB";
 }
 h1,
 h2,
@@ -2693,7 +2693,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "quatro-slab", "Helvetica Neue", "HelveticaNeue", Arial, sans-serif;
+  font-family: "Microsoft YaHei", "Hiragino Sans GB";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -2852,4 +2852,38 @@ section.playstation-games-list .playstation-page-loading {
 }
 section.playstation-games-list .page-loading-show {
   display: block;
+}
+section.game-detail {
+  color: #ffffff;
+}
+section.game-detail div.game-header {
+  padding-bottom: 20px;
+}
+section.game-detail div.game-header .game-image {
+  float: left;
+  width: 150px;
+  height: 150px;
+}
+section.game-detail div.game-header .game-title {
+  margin-left: 180px;
+  padding-top: 15px;
+}
+section.game-detail div.game-header .game-title h1,
+section.game-detail div.game-header .game-title h3 {
+  margin-top: 0;
+}
+section.game-detail div.game-header .game-title .game-platform {
+  border-bottom: 1px solid #6186ff;
+}
+section.game-detail div.game-intro .col-sm-8 {
+  border-right: 1px solid #eee;
+}
+section.game-detail div.game-intro .game-info dt {
+  float: left;
+  width: 40%;
+}
+section.game-detail div.game-intro .game-info dd {
+  float: left;
+  width: 60%;
+  color: #e03800;
 }
