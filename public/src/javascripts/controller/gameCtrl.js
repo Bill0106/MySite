@@ -10,6 +10,8 @@ gameCtrl.controller('gameController', function($scope, $routeParams, Game)
     {
         $scope.game = data;
 
+        $scope.image = data.image;
+
         $scope.descriptions = data.description.split("\n");
 
         var companies = data.company.split("/");
@@ -23,3 +25,35 @@ gameCtrl.controller('gameController', function($scope, $routeParams, Game)
         }
     });
 });
+
+gameCtrl.directive('ngGame', ['$timeout', function(timer)
+{
+    return {
+        restrict: 'A',
+        replace: true,
+        scope: {
+            val: '=gameModel'
+        },
+        link: function(scope, attr, element)
+        {
+            $("div.page-loading").removeClass('fadeOut').addClass('fadeIn');
+
+            var imageLoad = function()
+            {
+                var image = new Image();
+                var src = 'http://zhuhaolin.com/images/' + scope.val.image;
+
+                $(image).attr('src', src).bind('load', function()
+                {
+                    $("div.page-loading").removeClass('fadeIn').addClass('fadeOut');
+                    setTimeout(function()
+                    {
+                        $("section.game-detail").addClass('fadeIn');
+                    }, 350);
+                });
+            };
+
+            timer(imageLoad, 100);
+        }
+    };
+}]);
