@@ -3,25 +3,100 @@ section.game-detail {
   .opacity(0);
   div.game-header {
     padding-bottom: 20px;
-    .game-image {
-      float: left;
-      width: 150px;
-      height: 150px;
-    }
-    .game-title {
-      margin-left: 180px;
-      padding-top: 15px;
-      h1, h3 {
-        margin-top: 0;
+    .game-header-left {
+      .game-image {
+        float: left;
+        width: 150px;
+        height: 150px;
       }
-      .game-platform {
-        border-bottom: 1px solid #6186ff;
+      .game-title {
+        margin-left: 180px;
+        padding-top: 15px;
+        h1, h3 {
+          margin-top: 0;
+        }
+        .game-platform {
+          border-bottom: 1px solid #6186ff;
+        }
+        @media (max-width: @screen-xs-max) {
+          margin-left: 0;
+        }
+      }
+    }
+    .game-header-right {
+      .game-rate-mask {
+        position: absolute;
+        top: 0;
+        left: 30px;
+        width: 70px;
+        height: 70px;
+        background-color: transparent;
+        overflow: hidden;
+        border: 1px solid @black;
+        z-index: 4;
+        .circle-long-part {
+          position: absolute;
+          top: -35px;
+          left: -105px;
+          width: 280px;
+          height: 140px;
+          z-index: 3;
+          .transition(all 0.5s linear);
+          .long-part-inner {
+            width: 140px;
+            height: 140px;
+            background-color: #e03800;
+          }
+        }
+        .circle-short-part {
+          position: absolute;
+          top: -35px;
+          left: -105px;
+          width: 140px;
+          height: 140px;
+          z-index: 4;
+          background-color: @black;
+        }
+        .short-part-right {
+          left: 35px;
+          background-color: @black;
+          z-index: 2;
+        }
+        .short-part-right.show {
+          background-color: #e03800;
+        }
+        .short-part-left.hide {
+          z-index: 1;
+        }
+      }
+      .game-rate-text {
+        position: absolute;
+        top: 10px;
+        left: 40px;
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        font-size: 30px;
+        font-weight: 600;
+        color: @black;
+        z-index: 10;
+        background-color: @white;
+      }
+      .rate-text {
+        padding-top: 70px;
+        width: 100px;
+        text-align: center;
+        font-size: 25px;
       }
     }
   }
   div.game-intro {
     .col-sm-8 {
       border-right: 1px solid #eee;
+      @media (max-width: @screen-xs-max) {
+        border-right: none;
+      }
     }
     .game-info {
       dt {
@@ -33,6 +108,30 @@ section.game-detail {
         width: 60%;
         color: #e03800;
       }
+      @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+        dd, dt {
+          width: 100%;
+        }
+      }
     }
   }
 }
+
+.rotate-20 {
+  .rotate(72deg);
+}
+.rotate-40 {
+  .rotate(144deg);
+}
+.rotate-50 {
+  .rotate(180deg);
+}
+.rotate-60 {
+  .rotate(216deg);
+}
+.rotate-80 {
+  .rotate(288deg);
+}
+.rotate-100 {
+   .rotate(360deg);
+ }

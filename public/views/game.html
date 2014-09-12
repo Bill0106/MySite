@@ -1,15 +1,27 @@
 <section class="container game-detail animated" game-model="game" ng-game>
     <div class="page-header game-header">
         <div class="row">
-            <div class="col-sm-10 game-header-right clearfix">
-                <img class="game-image" ng-src="http://zhuhaolin.com/images/{{ image }}" alt="{{ game.title }} - {{ game.name }}" title="{{ game.title }} - {{ game.name }}"/>
+            <div class="col-sm-10 game-header-left clearfix">
+                <img class="game-image hidden-xs" ng-src="http://zhuhaolin.com/images/{{ image }}" alt="{{ game.title }} - {{ game.name }}" title="{{ game.title }} - {{ game.name }}"/>
                 <div class="game-title">
                     <h1>{{ game.title }}</h1>
                     <h3>{{ game.name }}</h3>
                     <span>Released {{ game.date }} / <span class="game-platform">{{ game.platform }}</span></span>
                 </div>
             </div>
-            <div class="col-sm-2 game-header-left"></div>
+            <div class="col-sm-2 hidden-xs game-header-right">
+                <div class="game-rate-mask img-circle">
+                    <div class="circle-long-part">
+                        <div class="long-part-inner"></div>
+                    </div>
+                    <div class="circle-short-part short-part-left"></div>
+                    <div class="circle-short-part short-part-right"></div>
+                </div>
+                <div class="game-rate-text img-circle">
+                    <span class="game-rate">{{ game.rate }}</span>
+                </div>
+                <div class="rate-text">{{ rateText[game.rate] }}</div>
+            </div>
         </div>
     </div>
     <div class="game-intro">
