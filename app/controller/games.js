@@ -11,7 +11,7 @@ exports.list = function(req, res)
         if (err)
             res.send(err);
 
-        res.json(data)
+        res.json(data);
     });
 };
 
@@ -35,5 +35,16 @@ exports.post = function(req, res)
             throw err;
 
         res.send(req.body.title);
+    });
+};
+
+exports.find = function(req, res)
+{
+    Game.findOne({ url: req.params.game_url }, function(err, data)
+    {
+        if (err)
+            res.send(err);
+
+        res.json(data);
     });
 };

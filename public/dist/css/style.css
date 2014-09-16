@@ -1373,6 +1373,216 @@ address {
     margin-left: 0%;
   }
 }
+@-ms-viewport {
+  width: device-width;
+}
+.visible-xs,
+.visible-sm,
+.visible-md,
+.visible-lg {
+  display: none !important;
+}
+.visible-xs-block,
+.visible-xs-inline,
+.visible-xs-inline-block,
+.visible-sm-block,
+.visible-sm-inline,
+.visible-sm-inline-block,
+.visible-md-block,
+.visible-md-inline,
+.visible-md-inline-block,
+.visible-lg-block,
+.visible-lg-inline,
+.visible-lg-inline-block {
+  display: none !important;
+}
+@media (max-width: 767px) {
+  .visible-xs {
+    display: block !important;
+  }
+  table.visible-xs {
+    display: table;
+  }
+  tr.visible-xs {
+    display: table-row !important;
+  }
+  th.visible-xs,
+  td.visible-xs {
+    display: table-cell !important;
+  }
+}
+@media (max-width: 767px) {
+  .visible-xs-block {
+    display: block !important;
+  }
+}
+@media (max-width: 767px) {
+  .visible-xs-inline {
+    display: inline !important;
+  }
+}
+@media (max-width: 767px) {
+  .visible-xs-inline-block {
+    display: inline-block !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .visible-sm {
+    display: block !important;
+  }
+  table.visible-sm {
+    display: table;
+  }
+  tr.visible-sm {
+    display: table-row !important;
+  }
+  th.visible-sm,
+  td.visible-sm {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .visible-sm-block {
+    display: block !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .visible-sm-inline {
+    display: inline !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .visible-sm-inline-block {
+    display: inline-block !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .visible-md {
+    display: block !important;
+  }
+  table.visible-md {
+    display: table;
+  }
+  tr.visible-md {
+    display: table-row !important;
+  }
+  th.visible-md,
+  td.visible-md {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .visible-md-block {
+    display: block !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .visible-md-inline {
+    display: inline !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .visible-md-inline-block {
+    display: inline-block !important;
+  }
+}
+@media (min-width: 1200px) {
+  .visible-lg {
+    display: block !important;
+  }
+  table.visible-lg {
+    display: table;
+  }
+  tr.visible-lg {
+    display: table-row !important;
+  }
+  th.visible-lg,
+  td.visible-lg {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 1200px) {
+  .visible-lg-block {
+    display: block !important;
+  }
+}
+@media (min-width: 1200px) {
+  .visible-lg-inline {
+    display: inline !important;
+  }
+}
+@media (min-width: 1200px) {
+  .visible-lg-inline-block {
+    display: inline-block !important;
+  }
+}
+@media (max-width: 767px) {
+  .hidden-xs {
+    display: none !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .hidden-sm {
+    display: none !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .hidden-md {
+    display: none !important;
+  }
+}
+@media (min-width: 1200px) {
+  .hidden-lg {
+    display: none !important;
+  }
+}
+.visible-print {
+  display: none !important;
+}
+@media print {
+  .visible-print {
+    display: block !important;
+  }
+  table.visible-print {
+    display: table;
+  }
+  tr.visible-print {
+    display: table-row !important;
+  }
+  th.visible-print,
+  td.visible-print {
+    display: table-cell !important;
+  }
+}
+.visible-print-block {
+  display: none !important;
+}
+@media print {
+  .visible-print-block {
+    display: block !important;
+  }
+}
+.visible-print-inline {
+  display: none !important;
+}
+@media print {
+  .visible-print-inline {
+    display: inline !important;
+  }
+}
+.visible-print-inline-block {
+  display: none !important;
+}
+@media print {
+  .visible-print-inline-block {
+    display: inline-block !important;
+  }
+}
+@media print {
+  .hidden-print {
+    display: none !important;
+  }
+}
 .nav {
   margin-bottom: 0;
   padding-left: 0;
@@ -2685,7 +2895,7 @@ select[multiple].input-lg {
   transform: translate3d(0, 0, 0);
 }
 body {
-  font-family: "proxima-nova", "Helvetica Neue", "HelveticaNeue", Arial, sans-serif;
+  font-family: "Microsoft YaHei", "Hiragino Sans GB";
 }
 h1,
 h2,
@@ -2693,7 +2903,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "quatro-slab", "Helvetica Neue", "HelveticaNeue", Arial, sans-serif;
+  font-family: "Microsoft YaHei", "Hiragino Sans GB";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -2852,4 +3062,167 @@ section.playstation-games-list .playstation-page-loading {
 }
 section.playstation-games-list .page-loading-show {
   display: block;
+}
+section.game-detail {
+  color: #ffffff;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+section.game-detail div.game-header {
+  padding-bottom: 20px;
+}
+section.game-detail div.game-header .game-header-left .game-image {
+  float: left;
+  width: 150px;
+  height: 150px;
+}
+section.game-detail div.game-header .game-header-left .game-title {
+  margin-left: 180px;
+  padding-top: 15px;
+}
+section.game-detail div.game-header .game-header-left .game-title h1,
+section.game-detail div.game-header .game-header-left .game-title h3 {
+  margin-top: 0;
+}
+section.game-detail div.game-header .game-header-left .game-title .game-platform {
+  border-bottom: 1px solid #6186ff;
+}
+@media (max-width: 767px) {
+  section.game-detail div.game-header .game-header-left .game-title {
+    margin-left: 0;
+  }
+}
+section.game-detail div.game-header .game-header-right .game-rate-mask {
+  position: absolute;
+  top: 0;
+  left: 30px;
+  width: 70px;
+  height: 70px;
+  background-color: transparent;
+  overflow: hidden;
+  border: 1px solid #000000;
+  z-index: 4;
+}
+section.game-detail div.game-header .game-header-right .game-rate-mask .circle-long-part {
+  position: absolute;
+  top: -35px;
+  left: -105px;
+  width: 280px;
+  height: 140px;
+  z-index: 3;
+  -webkit-transition: all 0.5s linear;
+  -moz-transition: all 0.5s linear;
+  -ms-transition: all 0.5s linear;
+  -o-transition: all 0.5s linear;
+  transition: all 0.5s linear;
+}
+section.game-detail div.game-header .game-header-right .game-rate-mask .circle-long-part .long-part-inner {
+  width: 140px;
+  height: 140px;
+  background-color: #e03800;
+}
+section.game-detail div.game-header .game-header-right .game-rate-mask .circle-short-part {
+  position: absolute;
+  top: -35px;
+  left: -105px;
+  width: 140px;
+  height: 140px;
+  z-index: 4;
+  background-color: #000000;
+}
+section.game-detail div.game-header .game-header-right .game-rate-mask .short-part-right {
+  left: 35px;
+  background-color: #000000;
+  z-index: 2;
+}
+section.game-detail div.game-header .game-header-right .game-rate-mask .short-part-right.show {
+  background-color: #e03800;
+}
+section.game-detail div.game-header .game-header-right .game-rate-mask .short-part-left.hide {
+  z-index: 1;
+}
+section.game-detail div.game-header .game-header-right .game-rate-text {
+  position: absolute;
+  top: 10px;
+  left: 40px;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  font-size: 30px;
+  font-weight: 600;
+  color: #000000;
+  z-index: 10;
+  background-color: #ffffff;
+}
+section.game-detail div.game-header .game-header-right .rate-text {
+  padding-top: 70px;
+  width: 100px;
+  text-align: center;
+  font-size: 25px;
+}
+section.game-detail div.game-intro .col-sm-8 {
+  border-right: 1px solid #eee;
+}
+@media (max-width: 767px) {
+  section.game-detail div.game-intro .col-sm-8 {
+    border-right: none;
+  }
+}
+section.game-detail div.game-intro .game-info dt {
+  float: left;
+  width: 40%;
+}
+section.game-detail div.game-intro .game-info dd {
+  float: left;
+  width: 60%;
+  color: #e03800;
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  section.game-detail div.game-intro .game-info dd,
+  section.game-detail div.game-intro .game-info dt {
+    width: 100%;
+  }
+}
+.rotate-20 {
+  -webkit-transform: rotate(72deg);
+  -moz-transform: rotate(72deg);
+  -ms-transform: rotate(72deg);
+  -o-transform: rotate(72deg);
+  transform: rotate(72deg);
+}
+.rotate-40 {
+  -webkit-transform: rotate(144deg);
+  -moz-transform: rotate(144deg);
+  -ms-transform: rotate(144deg);
+  -o-transform: rotate(144deg);
+  transform: rotate(144deg);
+}
+.rotate-50 {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.rotate-60 {
+  -webkit-transform: rotate(216deg);
+  -moz-transform: rotate(216deg);
+  -ms-transform: rotate(216deg);
+  -o-transform: rotate(216deg);
+  transform: rotate(216deg);
+}
+.rotate-80 {
+  -webkit-transform: rotate(288deg);
+  -moz-transform: rotate(288deg);
+  -ms-transform: rotate(288deg);
+  -o-transform: rotate(288deg);
+  transform: rotate(288deg);
+}
+.rotate-100 {
+  -webkit-transform: rotate(360deg);
+  -moz-transform: rotate(360deg);
+  -ms-transform: rotate(360deg);
+  -o-transform: rotate(360deg);
+  transform: rotate(360deg);
 }

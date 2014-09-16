@@ -4,10 +4,10 @@
 
 // Font Family
 body {
-  font-family: "proxima-nova","Helvetica Neue","HelveticaNeue",Arial,sans-serif;
+  font-family: "Microsoft YaHei","Hiragino Sans GB";
 }
 h1, h2, h3, h4, h5, h6 {
-  font-family: "quatro-slab","Helvetica Neue","HelveticaNeue",Arial,sans-serif;
+  font-family: "Microsoft YaHei","Hiragino Sans GB";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -32,6 +32,15 @@ body {
   -ms-transform: @scale;
   -o-transform: @scale;
   transform: @scale;
+}
+
+// Rotate
+.rotate (@rotate){
+  -webkit-transform: rotate(@rotate);
+  -moz-transform: rotate(@rotate);
+  -ms-transform: rotate(@rotate);
+  -o-transform: rotate(@rotate);
+  transform: rotate(@rotate);
 }
 
 // Opacity
