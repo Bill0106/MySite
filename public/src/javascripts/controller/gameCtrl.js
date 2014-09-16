@@ -14,7 +14,7 @@ gameCtrl.controller('gameController', function($scope, $routeParams, Game)
 
         $scope.descriptions = data.description.split("\n");
 
-        $scope.rateText = ['Terrible', 'Poor', 'Fair', 'Good', 'Great'];
+        $scope.rateText = 'Great';
 
         var companies = data.company.split("/");
 
@@ -46,8 +46,6 @@ gameCtrl.directive('ngGame', ['$timeout', function(timer)
                 var src = 'http://zhuhaolin.com/images/' + scope.val.image;
                 var rate = scope.val.rate / 5 *100;
 
-                console.log(rate);
-
                 $(image).attr('src', src).bind('load', function()
                 {
                     $("div.page-loading").removeClass('fadeIn').addClass('fadeOut');
@@ -56,6 +54,7 @@ gameCtrl.directive('ngGame', ['$timeout', function(timer)
                         $("section.game-detail").addClass('fadeIn');
                         setTimeout(function()
                         {
+                            $(".game-rate").removeClass('zoomOut').addClass('zoomIn');
                             if (rate > '50') {
                                 var diff = rate - 50;
                                 var array = [];
