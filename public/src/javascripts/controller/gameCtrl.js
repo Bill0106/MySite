@@ -10,11 +10,10 @@ gameCtrl.controller('gameController', function($scope, $routeParams, Game)
     {
         $scope.game = data;
 
-        $scope.image = data.image;
-
         $scope.descriptions = data.description.split("\n");
 
-        $scope.rateText = 'Great';
+        var rateText = ['Terrible', 'Poor', 'Fair', 'Good', 'Great'];
+        $scope.rateText = rateText[data.rate - 1];
 
         var companies = data.company.split("/");
 
@@ -42,7 +41,6 @@ gameCtrl.directive('ngGame', ['$timeout', function(timer)
 
             var game = function()
             {
-                console.log(scope.val);
                 var image = new Image();
                 var src = 'http://zhuhaolin.com/images/' + scope.val.image;
                 var rate = scope.val.rate / 5 *100;
@@ -75,7 +73,12 @@ gameCtrl.directive('ngGame', ['$timeout', function(timer)
                 });
             };
 
-            timer(game, 200);
+            scope.$watch('val', function(newValue, oldValue)
+            {
+                if (newValue) {
+                    timer(game, 200);
+                }
+            }, true);
         }
     };
 }]);
