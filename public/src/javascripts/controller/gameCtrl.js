@@ -42,6 +42,7 @@ gameCtrl.directive('ngGame', ['$timeout', function(timer)
 
             var game = function()
             {
+                console.log(scope.val);
                 var image = new Image();
                 var src = 'http://zhuhaolin.com/images/' + scope.val.image;
                 var rate = scope.val.rate / 5 *100;
@@ -74,7 +75,7 @@ gameCtrl.directive('ngGame', ['$timeout', function(timer)
                 });
             };
 
-            timer(game, 100);
+            timer(game, 200);
         }
     };
 }]);

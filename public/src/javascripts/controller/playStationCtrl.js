@@ -59,8 +59,8 @@ playStationCtrl.directive('ngPlayStation', ['$timeout', function(timer)
 
             var playStation = function()
             {
-                var length = $("div.playstation-game-item").length;
-                var visible = $("div.playstation-game-item[class$='fadeIn']").length;
+                var length = $("a.playstation-game-item").length;
+                var visible = $("a.playstation-game-item[class$='fadeIn']").length;
                 var pageLoad = $(".playstation-page-loading");
                 var count = 0;
 
@@ -69,7 +69,7 @@ playStationCtrl.directive('ngPlayStation', ['$timeout', function(timer)
                 }
 
                 for (var i = 0; i < length; i++) {
-                    var item = $("div.playstation-game-item").eq(i);
+                    var item = $("a.playstation-game-item").eq(i);
                     var src = $(".game-item-image", item).attr('src');
                     var image = new Image();
 
