@@ -2997,9 +2997,6 @@ section.home-list .home-list-manutd {
 section.home-list .home-list-saiban {
   background-image: url("http://zhuhaolin.com/images/566b87a4710605f312ec139dcd71088a.jpg");
 }
-section.playstation-games-list {
-  margin-top: -20px;
-}
 section.playstation-games-list .progress {
   position: fixed;
   top: 50%;
