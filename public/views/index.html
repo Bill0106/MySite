@@ -1,23 +1,54 @@
-<section class="home-list" ng-home>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 home-title">
-                <h1>Bill's Hobby | Write As a Interest</h1>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-4 col-md-2 home-list-item" ng-repeat="homeLink in homeLinks">
-                <img class="img-circle home-item-background" ng-src="http://zhuhaolin.com/images/{{ homeLink.background }}" alt="{{ homeLink.title }}" title="{{ homeLink.title }}" />
-                <a class="img-circle home-item-link" href="{{ homeLink.url }}" ng-mouseenter="mouseEnter(homeLink)" ng-mouseleave="mouseLeave()">
-                    <img class="home-item-icon" ng-src="http://zhuhaolin.com/images/{{ homeLink.icon }}" alt="{{ homeLink.title }}" title="{{ homeLink.title }}"/>
-                </a>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12 home-item-title">
-                <h2>{{ title }}</h2>
+<section class="home-list" id="fullpage" ng-home>
+    <div class="section animated home-list-about">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="home-list-icon">
+                        <img class="img-circle" src="http://zhuhaolin.com/images/1b11d8d7a005a06b42514f5d9022e1df.jpg"/>
+                    </div>
+                    <h1>Bill's Hobby - Write as a Interest</h1>
+                    <ul class="list-inline about-contact-list">
+                        <li class="contact-list-item">
+                            <a href="https://plus.google.com/u/0/111549344737810954347/" target="_blank" title="Google+"><i class="fa fa-google-plus-square"></i></a>
+                        </li>
+                        <li class="contact-list-item">
+                            <a href="https://github.com/Bill0106" target="_blank" title="Github"><i class="fa fa-github"></i></a>
+                        </li>
+                        <li class="contact-list-item">
+                            <a href="http://weibo.com/fuyundegugao" target="_blank" title="Weibo"><i class="fa fa-weibo"></i></a>
+                        </li>
+                        <li class="contact-list-item">
+                            <a href="http://instagram.com/bill0106" target="_blank" title="Instagram"><i class="fa fa-instagram"></i></a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
+    <div class="section animated home-list-playstation">
+        <a href="/playstation">
+            <div class="home-list-icon">
+                <img class="img-circle" src="http://zhuhaolin.com/images/84abb1fdfd670845666ac89f712b539a.jpg" alt="PlayStation Games" title="PlayStation Games"/>
+            </div>
+            <h1>PlayStation Games</h1>
+        </a>
+    </div>
+    <div class="section animated home-list-gourmet">
+        <div class="home-list-icon">
+            <img class="img-circle" src="http://zhuhaolin.com/images/09d6aeb87783661768b52c73f18c3069.jpg" alt="Gourmet Tour" title="Gourmet Tour"/>
+        </div>
+        <h1>Gourmet Tour</h1>
+    </div>
+    <div class="section animated home-list-manutd">
+        <div class="home-list-icon">
+            <img class="img-circle" src="http://zhuhaolin.com/images/a8ae912e1037ff7b5e75d4660682bf12.jpg" alt="Manchester United" title="Manchester United"/>
+        </div>
+        <h1>Manchester United</h1>
+    </div>
+    <div class="section animated home-list-saiban">
+        <div class="home-list-icon">
+            <img class="img-circle" src="http://zhuhaolin.com/images/4b654282902acbaf2b3ac3051b574717.jpg" alt="Gyakuten Saiban" title="Gyakuten Saiban"/>
+        </div>
+        <h1>Gyakuten Saiban</h1>
+    </div>
 </section>
-<div ng-include="'/views/loading.html'"></div>

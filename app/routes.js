@@ -14,15 +14,6 @@ module.exports = function(app, router)
         next();
     });
 
-    // Home Links API Route
-    var homeLinks = require('../config/homelinks');
-
-    router.route('/homelinks')
-        .get(function(req, res)
-        {
-            res.json(homeLinks);
-        });
-
     // Image API Route
     var images = require('./controller/images');
 

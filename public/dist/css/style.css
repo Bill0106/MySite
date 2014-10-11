@@ -2921,6 +2921,7 @@ body {
   filter: alpha(opacity=0);
 }
 nav.navbar {
+  margin-bottom: 0;
   z-index: 9999;
   border-radius: 0;
 }
@@ -2953,61 +2954,48 @@ div[ng-view].ng-leave {
   -webkit-animation: fadeOut 0.5s both ease-in;
 }
 section.home-list {
-  position: absolute;
-  top: 52px;
-  bottom: 0;
-  padding-top: 80px;
-  width: 100%;
-  background-image: url('http://zhuhaolin.com/images/505afb6ff668f345f4b5ea4cd1fba976.jpg');
-  background-repeat: no-repeat;
-  background-position: bottom right;
-  opacity: 0;
-  filter: alpha(opacity=0);
-}
-section.home-list .home-title {
+  color: #ffffff;
   text-align: center;
 }
-section.home-list .home-title h1 {
-  font-size: 45px;
+section.home-list .section {
+  background-position: center;
+  background-size: cover;
+}
+section.home-list .section a {
+  color: #ffffff;
+  text-decoration: none;
+}
+section.home-list .home-list-icon img {
+  width: 100px;
+  height: 100px;
+  border: 5px solid #ffffff;
+}
+section.home-list .home-list-about {
+  background-image: url("http://zhuhaolin.com/images/73ad5a84dcefe956276f1bd07c6316dd.jpg");
+}
+section.home-list .home-list-about .about-contact-list {
+  margin-top: 30px;
+}
+section.home-list .home-list-about .about-contact-list .contact-list-item {
+  margin: 0 15px;
+}
+section.home-list .home-list-about .about-contact-list .contact-list-item > a {
   color: #ffffff;
 }
-section.home-list .home-list-item {
-  margin: 50px 0;
-  text-align: center;
+section.home-list .home-list-about .about-contact-list .contact-list-item > a > .fa {
+  font-size: 70px;
 }
-section.home-list .home-list-item .home-item-background {
-  position: relative;
-  width: 150px;
-  height: 150px;
-  z-index: 1;
+section.home-list .home-list-playstation {
+  background-image: url("http://zhuhaolin.com/images/66a7d162d0bdf9aa302e280cbb5d90d6.jpg");
 }
-section.home-list .home-list-item .home-item-link {
-  display: block;
-  position: relative;
-  margin: -150px auto 0;
-  width: 150px;
-  height: 150px;
-  background-color: #ffffff;
-  line-height: 150px;
-  text-align: center;
-  z-index: 2;
-  -webkit-transition: all 0.3s linear;
-  -moz-transition: all 0.3s linear;
-  -ms-transition: all 0.3s linear;
-  -o-transition: all 0.3s linear;
-  transition: all 0.3s linear;
+section.home-list .home-list-gourmet {
+  background-image: url("http://zhuhaolin.com/images/a15bc6b5656eb67d2e0cde3c2e7f583a.jpg");
 }
-section.home-list .home-list-item .home-item-link:hover {
-  background-color: rgba(255, 255, 255, 0.6);
+section.home-list .home-list-manutd {
+  background-image: url("http://zhuhaolin.com/images/abb4387b620523942e197d39bf38b611.jpg");
 }
-section.home-list .home-list-item .home-item-link .home-item-icon {
-  width: 80px;
-  height: 80px;
-  vertical-align: middle;
-}
-section.home-list .home-item-title {
-  text-align: center;
-  color: #ffffff;
+section.home-list .home-list-saiban {
+  background-image: url("http://zhuhaolin.com/images/566b87a4710605f312ec139dcd71088a.jpg");
 }
 section.playstation-games-list {
   margin-top: -20px;

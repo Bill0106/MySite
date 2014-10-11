@@ -1,52 +1,46 @@
 section.home-list {
-  position: absolute;
-  top: 52px;
-  bottom: 0;
-  padding-top: 80px;
-  width: 100%;
-  background-image: url('http://zhuhaolin.com/images/505afb6ff668f345f4b5ea4cd1fba976.jpg');
-  background-repeat: no-repeat;
-  background-position: bottom right;
-  .opacity(0);
-  .home-title {
-    text-align: center;
-    h1 {
-      font-size: 45px;
+  color: @white;
+  text-align: center;
+  .section {
+    background-position: center;
+    background-size: cover;
+    a {
       color: @white;
+      text-decoration: none;
     }
   }
-  .home-list-item {
-    margin: 50px 0;
-    text-align: center;
-    .home-item-background {
-      position: relative;
-      width: 150px;
-      height: 150px;
-      z-index: 1;
+  .home-list-icon {
+    img {
+      width: 100px;
+      height: 100px;
+      border: 5px solid @white;
     }
-    .home-item-link {
-      display: block;
-      position: relative;
-      margin: -150px auto 0;
-      width: 150px;
-      height: 150px;
-      background-color: @white;
-      line-height: 150px;
-      text-align: center;
-      z-index: 2;
-      .transition(all 0.3s linear);
-      &:hover {
-        background-color: rgba(255, 255, 255, 0.6);
-      }
-      .home-item-icon {
-        width: 80px;
-        height: 80px;
-        vertical-align: middle;
+  }
+  .home-list-about {
+    background-image: url("http://zhuhaolin.com/images/73ad5a84dcefe956276f1bd07c6316dd.jpg");
+    .about-contact-list {
+      margin-top: 30px;
+      .contact-list-item {
+        margin: 0 15px;
+        > a {
+          color: @white;
+          > .fa {
+            font-size: 70px;
+          }
+        }
       }
     }
   }
-  .home-item-title {
-    text-align: center;
-    color: @white;
+  .home-list-playstation {
+    background-image: url("http://zhuhaolin.com/images/66a7d162d0bdf9aa302e280cbb5d90d6.jpg");
+  }
+  .home-list-gourmet {
+    background-image: url("http://zhuhaolin.com/images/a15bc6b5656eb67d2e0cde3c2e7f583a.jpg");
+  }
+  .home-list-manutd {
+    background-image: url("http://zhuhaolin.com/images/abb4387b620523942e197d39bf38b611.jpg");
+  }
+  .home-list-saiban {
+    background-image: url("http://zhuhaolin.com/images/566b87a4710605f312ec139dcd71088a.jpg");
   }
 }

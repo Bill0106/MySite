@@ -26,3 +26,4 @@ Dependencies
    - animate.css
    - Html5shiv
    - Respond.js
+   - fullPage.js
