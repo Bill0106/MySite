@@ -4,50 +4,16 @@
 
 var homeCtrl = angular.module('homeCtrl', []);
 
-homeCtrl.controller('homeController', function($scope, homeLinks)
-{
-    $scope.formData = {};
+homeCtrl.controller('homeController', function($scope){});
 
-    homeLinks.get().success(function(data)
-    {
-        $scope.homeLinks = data;
-    });
-
-    $scope.mouseEnter = function(homeLink)
-    {
-        $scope.title = homeLink.title;
-    };
-
-    $scope.mouseLeave = function()
-    {
-        $scope.title = '';
-    };
-});
-
-homeCtrl.directive('ngHome', ['$timeout', function(timer)
+homeCtrl.directive('ngHome', function()
 {
     return {
         restrict: 'A',
         replace: true,
         link: function(scope, element, attrs)
         {
-            $("div.page-loading").removeClass('fadeOut').addClass('fadeIn');
-
-            var imageLoad = function()
-            {
-                var backgroundImage = new Image();
-
-                $(backgroundImage).attr('src', 'http://zhuhaolin.com/images/505afb6ff668f345f4b5ea4cd1fba976.jpg').bind('load', function()
-                {
-                    $("div.page-loading").removeClass('fadeIn').addClass('fadeOut');
-                    setTimeout(function()
-                    {
-                        element.addClass('animated fadeIn');
-                    }, 350);
-                });
-            };
-
-            timer(imageLoad, 0);
+            $("#fullpage").fullpage();
         }
     };
-}]);
+});
