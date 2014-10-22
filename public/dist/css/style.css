@@ -2954,14 +2954,29 @@ div[ng-view].ng-leave {
   -webkit-animation: fadeOut 0.5s both ease-in;
 }
 section.home-list {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   color: #ffffff;
   text-align: center;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -ms-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  transition: all 0.3s linear;
 }
-section.home-list .section {
+section.home-list .home-fullpage-section {
+  display: table;
+  width: 100%;
   background-position: center;
   background-size: cover;
 }
-section.home-list .section a {
+section.home-list .home-fullpage-section .fullpage-section-cell {
+  display: table-cell;
+  vertical-align: middle;
+}
+section.home-list .home-fullpage-section a {
   color: #ffffff;
   text-decoration: none;
 }
