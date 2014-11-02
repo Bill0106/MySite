@@ -17,7 +17,6 @@ homeCtrl.directive('ngHome', function()
             var section = $("[data-fullpage='section']", fullPage);
             var length = section.length;
             var windowHeight = $(window).height();
-            var direction = '';
             var switchCount = 0;
 
             section.css('height', windowHeight);
@@ -30,10 +29,14 @@ homeCtrl.directive('ngHome', function()
                 if (scrollTop == 1 && switchCount === 0 && top !== -windowHeight * (length - 1)) {
                     fullPage.css('top', top - windowHeight);
                     switchCount = 1;
-                } else if (scrollTop == -1 && switchCount ===0 && top != 0) {
+                }
+
+                if (scrollTop == -1 && switchCount ===0 && top != 0) {
                     fullPage.css('top', top + windowHeight);
                     switchCount = 1;
-                } else if (scrollTop === 0 && switchCount == 1) {
+                }
+
+                if (scrollTop === 0 && switchCount == 1) {
                     switchCount = 0;
                 }
             });
