@@ -18,6 +18,7 @@ homeCtrl.directive('ngHome', function()
             var length = section.length;
             var windowHeight = $(window).height();
             var direction = '';
+            var switchCount = 0;
 
             section.css('height', windowHeight);
 
@@ -26,18 +27,14 @@ homeCtrl.directive('ngHome', function()
                 var top = parseInt(fullPage.css('top'));
                 var scrollTop = $(this).scrollTop();
 
-                if (scrollTop > 0) {
-                    direction = true;
-                } else if (scrollTop < 0) {
-                    direction = false;
-                }
-
-                if (scrollTop === 0) {
-                    if (direction && top !== -windowHeight * (length - 1)) {
-                        fullPage.css('top', top - windowHeight);
-                    } else if (!direction && top !== 0) {
-                        fullPage.css('top', top + windowHeight);
-                    }
+                if (scrollTop == 1 && switchCount === 0 && top !== -windowHeight * (length - 1)) {
+                    fullPage.css('top', top - windowHeight);
+                    switchCount = 1;
+                } else if (scrollTop == -1 && switchCount ===0 && top != 0) {
+                    fullPage.css('top', top + windowHeight);
+                    switchCount = 1;
+                } else if (scrollTop === 0 && switchCount == 1) {
+                    switchCount = 0;
                 }
             });
         }
