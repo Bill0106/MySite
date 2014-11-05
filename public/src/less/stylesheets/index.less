@@ -1,9 +1,20 @@
 section.home-list {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   color: @white;
   text-align: center;
-  .section {
+  .transition(all 0.3s linear);
+  .home-fullpage-section {
+    display: table;
+    width: 100%;
     background-position: center;
     background-size: cover;
+    .fullpage-section-cell {
+      display: table-cell;
+      vertical-align: middle;
+    }
     a {
       color: @white;
       text-decoration: none;
