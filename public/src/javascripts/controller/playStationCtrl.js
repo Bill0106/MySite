@@ -56,23 +56,32 @@ playStationCtrl.directive('ngPlayStation', ['$timeout', function(timer)
             val: '=gamesModel',
             busy: '=scrollBusy'
         },
-        link: function(scope, element, attrs) {
-            $(".progress").removeClass('fadeOut').addClass('fadeIn');
+        link: function(scope, element, attrs)
+        {
+            var progressBar = $("[data-playstation='progressBar']");
+            var circleLoading = $("[data-playstation='circleLoading']");
 
-            var playStation = function()
+            var itemHover = function()
             {
-                var length = $("a.playstation-game-item").length;
-                var visible = $("a.playstation-game-item[class$='fadeIn']").length;
-                var pageLoad = $(".playstation-page-loading");
+                $("[data-playstation='item']").hover(function()
+                {
+                    $("[data-playstation='itemImage']", $(this)).addClass('flipOutY');
+                }, function()
+                {
+                    $("[data-playstation='itemImage']", $(this)).removeClass('flipOutY').addClass('flipInY');
+                });
+            };
+
+            var initLoading = function()
+            {
+                var item = $("[data-playstation='item']");
+                var length = item.length;
                 var count = 0;
 
-                if (visible !== 0) {
-                    pageLoad.removeClass('fadeOut').addClass('page-loading-show fadeIn');
-                }
-
-                for (var i = 0; i < length; i++) {
-                    var item = $("a.playstation-game-item").eq(i);
-                    var src = $(".game-item-image", item).attr('src');
+                item.each(function()
+                {
+                    var itemImage = $("[data-playstation='itemImage']", $(this));
+                    var src = $(itemImage).attr('src');
                     var image = new Image();
 
                     $(image).attr('src', src).bind('load', function()
@@ -80,35 +89,73 @@ playStationCtrl.directive('ngPlayStation', ['$timeout', function(timer)
                         count++;
                         var value = Math.round(count / length * 100);
 
-                        $(".progress-bar").css('width', value + '%').attr('aria-valuenow', value).text(value + '%');
-                        if (count + visible == length) {
-                            pageLoad.removeClass('fadeIn').addClass('fadeOut');
-                            $(".playstation-game-item").css('display', 'block');
+                        progressBar.children().css('width', value + '%').attr('aria-valuenow', value).text(value + '%');
+
+                        if (count == length) {
+                            progressBar.addClass('fadeOut');
+                            item.css('display', 'block').attr('data-visible', 1);
                             setTimeout(function()
                             {
-                                $(".playstation-game-item").addClass('fadeIn');
-                                pageLoad.removeClass('page-loading-show');
-                                $(".progress").removeClass('fadeIn').addClass('fadeOut');
+                                item.addClass('fadeIn');
+                                circleLoading.css('display', 'block').addClass('fadeIn');
                                 scope.busy = false;
                                 scope.$apply();
                             }, 350);
                         }
                     });
-                }
+                });
 
-                $(".playstation-game-item").hover(function()
+                itemHover();
+            };
+
+            var loadMore = function()
+            {
+                var invisibleItem = $("[data-playstation='item'][data-visible='0']");
+                var length = invisibleItem.length;
+                var count = 0;
+                console.log(length);
+
+                scope.busy = true;
+                scope.$apply();
+
+                invisibleItem.each(function()
                 {
-                    $(".game-item-image", $(this)).addClass('flipOutY');
-                }, function()
-                {
-                    $(".game-item-image", $(this)).removeClass('flipOutY').addClass('animated flipInY');
+                    var itemImage = $("[data-playstation='itemImage']", $(this));
+                    var src = $(itemImage).attr('src');
+                    var image = new Image();
+
+                    $(image).attr('src', src).bind('load', function()
+                    {
+
+                        count++;
+
+                        if (count == length) {
+                            circleLoading.addClass('fadeOut');
+                            setTimeout(function()
+                            {
+                                circleLoading.css('display', 'none');
+                                invisibleItem.css('display', 'block');
+                                setTimeout(function()
+                                {
+                                    invisibleItem.addClass('fadeIn').attr('data-visible', 1);
+                                    if (length == 12) {
+                                        circleLoading.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');
+                                    }
+                                    scope.busy = false;
+                                    scope.$apply();
+                                }, 100);
+                            }, 350);
+                        }
+                    });
                 });
             };
 
             scope.$watch('val', function(newValue, oldValue)
             {
-                if (newValue) {
-                    timer(playStation, 200);
+                if (!oldValue) {
+                    timer(initLoading, 200);
+                } else if(newValue) {
+                    timer(loadMore, 200);
                 }
             }, true);
         }
