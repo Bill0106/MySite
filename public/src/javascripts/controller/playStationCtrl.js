@@ -148,6 +148,8 @@ playStationCtrl.directive('ngPlayStation', ['$timeout', function(timer)
                         }
                     });
                 });
+
+                itemHover();
             };
 
             scope.$watch('val', function(newValue, oldValue)
