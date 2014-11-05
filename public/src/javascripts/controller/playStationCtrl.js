@@ -7,6 +7,8 @@ var playStationCtrl = angular.module('playStationCtrl', []);
 
 playStationCtrl.controller('playStationController', function($scope, Games)
 {
+    $scope.imagePath = imagePath;
+
     $scope.busy = true;
 
     Games.get().success(function(data)
