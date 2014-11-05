@@ -2,6 +2,7 @@
  * Created by Bill on 14-8-8.
  */
 
+var imagePath = 'http://zhuhaolin.com/images/';
 var myApp = angular.module('myApp',['ngRoute', 'ngAnimate', 'infinite-scroll', 'appRoutes', 'homeCtrl', 'homeService', 'playStationCtrl', 'playStationService', 'gameCtrl', 'gameService']);
 
 myApp.controller('titleController', function($scope, $route, Game)

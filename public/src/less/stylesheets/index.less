@@ -5,23 +5,25 @@ section.home-list {
   right: 0;
   color: @white;
   text-align: center;
+  .opacity(0);
   .transition(all 0.3s linear);
-  .home-fullpage-section {
-    display: table;
-    width: 100%;
+  > div {
     background-position: center;
     background-size: cover;
-    .fullpage-section-cell {
-      display: table-cell;
-      vertical-align: middle;
-    }
-    a {
-      color: @white;
+  }
+  a {
+    color: @white;
+    &:hover {
       text-decoration: none;
     }
   }
+  h1 {
+    @media (max-width: @screen-xs-max) {
+      font-size: @font-size-large;
+    }
+  }
   .home-list-icon {
-    img {
+    .img-circle {
       width: 100px;
       height: 100px;
       border: 5px solid @white;
@@ -33,10 +35,13 @@ section.home-list {
       margin-top: 30px;
       .contact-list-item {
         margin: 0 15px;
-        > a {
-          color: @white;
-          > .fa {
-            font-size: 70px;
+        @media (max-width: @screen-xs-max) {
+          margin: 0;
+        }
+        > a > .fa {
+          font-size: 70px;
+          @media (max-width: @screen-xs-max) {
+            font-size: 60px;
           }
         }
       }

@@ -4,9 +4,12 @@
 
 var homeCtrl = angular.module('homeCtrl', []);
 
-homeCtrl.controller('homeController', function($scope){});
+homeCtrl.controller('homeController', function($scope)
+{
+    $scope.imagePath = imagePath;
+});
 
-homeCtrl.directive('ngHome', function()
+homeCtrl.directive('ngHome',['$timeout', function(timer)
 {
     return {
         restrict: 'A',
@@ -14,32 +17,64 @@ homeCtrl.directive('ngHome', function()
         link: function(scope, element, attrs)
         {
             var fullPage = $("[data-index='fullPage']");
-            var section = $("[data-fullpage='section']", fullPage);
+            var section = $("[data-full-page='section']", fullPage);
+            var cell = $("[data-full-page='cell']", fullPage);
             var length = section.length;
             var windowHeight = $(window).height();
             var switchCount = 0;
 
-            section.css('height', windowHeight);
-
-            $(window).on('scroll', function()
+            var scrollFullPage = function()
             {
-                var top = parseInt(fullPage.css('top'));
-                var scrollTop = $(this).scrollTop();
+                section.css('height', windowHeight);
 
-                if (scrollTop == 1 && switchCount === 0 && top !== -windowHeight * (length - 1)) {
-                    fullPage.css('top', top - windowHeight);
-                    switchCount = 1;
-                }
+                cell.each(function()
+                {
+                    var cellHeight = $(this).height();
 
-                if (scrollTop == -1 && switchCount ===0 && top != 0) {
-                    fullPage.css('top', top + windowHeight);
-                    switchCount = 1;
-                }
+                    $(this).css({
+                        'padding-top': (windowHeight - cellHeight) / 2,
+                        'padding-bottom': (windowHeight - cellHeight) / 2
+                    });
+                });
 
-                if (scrollTop === 0 && switchCount == 1) {
-                    switchCount = 0;
-                }
-            });
+
+                $(window).on('scroll', function()
+                {
+                    var top = parseInt(fullPage.css('top'));
+                    var scrollTop = $(this).scrollTop();
+
+                    if (scrollTop == 1 && switchCount === 0 && top !== -windowHeight * (length - 1)) {
+                        fullPage.css('top', top - windowHeight);
+                        switchCount = 1;
+                    }
+
+                    if (scrollTop == -1 && switchCount ===0 && top != 0) {
+                        fullPage.css('top', top + windowHeight);
+                        switchCount = 1;
+                    }
+
+                    if (scrollTop === 0 && switchCount == 1) {
+                        switchCount = 0;
+                    }
+                });
+            };
+
+            var index = function()
+            {
+                var image = new Image();
+                var src = imagePath + '73ad5a84dcefe956276f1bd07c6316dd.jpg';
+                var pageLoading = $("[data-component='pageLoading']");
+
+                $(image).attr('src', src).bind('load', function()
+                {
+                    pageLoading.removeClass('fadeIn').addClass('fadeOut');
+                    fullPage.addClass('fadeIn');
+
+                    scrollFullPage();
+                });
+            };
+
+            timer(index, 200);
         }
     };
-});
+}]);

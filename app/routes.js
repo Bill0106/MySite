@@ -40,7 +40,7 @@ module.exports = function(app, router)
             var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
 
             if (ip == '127.0.0.1') {
-                res.sendfile('./public/views/admin.html');
+                res.sendfile('./public/views/admin/admin.html');
             } else {
                 res.redirect('/');
             }
