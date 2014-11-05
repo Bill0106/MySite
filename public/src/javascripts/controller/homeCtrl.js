@@ -67,8 +67,12 @@ homeCtrl.directive('ngHome',['$timeout', function(timer)
 
                 $(image).attr('src', src).bind('load', function()
                 {
-                    pageLoading.removeClass('fadeIn').addClass('fadeOut');
-                    fullPage.addClass('fadeIn');
+                    pageLoading.addClass('fadeOut');
+
+                    setTimeout(function()
+                    {
+                        fullPage.addClass('fadeIn');
+                    }, 350);
 
                     scrollFullPage();
                 });
