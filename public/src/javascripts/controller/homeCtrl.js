@@ -59,26 +59,21 @@ homeCtrl.directive('ngHome',['$timeout', function(timer)
                 });
             };
 
-            var index = function()
+            var image = new Image();
+            var src = imagePath + '73ad5a84dcefe956276f1bd07c6316dd.jpg';
+            var pageLoading = $("[data-component='pageLoading']");
+
+            $(image).attr('src', src).bind('load', function()
             {
-                var image = new Image();
-                var src = imagePath + '73ad5a84dcefe956276f1bd07c6316dd.jpg';
-                var pageLoading = $("[data-component='pageLoading']");
+                pageLoading.addClass('fadeOut');
 
-                $(image).attr('src', src).bind('load', function()
+                setTimeout(function()
                 {
-                    pageLoading.addClass('fadeOut');
+                    fullPage.addClass('fadeIn');
+                }, 350);
 
-                    setTimeout(function()
-                    {
-                        fullPage.addClass('fadeIn');
-                    }, 350);
-
-                    scrollFullPage();
-                });
-            };
-
-            timer(index, 200);
+                scrollFullPage();
+            });
         }
     };
 }]);
