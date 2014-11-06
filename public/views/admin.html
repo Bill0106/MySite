@@ -17,8 +17,8 @@
         <h1>Welcome Back, My Master</h1>
     </div>
     <div class="row">
-        <div class="col-sm-6" ng-controller="imageUploadController">
-            <div class="well clearfix">
+        <div class="col-sm-6">
+            <div class="well clearfix" ng-controller="imageUploadController">
                 <h3>Image Upload</h3>
                 <form>
                     <div class="form-group">
@@ -27,12 +27,22 @@
                     </div>
                 </form>
             </div>
+            <div class="well clearfix" ng-controller="GourmetPostController">
+                <h3>Gourmet Update</h3>
+                <form ng-submit="createGourmet()">
+                    <div class="form-group" ng-repeat="field in fields">
+                        <input class="form-control" type="text" placeholder="Enter {{ field }}" ng-model="formData[field]"/>
+                    </div>
+                    <button class="btn btn-primary pull-right" type="submit">Submit</button>
+                </form>
+                <p style="font-size: 16px;" ng-show="show">{{ gourmet }} created!</p>
+            </div>
             <div class="well">
                 <h3><a href="http://zhuhaolin.com:8081" target="_blank">Database Web-Viewer</a></h3>
             </div>
         </div>
-        <div class="col-sm-6" ng-controller="GamePostController">
-            <div class="well clearfix">
+        <div class="col-sm-6">
+            <div class="well clearfix" ng-controller="GamePostController">
                 <h3>PlayStation Games Update</h3>
                 <form ng-submit="createGame()">
                     <div class="form-group" ng-repeat="field in fields">
