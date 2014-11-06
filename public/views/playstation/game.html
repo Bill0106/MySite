@@ -1,8 +1,8 @@
-<section class="container game-detail animated" game-model="game" ng-game>
+<section class="container game-detail animated" game-model="game" ng-game data-game="content">
     <div class="page-header game-header">
         <div class="row">
             <div class="col-sm-10 game-header-left clearfix">
-                <img class="game-image hidden-xs" ng-src="http://zhuhaolin.com/images/{{ game.image }}" alt="{{ game.title }} - {{ game.name }}" title="{{ game.title }} - {{ game.name }}"/>
+                <img class="game-image" ng-src="{{ imagePath + game.image }}" alt="{{ game.title }} - {{ game.name }}" title="{{ game.title }} - {{ game.name }}"/>
                 <div class="game-title">
                     <h1>{{ game.title }}</h1>
                     <h3>{{ game.name }}</h3>
@@ -11,14 +11,14 @@
             </div>
             <div class="col-sm-2 hidden-xs game-header-right">
                 <div class="game-rate-mask img-circle">
-                    <div class="circle-long-part">
+                    <div class="circle-long-part" data-rate="longPart">
                         <div class="long-part-inner"></div>
                     </div>
-                    <div class="circle-short-part short-part-left"></div>
-                    <div class="circle-short-part short-part-right"></div>
+                    <div class="circle-short-part short-part-left" data-rate="shortPartLeft"></div>
+                    <div class="circle-short-part short-part-right" data-rate="shortPartRight"></div>
                 </div>
                 <div class="game-rate-text img-circle">
-                    <span class="game-rate animated zoomOut">{{ game.rate }}</span>
+                    <span class="game-rate animated zoomOut" data-game="rate">{{ game.rate }}</span>
                 </div>
                 <div class="rate-text">{{ rateText }}</div>
             </div>
@@ -42,4 +42,6 @@
         </div>
     </div>
 </section>
-<div ng-include="'/views/loading.html'"></div>
+<div class="page-loading animated" data-component="pageLoading">
+    <i class="fa fa-circle-o-notch fa-spin fa-5x"></i>
+</div>

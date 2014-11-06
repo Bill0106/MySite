@@ -12,7 +12,7 @@ myApp.controller('titleController', function($scope, $route, Game)
         if ($route.current.title == 'Game') {
             Game.get($route.current.params.url).success(function(data)
             {
-                $scope.title = data.name;
+                $scope.title = data.name + '_PlayStation Game';
             });
         } else {
             $scope.title = $route.current.title;

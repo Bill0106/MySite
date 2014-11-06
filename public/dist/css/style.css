@@ -3120,6 +3120,11 @@ section.game-detail div.game-header .game-header-left .game-image {
   width: 150px;
   height: 150px;
 }
+@media (max-width: 767px) {
+  section.game-detail div.game-header .game-header-left .game-image {
+    display: none;
+  }
+}
 section.game-detail div.game-header .game-header-left .game-title {
   margin-left: 180px;
   padding-top: 15px;
@@ -3128,12 +3133,23 @@ section.game-detail div.game-header .game-header-left .game-title h1,
 section.game-detail div.game-header .game-header-left .game-title h3 {
   margin-top: 0;
 }
+@media (max-width: 767px) {
+  section.game-detail div.game-header .game-header-left .game-title > h1 {
+    font-size: 28px;
+  }
+}
+@media (max-width: 767px) {
+  section.game-detail div.game-header .game-header-left .game-title > h3 {
+    font-size: 18px;
+  }
+}
 section.game-detail div.game-header .game-header-left .game-title .game-platform {
   border-bottom: 1px solid #6186ff;
 }
 @media (max-width: 767px) {
   section.game-detail div.game-header .game-header-left .game-title {
     margin-left: 0;
+    padding-top: 0;
   }
 }
 section.game-detail div.game-header .game-header-right .game-rate-mask {

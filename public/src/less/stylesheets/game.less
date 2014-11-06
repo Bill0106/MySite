@@ -8,6 +8,9 @@ section.game-detail {
         float: left;
         width: 150px;
         height: 150px;
+        @media (max-width: @screen-xs-max) {
+          display: none;
+        }
       }
       .game-title {
         margin-left: 180px;
@@ -15,11 +18,22 @@ section.game-detail {
         h1, h3 {
           margin-top: 0;
         }
+        > h1 {
+          @media (max-width: @screen-xs-max) {
+            font-size: 28px;
+          }
+        }
+        > h3 {
+          @media (max-width: @screen-xs-max) {
+            font-size: @font-size-large;
+          }
+        }
         .game-platform {
           border-bottom: 1px solid #6186ff;
         }
         @media (max-width: @screen-xs-max) {
           margin-left: 0;
+          padding-top: 0;
         }
       }
     }
