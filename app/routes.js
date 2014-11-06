@@ -27,8 +27,17 @@ module.exports = function(app, router)
         .get(games.list)
         .post(games.post);
 
+<<<<<<< HEAD
     router.route('/game/:game_url')
         .get(games.find);
+=======
+    // Gourmet API Route
+    var gourmet = require('./controller/gourmet');
+
+    router.route('/gourmets')
+        .get(gourmet.list)
+        .post(gourmet.post);
+>>>>>>> admin
 
     // Apply API Routes
     app.use('/api', router);
