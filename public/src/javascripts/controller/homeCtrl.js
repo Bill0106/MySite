@@ -48,7 +48,7 @@ homeCtrl.directive('ngHome',['$timeout', function(timer)
                         switchCount = 1;
                     }
 
-                    if (scrollTop == -1 && switchCount ===0 && top != 0) {
+                    if (scrollTop == -1 && switchCount ===0 && top !== 0) {
                         fullPage.css('top', top + windowHeight);
                         switchCount = 1;
                     }
