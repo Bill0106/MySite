@@ -21,6 +21,10 @@ angular.module('appRoutes', [])
                 controller: 'gameController',
                 title: 'Game'
             })
+            .when('/gourmet', {
+                templateUrl: '/views/gourmet/gourmet.html',
+                title: 'Gourmet'
+            })
             .otherwise({
                 redirectTo: '/'
             });
