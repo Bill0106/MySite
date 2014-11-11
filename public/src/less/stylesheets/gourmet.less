@@ -1,0 +1,66 @@
+.gourmetController {
+  background-color: #FEFCEF;
+}
+section.gourmet-content {
+  .gourmet-title {
+    padding-top: 30px;
+    text-align: center;
+    > img {
+      width: 100%;
+      max-width: 357px;
+    }
+  }
+  .gourmet-list {
+    padding: 50px 0;
+    .gourmet-list-item {
+      text-align: center;
+      &:hover .gourmet-item-link {
+        @media (min-width: @screen-sm-min) {
+          margin: -28px -12px;
+          padding: 28px 12px;
+        }
+      }
+      &:hover .gourmet-item-title {
+        @media (min-width: @screen-sm-min) {
+          .opacity(100);
+        }
+      }
+      .gourmet-item-title {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 28px;
+        line-height: 28px;
+        font-weight: 700;
+        color: #777;
+        z-index: 2;
+        .opacity(0);
+        .transition(all 0.2s linear 0.1s);
+        &.top {
+          top: -28px;
+        }
+        &.bottom {
+          bottom: -28px;
+          @media (max-width: @screen-xs-max) {
+            bottom: -35px;
+            .opacity(100);
+          }
+        }
+      }
+      .gourmet-item-link {
+        display: inline-block;
+        margin: -5px;
+        padding: 5px;
+        background-color: @white;
+        -webkit-box-shadow: 0 0 0 1px rgba(0,0,0,.08),0 1px 5px rgba(0,0,0,.1);
+        -moz-box-shadow: 0 0 0 1px rgba(0,0,0,.08),0 1px 5px rgba(0,0,0,.1);
+        box-shadow: 0 0 0 1px rgba(0,0,0,.08),0 1px 5px rgba(0,0,0,.1);;
+        .transition(all 0.2s linear);
+      }
+      .gourmet-item-image {
+        width: 100%;
+        max-width: 150px;
+      }
+    }
+  }
+}
