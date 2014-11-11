@@ -17,9 +17,15 @@ exports.list = function(req, res)
 
 exports.post = function(req, res)
 {
+    var date = req.body.date;
+    date = date.split("-");
+    var newDate = date[1] + "/" + date[2] + "/" + date[0];
+    var timestamp = new Date(newDate).getTime();
+
     Gourmet.create({
         food       : req.body.food,
         restaurant : req.body.restaurant,
+        date       : timestamp,
         image      : req.body.image,
         url        : req.body.url
     }, function(err)

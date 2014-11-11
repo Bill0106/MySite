@@ -63,7 +63,7 @@ app.controller('GamePostController', function($scope, $http)
 app.controller('GourmetPostController', function($scope, $http)
 {
     $scope.formData = {};
-    $scope.fields = ['food', 'restaurant', 'image', 'url'];
+    $scope.fields = ['food', 'restaurant', 'date', 'image', 'url'];
 
     $scope.createGourmet = function()
     {

@@ -8,6 +8,7 @@ var Schema = mongoose.Schema;
 var GourmetSchema = new Schema({
     food: String,
     restaurant: String,
+    date: Number,
     image: String,
     url: String
 });
