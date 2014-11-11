@@ -23,6 +23,7 @@ angular.module('appRoutes', [])
             })
             .when('/gourmet', {
                 templateUrl: '/views/gourmet/gourmet.html',
+                controller: 'gourmetController',
                 title: 'Gourmet'
             })
             .otherwise({
