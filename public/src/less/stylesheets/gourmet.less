@@ -1,4 +1,4 @@
-body {
+.gourmetController {
   background-color: #FEFCEF;
 }
 section.gourmet-content {
@@ -6,8 +6,8 @@ section.gourmet-content {
     padding-top: 30px;
     text-align: center;
     > img {
-      width: 357px;
-      height: 91px;
+      width: 100%;
+      max-width: 357px;
     }
   }
   .gourmet-list {
@@ -15,11 +15,15 @@ section.gourmet-content {
     .gourmet-list-item {
       text-align: center;
       &:hover .gourmet-item-link {
-        margin: -28px -12px;
-        padding: 28px 12px;
+        @media (min-width: @screen-sm-min) {
+          margin: -28px -12px;
+          padding: 28px 12px;
+        }
       }
       &:hover .gourmet-item-title {
-        .opacity(100);
+        @media (min-width: @screen-sm-min) {
+          .opacity(100);
+        }
       }
       .gourmet-item-title {
         position: absolute;
@@ -37,6 +41,10 @@ section.gourmet-content {
         }
         &.bottom {
           bottom: -28px;
+          @media (max-width: @screen-xs-max) {
+            bottom: -35px;
+            .opacity(100);
+          }
         }
       }
       .gourmet-item-link {
@@ -50,8 +58,8 @@ section.gourmet-content {
         .transition(all 0.2s linear);
       }
       .gourmet-item-image {
-        width: 150px;
-        height: 150px;
+        width: 100%;
+        max-width: 150px;
       }
     }
   }

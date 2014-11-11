@@ -3306,7 +3306,7 @@ section.game-detail div.game-intro .game-info dd {
   -o-transform: rotate(360deg);
   transform: rotate(360deg);
 }
-body {
+.gourmetController {
   background-color: #FEFCEF;
 }
 section.gourmet-content .gourmet-title {
@@ -3314,8 +3314,8 @@ section.gourmet-content .gourmet-title {
   text-align: center;
 }
 section.gourmet-content .gourmet-title > img {
-  width: 357px;
-  height: 91px;
+  width: 100%;
+  max-width: 357px;
 }
 section.gourmet-content .gourmet-list {
   padding: 50px 0;
@@ -3323,15 +3323,19 @@ section.gourmet-content .gourmet-list {
 section.gourmet-content .gourmet-list .gourmet-list-item {
   text-align: center;
 }
-section.gourmet-content .gourmet-list .gourmet-list-item:hover .gourmet-item-link {
-  margin: -28px -12px;
-  padding: 28px 12px;
+@media (min-width: 768px) {
+  section.gourmet-content .gourmet-list .gourmet-list-item:hover .gourmet-item-link {
+    margin: -28px -12px;
+    padding: 28px 12px;
+  }
 }
-section.gourmet-content .gourmet-list .gourmet-list-item:hover .gourmet-item-title {
-  opacity: 100;
-  filter: alpha(opacity=10000);
-  opacity: 1;
-  filter: alpha(opacity=100);
+@media (min-width: 768px) {
+  section.gourmet-content .gourmet-list .gourmet-list-item:hover .gourmet-item-title {
+    opacity: 100;
+    filter: alpha(opacity=10000);
+    opacity: 1;
+    filter: alpha(opacity=100);
+  }
 }
 section.gourmet-content .gourmet-list .gourmet-list-item .gourmet-item-title {
   position: absolute;
@@ -3356,6 +3360,15 @@ section.gourmet-content .gourmet-list .gourmet-list-item .gourmet-item-title.top
 section.gourmet-content .gourmet-list .gourmet-list-item .gourmet-item-title.bottom {
   bottom: -28px;
 }
+@media (max-width: 767px) {
+  section.gourmet-content .gourmet-list .gourmet-list-item .gourmet-item-title.bottom {
+    bottom: -35px;
+    opacity: 100;
+    filter: alpha(opacity=10000);
+    opacity: 1;
+    filter: alpha(opacity=100);
+  }
+}
 section.gourmet-content .gourmet-list .gourmet-list-item .gourmet-item-link {
   display: inline-block;
   margin: -5px;
@@ -3371,6 +3384,6 @@ section.gourmet-content .gourmet-list .gourmet-list-item .gourmet-item-link {
   transition: all 0.2s linear;
 }
 section.gourmet-content .gourmet-list .gourmet-list-item .gourmet-item-image {
-  width: 150px;
-  height: 150px;
+  width: 100%;
+  max-width: 150px;
 }
