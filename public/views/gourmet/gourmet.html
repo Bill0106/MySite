@@ -4,23 +4,16 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="gourmet-title">
-                    <img ng-src="{{ imagePath }}0bf0b9777a775a5c382a1f9c205c52d1.png" alt=""/>
+                    <img ng-src="{{ imagePath }}0bf0b9777a775a5c382a1f9c205c52d1.png" alt="Gourmet Tour" title="Gourmet Tour"/>
                 </div>
             </div>
         </div>
         <ul class="row list-unstyled gourmet-list">
-            <li class="col-md-2 col-sm-3 col-xs-6 gourmet-list-item">
-                <span class="gourmet-item-title bottom">小米粥</span>
-                <span class="gourmet-item-title top">千秋小馆</span>
-                <a class="gourmet-item-link" href="#">
-                    <img class="gourmet-item-image" src="../../image.jpg" alt=""/>
-                </a>
-            </li>
-            <li class="col-md-2 col-sm-3 col-xs-6 gourmet-list-item">
-                <span class="gourmet-item-title bottom">小米粥</span>
-                <span class="gourmet-item-title top">千秋小馆</span>
-                <a class="gourmet-item-link" href="#">
-                    <img class="gourmet-item-image" src="../../image.jpg" alt=""/>
+            <li class="col-md-2 col-sm-3 col-xs-6 gourmet-list-item" ng-repeat="gourmet in gourmets">
+                <span class="gourmet-item-title bottom text-limit">{{ gourmet.food }}</span>
+                <span class="gourmet-item-title top">{{ getDate(gourmet.date) }}</span>
+                <a class="gourmet-item-link" target="_blank" ng-href="{{ gourmet.url }}">
+                    <img class="gourmet-item-image" ng-src="{{ imagePath + gourmet.image }}" alt="{{ gourmet.food + ' - ' + gourmet.restaurant }}" title="{{ gourmet.food + ' - ' + gourmet.restaurant }}"/>
                 </a>
             </li>
         </ul>

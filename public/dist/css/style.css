@@ -2973,6 +2973,11 @@ h6 {
 body {
   background-color: #000000;
 }
+.text-limit {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 nav.navbar {
   margin-bottom: 0;
   z-index: 9999;
@@ -3343,7 +3348,6 @@ section.gourmet-content .gourmet-list .gourmet-list-item .gourmet-item-title {
   right: 0;
   height: 28px;
   line-height: 28px;
-  font-weight: 700;
   color: #777;
   z-index: 2;
   opacity: 0;

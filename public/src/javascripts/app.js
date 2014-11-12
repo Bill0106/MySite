@@ -3,7 +3,7 @@
  */
 
 var imagePath = 'http://zhuhaolin.com/images/';
-var myApp = angular.module('myApp',['ngRoute', 'ngAnimate', 'infinite-scroll', 'appRoutes', 'homeCtrl', 'homeService', 'playStationCtrl', 'playStationService', 'gameCtrl', 'gameService', 'gourmetCtrl']);
+var myApp = angular.module('myApp',['ngRoute', 'ngAnimate', 'infinite-scroll', 'appRoutes', 'homeCtrl', 'playStationCtrl', 'playStationService', 'gameCtrl', 'gameService', 'gourmetCtrl', 'gourmetService']);
 
 myApp.controller('headerController', function($scope, $location)
 {
