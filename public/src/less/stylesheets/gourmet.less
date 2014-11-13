@@ -5,15 +5,25 @@ section.gourmet-content {
   .gourmet-title {
     padding-top: 30px;
     text-align: center;
-    > img {
+    img {
       width: 100%;
       max-width: 357px;
     }
   }
+  .progress {
+    position: fixed;
+    top: 50%;
+    left: 10%;
+    right: 10%;
+    margin-top: -10px;
+  }
   .gourmet-list {
-    padding: 50px 0;
+    padding: 20px 0;
     .gourmet-list-item {
+      display: none;
+      margin: 30px 0;
       text-align: center;
+      .opacity(0);
       &:hover .gourmet-item-link {
         @media (min-width: @screen-sm-min) {
           margin: -28px -12px;
@@ -61,5 +71,12 @@ section.gourmet-content {
         max-width: 150px;
       }
     }
+  }
+  .gourmet-page-loading {
+    display: none;
+    padding: 20px 0;
+    text-align: center;
+    color: @black;
+    .opacity(0);
   }
 }
