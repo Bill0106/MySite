@@ -69,6 +69,7 @@ homeCtrl.directive('ngHome',['$timeout', function(timer)
 
                 setTimeout(function()
                 {
+                    pageLoading.css('display', 'none');
                     fullPage.addClass('fadeIn');
                 }, 350);
 
