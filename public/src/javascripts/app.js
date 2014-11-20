@@ -3,32 +3,23 @@
  */
 
 var imagePath = 'http://zhuhaolin.com/images/';
-var myApp = angular.module('myApp',['ngRoute', 'ngAnimate', 'infinite-scroll', 'appRoutes', 'homeCtrl', 'playStationCtrl', 'playStationService', 'gameCtrl', 'gameService', 'gourmetCtrl', 'gourmetService']);
+var myApp = angular.module('myApp',['ui.router', 'ngAnimate', 'infinite-scroll', 'appRoutes', 'homeCtrl', 'playStationCtrl', 'playStationService', 'gameCtrl', 'gameService', 'gourmetCtrl', 'gourmetService']);
 
-myApp.controller('headerController', function($scope, $location)
-{
-    $scope.isActive = function(viewLocation)
-    {
-        return viewLocation === $location.path();
-    };
-});
-
-myApp.run(function($rootScope, $http, Game)
+myApp.run(function($rootScope, $state, $http, Game)
 {
     $http.defaults.headers.common.auth = 'ljpon3UUVTMMmIhE6Kcf';
 
-    $rootScope.$on('$routeChangeSuccess', function(ev, data)
+    $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams)
     {
-        if (data.$$route && data.$$route.controller)
-            $rootScope.controller = data.$$route.controller;
+        $rootScope.bodyClass = $state.current.controller;
 
-        if (data.$$route && data.$$route.title)
-            $rootScope.title = data.$$route.title;
-
-        if (data.params && data.params.url)
-            Game.get(data.params.url).success(function(obj)
+        if (toState.name == 'game') {
+            Game.get(toParams.url).success(function(data)
             {
-                $rootScope.title = obj.name + '_PlayStation Game';
+                $rootScope.title = data.name + '_PlayStation';
             });
+        } else {
+            $rootScope.title = $state.current.title;
+        }
     });
 });

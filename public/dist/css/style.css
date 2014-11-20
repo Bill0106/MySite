@@ -2778,9 +2778,9 @@ select[multiple].input-lg {
 }
 .progress.active .progress-bar,
 .progress-bar.active {
+  -webkit-animation: progress-bar-stripes 2s linear infinite;
   -o-animation: progress-bar-stripes 2s linear infinite;
   animation: progress-bar-stripes 2s linear infinite;
-  -webkit-animation: progress-bar-stripes 2s linear infinite;
 }
 .progress-bar[aria-valuenow="1"],
 .progress-bar[aria-valuenow="2"] {
@@ -3360,15 +3360,36 @@ div.page-loading {
   text-align: center;
   color: #ffffff;
 }
-div[ng-view].ng-enter {
-  -o-animation: fadeIn 0.5s both ease-in;
-  animation: fadeIn 0.5s both ease-in;
-  -webkit-animation: fadeIn 0.5s both ease-in;
+[ui-view].ng-enter,
+[ui-view].ng-leave {
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
-div[ng-view].ng-leave {
-  -o-animation: fadeOut 0.5s both ease-in;
-  animation: fadeOut 0.5s both ease-in;
-  -webkit-animation: fadeOut 0.5s both ease-in;
+[ui-view].ng-enter {
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+[ui-view].ng-enter-active {
+  opacity: 100;
+  filter: alpha(opacity=10000);
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+[ui-view].ng-leave {
+  opacity: 100;
+  filter: alpha(opacity=10000);
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+[ui-view].ng-leave-active {
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.homeController nav {
+  display: none;
 }
 section.home-list {
   position: fixed;

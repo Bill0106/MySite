@@ -4,7 +4,7 @@
 
 var homeCtrl = angular.module('homeCtrl', []);
 
-homeCtrl.controller('homeController', function($scope)
+homeCtrl.controller('homeController', function($scope, $state)
 {
     $scope.imagePath = imagePath;
 });

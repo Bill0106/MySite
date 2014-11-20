@@ -3,32 +3,35 @@
  */
 
 angular.module('appRoutes', [])
-    .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider)
+    .config(function($stateProvider, $urlRouterProvider, $locationProvider)
     {
-        $routeProvider
-            .when('/', {
+        $urlRouterProvider.otherwise("/");
+
+        $stateProvider
+            .state('home', {
+                url: '/',
                 templateUrl: '/views/index/index.html',
                 controller: 'homeController',
                 title: 'Home'
             })
-            .when('/playstation', {
+            .state('playstation', {
+                url: '/playstation',
                 templateUrl: '/views/playstation/playstation.html',
                 controller: 'playStationController',
                 title: 'PlayStation'
             })
-            .when('/game/:url', {
+            .state('game', {
+                url: '/playstation/:url',
                 templateUrl: '/views/playstation/game.html',
                 controller: 'gameController',
                 title: 'Game'
             })
-            .when('/gourmet', {
+            .state('gourmet', {
+                url: '/gourmet',
                 templateUrl: '/views/gourmet/gourmet.html',
                 controller: 'gourmetController',
                 title: 'Gourmet'
-            })
-            .otherwise({
-                redirectTo: '/'
             });
 
         $locationProvider.html5Mode(true);
-    }]);
+    });

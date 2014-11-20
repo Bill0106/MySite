@@ -17,7 +17,7 @@ Dependencies
 
 ### Frontend
    - AngularJS
-     - angular-route
+     - angular-ui-router
      - angular-animate
      - angular-file-upload
      - ngInfiniteScroll

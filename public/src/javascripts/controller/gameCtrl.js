@@ -4,9 +4,9 @@
 
 var gameCtrl = angular.module('gameCtrl', []);
 
-gameCtrl.controller('gameController', function($scope, $routeParams, Game)
+gameCtrl.controller('gameController', function($scope, $stateParams, Game)
 {
-    Game.get($routeParams.url).success(function(data)
+    Game.get($stateParams.url).success(function(data)
     {
         $scope.imagePath = imagePath;
 
