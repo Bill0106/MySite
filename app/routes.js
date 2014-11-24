@@ -37,6 +37,13 @@ module.exports = function(app, router)
         .get(gourmet.list)
         .post(gourmet.post);
 
+    // Man Utd API Route
+    var playerProfile = require('./controller/manutd/playerProfile');
+
+    router.route('/manutd/player-profile')
+        .get(playerProfile.list)
+        .post(playerProfile.post);
+
     // Apply API Routes
     app.use('/api', router);
 

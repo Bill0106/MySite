@@ -13,11 +13,26 @@
 </head>
 <body ng-app="adminApp">
 <div class="container">
-    <div class="page-header text-center">
-        <h1>Welcome Back, My Master</h1>
-    </div>
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-12">
+            <div class="page-header text-center">
+                <h1>Welcome Back, My Master</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-admin>
+        <div class="col-sm-4">
+            <ul class="nav nav-pills nav-stacked well">
+                <li role="presentation"><a href="playstation" data-admin="nav">PlayStation Games Update</a></li>
+                <li role="presentation"><a href="gourmet" data-admin="nav">Gourmet Update</a></li>
+                <li role="presentation">
+                    <a href="#" class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">Man Utd <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="manutdPlayerProfile" data-admin="nav">Player Profile</a></li>
+                    </ul>
+                </li>
+                <li role="presentation"><a href="http://zhuhaolin.com:8081" target="_blank">Database Web-Viewer</a></li>
+            </ul>
             <div class="well clearfix" ng-controller="imageUploadController">
                 <h3>Image Upload</h3>
                 <form>
@@ -27,22 +42,9 @@
                     </div>
                 </form>
             </div>
-            <div class="well clearfix" ng-controller="GourmetPostController">
-                <h3>Gourmet Update</h3>
-                <form ng-submit="createGourmet()">
-                    <div class="form-group" ng-repeat="field in fields">
-                        <input class="form-control" type="text" placeholder="Enter {{ field }}" ng-model="formData[field]"/>
-                    </div>
-                    <button class="btn btn-primary pull-right" type="submit">Submit</button>
-                </form>
-                <p style="font-size: 16px;" ng-show="show">{{ gourmet }} created!</p>
-            </div>
-            <div class="well">
-                <h3><a href="http://zhuhaolin.com:8081" target="_blank">Database Web-Viewer</a></h3>
-            </div>
         </div>
-        <div class="col-sm-6">
-            <div class="well clearfix" ng-controller="GamePostController">
+        <div class="col-sm-8">
+            <div class="well clearfix" ng-controller="GamePostController" data-admin="target" data-href="playstation">
                 <h3>PlayStation Games Update</h3>
                 <form ng-submit="createGame()">
                     <div class="form-group" ng-repeat="field in fields">
@@ -64,6 +66,34 @@
                     <button class="btn btn-primary pull-right" type="submit">Submit</button>
                 </form>
                 <p style="font-size: 16px;" ng-show="show">{{ game }} created!</p>
+            </div>
+            <div class="well clearfix" ng-controller="GourmetPostController" data-admin="target" data-href="gourmet">
+                <h3>Gourmet Update</h3>
+                <form ng-submit="createGourmet()">
+                    <div class="form-group" ng-repeat="field in fields">
+                        <input class="form-control" type="text" placeholder="Enter {{ field }}" ng-model="formData[field]"/>
+                    </div>
+                    <button class="btn btn-primary pull-right" type="submit">Submit</button>
+                </form>
+                <p style="font-size: 16px;" ng-show="show">{{ gourmet }} created!</p>
+            </div>
+            <div class="well clearfix" ng-controller="ManutdPlayerProfile" data-admin="target" data-href="manutdPlayerProfile">
+                <h3>ManUtd Player Profile Update</h3>
+                <form ng-submit="createPlayer()">
+                    <div class="form-group" ng-repeat="field in fields">
+                        <input class="form-control" type="text" placeholder="Enter {{ field }}" ng-model="formData[field]"/>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" ng-model="formData.position" ng-options="position.name for position in positions">
+                            <option value="">Choose position</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" rows="3" placeholder="Enter description" ng-model="formData.description"></textarea>
+                    </div>
+                    <button class="btn btn-primary pull-right" type="submit">Submit</button>
+                </form>
+                <p style="font-size: 16px;" ng-show="show">{{ player }} created!</p>
             </div>
         </div>
     </div>

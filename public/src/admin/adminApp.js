@@ -9,6 +9,37 @@ app.run(function($http)
     $http.defaults.headers.post.auth = 'HNoHW7HUKEYxW5DFxaVj';
 });
 
+app.directive('ngAdmin', function()
+{
+    return {
+        restrict: 'A',
+        replace: true,
+        link: function(scope, element, attrs)
+        {
+            var nav = $("[data-admin='nav']");
+            var target = $("[data-admin='target']");
+
+            target.css({
+                position: 'absolute',
+                top: '0',
+                width: '100%'
+            }).hide();
+
+            nav.click(function(e)
+            {
+                e.preventDefault();
+
+                var href = $(this).attr('href');
+
+                nav.parent().removeClass('active');
+                $(this).parent().addClass('active');
+                target.hide();
+                $("[data-href='" + href + "']").show();
+            });
+        }
+    }
+});
+
 app.controller('imageUploadController', function($scope, $upload)
 {
     $scope.onFileSelect = function($files)
@@ -72,6 +103,40 @@ app.controller('GourmetPostController', function($scope, $http)
             {
                 $scope.formData = {};
                 $scope.gourmet = data;
+                $scope.show = true;
+            })
+            .error(function(data)
+            {
+                console.log('Error: ' + data);
+            })
+    }
+});
+
+app.controller('ManutdPlayerProfile', function($scope, $http)
+{
+    $scope.formData = {};
+    $scope.fields = ['name', 'full_name', 'birthday', 'nationality', 'height', 'number', 'value', 'joined', 'image', 'stats_url'];
+    $scope.positions = [
+        {name: 'Goalkeeper'},
+        {name: 'Centre Back'},
+        {name: 'Left-Back'},
+        {name: 'Right-Back'},
+        {name: 'Defensive Midfield'},
+        {name: 'Central Midfield'},
+        {name: 'Attacking Midfield'},
+        {name: 'Left Wing'},
+        {name: 'Right Wing'},
+        {name: 'Secondary Striker'},
+        {name: 'Centre Forward'}
+    ];
+
+    $scope.createPlayer = function()
+    {
+        $http.post('/api/manutd/player-profile', $scope.formData)
+            .success(function(data)
+            {
+                $scope.formData = {};
+                $scope.player = data;
                 $scope.show = true;
             })
             .error(function(data)
