@@ -17,4 +17,6 @@ var playerStatsSchema = new Schema({
     targets    : Number
 });
 
+playerStatsSchema.index({ player_id: 1, competition: 1 }, { unique: true });
+
 module.exports = mongoose.model('PlayerStats', playerStatsSchema);
