@@ -7,6 +7,9 @@ Dependencies
 ### Backend
    - NodeJS
       - connect-multiparty
+      - cheerio
+      - request
+      - async
    - Express framework
       - morgan
       - body-parser
