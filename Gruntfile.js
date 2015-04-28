@@ -38,6 +38,9 @@ module.exports = function(grunt)
         },
 
         watch: {
+            options: {
+                livereload: true
+            },
             css: {
                 files: ['public/src/less/**/*.less'],
                 tasks: ['less', 'cssmin']

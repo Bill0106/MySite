@@ -1,68 +1,47 @@
-.homeController {
-  nav {
+body.homeController {
+  background-color: @fullBlack;
+  overflow: hidden;
+  nav.menu {
     display: none;
   }
-}
-
-section.home-list {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  color: @white;
-  text-align: center;
-  .opacity(0);
-  .transition(all 0.3s linear);
-  > div {
-    background-position: center;
-    background-size: cover;
-  }
-  a {
-    color: @white;
-    &:hover {
-      text-decoration: none;
-    }
-  }
-  h1 {
-    @media (max-width: @screen-xs-max) {
-      font-size: @font-size-large;
-    }
-  }
-  .home-list-icon {
-    .img-circle {
-      width: 100px;
-      height: 100px;
-      border: 5px solid @white;
-    }
-  }
-  .home-list-about {
-    background-image: url("http://zhuhaolin.com/images/73ad5a84dcefe956276f1bd07c6316dd.jpg");
-    .about-contact-list {
-      margin-top: 30px;
-      .contact-list-item {
-        margin: 0 15px;
-        @media (max-width: @screen-xs-max) {
-          margin: 0;
-        }
-        > a > .fa {
-          font-size: 70px;
-          @media (max-width: @screen-xs-max) {
-            font-size: 60px;
+  section.home-list {
+    .translate(0px, 0px);
+    .transition(all 0.3s ease-in-out);
+    .home-list-item {
+      text-align: center;
+      background-position: center;
+      background-size: cover;
+      &.about {
+        background-image: url("http://zhuhaolin.com/images/73ad5a84dcefe956276f1bd07c6316dd.jpg");
+      }
+      &.playstation {
+        background-image: url("http://zhuhaolin.com/images/66a7d162d0bdf9aa302e280cbb5d90d6.jpg");
+      }
+      &.gourmet {
+        background-image: url("http://zhuhaolin.com/images/a15bc6b5656eb67d2e0cde3c2e7f583a.jpg");
+      }
+      &.manutd {
+        background-image: url("http://zhuhaolin.com/images/abb4387b620523942e197d39bf38b611.jpg");
+      }
+      &.saiban {
+        background-image: url("http://zhuhaolin.com/images/566b87a4710605f312ec139dcd71088a.jpg");
+      }
+      > h1 {
+        color: @white;
+      }
+      .home-item-icon {
+        border: 5px solid @white;
+      }
+      .ui.list {
+        .item {
+          > a {
+            color: @darkWhite !important;
+            &:hover {
+              color: @whiteHover !important;
+            }
           }
         }
       }
     }
-  }
-  .home-list-playstation {
-    background-image: url("http://zhuhaolin.com/images/66a7d162d0bdf9aa302e280cbb5d90d6.jpg");
-  }
-  .home-list-gourmet {
-    background-image: url("http://zhuhaolin.com/images/a15bc6b5656eb67d2e0cde3c2e7f583a.jpg");
-  }
-  .home-list-manutd {
-    background-image: url("http://zhuhaolin.com/images/abb4387b620523942e197d39bf38b611.jpg");
-  }
-  .home-list-saiban {
-    background-image: url("http://zhuhaolin.com/images/566b87a4710605f312ec139dcd71088a.jpg");
   }
 }

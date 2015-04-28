@@ -3,15 +3,15 @@
     "version": "1.0.0",
     "author": "Bill",
     "dependencies": {
-        "bootstrap": "~3.2.*",
+        "semantic-ui": "~1.12.*",
         "html5shiv": "~3.7.*",
         "respond": "~1.4.*",
-        "font-awesome": "~4.2.*",
         "angular": "~1.2.*",
         "angular-ui-router": "~0.2.*",
         "angular-animate": "~1.2.*",
         "animate.css": "~3.2.*",
         "ng-file-upload": "~1.5.*",
-        "ngInfiniteScroll": "~1.1.*"
+        "ngInfiniteScroll": "~1.1.*",
+        "jquery-mousewheel": "~3.1.*"
     }
 }

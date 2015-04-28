@@ -16,64 +16,42 @@ homeCtrl.directive('ngHome',['$timeout', function(timer)
         replace: true,
         link: function(scope, element, attrs)
         {
-            var fullPage = $("[data-index='fullPage']");
-            var section = $("[data-full-page='section']", fullPage);
-            var cell = $("[data-full-page='cell']", fullPage);
-            var length = section.length;
+            var fullPageContainer = $("[data-full-page='container']");
+            var fullPageSection = $("[data-full-page='section']");
+            var fullPageSectionLength = fullPageSection.length;
             var windowHeight = $(window).height();
-            var switchCount = 0;
 
-            var scrollFullPage = function()
+            fullPageSection.each(function()
             {
-                section.css('height', windowHeight);
+                var sectionHeight = $(this).height();
 
-                cell.each(function()
-                {
-                    var cellHeight = $(this).height();
-
-                    $(this).css({
-                        'padding-top': (windowHeight - cellHeight) / 2,
-                        'padding-bottom': (windowHeight - cellHeight) / 2
-                    });
+                $(this).css({
+                    'padding-top': ((windowHeight - sectionHeight) / 2) - 100,
+                    'height': windowHeight
                 });
+            });
 
+            fullPageContainer.on('mousewheel', function(event)
+            {
+                var direction = event.deltaY;
+                var style = window.getComputedStyle($(this)[0], null);
+                var matrix = new WebKitCSSMatrix(style.webkitTransform);
 
-                $(window).on('scroll', function()
-                {
-                    var top = parseInt(fullPage.css('top'));
-                    var scrollTop = $(this).scrollTop();
-
-                    if (scrollTop == 1 && switchCount === 0 && top !== -windowHeight * (length - 1)) {
-                        fullPage.css('top', top - windowHeight);
-                        switchCount = 1;
-                    }
-
-                    if (scrollTop == -1 && switchCount ===0 && top !== 0) {
-                        fullPage.css('top', top + windowHeight);
-                        switchCount = 1;
-                    }
-
-                    if (scrollTop === 0 && switchCount == 1) {
-                        switchCount = 0;
-                    }
-                });
-            };
+                if (direction < -100 && matrix.m42 % windowHeight === 0 && matrix.m42 != -windowHeight * (fullPageSectionLength - 1)) {
+                    $(this).css('transform', 'translate(0, '+ (matrix.m42 - windowHeight) + 'px)');
+                } else if (direction > 100 && matrix.m42 % windowHeight === 0 && matrix.m42 !== 0) {
+                    $(this).css('transform', 'translate(0, '+ (matrix.m42 + windowHeight) + 'px)');
+                }
+            });
 
             var image = new Image();
             var src = imagePath + '73ad5a84dcefe956276f1bd07c6316dd.jpg';
-            var pageLoading = $("[data-component='pageLoading']");
+            var pageLoading = $("[data-index='pageLoading']");
 
             $(image).attr('src', src).bind('load', function()
             {
-                pageLoading.addClass('fadeOut');
-
-                setTimeout(function()
-                {
-                    pageLoading.css('display', 'none');
-                    fullPage.addClass('fadeIn');
-                }, 350);
-
-                scrollFullPage();
+                pageLoading.dimmer('hide').removeClass('active');
+                fullPageContainer.transition('fade');
             });
         }
     };
