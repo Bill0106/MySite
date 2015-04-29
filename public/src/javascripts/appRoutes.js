@@ -16,7 +16,7 @@ angular.module('appRoutes', [])
             })
             .state('playstation', {
                 url: '/playstation',
-                templateUrl: '/views/playstation/playstation.html',
+                templateUrl: '/views/playstation.html',
                 controller: 'playStationController',
                 title: 'PlayStation'
             })

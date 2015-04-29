@@ -15,6 +15,7 @@ playStationCtrl.controller('playStationController', function($scope, Games)
     {
         var gamesData = data.reverse();
         var length = gamesData.length;
+        $scope.gamesLength = length;
 
         $scope.games = gamesData.splice(0, 24);
 
@@ -54,112 +55,96 @@ playStationCtrl.directive('ngPlayStation', ['$timeout', function(timer)
         replace: true,
         scope: {
             val: '=gamesModel',
+            total: '=gamesLength',
             busy: '=scrollBusy'
         },
         link: function(scope, element, attrs)
         {
-            var progressBar = $("[data-playstation='progressBar']");
-            var circleLoading = $("[data-playstation='circleLoading']");
+            var list = $("[data-playstation='list']");
+            list.transition('fade');
 
-            var itemHover = function()
+            function imageLoading(obj, callback)
             {
-                $("[data-playstation='item']").hover(function()
+                var itemImage = $("[data-playstation='itemImage']", obj);
+                var src = itemImage.attr('src');
+                var image = new Image();
+
+                $(image).attr('src', src).bind('load', function()
                 {
-                    $("[data-playstation='itemImage']", $(this)).addClass('flipOutY');
-                }, function()
-                {
-                    $("[data-playstation='itemImage']", $(this)).removeClass('flipOutY').addClass('flipInY');
+                    callback();
                 });
-            };
+            }
 
-            var initLoading = function()
+            function itemVisible(item, progress, callback)
             {
-                var item = $("[data-playstation='item']");
-                var length = item.length;
                 var count = 0;
 
                 item.each(function()
                 {
-                    var itemImage = $("[data-playstation='itemImage']", $(this));
-                    var src = $(itemImage).attr('src');
-                    var image = new Image();
+                    var itemInfo = $("[data-playstation='itemInfo']", $(this));
+                    itemInfo.dimmer({
+                        on: 'hover'
+                    });
 
-                    $(image).attr('src', src).bind('load', function()
+                    imageLoading($(this), function()
                     {
                         count++;
-                        var value = Math.round(count / length * 100);
 
-                        progressBar.children().css('width', value + '%').attr('aria-valuenow', value).text(value + '%');
+                        if (progress) {
+                            progress.progress('increment');
+                        }
 
-                        if (count == length) {
-                            progressBar.addClass('fadeOut');
-                            item.css('display', 'block').attr('data-visible', 1);
-                            setTimeout(function()
-                            {
-                                item.addClass('fadeIn');
-                                circleLoading.css('display', 'block').addClass('fadeIn');
-                                scope.busy = false;
-                                scope.$apply();
-                            }, 350);
+                        if (count == item.length) {
+                            item.attr('data-status', 1).removeClass('hidden');
+                            scope.busy = false;
+                            scope.$apply();
+
+                            if (callback) {
+                                callback();
+                            }
                         }
                     });
                 });
+            }
 
-                itemHover();
-            };
-
-            var loadMore = function()
+            function initLoading()
             {
-                var invisibleItem = $("[data-playstation='item'][data-visible='0']");
-                var length = invisibleItem.length;
-                var count = 0;
-                console.log(length);
+                var progressDimmer = $("[data-playstation='progressDimmer']");
+                var progress = $("[data-playstation='progress']");
+                var item = $("[data-playstation='item']");
 
-                scope.busy = true;
-                scope.$apply();
-
-                invisibleItem.each(function()
+                itemVisible(item, progress, function()
                 {
-                    var itemImage = $("[data-playstation='itemImage']", $(this));
-                    var src = $(itemImage).attr('src');
-                    var image = new Image();
-
-                    $(image).attr('src', src).bind('load', function()
-                    {
-
-                        count++;
-
-                        if (count == length) {
-                            circleLoading.addClass('fadeOut');
-                            setTimeout(function()
-                            {
-                                circleLoading.css('display', 'none');
-                                invisibleItem.css('display', 'block');
-                                setTimeout(function()
-                                {
-                                    invisibleItem.addClass('fadeIn').attr('data-visible', 1);
-                                    if (length == 12) {
-                                        circleLoading.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');
-                                    }
-                                    scope.busy = false;
-                                    scope.$apply();
-                                }, 100);
-                            }, 350);
-                        }
-                    });
+                    progressDimmer.dimmer('hide').removeClass('active');
+                    list.transition('fade');
                 });
+            }
 
-                itemHover();
-            };
+            function moreLoading()
+            {
+                var item = $("[data-playstation='item'][data-status='0']");
+                var count = 0;
+
+                itemVisible(item, null, function()
+                {
+                    var visibleItem = $("[data-playstation='item'][data-status='1']");
+                    var moreLoader = $("[data-playstation='moreLoader']");
+
+                    if (visibleItem.length === scope.total) {
+                        moreLoader.addClass('hidden');
+                    }
+                });
+            }
 
             scope.$watch('val', function(newValue, oldValue)
             {
                 if (!oldValue) {
-                    timer(initLoading, 200);
-                } else if(newValue) {
-                    timer(loadMore, 200);
+                    timer(initLoading, 0);
+                } else if (newValue) {
+                    timer(moreLoading, 0);
                 }
             }, true);
+
         }
     };
 }]);

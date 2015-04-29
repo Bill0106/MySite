@@ -53,3 +53,20 @@ body.homeController section.home-list .home-list-item .ui.list .item > a {
 body.homeController section.home-list .home-list-item .ui.list .item > a:hover {
   color: #ffffff !important;
 }
+/* PlatStation Style */
+body.playStationController {
+  background-color: #1b1c1d;
+}
+body.playStationController .playstation-games-list .column.hidden {
+  display: none!important;
+}
+body.playStationController .playstation-games-list .column .playstations-games-item .dimmer {
+  padding: 15px;
+}
+body.playStationController .playstation-games-list .playstation-game-loader {
+  position: relative;
+  height: 50px;
+}
+body.playStationController .playstation-games-progress {
+  padding: 300px 30px 0;
+}
