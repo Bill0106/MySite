@@ -1,4 +1,4 @@
-<section class="ui page grid transition hidden game-detail" data-game="detail" ng-game>
+<section class="ui page grid transition hidden game-detail" game-rate="rate" data-game="detail" ng-game>
     <div class="twelve wide column">
         <div class="ui items">
             <div class="item game-detail-header">
@@ -15,11 +15,11 @@
             </div>
         </div>
     </div>
-    <div class="four wide column">
-        <div class="ui inverted red huge statistic">
-            <div class="value">{{ game.rate }}</div>
-            <div class="label">{{ rateText }}</div>
-        </div>
+    <div class="four wide column game-detail-rate">
+        <canvas id="rateBackground" width="100" height="100">
+            {{ game.rate }}
+        </canvas>
+        <canvas id="rate" width="100" height="100"></canvas>
     </div>
     <div class="sixteen wide column">
         <div class="ui divider"></div>

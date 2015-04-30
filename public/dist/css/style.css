@@ -93,6 +93,16 @@ body.gameController section.game-detail .game-detail-header .content .meta > spa
 body.gameController section.game-detail .game-detail-header .content .meta > span.game-header-platform {
   border-bottom: 1px solid #6186ff;
 }
+body.gameController section.game-detail .game-detail-rate {
+  position: relative;
+  text-align: center;
+}
+body.gameController section.game-detail .game-detail-rate > canvas {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -50px;
+}
 body.gameController section.game-detail .ui.divider {
   border-color: #ffffff;
 }
