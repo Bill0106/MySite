@@ -22,7 +22,7 @@ angular.module('appRoutes', [])
             })
             .state('game', {
                 url: '/playstation/:url',
-                templateUrl: '/views/playstation/game.html',
+                templateUrl: '/views/game.html',
                 controller: 'gameController',
                 title: 'Game'
             })

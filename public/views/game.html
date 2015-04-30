@@ -1,0 +1,48 @@
+<section class="ui page grid transition hidden game-detail" data-game="detail" ng-game>
+    <div class="twelve wide column">
+        <div class="ui items">
+            <div class="item game-detail-header">
+                <div class="image">
+                    <img ng-src="{{ imagePath + game.image }}" alt="{{ game.title }}" title="{{ game.title }}" data-game="image"/>
+                </div>
+                <div class="middle aligned content">
+                    <h1 class="ui header">{{ game.title }}</h1>
+                    <h2 class="ui header">{{ game.name }}</h2>
+                    <div class="meta">
+                        <span>Release: {{ game.date }}</span> / <span class="game-header-platform">{{ game.platform }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="four wide column">
+        <div class="ui inverted red huge statistic">
+            <div class="value">{{ game.rate }}</div>
+            <div class="label">{{ rateText }}</div>
+        </div>
+    </div>
+    <div class="sixteen wide column">
+        <div class="ui divider"></div>
+    </div>
+    <div class="ui equal height grid">
+        <div class="row">
+            <div class="ui eleven wide column inverted segment game-detail-description">
+                <p ng-repeat="description in descriptions">{{ description }}</p>
+            </div>
+            <div class="five wide column game-detail-info">
+                <dl>
+                    <dt>Genre:</dt>
+                    <dd>{{ game.genre }}</dd>
+                    <dt>Developed by:</dt>
+                    <dd>{{ developer }}</dd>
+                    <dt>Published by:</dt>
+                    <dd>{{ publish }}</dd>
+                </dl>
+                <a ui-sref="playstation" class="fluid ui button"><i class="angle double left icon"></i> Back to PlayStation Games</a>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="ui active dimmer" data-game="pageLoading">
+    <div class="ui text loader">Loading</div>
+</div>
