@@ -1,6 +1,8 @@
 @charset "UTF-8";
 /* Definitions */
 /*---   Colors  ---*/
+/*---   Other  ---*/
+/*---   Index  ---*/
 /* Styles */
 body.homeController {
   background-color: #000000;
@@ -27,19 +29,22 @@ body.homeController section.home-list .home-list-item {
   background-size: cover;
 }
 body.homeController section.home-list .home-list-item.about {
-  background-image: url("http://zhuhaolin.com/images/73ad5a84dcefe956276f1bd07c6316dd.jpg");
+  background-image: url('http://zhuhaolin.com/images/73ad5a84dcefe956276f1bd07c6316dd.jpg');
 }
 body.homeController section.home-list .home-list-item.playstation {
-  background-image: url("http://zhuhaolin.com/images/66a7d162d0bdf9aa302e280cbb5d90d6.jpg");
+  background-image: url('http://zhuhaolin.com/images/66a7d162d0bdf9aa302e280cbb5d90d6.jpg');
 }
 body.homeController section.home-list .home-list-item.gourmet {
-  background-image: url("http://zhuhaolin.com/images/a15bc6b5656eb67d2e0cde3c2e7f583a.jpg");
+  background-image: url('http://zhuhaolin.com/images/a15bc6b5656eb67d2e0cde3c2e7f583a.jpg');
 }
 body.homeController section.home-list .home-list-item.manutd {
-  background-image: url("http://zhuhaolin.com/images/abb4387b620523942e197d39bf38b611.jpg");
+  background-image: url('http://zhuhaolin.com/images/abb4387b620523942e197d39bf38b611.jpg');
 }
 body.homeController section.home-list .home-list-item.saiban {
-  background-image: url("http://zhuhaolin.com/images/566b87a4710605f312ec139dcd71088a.jpg");
+  background-image: url('http://zhuhaolin.com/images/566b87a4710605f312ec139dcd71088a.jpg');
+}
+body.homeController section.home-list .home-list-item.hearthstone {
+  background-image: url('http://zhuhaolin.com/images/5233e5089e1ff5fff7a85c8aa13304ff.jpg');
 }
 body.homeController section.home-list .home-list-item > h1 {
   color: #ffffff;
