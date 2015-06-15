@@ -83,6 +83,13 @@ myApp.directive('ngLazyLoading', ['$timeout', function(timer)
 
                 item.each(function()
                 {
+                    var itemInfo = $("[data-lazy-loading='itemInfo']", $(this));
+                    if (itemInfo.length > 0) {
+                        itemInfo.dimmer({
+                            on: 'hover'
+                        });
+                    }
+
                     imageLoading($(this), function()
                     {
                         count++;
