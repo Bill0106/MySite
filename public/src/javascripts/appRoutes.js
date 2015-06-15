@@ -28,7 +28,7 @@ angular.module('appRoutes', [])
             })
             .state('gourmet', {
                 url: '/gourmet',
-                templateUrl: '/views/gourmet/gourmet.html',
+                templateUrl: '/views/gourmet.html',
                 controller: 'gourmetController',
                 title: 'Gourmet'
             });

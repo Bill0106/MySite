@@ -1,8 +1,10 @@
 @charset "UTF-8";
 /* Definitions */
+/*---   Break Point  ---*/
 /*---   Colors  ---*/
 /*---   Other  ---*/
 /*---   Index  ---*/
+/*---   Gourmet  ---*/
 /* Styles */
 body.homeController {
   background-color: #000000;
@@ -135,4 +137,95 @@ body.gameController section.game-detail .game-detail-info > dl > dt {
 body.gameController section.game-detail .game-detail-info > dl > dd {
   margin-bottom: 0.5rem;
   color: #d95c5c;
+}
+body.gourmetController {
+  background-color: #fefcef;
+}
+body.gourmetController .gourmet-title {
+  padding-top: 30px;
+  text-align: center;
+}
+body.gourmetController .gourmet-title > a > img {
+  width: 100%;
+  max-width: 357px;
+}
+body.gourmetController .gourmet-list {
+  padding: 20px 0;
+}
+body.gourmetController .gourmet-list .gourmet-item {
+  margin: 20px 0;
+  height: 206px;
+  text-align: center;
+}
+body.gourmetController .gourmet-list .gourmet-item.hidden {
+  display: none !important;
+}
+@media only screen and (min-width: 768px) {
+  body.gourmetController .gourmet-list .gourmet-item:hover .gourmet-item-link {
+    margin: -25px -12px;
+    padding: 25px 12px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body.gourmetController .gourmet-list .gourmet-item:hover .gourmet-item-title {
+    opacity: 1;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  }
+}
+body.gourmetController .gourmet-list .gourmet-item .gourmet-item-title {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 25px;
+  line-height: 25px;
+  color: #777777;
+  z-index: 2;
+  opacity: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  -webkit-transition: all 0.2s linear 0.1s;
+  -moz-transition: all 0.2s linear 0.1s;
+  -ms-transition: all 0.2s linear 0.1s;
+  -o-transition: all 0.2s linear 0.1s;
+  transition: all 0.2s linear 0.1s;
+}
+body.gourmetController .gourmet-list .gourmet-item .gourmet-item-title.top {
+  top: -10px;
+}
+body.gourmetController .gourmet-list .gourmet-item .gourmet-item-title.bottom {
+  bottom: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@media only screen and (max-width: 767px) {
+  body.gourmetController .gourmet-list .gourmet-item .gourmet-item-title.bottom {
+    bottom: -35px;
+    opacity: 1;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  }
+}
+body.gourmetController .gourmet-list .gourmet-item .gourmet-item-link {
+  display: inline-block;
+  margin: -5px;
+  padding: 5px;
+  background-color: #ffffff;
+  -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 1px 5px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 1px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 1px 5px rgba(0, 0, 0, 0.1);
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -ms-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+body.gourmetController .gourmet-list .gourmet-item .gourmet-item-link > img {
+  width: 100%;
+  max-width: 150px;
+}
+body.gourmetController .gourmet-loader {
+  position: relative;
+  height: 50px;
+}
+body.gourmetController .gourmet-progress {
+  padding: 300px 30px 0;
 }

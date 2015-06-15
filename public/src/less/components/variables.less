@@ -1,3 +1,25 @@
+/*---   Break Point  ---*/
+@screenLarge          : 1200px;
+@screenLargeMin       : @screenLarge;
+@screenMedium         : 992px;
+@screenMediumMax      : (@screenLargeMin - 1);
+@screenMediumMin      : @screenMedium;
+@screenSmall          : 768px;
+@screenSmallMax       : (@screenMediumMin - 1);
+@screenSmallMin       : @screenSmall;
+@screenMini           : 320px;
+@screenMiniMax        : (@screenSmallMin - 1);
+@screenMiniMin        : @screenMini;
+
+@screenDesktop        : ~"only screen and (min-width: @{screenLargeMin})";
+@screenLaptop         : ~"only screen and (min-width: @{screenMediumMin}) and (max-width: @{screenMediumMax})";
+@screenLaptopAbove    : ~"only screen and (min-width: @{screenMediumMin})";
+@screenLaptopBlow     : ~"only screen and (max-width: @{screenMediumMax})";
+@screenTablet         : ~"only screen and (min-width: @{screenSmallMin}) and (max-width: @{screenSmallMax})";
+@screenTabletAbove    : ~"only screen and (min-width: @{screenSmallMin})";
+@screenTabletBlow     : ~"only screen and (max-width: @{screenSmallMax})";
+@screenMobile         : ~"only screen and (max-width: @{screenMiniMax})";
+
 /*---   Colors  ---*/
 @black            : #1B1C1D;
 @fullBlack        : #000000;
@@ -16,3 +38,7 @@
 @indexBackgroundManUtd          : '@{imagePath}abb4387b620523942e197d39bf38b611.jpg';
 @indexBackgroundASaiban         : '@{imagePath}566b87a4710605f312ec139dcd71088a.jpg';
 @indexBackgroundHearthstone     : '@{imagePath}5233e5089e1ff5fff7a85c8aa13304ff.jpg';
+
+/*---   Gourmet  ---*/
+@gourmetBackgroundColor         : #FEFCEF;
+@gourmetItemColor               : #777;

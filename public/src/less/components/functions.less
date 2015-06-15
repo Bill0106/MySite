@@ -14,7 +14,13 @@
   transition: @transition;
 }
 
-.opacity(@opacity) {
-  opacity: @opacity / 100;
-  filter: ~"alpha(opacity=@{opacity})";
+.opacity(@alpha) {
+  opacity: (@alpha / 100);
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=@{alpha})";
+}
+
+.text-limit() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space:nowrap;
 }
