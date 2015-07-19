@@ -10,7 +10,7 @@ var GameSchema = new Schema({
     name        : String,
     platform    : String,
     genre       : String,
-    company     : String,
+    company     : Array,
     date        : String,
     rate        : Number,
     description : String,

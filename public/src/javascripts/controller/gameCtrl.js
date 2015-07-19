@@ -18,15 +18,16 @@ gameCtrl.controller('gameController', function($scope, $stateParams, Game)
         var rateText = ['Terrible', 'Poor', 'Fair', 'Good', 'Great'];
         $scope.rateText = rateText[data.rate - 1];
 
-        var companies = data.company.split("/");
+        $scope.getDate = function(timestamp)
+        {
+            var newDate = new Date(parseInt(timestamp));
+            var year = newDate.getFullYear();
+            var month = newDate.getMonth();
+            var day = newDate.getDate();
+            var date = year + '.' + month + '.' + day;
 
-        if (companies.length == '1') {
-            $scope.developer = data.company;
-            $scope.publish = data.company;
-        } else {
-            $scope.developer = companies[0];
-            $scope.publish = companies[1];
-        }
+            return date;
+        };
     });
 });
 

@@ -9,7 +9,7 @@
                     <h1 class="ui header">{{ game.title }}</h1>
                     <h2 class="ui header">{{ game.name }}</h2>
                     <div class="meta">
-                        <span>Release: {{ game.date }}</span> / <span class="game-header-platform">{{ game.platform }}</span>
+                        <span>Release: {{ getDate(game.date) }}</span> / <span class="game-header-platform">{{ game.platform }}</span>
                     </div>
                 </div>
             </div>
@@ -34,9 +34,9 @@
                     <dt>Genre:</dt>
                     <dd>{{ game.genre }}</dd>
                     <dt>Developed by:</dt>
-                    <dd>{{ developer }}</dd>
+                    <dd>{{ game.company[0] }}</dd>
                     <dt>Published by:</dt>
-                    <dd>{{ publish }}</dd>
+                    <dd>{{ game.company[1] }}</dd>
                 </dl>
                 <a ui-sref="playstation" class="fluid ui button"><i class="angle double left icon"></i> Back to PlayStation Games</a>
             </div>
