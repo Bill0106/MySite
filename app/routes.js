@@ -1,69 +1,15 @@
 /**
- * Created by Bill on 14-8-8.
+ * Created by bill on 15/7/30.
  */
 
-var multiparty = require('connect-multiparty');
-var multipartyMiddleware = multiparty();
-
-var isAuthenticated = require('../config/authenticate');
+var path = require('path');
 
 module.exports = function(app, router)
 {
-    router.use(isAuthenticated, function(req, res, next)
-    {
-        next();
-    });
-
-    // Image API Route
-    var images = require('./controller/images');
-
-    router.route('/images')
-        .post(multipartyMiddleware, images.post);
-
-    // PlayStation Games API Route
-    var games = require('./controller/games');
-
-    router.route('/games')
-        .get(games.list)
-        .post(games.post);
-
-    router.route('/game/:game_url')
-        .get(games.find);
-
-    // Gourmet API Route
-    var gourmet = require('./controller/gourmet');
-
-    router.route('/gourmets')
-        .get(gourmet.list)
-        .post(gourmet.post);
-
-    // Man Utd API Route
-    var playerProfile = require('./controller/manutd/playerProfile');
-
-    router.route('/manutd/player-profile')
-        .get(playerProfile.list)
-        .post(playerProfile.post);
-
-    // Apply API Routes
-    app.use('/api', router);
-
-    // Admin Route
-    app.route('/admin')
-        .get(function (req, res)
-        {
-            var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
-
-            if (ip == '127.0.0.1') {
-                res.sendfile('./public/views/admin/admin.html');
-            } else {
-                res.redirect('/');
-            }
-        });
-
     // Fronted Route
     app.route('*')
         .get(function(req, res)
         {
-            res.sendfile('./public/views/layout.html');
+            res.sendFile(path.join(__dirname, '../public/views', 'layout.html'));
         });
 };
