@@ -16,3 +16,8 @@ Dependencies
       - mongoose
 
 ### Frontend
+   - AngularJS
+     - angular-material
+     - angular-animate
+     - angular-aria
+     - angular-ui-router
