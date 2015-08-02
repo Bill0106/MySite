@@ -1,9 +1,10 @@
-<section class="carousel slide" id="indexCarousel" data-app-index="carousel" ng-home>
+<section class="carousel slide" id="indexCarousel" index-model="items" data-app-index="carousel" ng-home>
     <div class="carousel-inner" role="listbox">
-        <div class="item active item-0" data-app-index="item">
-            <img class="img-circle" ng-src="{{ imagePath }}1b11d8d7a005a06b42514f5d9022e1df.jpg"/>
-            <h1>Bill's Hobby - Write as a Interest</h1>
-            <ul class="list-inline">
+        <div class="item item-{{ $index }}" ng-class="$index === 0 ? 'active' : ''" ng-switch="$index" ng-repeat="item in items">
+            <img class="img-circle" data-app-index="itemImage" ng-src="{{ imagePath + item.icon }}" alt="{{ item.title }}" title="{{ item.title }}"/>
+            <h1 ng-switch-when="0">{{ item.title }}</h1>
+            <h2 ng-switch-default>{{ item.title }}</h2>
+            <ul class="list-inline" ng-switch-when="0">
                 <li>
                     <a href="https://github.com/Bill0106" target="_blank" title="Github"><i class="fa fa-github"></i></a>
                 </li>
@@ -15,26 +16,6 @@
                 </li>
             </ul>
         </div>
-        <div class="item item-1">
-            <img class="img-circle" ng-src="{{ imagePath }}84abb1fdfd670845666ac89f712b539a.jpg" alt="PlayStation Games" title="PlayStation Games"/>
-            <h2>PlayStation Games</h2>
-        </div>
-        <div class="item item-2">
-            <img class="img-circle" ng-src="{{ imagePath }}09d6aeb87783661768b52c73f18c3069.jpg" alt="Gourmet Tour" title="Gourmet Tour"/>
-            <h2>Gourmet Tour</h2>
-        </div>
-        <div class="item item-3">
-            <img class="img-circle" ng-src="{{ imagePath }}fd7f11741da6dd01db206a29d0536427.jpg" alt="Hearth Stone" title="Hearth Stone"/>
-            <h2>Hearth Stone</h2>
-        </div>
-        <div class="item item-4">
-            <img class="img-circle" ng-src="{{ imagePath }}a8ae912e1037ff7b5e75d4660682bf12.jpg" alt="Manchester United" title="Manchester United"/>
-            <h2>Manchester United</h2>
-        </div>
-        <div class="item item-5">
-            <img class="img-circle" ng-src="{{ imagePath }}4b654282902acbaf2b3ac3051b574717.jpg" alt="Gyakuten Saiban" title="Gyakuten Saiban"/>
-            <h2>Gyakuten Saiban</h2>
-        </div>
     </div>
     <a href="#indexCarousel" class="left carousel-control" role="button" data-slide="prev"><i class="fa fa-chevron-left"></i></a>
     <a href="#indexCarousel" class="right carousel-control" role="button" data-slide="next"><i class="fa fa-chevron-right"></i></a>
@@ -42,6 +23,6 @@
 <section class="index-loading-mask" data-app-index="loadingMask">
     <div class="index-loading-seconds" data-app-index="loadingSeconds"></div>
     <div class="progress">
-        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" data-app-index="loadingProgress">0%</div>
+        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" data-app-index="loadingProgress" data-count="0">0%</div>
     </div>
 </section>

@@ -1,4 +1,10 @@
 /*-------------------
+     Breakpoints
+--------------------*/
+/*-------------------
+        Fonts
+--------------------*/
+/*-------------------
         Colors
 --------------------*/
 /*-------------------
@@ -53,14 +59,30 @@ body.homeController section.carousel .carousel-inner .item.item-4 {
 body.homeController section.carousel .carousel-inner .item.item-5 {
   background-image: url('http://zhuhaolin.com/images/566b87a4710605f312ec139dcd71088a.jpg');
 }
+@media only screen and (max-width: 767px) {
+  body.homeController section.carousel .carousel-inner .item {
+    padding-top: 100px;
+  }
+}
 body.homeController section.carousel .carousel-inner .item > h1,
 body.homeController section.carousel .carousel-inner .item h2 {
   color: #ffffff;
+}
+@media only screen and (max-width: 767px) {
+  body.homeController section.carousel .carousel-inner .item > h1,
+  body.homeController section.carousel .carousel-inner .item h2 {
+    font-size: 20px;
+  }
 }
 body.homeController section.carousel .carousel-inner .item .img-circle {
   margin: 0 auto;
   width: 150px;
   border: 5px solid #ffffff;
+}
+@media only screen and (max-width: 767px) {
+  body.homeController section.carousel .carousel-inner .item .list-inline {
+    display: none;
+  }
 }
 body.homeController section.carousel .carousel-inner .item .list-inline > li {
   margin: 0 10px;
@@ -96,4 +118,10 @@ body.homeController section.index-loading-mask .progress {
   left: 50px;
   right: 50px;
   margin: -10px 0 0;
+}
+@media only screen and (max-width: 767px) {
+  body.homeController section.index-loading-mask .progress {
+    left: 25px;
+    right: 25px;
+  }
 }

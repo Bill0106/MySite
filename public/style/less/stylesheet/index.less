@@ -24,8 +24,14 @@ body.homeController {
         background-position: center;
         background-size: cover;
         .backgroundLoop();
+        @media @screenMobile {
+          padding-top: 100px;
+        }
         > h1, h2 {
           color: @white;
+          @media @screenMobile {
+            font-size: @fontSizeHuge;
+          }
         }
         .img-circle {
           margin: 0 auto;
@@ -33,6 +39,9 @@ body.homeController {
           border: 5px solid @white;
         }
         .list-inline {
+          @media @screenMobile {
+            display: none;
+          }
           > li {
             margin: 0 10px;
             > a {
@@ -69,6 +78,10 @@ body.homeController {
       left: 50px;
       right: 50px;
       margin: -10px 0 0;
+      @media @screenMobile {
+        left: 25px;
+        right: 25px;
+      }
     }
   }
 }
