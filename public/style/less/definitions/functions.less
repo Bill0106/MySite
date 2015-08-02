@@ -1,0 +1,14 @@
+// Opacity
+.opacity(@alpha) {
+  opacity: (@alpha / 100);
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=@{alpha})";
+}
+
+// Index Background Loop
+.backgroundLoop (@index: (length(@indexBackgroundList) - 1)) when (@index >= 0) {
+  .backgroundLoop(@index - 1);
+  &.item-@{index} {
+    @url: extract(@indexBackgroundList, (@index + 1));
+    background-image: url(@url);
+  }
+}

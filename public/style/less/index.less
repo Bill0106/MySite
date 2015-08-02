@@ -1,0 +1,74 @@
+body.homeController {
+  background-color: @black;
+  overflow: hidden;
+  nav.navbar {
+    display: none;
+  }
+  section.carousel {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    &:hover {
+      .carousel-control {
+        .opacity(80);
+      }
+    }
+    .carousel-inner {
+      height: 100%;
+      .item {
+        padding-top: 200px;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        background-position: center;
+        background-size: cover;
+        .backgroundLoop();
+        > h1, h2 {
+          color: @white;
+        }
+        .img-circle {
+          margin: 0 auto;
+          width: 150px;
+          border: 5px solid @white;
+        }
+        .list-inline {
+          > li {
+            margin: 0 10px;
+            > a {
+              vertical-align: middle;
+              font-size: 4em;
+              color: @white;
+            }
+          }
+        }
+      }
+    }
+    .carousel-control {
+      position: fixed;
+      top: 50%;
+      bottom: auto;
+      margin-top: -40px;
+      width: auto;
+      font-size: 4em;
+      color: @white;
+      background: none;
+      .opacity(0);
+    }
+  }
+  section.index-loading-mask {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: @black;
+    z-index: 100;
+    .progress {
+      position: fixed;
+      top: 50%;
+      left: 50px;
+      right: 50px;
+      margin: -10px 0 0;
+    }
+  }
+}
