@@ -1,9 +1,17 @@
 <section class="carousel slide" id="indexCarousel" index-model="items" data-app-index="carousel" ng-home>
     <div class="carousel-inner" role="listbox">
         <div class="item item-{{ $index }}" ng-class="$index === 0 ? 'active' : ''" ng-switch="$index" ng-repeat="item in items">
-            <img class="img-circle" data-app-index="itemImage" ng-src="{{ imagePath + item.icon }}" alt="{{ item.title }}" title="{{ item.title }}"/>
-            <h1 ng-switch-when="0">{{ item.title }}</h1>
-            <h2 ng-switch-default>{{ item.title }}</h2>
+            <div ng-if="!item.url">
+                <img class="img-circle" ng-src="{{ imagePath + item.icon }}" alt="{{ item.title }}" title="{{ item.title }}"/>
+                <h1 ng-switch-when="0">{{ item.title }}</h1>
+                <h2 ng-switch-default>{{ item.title }}</h2>
+            </div>
+            <div ng-if="item.url">
+                <a ui-sref="{{ item.url }}">
+                    <img class="img-circle" ng-src="{{ imagePath + item.icon }}" alt="{{ item.title }}" title="{{ item.title }}"/>
+                </a>
+                <a ui-sref="{{ item.url }}"><h2 ng-switch-default>{{ item.title }}</h2></a>
+            </div>
             <ul class="list-inline" ng-switch-when="0">
                 <li>
                     <a href="https://github.com/Bill0106" target="_blank" title="Github"><i class="fa fa-github"></i></a>

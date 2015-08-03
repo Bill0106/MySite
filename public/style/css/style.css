@@ -64,17 +64,29 @@ body.homeController section.carousel .carousel-inner .item.item-5 {
     padding-top: 100px;
   }
 }
-body.homeController section.carousel .carousel-inner .item > h1,
-body.homeController section.carousel .carousel-inner .item h2 {
+body.homeController section.carousel .carousel-inner .item > div > h1,
+body.homeController section.carousel .carousel-inner .item > div > h2 {
   color: #ffffff;
 }
 @media only screen and (max-width: 767px) {
-  body.homeController section.carousel .carousel-inner .item > h1,
-  body.homeController section.carousel .carousel-inner .item h2 {
+  body.homeController section.carousel .carousel-inner .item > div > h1,
+  body.homeController section.carousel .carousel-inner .item > div > h2 {
     font-size: 20px;
   }
 }
-body.homeController section.carousel .carousel-inner .item .img-circle {
+body.homeController section.carousel .carousel-inner .item > div > a {
+  text-decoration: none;
+}
+body.homeController section.carousel .carousel-inner .item > div > a:hover > h2 {
+  color: #e6e6e6;
+}
+body.homeController section.carousel .carousel-inner .item > div > a:hover .img-circle {
+  border-color: #e6e6e6;
+}
+body.homeController section.carousel .carousel-inner .item > div > a > h2 {
+  color: #ffffff;
+}
+body.homeController section.carousel .carousel-inner .item > div .img-circle {
   margin: 0 auto;
   width: 150px;
   border: 5px solid #ffffff;

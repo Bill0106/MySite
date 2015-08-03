@@ -15,7 +15,8 @@ homeController.controller('homeController', function($scope)
         {
             'title' : "PlayStation Games",
             'icon' : "84abb1fdfd670845666ac89f712b539a.jpg",
-            'background' : "66a7d162d0bdf9aa302e280cbb5d90d6.jpg"
+            'background' : "66a7d162d0bdf9aa302e280cbb5d90d6.jpg",
+            'url': 'games'
         },
         {
             'title' : "Gourmet Tour",

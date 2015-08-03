@@ -10,9 +10,15 @@ angular.module('appRoutes', [])
         $stateProvider
             .state('index', {
                 url: '/',
-                templateUrl: '/views/index.html',
+                templateUrl: '/views/app/index.html',
                 controller: 'homeController',
                 title: 'Home'
+            })
+            .state('games', {
+                url: '/games',
+                templateUrl: '/views/app/games.html',
+                controller: 'gamesController',
+                title: 'My Games'
             });
 
         $locationProvider.html5Mode({
