@@ -77,8 +77,8 @@ homeController.directive('ngHome', ['$timeout', function(timer)
 
             function progressIncrease()
             {
-                var loadingMask = $("[data-app-index='loadingMask']");
-                var loadingProgress = $("[data-app-index='loadingProgress']", loadingMask);
+                var loadingMask = $("[data-components='loadingMask']");
+                var loadingProgress = $("[data-components='loadingProgress']", loadingMask);
                 var count = loadingProgress.data('count');
 
                 count++;

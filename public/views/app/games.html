@@ -1,0 +1,17 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3" ng-repeat="game in games">
+            <a class="thumbnail" href="#">
+                <img ng-src="{{ imagePath + game.image }}" alt="{{ game.title + ' ' + game.name }}" title="{{ game.title + ' ' + game.name }}"/>
+                <div class="caption">
+                    <h3>{{ game.title }}</h3>
+                    <p class="item-second-title">{{ game.name }}</p>
+                    <p>
+                        <i class="fa fa-gamepad" ng-repeat="i in getNumber(game.rate) track by $index"></i>
+                    </p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<div ng-include="'views/components/loading.html'"></div>

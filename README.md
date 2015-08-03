@@ -18,5 +18,6 @@ Dependencies
 ### Frontend
    - AngularJS
      - angular-ui-router
+     - angular-resource
    - Bootstrap
    - FontAwesome

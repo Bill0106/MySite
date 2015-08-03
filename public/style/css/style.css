@@ -13,6 +13,33 @@
 /*-------------------
         Index
 --------------------*/
+/*-------------------
+        Games
+--------------------*/
+nav.navbar {
+  border-radius: 0;
+}
+section.loading-mask {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #000000;
+  z-index: 100;
+}
+section.loading-mask .progress {
+  position: fixed;
+  top: 50%;
+  left: 50px;
+  right: 50px;
+  margin: -10px 0 0;
+}
+@media only screen and (max-width: 767px) {
+  section.loading-mask .progress {
+    left: 25px;
+    right: 25px;
+  }
+}
 body.homeController {
   background-color: #000000;
   overflow: hidden;
@@ -116,24 +143,43 @@ body.homeController section.carousel .carousel-control {
   opacity: 0;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 }
-body.homeController section.index-loading-mask {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  width: 100%;
+body.gamesController {
   background-color: #000000;
-  z-index: 100;
 }
-body.homeController section.index-loading-mask .progress {
-  position: fixed;
-  top: 50%;
-  left: 50px;
-  right: 50px;
-  margin: -10px 0 0;
+body.gamesController a.thumbnail:hover,
+body.gamesController a.thumbnail:active,
+body.gamesController a.thumbnail:focus {
+  text-decoration: none;
 }
-@media only screen and (max-width: 767px) {
-  body.homeController section.index-loading-mask .progress {
-    left: 25px;
-    right: 25px;
-  }
+body.gamesController a.thumbnail:hover .caption > h3,
+body.gamesController a.thumbnail:active .caption > h3,
+body.gamesController a.thumbnail:focus .caption > h3 {
+  color: #0054ed;
+}
+body.gamesController a.thumbnail .caption > h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #003087;
+}
+body.gamesController a.thumbnail .caption > p {
+  margin-left: -3px;
+  margin-bottom: 0;
+}
+body.gamesController a.thumbnail .caption > p:before,
+body.gamesController a.thumbnail .caption > p:after {
+  content: " ";
+  display: table;
+}
+body.gamesController a.thumbnail .caption > p:after {
+  clear: both;
+}
+body.gamesController a.thumbnail .caption > p.item-second-title {
+  margin-left: 0;
+  color: #999999;
+}
+body.gamesController a.thumbnail .caption > p > i {
+  margin: 0 3px;
+}
+body.gamesController a.thumbnail .caption > p > span {
+  float: right;
 }

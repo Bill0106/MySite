@@ -17,6 +17,7 @@ module.exports = function(grunt)
                     'public/javascripts/app.min.js': [
                         'angular/app.js',
                         'angular/controllers/app/*.js',
+                        'angular/services/*.js',
                         'angular/routes/appRoutes.js'
                     ]
                 }

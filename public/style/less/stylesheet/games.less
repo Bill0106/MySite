@@ -1,0 +1,35 @@
+body.gamesController {
+  background-color: @black;
+  a.thumbnail {
+    &:hover, &:active, &:focus {
+      text-decoration: none;
+      .caption {
+        > h3 {
+          color: lighten(@PlayStation, 20%);
+        }
+      }
+    }
+    .caption {
+      > h3 {
+        margin: 0;
+        font-size: @fontSizeLarge;
+        color: @PlayStation;
+      }
+      > p {
+        margin-left: -3px;
+        margin-bottom: 0;
+        .clearfix();
+        &.item-second-title {
+          margin-left: 0;
+          color: @grayLight;
+        }
+        > i {
+          margin: 0 3px;
+        }
+        > span {
+          float: right;
+        }
+      }
+    }
+  }
+}

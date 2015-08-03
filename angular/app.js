@@ -2,7 +2,11 @@
  * Created by bill on 15/7/30.
  */
 
-var myApp = angular.module('myApp',['ui.router', 'appRoutes', 'homeController']);
+var myApp = angular.module('myApp',[
+    'ui.router', 'ngResource', 'appRoutes',
+    'homeController', 'gamesController',
+    'gamesService'
+]);
 
 myApp.run(function($rootScope, $state, $http)
 {

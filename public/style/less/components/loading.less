@@ -1,0 +1,19 @@
+section.loading-mask {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: @black;
+  z-index: 100;
+  .progress {
+    position: fixed;
+    top: 50%;
+    left: 50px;
+    right: 50px;
+    margin: -10px 0 0;
+    @media @screenMobile {
+      left: 25px;
+      right: 25px;
+    }
+  }
+}

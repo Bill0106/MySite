@@ -12,3 +12,15 @@
     background-image: url(@url);
   }
 }
+
+// Clear Fix
+.clearfix() {
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}

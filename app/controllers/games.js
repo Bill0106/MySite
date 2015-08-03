@@ -6,7 +6,7 @@ var games = require('../models/games');
 
 exports.list = function(req, res)
 {
-    games.find(function(err, data)
+    games.find().sort({ date: 'desc' }).exec(function(err, data)
     {
         if (err)
             res.send(err);

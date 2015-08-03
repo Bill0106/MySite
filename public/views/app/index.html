@@ -28,9 +28,4 @@
     <a href="#indexCarousel" class="left carousel-control" role="button" data-slide="prev"><i class="fa fa-chevron-left"></i></a>
     <a href="#indexCarousel" class="right carousel-control" role="button" data-slide="next"><i class="fa fa-chevron-right"></i></a>
 </section>
-<section class="index-loading-mask" data-app-index="loadingMask">
-    <div class="index-loading-seconds" data-app-index="loadingSeconds"></div>
-    <div class="progress">
-        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" data-app-index="loadingProgress" data-count="0">0%</div>
-    </div>
-</section>
+<div ng-include="'views/components/loading.html'"></div>
