@@ -55,9 +55,20 @@ homeController.directive('ngHome', ['$timeout', function(timer)
             {
                 var carousel = $("[data-app-index='carousel']");
                 var carouselSlide = $("[data-slide]", carousel);
+                var pause  = $("[data-app-index='pauseCarousel']");
+
                 carousel.carousel({
                     pause: "false"
                 });
+                pause.hover(
+                    function()
+                    {
+                        carousel.carousel('pause');
+                    }, function()
+                    {
+                        carousel.carousel('cycle');
+                    }
+                );
                 carouselSlide.click(function(e)
                 {
                     e.preventDefault();

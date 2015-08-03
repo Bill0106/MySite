@@ -7,12 +7,12 @@
                 <h2 ng-switch-default>{{ item.title }}</h2>
             </div>
             <div ng-if="item.url">
-                <a ui-sref="{{ item.url }}">
+                <a ui-sref="{{ item.url }}" data-app-index="pauseCarousel">
                     <img class="img-circle" ng-src="{{ imagePath + item.icon }}" alt="{{ item.title }}" title="{{ item.title }}"/>
                 </a>
-                <a ui-sref="{{ item.url }}"><h2 ng-switch-default>{{ item.title }}</h2></a>
+                <a ui-sref="{{ item.url }}" data-app-index="pauseCarousel"><h2 ng-switch-default>{{ item.title }}</h2></a>
             </div>
-            <ul class="list-inline" ng-switch-when="0">
+            <ul class="list-inline" ng-switch-when="0" data-app-index="pauseCarousel">
                 <li>
                     <a href="https://github.com/Bill0106" target="_blank" title="Github"><i class="fa fa-github"></i></a>
                 </li>
