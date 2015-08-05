@@ -39,6 +39,13 @@ homeController.controller('homeController', function($scope)
             'background' : "566b87a4710605f312ec139dcd71088a.jpg"
         }
     ];
+
+    $scope.images = [];
+    angular.forEach($scope.items, function(value)
+    {
+        $scope.images.push(value.background);
+        $scope.images.push(value.icon);
+    });
 });
 
 homeController.directive('ngHome', ['$timeout', function(timer)
@@ -75,52 +82,7 @@ homeController.directive('ngHome', ['$timeout', function(timer)
                 });
             }
 
-            function progressIncrease()
-            {
-                var loadingMask = $("[data-components='loadingMask']");
-                var loadingProgress = $("[data-components='loadingProgress']", loadingMask);
-                var count = loadingProgress.data('count');
-
-                count++;
-                var percentage = Math.floor((count / (scope.val.length * 2)) * 100);
-                loadingProgress
-                    .css('width', percentage + '%')
-                    .attr('aria-valuenow', percentage)
-                    .text(percentage + '%')
-                    .data('count', count);
-
-                if (count == (scope.val.length * 2)) {
-                    loadingMask.fadeOut();
-                    startCarousel();
-                }
-            }
-
-            function imageLoad(src)
-            {
-                var image = new Image();
-                var path = scope.$root.imagePath;
-                src = path + src;
-
-                $(image).attr('src', src).bind('load', function()
-                {
-                    progressIncrease();
-                });
-            }
-
-            function loadingImages()
-            {
-                var items = scope.val;
-
-                $(items).each(function()
-                {
-                    var item = $(this)[0];
-
-                    imageLoad(item.icon);
-                    imageLoad(item.background);
-                });
-            }
-
-            timer(loadingImages, 0);
+            timer(startCarousel, 0);
         }
     };
 }]);
