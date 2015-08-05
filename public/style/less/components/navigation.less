@@ -1,3 +1,15 @@
 nav.navbar {
   border-radius: 0;
+  .navbar-collapse {
+    .navbar-right {
+      > li {
+        @media @screenMobile {
+          display: inline-block;
+        }
+        > a {
+          font-size: @fontSizeHuge;
+        }
+      }
+    }
+  }
 }

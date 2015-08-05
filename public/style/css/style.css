@@ -19,6 +19,14 @@
 nav.navbar {
   border-radius: 0;
 }
+@media only screen and (max-width: 767px) {
+  nav.navbar .navbar-collapse .navbar-right > li {
+    display: inline-block;
+  }
+}
+nav.navbar .navbar-collapse .navbar-right > li > a {
+  font-size: 20px;
+}
 section.loading-mask {
   position: fixed;
   top: 0;
@@ -160,6 +168,9 @@ body.gamesController a.thumbnail .caption > h3 {
   margin: 0;
   font-size: 18px;
   color: #003087;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 body.gamesController a.thumbnail .caption > p {
   margin-left: -3px;
@@ -168,6 +179,9 @@ body.gamesController a.thumbnail .caption > p {
 body.gamesController a.thumbnail .caption > p.item-second-title {
   margin-left: 0;
   color: #999999;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 body.gamesController a.thumbnail .caption > p > i {
   margin: 0 3px;

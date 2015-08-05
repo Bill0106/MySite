@@ -14,6 +14,7 @@ body.gamesController {
         margin: 0;
         font-size: @fontSizeLarge;
         color: @PlayStation;
+        .text-limit();
       }
       > p {
         margin-left: -3px;
@@ -21,6 +22,7 @@ body.gamesController {
         &.item-second-title {
           margin-left: 0;
           color: @grayLight;
+          .text-limit();
         }
         > i {
           margin: 0 3px;
