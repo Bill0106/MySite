@@ -165,21 +165,10 @@ body.gamesController a.thumbnail .caption > p {
   margin-left: -3px;
   margin-bottom: 0;
 }
-body.gamesController a.thumbnail .caption > p:before,
-body.gamesController a.thumbnail .caption > p:after {
-  content: " ";
-  display: table;
-}
-body.gamesController a.thumbnail .caption > p:after {
-  clear: both;
-}
 body.gamesController a.thumbnail .caption > p.item-second-title {
   margin-left: 0;
   color: #999999;
 }
 body.gamesController a.thumbnail .caption > p > i {
   margin: 0 3px;
-}
-body.gamesController a.thumbnail .caption > p > span {
-  float: right;
 }
