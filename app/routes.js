@@ -22,6 +22,13 @@ module.exports = function(app, router)
     // Apply API Routes
     app.use('/api', router);
 
+    // Admin Route
+    app.route('/admin*')
+        .get(function(req, res)
+        {
+            res.sendFile(path.join(__dirname, '../public/views/admin', 'layout.html'));
+        });
+
     // Fronted Route
     app.route('*')
         .get(function(req, res)

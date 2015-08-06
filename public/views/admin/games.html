@@ -1,0 +1,7 @@
+<table class="table">
+    <tr ng-repeat="game in games">
+        <td>{{ game.title }}</td>
+        <td>{{ game.name }}</td>
+        <td><a ui-sref="game({ url: game.url })" class="btn btn-default">Edit</a></td>
+    </tr>
+</table>
