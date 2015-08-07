@@ -8,14 +8,16 @@ var Schema = mongoose.Schema;
 var GamesSchema = new Schema({
     title       : String,
     name        : String,
-    platform    : String,
-    genre       : String,
-    company     : Array,
-    date        : String,
+    publisher   : String,
+    developer   : String,
+    release_at  : Number,
+    buy_at      : Number,
     rate        : Number,
-    description : String,
     image       : String,
-    url         : String
+    url         : String,
+    platform    : Number,
+    genre       : Number,
+    description : String
 });
 
 module.exports = mongoose.model('Games', GamesSchema);

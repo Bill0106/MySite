@@ -5,7 +5,8 @@
 var myAdmin = angular.module('myAdmin', [
     'ui.router', 'ngResource', 'adminRoutes',
     'gamesController', 'gameController',
-    'gamesService'
+    'gamesService',
+    'myConfig'
 ]);
 
 myAdmin.run(function($rootScope, $state, $http)

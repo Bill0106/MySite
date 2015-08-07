@@ -15,7 +15,8 @@ module.exports = function(app, router)
     // Games API Route
     var games = require('./controllers/games');
     router.route('/games')
-        .get(games.list);
+        .get(games.list)
+        .post(games.create);
     router.route('/games/:game_url')
         .get(games.find);
 

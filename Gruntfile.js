@@ -18,13 +18,15 @@ module.exports = function(grunt)
                         'angular/app.js',
                         'angular/controllers/app/*.js',
                         'angular/services/*.js',
-                        'angular/routes/appRoutes.js'
+                        'angular/routes/appRoutes.js',
+                        'angular/config.js'
                     ],
                     'public/javascripts/admin.min.js': [
                         'angular/admin.js',
                         'angular/controllers/admin/*.js',
                         'angular/services/*.js',
-                        'angular/routes/adminRoutes.js'
+                        'angular/routes/adminRoutes.js',
+                        'angular/config.js'
                     ]
                 }
             }

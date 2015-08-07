@@ -4,7 +4,9 @@
 
 var gamesController = angular.module('gamesController', []);
 
-gamesController.controller('gamesController', function($scope, Game)
+gamesController.controller('gamesController', function($scope, Game, GAME_PLATFORMS, GAME_GENRES)
 {
     $scope.games = Game.query();
+    $scope.platforms = GAME_PLATFORMS;
+    $scope.genres = GAME_GENRES;
 });

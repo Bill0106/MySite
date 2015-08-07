@@ -4,56 +4,32 @@
 
 var gameController = angular.module('gameController', []);
 
-gameController.controller('gameController', function($scope, $stateParams,  Game)
+gameController.controller('gameController', function($scope, $stateParams,  Game, GAME_PLATFORMS, GAME_GENRES)
 {
-    $scope.game = Game.get({ game_url: $stateParams.url });
+    $scope.game = new Game();
+    if ($stateParams.url != 'add') {
+        Game.get({ game_url: $stateParams.url }, function(data)
+        {
+            $scope.game = data;
+        });
+    }
 
-    $scope.fields = ['title', 'name', 'company', 'date', 'rate', 'image', 'url'];
+    $scope.convertToInt = function(id){
+        return parseInt(id, 10);
+    };
 
-    $scope.platforms = [
-        {
-            value: 0,
-            name: 'PlayStation 3'
-        },
-        {
-            value: 1,
-            name: 'PlayStation Vita'
-        },
-        {
-            value: 2,
-            name: 'PlayStation 4'
-        }
-    ];
+    $scope.fields = ['title', 'name', 'developer', 'publisher', 'release_at', 'buy_at', 'rate', 'image', 'url'];
+    $scope.platforms = GAME_PLATFORMS;
+    $scope.genres = GAME_GENRES;
 
-    $scope.genres = [
+    $scope.createGame = function()
+    {
+        $scope.game.$save(function(data)
         {
-            value: 0,
-            name: 'Action'
-        },
-        {
-            value: 1,
-            name: 'Adventure'
-        },
-        {
-            value: 2,
-            name: 'Fighting'
-        },
-        {
-            value: 3,
-            name: 'Racing'
-        },
-        {
-            value: 4,
-            name: 'Role-Playing'
-        },
-        {
-            value: 5,
-            name: 'Sports'
-        },
-        {
-            value: 6,
-            name: 'Third-person shooter'
-        }
-    ];
-
+            if (!data.success) {
+                $scope.show = true;
+                $scope.result = data.msg;
+            }
+        });
+    };
 });
