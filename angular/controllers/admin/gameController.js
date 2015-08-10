@@ -4,7 +4,7 @@
 
 var gameController = angular.module('gameController', []);
 
-gameController.controller('gameController', function($scope, $stateParams,  Game, GAME_PLATFORMS, GAME_GENRES)
+gameController.controller('gameController', function($scope, $filter, $state, $stateParams,  Game, GAME_PLATFORMS, GAME_GENRES)
 {
     $scope.game = new Game();
     if ($stateParams.url != 'add') {
@@ -14,9 +14,14 @@ gameController.controller('gameController', function($scope, $stateParams,  Game
         });
     }
 
-    $scope.convertToInt = function(id){
-        return parseInt(id, 10);
-    };
+    $scope.$watch('game.release_at', function(newValue)
+    {
+        $scope.game.release_at = $filter('date')(newValue, 'yyyy-MM-dd');
+    });
+    $scope.$watch('game.buy_at', function(newValue)
+    {
+        $scope.game.buy_at = $filter('date')(newValue, 'yyyy-MM-dd');
+    });
 
     $scope.fields = ['title', 'name', 'developer', 'publisher', 'release_at', 'buy_at', 'rate', 'image', 'url'];
     $scope.platforms = GAME_PLATFORMS;
@@ -29,6 +34,8 @@ gameController.controller('gameController', function($scope, $stateParams,  Game
             if (!data.success) {
                 $scope.show = true;
                 $scope.result = data.msg;
+            } else {
+                $state.go('games');
             }
         });
     };

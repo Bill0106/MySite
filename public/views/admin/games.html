@@ -17,8 +17,8 @@
         <td>{{ game.name }}</td>
         <td>{{ platforms[game.platform].name }}</td>
         <td>{{ genres[game.genre].name }}</td>
-        <td></td>
-        <td></td>
+        <td>{{ game.release_at | date:"yyyy-MM-dd" }}</td>
+        <td>{{ game.buy_at | date:"yyyy-MM-dd" }}</td>
         <td><a ui-sref="game({ url: game.url })" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a></td>
     </tr>
 </table>
