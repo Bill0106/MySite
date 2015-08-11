@@ -3,6 +3,9 @@
  */
 
 var path = require('path');
+var multiparty = require('connect-multiparty');
+var multipartyMiddleware = multiparty();
+
 var isChecked = require('./libraries/auth');
 
 module.exports = function(app, router)
@@ -11,6 +14,11 @@ module.exports = function(app, router)
     {
         next();
     });
+
+    // Images API Route
+    var images = require('./controllers/images');
+    router.route('/images')
+        .post(multipartyMiddleware, images.post);
 
     // Games API Route
     var games = require('./controllers/games');
