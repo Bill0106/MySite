@@ -19,5 +19,6 @@ Dependencies
    - AngularJS
      - angular-ui-router
      - angular-resource
+     - angular-file-upload
    - Bootstrap
    - FontAwesome
