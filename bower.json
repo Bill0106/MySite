@@ -7,6 +7,7 @@
         "angular-ui-router": "~0.2",
         "angular-resource": "~1.*",
         "bootstrap": "~3.*",
-        "fontawesome": "~4.*"
+        "fontawesome": "~4.*",
+        "ng-file-upload": "~6.*"
     }
 }

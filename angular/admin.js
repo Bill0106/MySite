@@ -3,7 +3,7 @@
  */
 
 var myAdmin = angular.module('myAdmin', [
-    'ui.router', 'ngResource', 'adminRoutes',
+    'ui.router', 'ngResource', 'ngFileUpload', 'adminRoutes',
     'gamesController', 'gameController',
     'gamesService',
     'myConfig'
@@ -20,3 +20,30 @@ myAdmin.run(function($rootScope, $state, $http)
         $rootScope.title = $state.current.title;
     });
 });
+
+myAdmin.controller('imageUploadController',['$scope', 'Upload', function($scope, Upload)
+{
+    $scope.$watch('file', function(file)
+    {
+        if (file) {
+            $scope.upload($scope.file);
+        }
+    });
+
+    $scope.upload = function(file)
+    {
+        Upload.upload({
+            url: '/api/images',
+            file: file
+        }).progress(function (evt) {
+            $scope.uploading = true;
+            $scope.progress = parseInt(100.0 * evt.loaded / evt.total);
+        }).success(function (data, status, headers, config) {
+            $scope.success = true;
+            $scope.imageName = data;
+        }).error(function (data, status, headers, config) {
+            $scope.fail = true;
+            $scope.msg = data;
+        });
+    };
+}]);

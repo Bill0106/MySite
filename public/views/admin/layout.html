@@ -26,6 +26,33 @@
                 <div ui-view></div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-default" style="margin-top: 20px" ng-controller="imageUploadController">
+                    <div class="panel-heading">Image Upload</div>
+                    <div class="panel-body">
+                        <form>
+                            <div class="form-group">
+                                <input class="form-control" type="file" ngf-select ng-model="file"/>
+                            </div>
+                            <div class="progress" ng-show="uploading">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%;">
+                                    <span class="sr-only">{{ progress }}% Complete</span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="alert alert-success" role="alert" ng-show="success">
+                            <p>success: {{ imageName }}</p>
+                        </div>
+                        <div class="alert alert-danger" role="alert" ng-show="fail">
+                            <p>error: {{ msg }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- AngularJS Dependencies -->
@@ -33,6 +60,7 @@
     <script src="../../assets/javascripts/angular.min.js"></script>
     <script src="../../assets/javascripts/angular-ui-router.min.js"></script>
     <script src="../../assets/javascripts/angular-resource.min.js"></script>
+    <script src="../../assets/javascripts/ng-file-upload.min.js"></script>
 
     <!-- MyAdmin AngularJS -->
     <script src="../../javascripts/admin.min.js"></script>
