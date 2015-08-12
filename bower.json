@@ -8,6 +8,7 @@
         "angular-resource": "~1.*",
         "bootstrap": "~3.*",
         "fontawesome": "~4.*",
-        "ng-file-upload": "~6.*"
+        "ng-file-upload": "~6.*",
+        "ngInfiniteScroll": "~1.*"
     }
 }

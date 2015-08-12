@@ -28,6 +28,11 @@ module.exports = function(app, router)
     router.route('/games/:game_url')
         .get(games.find);
 
+    // Model Count API Route
+    var count = require('./controllers/count');
+    router.route('/count/games')
+        .get(count.games);
+
     // Apply API Routes
     app.use('/api', router);
 

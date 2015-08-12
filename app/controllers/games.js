@@ -7,7 +7,17 @@ var timestamp = require('../libraries/timestamp');
 
 exports.list = function(req, res)
 {
-    games.find().sort({ date: 'desc' }).exec(function(err, data)
+    var offset = 0;
+    if (req.query.offset) {
+        offset = req.query.offset;
+    }
+
+    var limit = 12;
+    if (req.query.limit) {
+        limit = req.query.limit;
+    }
+
+    games.find().sort({ buy_at: 'desc' }).limit(limit).skip(offset).exec(function(err, data)
     {
         if (err)
             res.send(err);
@@ -65,4 +75,4 @@ exports.create = function(req, res)
             res.json(result);
         });
     });
-};
+};;

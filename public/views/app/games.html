@@ -1,4 +1,4 @@
-<div class="container-fluid hidden" load-complete=complete ng-games>
+<div class="container-fluid hidden" load-complete=complete scroll-busy=busy game-images="moreImages" ng-games>
     <section class="trophy-card">
         <div class="row">
             <div class="col-sm-12">
@@ -6,9 +6,9 @@
             </div>
         </div>
     </section>
-    <div class="row">
+    <div class="row" infinite-scroll="loadMore()" infinite-scroll-disabled=busy>
         <div class="col-sm-4 col-md-3" ng-repeat="game in games">
-            <a class="thumbnail" href="#">
+            <a class="thumbnail hidden" href="#" data-games-item="{{ game._id }}">
                 <img ng-src="{{ imagePath + game.image }}" alt="{{ game.title + ' ' + game.name }}" title="{{ game.title + ' ' + game.name }}"/>
                 <div class="caption">
                     <h3>{{ game.title }}</h3>
@@ -20,5 +20,8 @@
             </a>
         </div>
     </div>
+    <section class="more-load" ng-show="show">
+        <i class="fa fa-spinner fa-pulse"></i>
+    </section>
 </div>
 <div ng-include="'views/components/loading.html'"></div>

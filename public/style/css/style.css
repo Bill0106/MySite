@@ -193,3 +193,11 @@ body.gamesController a.thumbnail .caption > p.item-second-title {
 body.gamesController a.thumbnail .caption > p > i {
   margin: 0 3px;
 }
+body.gamesController section.more-load {
+  margin-bottom: 20px;
+  text-align: center;
+}
+body.gamesController section.more-load > i {
+  font-size: 30px;
+  color: #ffffff;
+}

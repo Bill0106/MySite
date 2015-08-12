@@ -3,9 +3,9 @@
  */
 
 var myApp = angular.module('myApp',[
-    'ui.router', 'ngResource', 'appRoutes',
+    'ui.router', 'ngResource', 'infinite-scroll',  'appRoutes',
     'homeController', 'gamesController',
-    'gamesService'
+    'gamesService', 'countService'
 ]);
 
 myApp.run(function($rootScope, $state, $http)
