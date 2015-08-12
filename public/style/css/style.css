@@ -154,6 +154,13 @@ body.homeController section.carousel .carousel-control {
 body.gamesController {
   background-color: #000000;
 }
+body.gamesController section.trophy-card {
+  margin-bottom: 20px;
+  text-align: center;
+}
+body.gamesController section.trophy-card .trophy-card-img {
+  max-width: 100%;
+}
 body.gamesController a.thumbnail:hover,
 body.gamesController a.thumbnail:active,
 body.gamesController a.thumbnail:focus {
