@@ -1,4 +1,4 @@
-<section class="loading-mask" data-load="mask" load-images="images" ng-loading>
+<section class="loading-mask" data-load="mask" load-images="images" ng-model="complete" ng-change="loadComplete(complete)" ng-loading>
     <div class="progress">
         <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" data-load="progress" data-count="0">0%</div>
     </div>

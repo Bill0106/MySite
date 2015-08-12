@@ -1,4 +1,4 @@
-<section class="carousel slide" id="indexCarousel" index-model="items" data-app-index="carousel" ng-home>
+<section class="carousel slide" id="indexCarousel" load-complete=complete data-app-index="carousel"  ng-home>
     <div class="carousel-inner" role="listbox">
         <div class="item item-{{ $index }}" ng-class="$index === 0 ? 'active' : ''" ng-switch="$index" ng-repeat="item in items">
             <div ng-if="!item.url">

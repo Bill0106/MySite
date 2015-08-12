@@ -46,15 +46,22 @@ homeController.controller('homeController', function($scope)
         $scope.images.push(value.background);
         $scope.images.push(value.icon);
     });
+
+    $scope.loadComplete = function(complete)
+    {
+        if (complete) {
+            $scope.complete = true;
+        }
+    };
 });
 
-homeController.directive('ngHome', ['$timeout', function(timer)
+homeController.directive('ngHome', function()
 {
     return {
         restrict: 'A',
         replace: true,
         scope: {
-            val: '=indexModel'
+            complete: '=loadComplete'
         },
         link: function (scope, element, attrs)
         {
@@ -82,7 +89,21 @@ homeController.directive('ngHome', ['$timeout', function(timer)
                 });
             }
 
-            timer(startCarousel, 0);
+            function showContent()
+            {
+                setTimeout(function()
+                {
+                    $("[data-load='mask']").fadeOut();
+                    startCarousel();
+                }, 300);
+            }
+
+            scope.$watch('complete', function(complete)
+            {
+                if (complete) {
+                    showContent();
+                }
+            });
         }
     };
-}]);
+});

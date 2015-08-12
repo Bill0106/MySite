@@ -28,13 +28,13 @@ myApp.directive('ngLoading', function()
         scope: {
             val: '=loadImages'
         },
-        link: function(scope, element, attrs)
+        require:"ngModel",
+        link: function(scope, element, attrs, ngModel)
         {
             function progressIncrease(total)
             {
                 var mask = $("[data-load='mask']");
                 var progress = $("[data-load='progress']", mask);
-                var content = $("[data-load='content']");
                 var count = progress.data('count');
 
                 count++;
@@ -46,11 +46,8 @@ myApp.directive('ngLoading', function()
                     .data('count', count);
 
                 if (count == total) {
-                    content.removeClass('hidden');
-                    setTimeout(function()
-                    {
-                        mask.fadeOut();
-                    }, 300);
+                    ngModel.$setViewValue(true);
+                    ngModel.$render();
                 }
             }
 

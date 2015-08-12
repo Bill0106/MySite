@@ -6,7 +6,9 @@ var gamesController = angular.module('gamesController', []);
 
 gamesController.controller('gamesController', function($scope, Game)
 {
-    Game.query(function(data)
+    $scope.complete = false;
+
+    Game.query({ limit: 20 }, function(data)
     {
         $scope.games = data;
 
@@ -17,8 +19,46 @@ gamesController.controller('gamesController', function($scope, Game)
         });
     });
 
+    $scope.loadComplete = function(complete)
+    {
+        if (complete) {
+            $scope.complete = true;
+        }
+    };
+
     $scope.getNumber = function(num)
     {
         return new Array(num);
+    };
+});
+
+gamesController.directive('ngGames', function()
+{
+    return {
+        restrict: 'A',
+        replace: true,
+        scope: {
+            complete: '=loadComplete'
+        },
+        link: function(scope, element, attrs)
+        {
+            function showContent()
+            {
+                var mask = $("[data-load='mask']");
+
+                element.removeClass('hidden');
+                setTimeout(function()
+                {
+                    mask.fadeOut();
+                }, 300);
+            }
+
+            scope.$watch('complete', function(complete)
+            {
+                if (complete) {
+                    showContent();
+                }
+            });
+        }
     };
 });
