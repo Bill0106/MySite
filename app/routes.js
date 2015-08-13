@@ -35,8 +35,8 @@ module.exports = function(app, router)
 
     // Model Count API Route
     var count = require('./controllers/count');
-    router.route('/count/games')
-        .get(count.games);
+    router.route('/count/games').get(count.games);
+    router.route('/count/gourmets').get(count.gourmets);
 
     // Apply API Routes
     app.use('/api', router);
