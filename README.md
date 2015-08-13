@@ -20,5 +20,6 @@ Dependencies
      - angular-ui-router
      - angular-resource
      - angular-file-upload
+     - ngInfiniteScroll
    - Bootstrap
    - FontAwesome
