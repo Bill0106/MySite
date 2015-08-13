@@ -19,6 +19,12 @@ angular.module('appRoutes', [])
                 templateUrl: '/views/app/games.html',
                 controller: 'gamesController',
                 title: 'My Games'
+            })
+            .state('gourmets', {
+                url: '/gourmets',
+                templateUrl: '/views/app/gourmets.html',
+                controller: 'gourmetsController',
+                title: 'My Gourmets Tour'
             });
 
         $locationProvider.html5Mode({

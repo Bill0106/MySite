@@ -16,6 +16,9 @@
 /*-------------------
         Games
 --------------------*/
+/*-------------------
+        Games
+--------------------*/
 nav.navbar {
   border-radius: 0;
 }
@@ -199,5 +202,44 @@ body.gamesController section.more-load {
 }
 body.gamesController section.more-load > i {
   font-size: 30px;
+  color: #ffffff;
+}
+body.gourmetsController {
+  background-color: #fefcef;
+}
+body.gourmetsController section.gourmets-title {
+  margin-bottom: 20px;
+  text-align: center;
+}
+body.gourmetsController section.gourmets-title > a > img {
+  max-width: 357px;
+}
+body.gourmetsController section.gourmets-list .gourmet-item {
+  display: block;
+  position: relative;
+  margin: 10px 0;
+}
+body.gourmetsController section.gourmets-list .gourmet-item > img {
+  width: 100%;
+}
+body.gourmetsController section.gourmets-list .gourmet-item .gourmet-item-text {
+  position: absolute;
+  bottom: 0;
+  padding: 5px 10px;
+  width: 100%;
+  background: #000000 transparent;
+  background: rgba(0, 0, 0, 0.3);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#4d0000 0, endColorstr=#4d0000 0)";
+}
+body.gourmetsController section.gourmets-list .gourmet-item .gourmet-item-text > h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+}
+body.gourmetsController section.gourmets-list .gourmet-item .gourmet-item-text > p {
+  margin-bottom: 0;
+  font-size: 12px;
+  text-align: right;
   color: #ffffff;
 }

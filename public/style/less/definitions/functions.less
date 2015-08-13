@@ -13,6 +13,11 @@
   }
 }
 
+.background-opacity (@red, @green, @blue, @alpha, @startHex, @endHex) {
+  background: rgb(@red, @green, @blue) transparent;
+  background: rgba(@red, @green, @blue, @alpha);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=@{startHex}, endColorstr=@{endHex})";
+}
 // Clear Fix
 .clearfix() {
   &:before,
