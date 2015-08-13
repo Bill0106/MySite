@@ -51,6 +51,14 @@ section.loading-mask .progress {
     right: 25px;
   }
 }
+section.more-load {
+  margin-bottom: 20px;
+  text-align: center;
+}
+section.more-load > i {
+  font-size: 30px;
+  color: #ffffff;
+}
 body.homeController {
   background-color: #000000;
   overflow: hidden;
@@ -196,14 +204,6 @@ body.gamesController a.thumbnail .caption > p.item-second-title {
 body.gamesController a.thumbnail .caption > p > i {
   margin: 0 3px;
 }
-body.gamesController section.more-load {
-  margin-bottom: 20px;
-  text-align: center;
-}
-body.gamesController section.more-load > i {
-  font-size: 30px;
-  color: #ffffff;
-}
 body.gourmetsController {
   background-color: #fefcef;
 }
@@ -242,4 +242,10 @@ body.gourmetsController section.gourmets-list .gourmet-item .gourmet-item-text >
   font-size: 12px;
   text-align: right;
   color: #ffffff;
+}
+body.gourmetsController section.more-load {
+  margin-top: 10px;
+}
+body.gourmetsController section.more-load > i {
+  color: #333333;
 }
