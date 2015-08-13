@@ -4,9 +4,13 @@
 
 var gamesController = angular.module('gamesController', []);
 
-gamesController.controller('gamesController', function($scope, Game, GAME_PLATFORMS, GAME_GENRES)
+gamesController.controller('gamesController', function($scope, Game, Count, GAME_PLATFORMS, GAME_GENRES)
 {
-    $scope.games = Game.query();
+    Count.get({ model: 'games' }, function(count)
+    {
+        $scope.games = Game.query({ limit: count.count });
+    });
+
     $scope.platforms = GAME_PLATFORMS;
     $scope.genres = GAME_GENRES;
 });

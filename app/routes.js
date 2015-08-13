@@ -31,7 +31,10 @@ module.exports = function(app, router)
     // Gourmets API Route
     var gourmets = require('./controllers/gourmets');
     router.route('/gourmets')
-        .get(gourmets.list);
+        .get(gourmets.list)
+        .post(gourmets.create);
+    router.route('/gourmets/:id')
+        .get(gourmets.find);
 
     // Model Count API Route
     var count = require('./controllers/count');

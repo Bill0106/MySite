@@ -24,6 +24,18 @@ angular.module('adminRoutes', [])
                 templateUrl: '/views/admin/game.html',
                 controller: 'gameController',
                 title: 'Game'
+            })
+            .state('gourmets', {
+                url: '/admin/gourmets',
+                templateUrl: '/views/admin/gourmets.html',
+                controller: 'gourmetsController',
+                title: 'Gourmets'
+            })
+            .state('gourmet', {
+                url: '/admin/gourmets/:id',
+                templateUrl: '/views/admin/gourmet.html',
+                controller: 'gourmetController',
+                title: 'Gourmet'
             });
 
         $locationProvider.html5Mode({

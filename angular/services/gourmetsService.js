@@ -6,5 +6,5 @@ var gourmetsService = angular.module('gourmetsService', []);
 
 gamesService.factory('Gourmet', function($resource)
 {
-    return $resource('/api/gourmets');
+    return $resource('/api/gourmets/:id');
 });

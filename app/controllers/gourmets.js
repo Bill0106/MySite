@@ -3,6 +3,7 @@
  */
 
 var gourmets = require('../models/gourmets');
+var timestamp = require('../libraries/timestamp');
 
 exports.list = function(req, res)
 {
@@ -22,5 +23,49 @@ exports.list = function(req, res)
             res.send(err);
 
         res.json(data);
+    });
+};
+
+exports.find = function(req, res)
+{
+    gourmets.findOne({ _id: req.params.id }, function(err, data)
+    {
+        if (err)
+            res.send(err);
+
+        res.json(data);
+    });
+};
+
+exports.create = function(req, res)
+{
+    gourmets.findOne({ _id: req.body._id }, function(err, data)
+    {
+        if (!data) {
+            data = new gourmets();
+        }
+
+        data.food           = req.body.food;
+        data.restaurant     = req.body.restaurant;
+        data.image          = req.body.image;
+        data.url            = req.body.url;
+        data.date           = timestamp(req.body.date);
+
+        data.save(function(error)
+        {
+            var result = {
+                "success": true,
+                "msg": data._id
+            };
+
+            if (error) {
+                result = {
+                    "success": false,
+                    "msg": error
+                }
+            }
+
+            res.json(result);
+        });
     });
 };

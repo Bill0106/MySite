@@ -1,0 +1,21 @@
+<a ui-sref="gourmet({ id: 'add' })" class="btn btn-block btn-primary">Add Gourmet</a>
+<table class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Food</th>
+        <th>Restaurant</th>
+        <th>Date</th>
+        <th>Instagram</th>
+        <th>Operation</th>
+    </tr>
+    </thead>
+    <tr ng-repeat="gourmet in gourmets">
+        <td>{{ gourmet._id }}</td>
+        <td>{{ gourmet.food }}</td>
+        <td>{{ gourmet.restaurant }}</td>
+        <td>{{ gourmet.date | date:'yyyy.MM.dd' }}</td>
+        <td><a ng-href="{{ gourmet.url }}" target="_blank">{{ gourmet.url }}</a></td>
+        <td><a ui-sref="gourmet({ id: gourmet._id })" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a></td>
+    </tr>
+</table>
