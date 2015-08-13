@@ -28,6 +28,11 @@ module.exports = function(app, router)
     router.route('/games/:game_url')
         .get(games.find);
 
+    // Gourmets API Route
+    var gourmets = require('./controllers/gourmets');
+    router.route('/gourmets')
+        .get(gourmets.list);
+
     // Model Count API Route
     var count = require('./controllers/count');
     router.route('/count/games')
