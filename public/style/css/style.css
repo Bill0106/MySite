@@ -212,6 +212,7 @@ body.gourmetsController section.gourmets-title {
   text-align: center;
 }
 body.gourmetsController section.gourmets-title > a > img {
+  width: 100%;
   max-width: 357px;
 }
 body.gourmetsController section.gourmets-list .gourmet-item {

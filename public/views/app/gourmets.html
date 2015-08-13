@@ -10,7 +10,7 @@
     </div>
     <section class="gourmets-list">
         <div class="row" infinite-scroll="loadMore()" infinite-scroll-disabled=busy>
-            <div class="col-lg-2 col-sm-3" ng-repeat="gourmet in gourmets">
+            <div class="col-lg-2 col-sm-3 col-xs-6" ng-repeat="gourmet in gourmets">
                 <a ng-href="{{ gourmet.url }}" target="_blank" class="gourmet-item hidden" data-gourmet-item="{{ gourmet._id }}">
                     <img ng-src="{{ imagePath + gourmet.image }}" alt="{{ gourmet.food + ' - ' + gourmet.restaurant }}" title="{{ gourmet.food + ' - ' + gourmet.restaurant }}"/>
                     <div class="gourmet-item-text">
