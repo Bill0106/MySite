@@ -21,7 +21,8 @@ homeController.controller('homeController', function($scope)
         {
             'title' : "Gourmet Tour",
             'icon' : "09d6aeb87783661768b52c73f18c3069.jpg",
-            'background' : "a15bc6b5656eb67d2e0cde3c2e7f583a.jpg"
+            'background' : "a15bc6b5656eb67d2e0cde3c2e7f583a.jpg",
+            'url' : 'gourmets'
         },
         {
             'title' : "HearthStone",
