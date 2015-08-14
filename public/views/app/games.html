@@ -8,7 +8,7 @@
     </section>
     <div class="row" infinite-scroll="loadMore()" infinite-scroll-disabled=busy>
         <div class="col-sm-4 col-md-3" ng-repeat="game in games">
-            <a class="thumbnail hidden" href="#" data-games-item="{{ game._id }}">
+            <a class="thumbnail hidden" ui-sref="game({ url: game.url })" data-games-item="{{ game._id }}">
                 <img ng-src="{{ imagePath + game.image }}" alt="{{ game.title + ' ' + game.name }}" title="{{ game.title + ' ' + game.name }}"/>
                 <div class="caption">
                     <h3>{{ game.title }}</h3>

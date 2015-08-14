@@ -20,6 +20,12 @@ angular.module('appRoutes', [])
                 controller: 'gamesController',
                 title: 'My Games'
             })
+            .state('game', {
+                url: '/games/:url.html',
+                templateUrl: '/views/app/game.html',
+                controller: 'gameController',
+                title: 'Game'
+            })
             .state('gourmets', {
                 url: '/gourmets',
                 templateUrl: '/views/app/gourmets.html',
