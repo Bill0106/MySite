@@ -7,9 +7,6 @@ Dependencies
 ### Backend
    - NodeJS
       - connect-multiparty
-      - cheerio
-      - request
-      - async
    - Express framework
       - morgan
       - body-parser
@@ -21,11 +18,8 @@ Dependencies
 ### Frontend
    - AngularJS
      - angular-ui-router
-     - angular-animate
+     - angular-resource
      - angular-file-upload
      - ngInfiniteScroll
    - Bootstrap
    - FontAwesome
-   - animate.css
-   - Html5shiv
-   - Respond.js

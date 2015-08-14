@@ -1,0 +1,25 @@
+<div class="container-fluid hidden" load-complete=complete scroll-busy=busy game-images="moreImages" ng-games>
+    <section class="trophy-card">
+        <div class="row">
+            <div class="col-sm-12">
+                <a href="http://psnprofiles.com/bill_lord" target="_blank"><img class="trophy-card-img" src="http://card.psnprofiles.com/1/bill_lord.png" border="0"></a>
+            </div>
+        </div>
+    </section>
+    <div class="row" infinite-scroll="loadMore()" infinite-scroll-disabled=busy>
+        <div class="col-sm-4 col-md-3" ng-repeat="game in games">
+            <a class="thumbnail hidden" ui-sref="game({ url: game.url })" data-games-item="{{ game._id }}">
+                <img ng-src="{{ imagePath + game.image }}" alt="{{ game.title + ' ' + game.name }}" title="{{ game.title + ' ' + game.name }}"/>
+                <div class="caption">
+                    <h3>{{ game.title }}</h3>
+                    <p class="item-second-title">{{ game.name }}</p>
+                    <p>
+                        <i class="fa fa-gamepad" ng-repeat="i in getNumber(game.rate) track by $index"></i>
+                    </p>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div ng-include="'views/components/moreLoad.html'"></div>
+</div>
+<div ng-include="'views/components/loading.html'"></div>

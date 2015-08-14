@@ -1,0 +1,46 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <section class="page-header">
+                <img ng-src="{{ imagePath + game.image}}" alt="{{ game.title + ' ' + game.name }}" title="{{ game.title + ' ' + game.name }}"/>
+                <div class="page-header-text">
+                    <h1>{{ game.title }} <small>{{ game.name }}</small></h1>
+                    <p class="game-date"><span>Release at {{ game.release_at | date: 'MMM dd, yyyy'}}</span> <i>/</i> <span>Buy at {{ game.buy_at | date: 'MMM dd, yyyy'}}</span></p>
+                    <p class="game-platform"><span>{{ platforms[game.platform].name }}</span></p>
+                </div>
+                <div class="game-rate game-rate-{{ game.rate }}">
+                    <div class="game-rate-clip right">
+                        <div class="game-rate-fill"></div>
+                        <div class="game-rate-mask"></div>
+                    </div>
+                    <div class="game-rate-clip left">
+                        <div class="game-rate-fill"></div>
+                        <div class="game-rate-mask"></div>
+                    </div>
+                    <div class="game-rate-inner">
+                        <div class="game-rate-table">
+                            <div class="game-rate-cell">{{ game.rate }}</div>
+                        </div>
+                    </div>
+                    <p>Personal Review<span>{{ rateText[(game.rate - 1)] }}</span></p>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-8 game-description">
+            <p ng-repeat="paragraph in getParagraph(game.description)">{{ paragraph }}</p>
+        </div>
+        <div class="col-sm-4">
+            <dl class="dl-horizontal">
+                <dt>Developed by:</dt>
+                <dd>{{ game.developer }}</dd>
+                <dt>Published by:</dt>
+                <dd>{{ game.publisher }}</dd>
+                <dt>Genre:</dt>
+                <dd>{{ genres[game.genre].name }}</dd>
+            </dl>
+            <a ui-sref="games" class="btn btn-default btn-block">Back</a>
+        </div>
+    </div>
+</div>

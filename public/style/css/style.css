@@ -1,0 +1,519 @@
+/*-------------------
+     Breakpoints
+--------------------*/
+/*-------------------
+        Fonts
+--------------------*/
+/*-------------------
+        Colors
+--------------------*/
+/*-------------------
+        Other
+--------------------*/
+/*-------------------
+        Index
+--------------------*/
+/*-------------------
+        Games
+--------------------*/
+/*-------------------
+       Gourmets
+--------------------*/
+nav.navbar {
+  border-radius: 0;
+}
+@media only screen and (max-width: 767px) {
+  nav.navbar .navbar-collapse .navbar-right > li {
+    display: inline-block;
+  }
+}
+nav.navbar .navbar-collapse .navbar-right > li > a {
+  font-size: 20px;
+}
+section.loading-mask {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #000000;
+  z-index: 100;
+}
+section.loading-mask .progress {
+  position: fixed;
+  top: 50%;
+  left: 50px;
+  right: 50px;
+  margin: -10px 0 0;
+}
+@media only screen and (max-width: 767px) {
+  section.loading-mask .progress {
+    left: 25px;
+    right: 25px;
+  }
+}
+section.more-load {
+  margin-bottom: 20px;
+  text-align: center;
+}
+section.more-load > i {
+  font-size: 30px;
+  color: #ffffff;
+}
+body.homeController {
+  background-color: #000000;
+  overflow: hidden;
+}
+body.homeController nav.navbar {
+  display: none;
+}
+body.homeController section.carousel {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+body.homeController section.carousel:hover .carousel-control {
+  opacity: 0.8;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+}
+body.homeController section.carousel .carousel-inner {
+  height: 100%;
+}
+body.homeController section.carousel .carousel-inner .item {
+  padding-top: 200px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  background-position: center;
+  background-size: cover;
+}
+body.homeController section.carousel .carousel-inner .item.item-0 {
+  background-image: url('http://zhuhaolin.com/images/73ad5a84dcefe956276f1bd07c6316dd.jpg');
+}
+body.homeController section.carousel .carousel-inner .item.item-1 {
+  background-image: url('http://zhuhaolin.com/images/66a7d162d0bdf9aa302e280cbb5d90d6.jpg');
+}
+body.homeController section.carousel .carousel-inner .item.item-2 {
+  background-image: url('http://zhuhaolin.com/images/a15bc6b5656eb67d2e0cde3c2e7f583a.jpg');
+}
+body.homeController section.carousel .carousel-inner .item.item-3 {
+  background-image: url('http://zhuhaolin.com/images/5233e5089e1ff5fff7a85c8aa13304ff.jpg');
+}
+body.homeController section.carousel .carousel-inner .item.item-4 {
+  background-image: url('http://zhuhaolin.com/images/abb4387b620523942e197d39bf38b611.jpg');
+}
+body.homeController section.carousel .carousel-inner .item.item-5 {
+  background-image: url('http://zhuhaolin.com/images/566b87a4710605f312ec139dcd71088a.jpg');
+}
+@media only screen and (max-width: 767px) {
+  body.homeController section.carousel .carousel-inner .item {
+    padding-top: 100px;
+  }
+}
+body.homeController section.carousel .carousel-inner .item > div > h1,
+body.homeController section.carousel .carousel-inner .item > div > h2 {
+  color: #ffffff;
+}
+@media only screen and (max-width: 767px) {
+  body.homeController section.carousel .carousel-inner .item > div > h1,
+  body.homeController section.carousel .carousel-inner .item > div > h2 {
+    font-size: 20px;
+  }
+}
+body.homeController section.carousel .carousel-inner .item > div > a {
+  text-decoration: none;
+}
+body.homeController section.carousel .carousel-inner .item > div > a:hover > h2 {
+  color: #e6e6e6;
+}
+body.homeController section.carousel .carousel-inner .item > div > a:hover .img-circle {
+  border-color: #e6e6e6;
+}
+body.homeController section.carousel .carousel-inner .item > div > a > h2 {
+  color: #ffffff;
+}
+body.homeController section.carousel .carousel-inner .item > div .img-circle {
+  margin: 0 auto;
+  width: 150px;
+  border: 5px solid #ffffff;
+}
+@media only screen and (max-width: 767px) {
+  body.homeController section.carousel .carousel-inner .item .list-inline {
+    display: none;
+  }
+}
+body.homeController section.carousel .carousel-inner .item .list-inline > li {
+  margin: 0 10px;
+}
+body.homeController section.carousel .carousel-inner .item .list-inline > li > a {
+  vertical-align: middle;
+  font-size: 4em;
+  color: #ffffff;
+}
+body.homeController section.carousel .carousel-control {
+  position: fixed;
+  top: 50%;
+  bottom: auto;
+  margin-top: -40px;
+  width: auto;
+  font-size: 4em;
+  color: #ffffff;
+  background: none;
+  opacity: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+}
+body.gamesController {
+  background-color: #242628;
+}
+body.gamesController section.trophy-card {
+  margin-bottom: 20px;
+  text-align: center;
+}
+body.gamesController section.trophy-card .trophy-card-img {
+  max-width: 100%;
+}
+body.gamesController a.thumbnail:hover,
+body.gamesController a.thumbnail:active,
+body.gamesController a.thumbnail:focus {
+  text-decoration: none;
+}
+body.gamesController a.thumbnail:hover .caption > h3,
+body.gamesController a.thumbnail:active .caption > h3,
+body.gamesController a.thumbnail:focus .caption > h3 {
+  color: #0054ed;
+}
+body.gamesController a.thumbnail .caption > h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #003087;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+body.gamesController a.thumbnail .caption > p {
+  margin-left: -3px;
+  margin-bottom: 0;
+}
+body.gamesController a.thumbnail .caption > p.item-second-title {
+  margin-left: 0;
+  color: #999999;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+body.gamesController a.thumbnail .caption > p > i {
+  margin: 0 3px;
+}
+body.gameController {
+  color: #ffffff;
+  background-color: #242628;
+}
+body.gameController section.page-header {
+  padding-bottom: 20px;
+}
+body.gameController section.page-header:before,
+body.gameController section.page-header:after {
+  content: " ";
+  display: table;
+}
+body.gameController section.page-header:after {
+  clear: both;
+}
+@media only screen and (max-width: 767px) {
+  body.gameController section.page-header {
+    margin-top: 0;
+    text-align: center;
+  }
+}
+body.gameController section.page-header > img {
+  float: left;
+  width: 150px;
+  height: 150px;
+}
+@media only screen and (max-width: 767px) {
+  body.gameController section.page-header > img {
+    float: none;
+    margin-bottom: 10px;
+  }
+}
+body.gameController section.page-header .page-header-text {
+  float: left;
+  margin-left: 30px;
+}
+@media only screen and (max-width: 767px) {
+  body.gameController section.page-header .page-header-text {
+    float: none;
+    margin-left: 0;
+  }
+}
+body.gameController section.page-header .page-header-text > h1 {
+  margin-top: 0;
+}
+@media only screen and (max-width: 767px) {
+  body.gameController section.page-header .page-header-text > h1 {
+    font-size: 24px;
+  }
+}
+body.gameController section.page-header .page-header-text > h1 > small {
+  display: block;
+  color: #999999;
+}
+body.gameController section.page-header .page-header-text > p {
+  font-size: 16px;
+}
+body.gameController section.page-header .page-header-text > p.game-platform > span {
+  display: inline-block;
+  border-bottom: 1px solid #0042ba;
+}
+@media only screen and (max-width: 767px) {
+  body.gameController section.page-header .page-header-text > p.game-date > i {
+    display: none;
+  }
+  body.gameController section.page-header .page-header-text > p.game-date > span {
+    display: block;
+  }
+}
+body.gameController section.page-header .game-rate {
+  float: right;
+  position: relative;
+  margin-top: 10px;
+  margin-right: 100px;
+  width: 70px;
+  height: 70px;
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  body.gameController section.page-header .game-rate {
+    margin-right: 20px;
+  }
+}
+@media only screen and (max-width: 767px) {
+  body.gameController section.page-header .game-rate {
+    float: none;
+    margin: 20px auto 0;
+  }
+}
+body.gameController section.page-header .game-rate.game-rate-0 .game-rate-clip {
+  display: none;
+}
+body.gameController section.page-header .game-rate.game-rate-1 .game-rate-clip.right {
+  border-radius: 0;
+}
+body.gameController section.page-header .game-rate.game-rate-1 .game-rate-clip.right .game-rate-fill {
+  opacity: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+}
+body.gameController section.page-header .game-rate.game-rate-1 .game-rate-clip.right .game-rate-mask {
+  opacity: 1;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+}
+body.gameController section.page-header .game-rate.game-rate-1 .game-rate-clip.left {
+  -webkit-transform: rotate(72deg);
+  -moz-transform: rotate(72deg);
+  -ms-transform: rotate(72deg);
+  -o-transform: rotate(72deg);
+  transform: rotate(72deg);
+}
+body.gameController section.page-header .game-rate.game-rate-2 .game-rate-clip.right {
+  border-radius: 0;
+}
+body.gameController section.page-header .game-rate.game-rate-2 .game-rate-clip.right .game-rate-fill {
+  opacity: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+}
+body.gameController section.page-header .game-rate.game-rate-2 .game-rate-clip.right .game-rate-mask {
+  opacity: 1;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+}
+body.gameController section.page-header .game-rate.game-rate-2 .game-rate-clip.left {
+  -webkit-transform: rotate(144deg);
+  -moz-transform: rotate(144deg);
+  -ms-transform: rotate(144deg);
+  -o-transform: rotate(144deg);
+  transform: rotate(144deg);
+}
+body.gameController section.page-header .game-rate.game-rate-3 .game-rate-clip.left {
+  -webkit-transform: rotate(216deg);
+  -moz-transform: rotate(216deg);
+  -ms-transform: rotate(216deg);
+  -o-transform: rotate(216deg);
+  transform: rotate(216deg);
+}
+body.gameController section.page-header .game-rate.game-rate-4 .game-rate-clip.left {
+  -webkit-transform: rotate(288deg);
+  -moz-transform: rotate(288deg);
+  -ms-transform: rotate(288deg);
+  -o-transform: rotate(288deg);
+  transform: rotate(288deg);
+}
+body.gameController section.page-header .game-rate .game-rate-clip {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 100%;
+  overflow: hidden;
+}
+body.gameController section.page-header .game-rate .game-rate-clip.right {
+  z-index: 20;
+}
+body.gameController section.page-header .game-rate .game-rate-clip.right .game-rate-fill {
+  right: 0;
+}
+body.gameController section.page-header .game-rate .game-rate-clip.right .game-rate-mask {
+  background-color: #242628;
+  left: 0;
+  opacity: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+}
+body.gameController section.page-header .game-rate .game-rate-clip.left {
+  z-index: 10;
+}
+body.gameController section.page-header .game-rate .game-rate-clip.left .game-rate-fill {
+  left: 0;
+}
+body.gameController section.page-header .game-rate .game-rate-clip.left .game-rate-mask {
+  right: 0;
+}
+body.gameController section.page-header .game-rate .game-rate-clip .game-rate-fill {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background-color: #e63900;
+}
+body.gameController section.page-header .game-rate .game-rate-clip .game-rate-mask {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+}
+body.gameController section.page-header .game-rate .game-rate-inner {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  bottom: 7px;
+  left: 7px;
+  font-size: 35px;
+  line-height: 35px;
+  text-align: center;
+  border-radius: 100%;
+  background-color: #242628;
+  text-shadow: rgba(0, 0, 0, 0.5) 0 1px 5px;
+  box-shadow: rgba(0, 0, 0, 0.75) 0 0 3px, rgba(255, 255, 255, 0.3) 0 0 1px inset;
+  z-index: 100;
+}
+body.gameController section.page-header .game-rate .game-rate-inner .game-rate-table {
+  display: table;
+  width: 100%;
+  height: 100%;
+}
+body.gameController section.page-header .game-rate .game-rate-inner .game-rate-table .game-rate-cell {
+  display: table-cell;
+  vertical-align: middle;
+}
+body.gameController section.page-header .game-rate > p {
+  position: absolute;
+  top: 110%;
+  left: 50%;
+  margin-left: -55px;
+  margin-bottom: 0;
+  width: 110px;
+  text-align: center;
+}
+@media only screen and (max-width: 767px) {
+  body.gameController section.page-header .game-rate > p {
+    display: none;
+  }
+}
+body.gameController section.page-header .game-rate > p > span {
+  display: block;
+  font-size: 18px;
+  font-style: italic;
+  color: #e63900;
+  letter-spacing: 1px;
+}
+body.gameController .game-description {
+  border-right: 1px solid #ffffff;
+}
+@media only screen and (max-width: 767px) {
+  body.gameController .game-description {
+    border-right: none;
+  }
+}
+@media only screen and (max-width: 767px) {
+  body.gameController .dl-horizontal {
+    padding-top: 10px;
+    border-top: 1px solid #ffffff;
+  }
+}
+body.gameController .dl-horizontal > dt {
+  width: 130px;
+  text-align: left;
+  font-weight: normal;
+  color: #999999;
+}
+body.gameController .dl-horizontal > dd {
+  margin-left: 150px;
+  color: #cc3300;
+}
+@media only screen and (max-width: 767px) {
+  body.gameController .dl-horizontal > dd {
+    margin-left: 0;
+  }
+}
+body.gameController .btn-block {
+  margin-bottom: 20px;
+}
+body.gourmetsController {
+  background-color: #fefcef;
+}
+body.gourmetsController section.gourmets-title {
+  margin-bottom: 20px;
+  text-align: center;
+}
+body.gourmetsController section.gourmets-title > a > img {
+  width: 100%;
+  max-width: 357px;
+}
+body.gourmetsController section.gourmets-list .gourmet-item {
+  display: block;
+  position: relative;
+  margin: 10px 0;
+}
+body.gourmetsController section.gourmets-list .gourmet-item > img {
+  width: 100%;
+}
+body.gourmetsController section.gourmets-list .gourmet-item .gourmet-item-text {
+  position: absolute;
+  bottom: 0;
+  padding: 5px 10px;
+  width: 100%;
+  background: #000000 transparent;
+  background: rgba(0, 0, 0, 0.3);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#4d0000 0, endColorstr=#4d0000 0)";
+}
+body.gourmetsController section.gourmets-list .gourmet-item .gourmet-item-text > h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+}
+body.gourmetsController section.gourmets-list .gourmet-item .gourmet-item-text > p {
+  margin-bottom: 0;
+  font-size: 12px;
+  text-align: right;
+  color: #ffffff;
+}
+body.gourmetsController section.more-load {
+  margin-top: 10px;
+}
+body.gourmetsController section.more-load > i {
+  color: #333333;
+}
+body {
+  font-family: tahoma, arial, 'Hiragino Sans GB', 'Microsoft Yahei', sans-serif;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+}

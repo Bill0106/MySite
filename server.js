@@ -1,36 +1,16 @@
 /**
- * Created by Bill on 14-8-8.
+ * Created by bill on 15/7/30.
  */
 
-// modules
-var express        = require('express');
-var app            = express();
-var logger         = require('morgan');
-var bodyParser     = require('body-parser');
-var methodOverride = require('method-override');
-var cookieParser   = require('cookie-parser');
-var favicon        = require('serve-favicon');
-var mongoose       = require('mongoose');
-
-// configuration
-var database = require('./config/database');
-var port     = process.env.PORT || 8888;
-
-mongoose.connect(database.url);
-
-app.use(express.static(__dirname + '/public'));
-app.use(logger('dev'));
-app.use(bodyParser({ keepExtensions: true, uploadDir: __dirname + '/public/images' }));
-app.use(cookieParser());
-app.use(methodOverride());
-app.use(favicon(__dirname + '/public/favicon.ico'));
-
-// routes
-var router = express.Router();
+var express     = require('express');
+var app         = require('./app/config/app');
+var router      = express.Router();
 require('./app/routes')(app, router);
 
-// start app
+var mongoose    = require('mongoose');
+var database    = require('./app/config/database');
+mongoose.connect(database);
+
+var port        = process.env.PORT || 8888;
 app.listen(port);
 console.log('Server running on port ' + port);
-
-exports = module.exports = app;

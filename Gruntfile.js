@@ -6,57 +6,63 @@ module.exports = function(grunt)
 {
     grunt.initConfig({
         jshint: {
-            all: ['public/src/javascripts/**/*.js']
+            all: ['angular/**/*.js']
         },
-
         uglify: {
             options: {
                 mangle: false
             },
             build: {
                 files: {
-                    'public/dist/javascripts/app.min.js': ['public/src/javascripts/**/*.js', 'public/src/javascripts/*.js'],
-                    'public/dist/javascripts/adminApp.min.js': ['public/src/admin/adminApp.js']
+                    'public/javascripts/app.min.js': [
+                        'angular/app.js',
+                        'angular/controllers/app/*.js',
+                        'angular/services/*.js',
+                        'angular/routes/appRoutes.js',
+                        'angular/config.js'
+                    ],
+                    'public/javascripts/admin.min.js': [
+                        'angular/admin.js',
+                        'angular/controllers/admin/*.js',
+                        'angular/services/*.js',
+                        'angular/routes/adminRoutes.js',
+                        'angular/config.js'
+                    ]
                 }
             }
         },
-
         less: {
             build: {
                 files: {
-                    'public/dist/css/style.css': 'public/src/less/style.less'
+                    'public/style/css/style.css': 'public/style/less/style.less'
                 }
             }
         },
-
         cssmin: {
             build: {
                 files: {
-                    'public/dist/css/style.min.css': 'public/dist/css/style.css'
+                    'public/style/css/style.min.css': 'public/style/css/style.css'
                 }
             }
         },
-
         watch: {
             options: {
                 livereload: true
             },
             css: {
-                files: ['public/src/less/**/*.less'],
+                files: ['public/style/less/**/*.less'],
                 tasks: ['less', 'cssmin']
             },
             js: {
-                files: ['public/src/**/*.js'],
+                files: ['angular/**/*.js'],
                 tasks: ['jshint', 'uglify']
             }
         },
-
         nodemon: {
             dev: {
                 script: 'server.js'
             }
         },
-
         concurrent: {
             options: {
                 logConcurrentOutput: true
@@ -73,5 +79,5 @@ module.exports = function(grunt)
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-concurrent');
 
-    grunt.registerTask('default', ['less', 'cssmin', 'jshint', 'uglify', 'concurrent']);
+    grunt.registerTask('default', ['jshint', 'uglify', 'concurrent']);
 };

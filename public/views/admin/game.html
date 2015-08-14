@@ -1,0 +1,32 @@
+<div class="alert alert-danger" role="alert" ng-show="show">{{ result.msg }}</div>
+<form class="form-horizontal" ng-submit="createGame()">
+    <div class="form-group" ng-repeat="field in fields">
+        <label for="{{ field }}" class="col-sm-2 control-label">{{ field.toUpperCase() }}:</label>
+        <div class="col-sm-10">
+            <input class="form-control" type="text" placeholder="Enter {{ field }}" ng-model="game[field]" id="{{ field }}" required/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="platform" class="col-sm-2 control-label">PLATFORM:</label>
+        <div class="col-sm-10">
+            <select class="form-control" ng-model="game.platform" ng-options="platform.value as platform.name for platform in platforms" id="platform" required>
+                <option value="">Choose platform</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="genre" class="col-sm-2 control-label">GENRE:</label>
+        <div class="col-sm-10">
+            <select class="form-control" ng-model="game.genre" ng-options="genre.value as genre.name for genre in genres" id="genre" required>
+                <option value="">Choose genre</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="description" class="col-sm-2 control-label">DESCRIPTION:</label>
+        <div class="col-sm-10">
+            <textarea class="form-control" rows="15" placeholder="Enter description" ng-model="game.description" id="description" required></textarea>
+        </div>
+    </div>
+    <button class="btn btn-primary pull-right" type="submit">Submit</button>
+</form>
