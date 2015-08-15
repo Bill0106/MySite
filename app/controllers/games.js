@@ -58,6 +58,10 @@ exports.create = function(req, res)
         data.genre       = req.body.genre;
         data.description = req.body.description;
 
+        if (req.body.url) {
+            data.url = req.body.url;
+        }
+
         data.save(function(error)
         {
             var result = {
