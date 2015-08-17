@@ -8,7 +8,7 @@
                     <p class="game-date"><span>Release at {{ game.release_at | date: 'MMM dd, yyyy'}}</span> <i>/</i> <span>Buy at {{ game.buy_at | date: 'MMM dd, yyyy'}}</span></p>
                     <p class="game-platform"><span>{{ platforms[game.platform].name }}</span></p>
                 </div>
-                <div class="game-rate game-rate-{{ game.rate }}">
+                <div ng-if="game.rate != 0" class="game-rate game-rate-{{ game.rate }}">
                     <div class="game-rate-clip right">
                         <div class="game-rate-fill"></div>
                         <div class="game-rate-mask"></div>
