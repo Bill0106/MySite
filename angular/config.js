@@ -45,6 +45,10 @@ var gameGenres = [
     {
         value: 6,
         name: 'Third-person shooter'
+    },
+    {
+        value: 7,
+        name: 'Strategy'
     }
 ];
 
