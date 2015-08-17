@@ -8,6 +8,7 @@ gamesController.controller('gamesController', function($scope, Game, Count, GAME
 {
     Count.get({ model: 'games' }, function(count)
     {
+        $scope.count = count.count;
         $scope.games = Game.query({ limit: count.count });
     });
 
