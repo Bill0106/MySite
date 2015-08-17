@@ -39,6 +39,7 @@ myAdmin.controller('imageUploadController',['$scope', 'Upload', function($scope,
             $scope.uploading = true;
             $scope.progress = parseInt(100.0 * evt.loaded / evt.total);
         }).success(function (data, status, headers, config) {
+            $scope.progress = 0;
             $scope.success = true;
             $scope.imageName = data;
         }).error(function (data, status, headers, config) {
