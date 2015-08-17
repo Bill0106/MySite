@@ -8,6 +8,7 @@ gourmetsController.controller('gourmetsController', function($scope, Gourmet, Co
 {
     Count.get({ model: 'gourmets' }, function(count)
     {
+        $scope.count = count.count;
         $scope.gourmets = Gourmet.query({ limit: count.count });
     });
 
