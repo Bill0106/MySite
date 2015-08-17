@@ -74,7 +74,7 @@ exports.create = function(req, res)
         gourmet.url            = req.body.url;
         gourmet.date           = timestamp(req.body.date);
 
-        data.save(function(error)
+        gourmet.save(function(error)
         {
             var result = {
                 "success": true,
