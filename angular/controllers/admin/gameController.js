@@ -23,7 +23,7 @@ gameController.controller('gameController', function($scope, $filter, $state, $s
         $scope.game.buy_at = $filter('date')(newValue, 'yyyy-MM-dd');
     });
 
-    $scope.fields = ['title', 'name', 'developer', 'publisher', 'release_at', 'buy_at', 'rate', 'image', 'url'];
+    $scope.fields = ['title', 'name', 'developer', 'publisher', 'release_at', 'buy_at', 'rate', 'image'];
     $scope.platforms = GAME_PLATFORMS;
     $scope.genres = GAME_GENRES;
 
