@@ -39,23 +39,46 @@ exports.find = function(req, res)
 
 exports.create = function(req, res)
 {
-    gourmets.findOne({ _id: req.body._id }, function(err, data)
-    {
-        if (!data) {
-            data = new gourmets();
-        }
+    if (req.body._id) {
+        gourmets.findOne({ _id: req.body._id }, function(err, data)
+        {
+            data.food           = req.body.food;
+            data.restaurant     = req.body.restaurant;
+            data.image          = req.body.image;
+            data.url            = req.body.url;
+            data.date           = timestamp(req.body.date);
 
-        data.food           = req.body.food;
-        data.restaurant     = req.body.restaurant;
-        data.image          = req.body.image;
-        data.url            = req.body.url;
-        data.date           = timestamp(req.body.date);
+            data.save(function(error)
+            {
+                var result = {
+                    "success": true,
+                    "msg": data._id
+                };
+
+                if (error) {
+                    result = {
+                        "success": false,
+                        "msg": error
+                    }
+                }
+
+                res.json(result);
+            });
+        });
+    } else {
+        var gourmet = new gourmets();
+
+        gourmet.food           = req.body.food;
+        gourmet.restaurant     = req.body.restaurant;
+        gourmet.image          = req.body.image;
+        gourmet.url            = req.body.url;
+        gourmet.date           = timestamp(req.body.date);
 
         data.save(function(error)
         {
             var result = {
                 "success": true,
-                "msg": data._id
+                "msg": gourmet._id
             };
 
             if (error) {
@@ -67,5 +90,5 @@ exports.create = function(req, res)
 
             res.json(result);
         });
-    });
+    }
 };
