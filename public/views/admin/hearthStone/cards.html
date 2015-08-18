@@ -1,0 +1,15 @@
+<div class="row">
+    <div class="col-sm-10">
+        <div class="row">
+            <div class="col-sm-2" ng-repeat="card in cards">
+                <div class="thumbnail">
+                    <img ng-src="{{ card.image }}" alt=""/>
+                    <div class="caption">
+                        <p>{{ card.cardId }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-2"></div>
+</div>

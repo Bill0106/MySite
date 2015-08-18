@@ -4,8 +4,8 @@
 
 var myAdmin = angular.module('myAdmin', [
     'ui.router', 'ngResource', 'ngFileUpload', 'adminRoutes',
-    'gamesController', 'gameController', 'gourmetsController', 'gourmetController',
-    'gamesService', 'gourmetsService', 'countService',
+    'gamesController', 'gameController', 'gourmetsController', 'gourmetController', 'cardsController',
+    'gamesService', 'gourmetsService', 'cardsService', 'countService',
     'myConfig'
 ]);
 

@@ -36,6 +36,12 @@ angular.module('adminRoutes', [])
                 templateUrl: '/views/admin/gourmet.html',
                 controller: 'gourmetController',
                 title: 'Gourmet'
+            })
+            .state('hearthStoneCards', {
+                url: '/admin/hearth-stone/cards',
+                templateUrl: '/views/admin/hearthStone/cards.html',
+                controller: 'cardsController',
+                title: 'Hearth Stone Cards'
             });
 
         $locationProvider.html5Mode({
