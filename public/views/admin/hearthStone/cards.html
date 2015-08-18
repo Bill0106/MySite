@@ -1,15 +1,50 @@
 <div class="row">
-    <div class="col-sm-10">
-        <div class="row">
-            <div class="col-sm-2" ng-repeat="card in cards">
-                <div class="thumbnail">
-                    <img ng-src="{{ card.image }}" alt=""/>
-                    <div class="caption">
-                        <p>{{ card.cardId }}</p>
+    <div class="col-sm-12">
+        <ul class="list-inline">
+            <li ng-repeat="class in playerClass track by $index">
+                <button class="btn btn-default btn-lg" ng-class="$index == selectedClass ? 'active' : ''" type="button" ng-click="getClassCards($index)">{{ class }}</button>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-9">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active" role="presentation">
+                <a href="#neutral" data-toggle="tab" role="tab" aria-controls="neutral">Neutral</a>
+            </li>
+            <li role="presentation">
+                <a href="#class" data-toggle="tab" role="tab" aria-controls="class">{{ playerClass[selectedClass] }}</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="neutral" role="tabpanel">
+                <nav>
+                    <ul class="pager">
+                        <li class="previous"><a href="#" ng-click="getMoreCards('neutral', 'prev', $event)"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                        <li class="next"><a href="#" ng-click="getMoreCards('neutral', 'next', $event)">Next <span aria-hidden="true">&rarr;</span></a></li>
+                    </ul>
+                </nav>
+                <div class="row">
+                    <div class="col-sm-3" ng-repeat="neutralCard in neutralCards">
+                        <img ng-src="{{ neutralCard.image }}" alt="{{ neutralCard.name }}" title="{{ neutralCard.name }}" style="width: 100%"/>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="class" role="tabpanel">
+                <nav>
+                    <ul class="pager">
+                        <li class="previous"><a href="#" ng-click="getMoreCards('class', 'prev', $event)"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                        <li class="next"><a href="#"ng-click="getMoreCards('class', 'next', $event)">Next <span aria-hidden="true">&rarr;</span></a></li>
+                    </ul>
+                </nav>
+                <div class="row">
+                    <div class="col-sm-3" ng-repeat="classCard in classCards">
+                        <img ng-src="{{ classCard.image }}" alt="{{ classCard.name }}" title="{{ classCard.name }}" style="width: 100%"/>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-sm-2"></div>
+    <div class="col-sm-3"></div>
 </div>
