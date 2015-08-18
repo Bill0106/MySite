@@ -26,7 +26,7 @@ cardsController.controller('cardsController', function($scope, Card, Count)
         });
     };
 
-    $scope.getMoreCards = function(type, more, $event)
+    $scope.getMoreCards = function(type, more)
     {
         $event.preventDefault();
 
