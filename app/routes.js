@@ -36,6 +36,11 @@ module.exports = function(app, router)
     router.route('/gourmets/:id')
         .get(gourmets.find);
 
+    // HearthStone API Route
+    var cards = require('./controllers/hearthStone/cards');
+    router.route('/hearth-stone/cards')
+        .get(cards.list);
+
     // Model Count API Route
     var count = require('./controllers/count');
     router.route('/count/games').get(count.games);
@@ -48,13 +53,13 @@ module.exports = function(app, router)
     app.route('/admin*')
         .get(function(req, res)
         {
-            var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
-
-            if (ip == '127.0.0.1') {
+            //var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
+            //
+            //if (ip == '127.0.0.1') {
                 res.sendFile(path.join(__dirname, '../public/views/admin', 'layout.html'));
-            } else {
-                res.redirect('/');
-            }
+            //} else {
+            //    res.redirect('/');
+            //}
         });
 
     // Fronted Route

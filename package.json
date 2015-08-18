@@ -15,7 +15,8 @@
     "method-override"    : "~2.*",
     "cookie-parser"      : "~1.*",
     "serve-favicon"      : "~2.*",
-    "mongoose"           : "~4.*"
+    "mongoose"           : "~4.*",
+    "request"            : "~2.*"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.*",
