@@ -7,8 +7,9 @@ var Schema = mongoose.Schema;
 
 var SeasonsSchema = new Schema({
     title   : String,
-    image   : String,
+    month   : Number,
     rank    : Number,
+    image   : String,
     decks   : Array
 });
 
