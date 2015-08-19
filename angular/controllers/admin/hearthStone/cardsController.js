@@ -19,6 +19,7 @@ cardsController.controller('cardsController', function($scope, Card, Count)
     $scope.getClassCards = function(index)
     {
         $scope.selectedClass = index;
+        $scope.classPage = 0;
 
         Card.query({ playerClass: index }, function(data)
         {
@@ -28,8 +29,6 @@ cardsController.controller('cardsController', function($scope, Card, Count)
 
     $scope.getMoreCards = function(type, more)
     {
-        $event.preventDefault();
-
         var playerClass = -1;
         var page = $scope.neutralPage;
         if (type == 'class') {

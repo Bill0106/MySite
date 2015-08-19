@@ -13,4 +13,4 @@ var CardsSchema = new Schema({
     playerClass : Number
 });
 
-module.exports = mongoose.model('Cards', CardsSchema);
+module.exports = mongoose.model('HearthStoneCards', CardsSchema);
