@@ -13,6 +13,7 @@ angular.module('adminRoutes', [])
                 templateUrl: '/views/admin/index.html',
                 title: 'Home'
             })
+            // Game Admin Route
             .state('games', {
                 url: '/admin/games',
                 templateUrl: '/views/admin/games.html',
@@ -25,6 +26,7 @@ angular.module('adminRoutes', [])
                 controller: 'gameController',
                 title: 'Game'
             })
+            // Gourmet Admin Route
             .state('gourmets', {
                 url: '/admin/gourmets',
                 templateUrl: '/views/admin/gourmets.html',
@@ -37,11 +39,18 @@ angular.module('adminRoutes', [])
                 controller: 'gourmetController',
                 title: 'Gourmet'
             })
-            .state('hearthStoneCards', {
-                url: '/admin/hearth-stone/cards',
-                templateUrl: '/views/admin/hearthStone/cards.html',
-                controller: 'cardsController',
-                title: 'Hearth Stone Cards'
+            // Hearth Stone Admin Route
+            .state('hearthStoneSeasons', {
+                url: '/admin/hearth-stone/seasons',
+                templateUrl: '/views/admin/hearthStone/seasons.html',
+                controller: 'hearthStoneSeasons',
+                title: 'Hearth Stone Seasons'
+            })
+            .state('hearthStoneSeason', {
+                url: '/admin/hearth-stone/season',
+                templateUrl: '/views/admin/hearthStone/season.html',
+                controller: 'hearthStoneSeason',
+                title: 'Hearth Stone Season'
             });
 
         $locationProvider.html5Mode({

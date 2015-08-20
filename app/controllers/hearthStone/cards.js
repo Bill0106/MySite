@@ -13,12 +13,12 @@ exports.list = function(req, res)
 
     var offset = 0;
     if (req.query.offset) {
-        offset = req.query.offset * 8;
+        offset = req.query.offset * 12;
     }
 
     cards.find({
         playerClass: playerClass
-    }).sort({ cost: 'asc' }).limit(8).skip(offset).exec(function(err, data)
+    }).sort({ cost: 'asc' }).limit(12).skip(offset).exec(function(err, data)
     {
         if (err)
             res.send(err);

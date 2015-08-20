@@ -1,0 +1,25 @@
+<p>
+    <a ui-sref="hearthStoneSeason" class="btn btn-lg btn-primary">Add Season</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Month</th>
+        <th>Rank</th>
+        <th>Image</th>
+        <th>Decks</th>
+        <th>Operation</th>
+    </tr>
+    </thead>
+    <tr ng-repeat="season in seasons">
+        <td>{{ season.title }}</td>
+        <td>{{ season.month }}</td>
+        <td>{{ season.rank }}</td>
+        <td>{{ season.image }}</td>
+        <td>
+            <a class="btn btn-link" ng-repeat="deck in season.decks">{{ deck }}</a>
+        </td>
+        <td><a ui-sref="game({ url: game.url })" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a></td>
+    </tr>
+</table>

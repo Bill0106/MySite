@@ -40,7 +40,7 @@ cardsController.controller('cardsController', function($scope, Card, Count)
         {
             if (more == 'prev' && page !== 0) {
                 page -= 1;
-            } else if (more == 'next' && page < (Math.ceil(count.count / 8) - 1)) {
+            } else if (more == 'next' && page < (Math.ceil(count.count / 12) - 1)) {
                 page += 1;
             } else {
                 return false;
@@ -58,4 +58,30 @@ cardsController.controller('cardsController', function($scope, Card, Count)
             });
         });
     };
+
+    $scope.deckCards = [];
+    $scope.addCard = function(card)
+    {
+        if ($scope.deckCards.length > 1) {
+            if (checkCard(card, $scope.deckCards)) {
+                $scope.deckCards.push(card);
+            }
+        } else {
+            $scope.deckCards.push(card);
+        }
+    };
+
+    function checkCard(item, object)
+    {
+        var count = 0;
+        for (var i = 0; i < object.length; i++) {
+            if (item._id == object[i]._id) {
+                count++;
+            }
+            if (count == 2) {
+                return false;
+            }
+        }
+        return true;
+    }
 });

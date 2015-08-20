@@ -38,6 +38,14 @@ module.exports = function(app, router)
 
     // HearthStone API Route
     var cards = require('./controllers/hearthStone/cards');
+    var decks = require('./controllers/hearthStone/decks');
+    var seasons = require('./controllers/hearthStone/seasons');
+    router.route('/hearth-stone/seasons')
+        .get(seasons.list)
+        .post(seasons.create);
+    router.route('/hearth-stone/decks')
+        .get(decks.list)
+        .post(decks.create);
     router.route('/hearth-stone/cards')
         .get(cards.list);
 
