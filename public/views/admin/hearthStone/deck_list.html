@@ -1,0 +1,23 @@
+<p>
+    <a ui-sref="HSdeckCreate" class="btn btn-lg btn-primary">Add Deck</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Player Class</th>
+        <th>Operation</th>
+    </tr>
+    </thead>
+    <tr ng-repeat="deck in decks">
+        <td>{{ deck._id }}</td>
+        <td>{{ deck.name }}</td>
+        <td>{{ playerClasses[deck.playerClass].name }}</td>
+        <td>
+            <a ui-sref="HSdeckUpdate({ id: deck._id })" class="btn btn-default"><i class="fa fa-pencil-square-o"></i> Edit</a>
+            <a href="" class="btn btn-primary"><i class="fa fa-clone"></i> Cards</a>
+            <a href="" class="btn btn-success"><i class="fa fa-bar-chart"></i> Rating</a>
+        </td>
+    </tr>
+</table>

@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var DeckSchema = new Schema({
-    title       : String,
+    name        : String,
     playerClass : Number,
     cards       : Array
 });

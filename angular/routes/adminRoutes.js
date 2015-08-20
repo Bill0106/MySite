@@ -52,17 +52,23 @@ angular.module('adminRoutes', [])
                 title: 'Gourmet Update'
             })
             // Hearth Stone Admin Route
-            .state('hearthStoneSeasons', {
-                url: '/admin/hearth-stone/seasons',
-                templateUrl: '/views/admin/hearthStone/seasons.html',
-                controller: 'hearthStoneSeasons',
-                title: 'Hearth Stone Seasons'
+            .state('HSdecks', {
+                url: '/admin/hearth-stone-decks',
+                templateUrl: '/views/admin/hearthStone/deck_list.html',
+                controller: 'hsDecksController',
+                title: 'Hearth Stone Decks'
             })
-            .state('hearthStoneSeason', {
-                url: '/admin/hearth-stone/season',
-                templateUrl: '/views/admin/hearthStone/season.html',
-                controller: 'hearthStoneSeason',
-                title: 'Hearth Stone Season'
+            .state('HSdeckCreate', {
+                url: '/admin/hearth-stone-decks/add',
+                templateUrl: '/views/admin/hearthStone/deck_create.html',
+                controller: 'hsDeckCreateController',
+                title: 'Hearth Stone Deck Create'
+            })
+            .state('HSdeckUpdate', {
+                url: '/admin/hearth-stone-decks/:id',
+                templateUrl: '/views/admin/hearthStone/deck_create.html',
+                controller: 'hsDeckUpdateController',
+                title: 'Hearth Stone Deck Update'
             });
 
         $locationProvider.html5Mode({
