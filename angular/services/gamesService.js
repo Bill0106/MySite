@@ -6,5 +6,9 @@ var gamesService = angular.module('gamesService', []);
 
 gamesService.factory('Game', function($resource)
 {
-    return $resource('/api/games/:game_url');
+    return $resource('/api/games/:game_url', { game_url: '@url'}, {
+        update: {
+            method: 'POST'
+        }
+    });
 });

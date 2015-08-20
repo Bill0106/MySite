@@ -12,24 +12,12 @@ angular.module('gourmetsAdmin', ['gourmetsService'])
         });
 
     })
-    .controller('gourmetController', function($scope, $filter, $state, $stateParams, Gourmet)
+    .controller('gourmetCreateController', function($scope, $state, Gourmet)
     {
-        $scope.gourmet = new Gourmet();
-        if ($stateParams.url != 'add') {
-            Gourmet.get({ id: $stateParams.id }, function(data)
-            {
-                $scope.gourmet = data;
-            });
-        }
-
-        $scope.$watch('gourmet.date', function(newValue)
-        {
-            $scope.gourmet.date = $filter('date')(newValue, 'yyyy-MM-dd');
-        });
-
         $scope.fields = ['food', 'restaurant', 'date', 'image', 'url'];
 
-        $scope.createGourmet = function()
+        $scope.gourmet = new Gourmet();
+        $scope.saveGourmet = function()
         {
             $scope.gourmet.$save(function(data)
             {
@@ -41,4 +29,35 @@ angular.module('gourmetsAdmin', ['gourmetsService'])
                 }
             });
         };
+    })
+    .controller('gourmetUpdateController', function($scope, $filter, $state, $stateParams, Gourmet)
+    {
+        $scope.fields = ['food', 'restaurant', 'date', 'image', 'url'];
+
+        $scope.saveGourmet = function()
+        {
+            $scope.gourmet.$update(function(data)
+            {
+                if (!data.success) {
+                    $scope.show = true;
+                    $scope.result = data.msg;
+                } else {
+                    $state.go('gourmets');
+                }
+            });
+        };
+
+        $scope.loadGourmet = function()
+        {
+            $scope.gourmet = Gourmet.get({ id: $stateParams.id });
+
+            $scope.$watch('gourmet.date', function(newValue)
+            {
+                if (newValue) {
+                    $scope.gourmet.date = $filter('date')(newValue, 'yyyy-MM-dd');
+                }
+            });
+        };
+
+        $scope.loadGourmet();
     });

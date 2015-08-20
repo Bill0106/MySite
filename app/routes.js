@@ -26,7 +26,8 @@ module.exports = function(app, router)
         .get(games.list)
         .post(games.create);
     router.route('/games/:game_url')
-        .get(games.find);
+        .get(games.find)
+        .post(games.update);
 
     // Gourmets API Route
     var gourmets = require('./controllers/gourmets');
@@ -34,7 +35,8 @@ module.exports = function(app, router)
         .get(gourmets.list)
         .post(gourmets.create);
     router.route('/gourmets/:id')
-        .get(gourmets.find);
+        .get(gourmets.find)
+        .post(gourmets.update);
 
     // HearthStone API Route
     var cards = require('./controllers/hearthStone/cards');

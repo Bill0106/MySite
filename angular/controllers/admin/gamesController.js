@@ -14,30 +14,14 @@ angular.module('gamesAdmin', ['gamesService'])
         $scope.platforms = GAME_PLATFORMS;
         $scope.genres = GAME_GENRES;
     })
-    .controller('gameController', function($scope, $filter, $state, $stateParams,  Game, GAME_PLATFORMS, GAME_GENRES)
+    .controller('gameCreateController', function($scope, $state, Game, GAME_PLATFORMS, GAME_GENRES)
     {
-        $scope.game = new Game();
-        if ($stateParams.url != 'add') {
-            Game.get({ game_url: $stateParams.url }, function(data)
-            {
-                $scope.game = data;
-            });
-        }
-
-        $scope.$watch('game.release_at', function(newValue)
-        {
-            $scope.game.release_at = $filter('date')(newValue, 'yyyy-MM-dd');
-        });
-        $scope.$watch('game.buy_at', function(newValue)
-        {
-            $scope.game.buy_at = $filter('date')(newValue, 'yyyy-MM-dd');
-        });
-
         $scope.fields = ['title', 'name', 'developer', 'publisher', 'release_at', 'buy_at', 'rate', 'image'];
         $scope.platforms = GAME_PLATFORMS;
         $scope.genres = GAME_GENRES;
 
-        $scope.createGame = function()
+        $scope.game = new Game();
+        $scope.saveGame = function()
         {
             $scope.game.$save(function(data)
             {
@@ -49,4 +33,43 @@ angular.module('gamesAdmin', ['gamesService'])
                 }
             });
         };
+    })
+    .controller('gameUpdateController', function($scope, $filter, $state, $stateParams, Game, GAME_PLATFORMS, GAME_GENRES)
+    {
+        $scope.fields = ['title', 'name', 'developer', 'publisher', 'release_at', 'buy_at', 'rate', 'image'];
+        $scope.platforms = GAME_PLATFORMS;
+        $scope.genres = GAME_GENRES;
+
+        $scope.saveGame = function()
+        {
+            $scope.game.$update(function(data)
+            {
+                if (!data.success) {
+                    $scope.show = true;
+                    $scope.result = data.msg;
+                } else {
+                    $state.go('games');
+                }
+            });
+        };
+
+        $scope.loadGame = function()
+        {
+            $scope.game = Game.get({ game_url: $stateParams.url });
+
+            $scope.$watch('game.release_at', function(newValue)
+            {
+                if (newValue) {
+                    $scope.game.release_at = $filter('date')(newValue, 'yyyy-MM-dd');
+                }
+            });
+            $scope.$watch('game.buy_at', function(newValue)
+            {
+                if (newValue) {
+                    $scope.game.buy_at = $filter('date')(newValue, 'yyyy-MM-dd');
+                }
+            });
+        };
+
+        $scope.loadGame();
     });

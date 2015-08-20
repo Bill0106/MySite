@@ -16,28 +16,40 @@ angular.module('adminRoutes', [])
             // Game Admin Route
             .state('games', {
                 url: '/admin/games',
-                templateUrl: '/views/admin/games.html',
+                templateUrl: '/views/admin/games/list.html',
                 controller: 'gamesController',
                 title: 'Games'
             })
-            .state('game', {
+            .state('gameCreate', {
+                url: '/admin/games/add',
+                templateUrl: '/views/admin/games/create.html',
+                controller: 'gameCreateController',
+                title: 'Game Create'
+            })
+            .state('gameUpdate', {
                 url: '/admin/games/:url',
-                templateUrl: '/views/admin/game.html',
-                controller: 'gameController',
-                title: 'Game'
+                templateUrl: '/views/admin/games/create.html',
+                controller: 'gameUpdateController',
+                title: 'Game Update'
             })
             // Gourmet Admin Route
             .state('gourmets', {
                 url: '/admin/gourmets',
-                templateUrl: '/views/admin/gourmets.html',
+                templateUrl: '/views/admin/gourmets/list.html',
                 controller: 'gourmetsController',
                 title: 'Gourmets'
             })
-            .state('gourmet', {
+            .state('gourmetCreate', {
+                url: '/admin/gourmets/add',
+                templateUrl: '/views/admin/gourmets/create.html',
+                controller: 'gourmetCreateController',
+                title: 'Gourmet Create'
+            })
+            .state('gourmetUpdate', {
                 url: '/admin/gourmets/:id',
-                templateUrl: '/views/admin/gourmet.html',
-                controller: 'gourmetController',
-                title: 'Gourmet'
+                templateUrl: '/views/admin/gourmets/create.html',
+                controller: 'gourmetUpdateController',
+                title: 'Gourmet Update'
             })
             // Hearth Stone Admin Route
             .state('hearthStoneSeasons', {
