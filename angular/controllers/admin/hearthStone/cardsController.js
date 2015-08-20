@@ -4,7 +4,7 @@
 
 var cardsController = angular.module('cardsController', []);
 
-cardsController.controller('cardsController', function($scope, Card, Count)
+cardsController.controller('cardsController', function($scope, HSCard, Count)
 {
     $scope.playerClass = ["Druid", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Shaman", "Warlock", "Warrior"];
 

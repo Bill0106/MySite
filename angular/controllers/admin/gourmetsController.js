@@ -2,7 +2,7 @@
  * Created by bill on 15/8/13.
  */
 
-angular.module('gourmetsAdmin', ['gourmetsService'])
+angular.module('gourmetsAdmin', [])
     .controller('gourmetsController', function($scope, Gourmet, Count)
     {
         Count.get({ model: 'gourmets' }, function(count)

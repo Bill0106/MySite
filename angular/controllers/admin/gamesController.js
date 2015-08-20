@@ -2,7 +2,7 @@
  * Created by bill on 15/8/6.
  */
 
-angular.module('gamesAdmin', ['gamesService'])
+angular.module('gamesAdmin', [])
     .controller('gamesController', function($scope, Game, Count, GAME_PLATFORMS, GAME_GENRES)
     {
         Count.get({ model: 'games' }, function(count)

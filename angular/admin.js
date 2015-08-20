@@ -4,9 +4,8 @@
 
 angular.module('myAdmin', [
     'ui.router', 'ngResource', 'ngFileUpload', 'adminRoutes',
-    'gamesAdmin', 'gourmetsAdmin', 'cardsController',
-    'cardsService', 'countService',
-    'myConfig'])
+    'gamesAdmin', 'gourmetsAdmin', 'hearthStoneAdmin',
+    'myServices', 'myConfig'])
     .run(function($rootScope, $state, $http)
     {
         $http.defaults.headers.common.auth = 'ljpon3UUVTMMmIhE6Kcf';
