@@ -64,7 +64,6 @@ angular.module('hearthStoneAdmin', [])
         $scope.deck = HSDeck.get({ id: $stateParams.deck_id }, function(data)
         {
             if (data.cards) {
-                console.log(data.cards);
                 $scope.deckCards = data.cards;
             } else {
                 $scope.deckCards = [];

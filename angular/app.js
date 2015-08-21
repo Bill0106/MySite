@@ -5,8 +5,7 @@
 var myApp = angular.module('myApp',[
     'ui.router', 'ngResource', 'infinite-scroll',  'appRoutes',
     'homeController', 'gamesController', 'gameController', 'gourmetsController',
-    'gamesService', 'gourmetsService', 'countService',
-    'myConfig'
+    'myServices', 'myConfig'
 ]);
 
 myApp.run(function($rootScope, $state, $http)
