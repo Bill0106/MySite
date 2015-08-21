@@ -26,7 +26,7 @@ angular.module('hearthStoneAdmin', [])
             });
         };
     })
-    .controller('hsDeckUpdateController', function($scope, $state, $stateParams, HSDeck, HS_PLAYER_CLASSES)
+    .controller('hsDeckUpdateController', function($scope, $state, HSDeck, HS_PLAYER_CLASSES)
     {
         $scope.playerClasses = HS_PLAYER_CLASSES;
 
@@ -45,12 +45,12 @@ angular.module('hearthStoneAdmin', [])
 
         $scope.loadDeck = function()
         {
-            $scope.deck = HSDeck.get({ id: $stateParams.id });
+            $scope.deck = HSDeck.get({ id: $state.params.id });
         };
 
         $scope.loadDeck();
     })
-    .controller('hsCardAddController', function($scope, $state, $stateParams, $filter, HSCard, HSDeck, Count, HS_PLAYER_CLASSES)
+    .controller('hsCardAddController', function($scope, $state, $filter, HSCard, HSDeck, Count, HS_PLAYER_CLASSES)
     {
         $scope.playerClasses = HS_PLAYER_CLASSES;
         $scope.neutralPage = 0;
@@ -61,7 +61,7 @@ angular.module('hearthStoneAdmin', [])
             $scope.neutralCards = data;
         });
 
-        $scope.deck = HSDeck.get({ id: $stateParams.deck_id }, function(data)
+        $scope.deck = HSDeck.get({ id: $state.params.deck_id }, function(data)
         {
             if (data.cards) {
                 $scope.deckCards = data.cards;
@@ -132,6 +132,10 @@ angular.module('hearthStoneAdmin', [])
                 }
             });
         };
+    })
+    .controller('hsSeasonsController', function($scope)
+    {
+
     })
     .filter('checkCard', function()
     {

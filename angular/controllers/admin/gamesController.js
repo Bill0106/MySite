@@ -34,7 +34,7 @@ angular.module('gamesAdmin', [])
             });
         };
     })
-    .controller('gameUpdateController', function($scope, $filter, $state, $stateParams, Game, GAME_PLATFORMS, GAME_GENRES)
+    .controller('gameUpdateController', function($scope, $filter, $state, Game, GAME_PLATFORMS, GAME_GENRES)
     {
         $scope.fields = ['title', 'name', 'developer', 'publisher', 'release_at', 'buy_at', 'rate', 'image'];
         $scope.platforms = GAME_PLATFORMS;
@@ -55,7 +55,7 @@ angular.module('gamesAdmin', [])
 
         $scope.loadGame = function()
         {
-            $scope.game = Game.get({ url: $stateParams.url });
+            $scope.game = Game.get({ url: $state.params.url });
 
             $scope.$watch('game.release_at', function(newValue)
             {

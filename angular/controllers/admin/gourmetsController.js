@@ -30,7 +30,7 @@ angular.module('gourmetsAdmin', [])
             });
         };
     })
-    .controller('gourmetUpdateController', function($scope, $filter, $state, $stateParams, Gourmet)
+    .controller('gourmetUpdateController', function($scope, $filter, $state, Gourmet)
     {
         $scope.fields = ['food', 'restaurant', 'date', 'image', 'url'];
 
@@ -49,7 +49,7 @@ angular.module('gourmetsAdmin', [])
 
         $scope.loadGourmet = function()
         {
-            $scope.gourmet = Gourmet.get({ id: $stateParams.id });
+            $scope.gourmet = Gourmet.get({ id: $state.params.id });
 
             $scope.$watch('gourmet.date', function(newValue)
             {
