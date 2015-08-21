@@ -1,28 +1,19 @@
-<div class="row">
-    <div class="col-sm-12">
-        <ul class="list-inline">
-            <li ng-repeat="class in playerClass track by $index">
-                <button class="btn btn-default btn-lg" ng-class="$index == selectedClass ? 'active' : ''" type="button" ng-click="getClassCards($index)">{{ class }}</button>
-            </li>
-        </ul>
-    </div>
-</div>
-<div class="row">
+<div class="row" ng-cards>
     <div class="col-sm-9">
         <ul class="nav nav-tabs" role="tablist">
             <li class="active" role="presentation">
                 <a href="#neutral" data-toggle="tab" role="tab" aria-controls="neutral">Neutral</a>
             </li>
             <li role="presentation">
-                <a href="#class" data-toggle="tab" role="tab" aria-controls="class">{{ playerClass[selectedClass] }}</a>
+                <a href="#class" data-toggle="tab" role="tab" aria-controls="class">{{ playerClasses[deck.playerClass].name }}</a>
             </li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="neutral" role="tabpanel">
                 <nav>
                     <ul class="pager">
-                        <li class="previous"><a href="#" ng-click="getMoreCards('neutral', 'prev')"><span aria-hidden="true">&larr;</span> Previous</a></li>
-                        <li class="next"><a href="#" ng-click="getMoreCards('neutral', 'next')">Next <span aria-hidden="true">&rarr;</span></a></li>
+                        <li class="previous"><a href="#" ng-click="getMoreCards(-1, 'prev')"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                        <li class="next"><a href="#" ng-click="getMoreCards(-1, 'next')">Next <span aria-hidden="true">&rarr;</span></a></li>
                     </ul>
                 </nav>
                 <div class="row">
@@ -36,8 +27,8 @@
             <div class="tab-pane" id="class" role="tabpanel">
                 <nav>
                     <ul class="pager">
-                        <li class="previous"><a href="#" ng-click="getMoreCards('class', 'prev')"><span aria-hidden="true">&larr;</span> Previous</a></li>
-                        <li class="next"><a href="#"ng-click="getMoreCards('class', 'next')">Next <span aria-hidden="true">&rarr;</span></a></li>
+                        <li class="previous"><a href="#" ng-click="getMoreCards(deck.playerClass, 'prev')"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                        <li class="next"><a href="#"ng-click="getMoreCards(deck.playerClass, 'next')">Next <span aria-hidden="true">&rarr;</span></a></li>
                     </ul>
                 </nav>
                 <div class="row">
@@ -51,24 +42,19 @@
         </div>
     </div>
     <div class="col-sm-3">
-        <form>
+        <form ng-submit="addCards(deck, deckCards)">
             <div class="form-group">
-                <label for="title">Title:</label>
-                <input type="text" class="form-control" id="title" placeholder="Deck Title"/>
+                <label for="name">Name: {{ deck.name }}</label>
             </div>
             <div class="form-group">
-                <label for="playerClass">Player Class:</label>
-                <select class="form-control" ng-model="deck.playerClass" ng-options="playerClass.$index as playerClass for playerClass in playerClass" id="playerClass" required>
-                    <option value="">Choose Player Class</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Cards:</label>
+                <label>Cards: {{ deckCards.length }}</label>
                 <ul class="list-unstyled">
-                    <li ng-repeat="deckCard in deckCards | orderBy: ['cost', 'name'] track by $index">{{ deckCard.cost + ' - ' + deckCard.name }}</li>
+                    <li ng-repeat="deckCard in deckCards | orderBy: ['cost', 'name'] track by $index">
+                        <a href="#" ng-click="removeCard(deckCard)">{{ deckCard.cost + ' - ' + deckCard.name }}</a>
+                    </li>
                 </ul>
             </div>
-
+            <button class="btn btn-primary pull-right" type="submit">Submit</button>
         </form>
     </div>
 </div>

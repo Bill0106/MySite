@@ -16,7 +16,7 @@
         <td>{{ playerClasses[deck.playerClass].name }}</td>
         <td>
             <a ui-sref="HSdeckUpdate({ id: deck._id })" class="btn btn-default"><i class="fa fa-pencil-square-o"></i> Edit</a>
-            <a href="" class="btn btn-primary"><i class="fa fa-clone"></i> Cards</a>
+            <a ui-sref="HScardAdd({ deck_id: deck._id })" class="btn btn-primary"><i class="fa fa-clone"></i> Cards</a>
             <a href="" class="btn btn-success"><i class="fa fa-bar-chart"></i> Rating</a>
         </td>
     </tr>
