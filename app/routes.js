@@ -45,6 +45,9 @@ module.exports = function(app, router)
     router.route('/hearth-stone/seasons')
         .get(seasons.list)
         .post(seasons.create);
+    router.route('/hearth-stone/seasons/:url')
+        .get(seasons.find)
+        .post(seasons.update);
     router.route('/hearth-stone/decks')
         .get(decks.list)
         .post(decks.create);

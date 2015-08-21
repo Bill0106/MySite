@@ -10,6 +10,7 @@ var SeasonsSchema = new Schema({
     month   : Number,
     rank    : Number,
     image   : String,
+    url     : String,
     decks   : Array
 });
 
