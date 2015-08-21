@@ -133,9 +133,78 @@ angular.module('hearthStoneAdmin', [])
             });
         };
     })
-    .controller('hsSeasonsController', function($scope)
+    .controller('hsSeasonsController', function($scope, HSSeason)
     {
+        $scope.seasons = HSSeason.query();
+    })
+    .controller('hsSeasonCreateController', function($scope, $state, HSSeason, HSDeck)
+    {
+        $scope.fields = ['title', 'month', 'rank', 'image'];
+        $scope.season = new HSSeason();
+        $scope.decks = HSDeck.query();
 
+        $scope.selectDeck = function(id)
+        {
+            if ($scope.season.decks.indexOf(id) < 0) {
+                $scope.season.decks.push(id);
+            } else {
+                $scope.season.decks.splice($scope.season.decks.indexOf(id), 1);
+            }
+        };
+
+        $scope.saveSeason = function()
+        {
+            $scope.season.$save(function(data)
+            {
+                if (!data.success) {
+                    $scope.show = true;
+                    $scope.result = data.msg;
+                } else {
+                    $state.go('HSseasons');
+                }
+            });
+        };
+    })
+    .controller('hsSeasonUpdateController', function($scope, $state, $filter, HSSeason, HSDeck)
+    {
+        $scope.fields = ['title', 'month', 'rank', 'image'];
+        $scope.decks = HSDeck.query();
+
+        $scope.selectDeck = function(id)
+        {
+            if ($scope.season.decks.indexOf(id) < 0) {
+                $scope.season.decks.push(id);
+            } else {
+                $scope.season.decks.splice($scope.season.decks.indexOf(id), 1);
+            }
+        };
+
+        $scope.saveSeason = function()
+        {
+            $scope.season.$update(function(data)
+            {
+                if (!data.success) {
+                    $scope.show = true;
+                    $scope.result = data.msg;
+                } else {
+                    $state.go('HSseasons');
+                }
+            });
+        };
+
+        $scope.loadSeason = function()
+        {
+            $scope.season = HSSeason.get({ url: $state.params.url });
+
+            $scope.$watch('season.month', function(newValue)
+            {
+                if (newValue) {
+                    $scope.season.month = $filter('date')(newValue, 'yyyy-MM');
+                }
+            });
+        };
+
+        $scope.loadSeason();
     })
     .filter('checkCard', function()
     {

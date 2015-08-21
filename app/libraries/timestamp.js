@@ -8,8 +8,8 @@ function timestamp(date)
         date = date.split("-");
     }
 
-    if (date.indexOf('.') > 0) {
-        date = date.split('.');
+    if (!date[2]) {
+        date[2] = '1';
     }
 
     var newDate = date[1] + "/" + date[2] + "/" + date[0];

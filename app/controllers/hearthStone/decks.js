@@ -23,21 +23,23 @@ exports.find = function(req, res)
         if (err)
             res.send(err);
 
-        cards.find({ _id: { $in: data.cards[0].origin } }).exec(function(error_origin, cards_origin)
-        {
-            if (error_origin)
-                res.send(error_origin);
-
-            cards.find({ _id: { $in: data.cards[0].extend } }).exec(function(error_extend, cards_extend)
+        if (data.cards[0]) {
+            cards.find({ _id: { $in: data.cards[0].origin } }).exec(function(error_origin, cards_origin)
             {
-                if (error_extend)
-                    res.send(error_extend);
+                if (error_origin)
+                    res.send(error_origin);
 
-                data.cards = cards_origin.concat(cards_extend);
+                cards.find({ _id: { $in: data.cards[0].extend } }).exec(function(error_extend, cards_extend)
+                {
+                    if (error_extend)
+                        res.send(error_extend);
 
-                res.json(data);
+                    data.cards = cards_origin.concat(cards_extend);
+
+                    res.json(data);
+                });
             });
-        });
+        }
     });
 };
 

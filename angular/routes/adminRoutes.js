@@ -81,6 +81,18 @@ angular.module('adminRoutes', [])
                 templateUrl: '/views/admin/hearthStone/season_list.html',
                 controller: 'hsSeasonsController',
                 title: 'Hearth Stone Seasons'
+            })
+            .state('HSSeasonCreate', {
+                url: '/admin/hearth-stone-seasons/add',
+                templateUrl: '/views/admin/hearthStone/season_create.html',
+                controller: 'hsSeasonCreateController',
+                title: 'Hearth Stone Season Create'
+            })
+            .state('HSSeasonUpdate', {
+                url: '/admin/hearth-stone-seasons/:url',
+                templateUrl: '/views/admin/hearthStone/season_create.html',
+                controller: 'hsSeasonUpdateController',
+                title: 'Hearth Stone Season Update'
             });
 
         $locationProvider.html5Mode({

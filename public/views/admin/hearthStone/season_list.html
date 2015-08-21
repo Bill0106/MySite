@@ -1,0 +1,31 @@
+<p>
+    <a ui-sref="HSSeasonCreate" class="btn btn-lg btn-primary">Add Season</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Month</th>
+        <th>Rank</th>
+        <th>Image</th>
+        <th>Decks</th>
+        <th>URL</th>
+        <th>Operation</th>
+    </tr>
+    </thead>
+    <tr ng-repeat="season in seasons">
+        <td>{{ season.title }}</td>
+        <td>{{ season.month | date: "yyyy-MM" }}</td>
+        <td>{{ season.rank }}</td>
+        <td>{{ season.image }}</td>
+        <td>
+            <ul class="list-inline">
+                <li ng-repeat="deck in season.decks">
+                    <a ui-sref="HSdeckUpdate({ id: deck })">{{ deck }}</a>
+                </li>
+            </ul>
+        </td>
+        <td>{{ season.url }}</td>
+        <td><a ui-sref="HSSeasonUpdate({ url: season.url })" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a></td>
+    </tr>
+</table>

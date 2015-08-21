@@ -1,0 +1,23 @@
+<form class="form-horizontal" ng-submit="saveSeason()">
+    <div class="form-group" ng-repeat="field in fields">
+        <label for="{{ field }}" class="col-sm-1 control-label">{{ field.toUpperCase() }}:</label>
+        <div class="col-sm-11">
+            <input type="text" class="form-control" id="{{ field }}" ng-model="season[field]" placeholder="Enter {{ field.toUpperCase() }}" required/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="url" class="col-sm-1 control-label">URL:</label>
+        <div class="col-sm-11">
+            <input type="text" class="form-control" id="url" ng-model="season.url" placeholder="Enter URL"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-1 control-label">DECKS:</label>
+        <div class="col-sm-11">
+            <label class="checkbox-inline" ng-repeat="deck in decks">
+                <input type="checkbox" value="{{ deck._id }}" ng-click="selectDeck(deck._id)" ng-checked="season.decks.indexOf(deck._id) > -1"/> {{ deck.name }}
+            </label>
+        </div>
+    </div>
+    <button class="btn btn-primary pull-right" type="submit">Submit</button>
+</form>
