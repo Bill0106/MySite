@@ -55,7 +55,7 @@ angular.module('gamesAdmin', [])
 
         $scope.loadGame = function()
         {
-            $scope.game = Game.get({ game_url: $stateParams.url });
+            $scope.game = Game.get({ url: $stateParams.url });
 
             $scope.$watch('game.release_at', function(newValue)
             {

@@ -28,7 +28,7 @@ exports.list = function(req, res)
 
 exports.find = function(req, res)
 {
-    games.findOne({ url: req.params.game_url }, function(err, data)
+    games.findOne({ url: req.params.url }, function(err, data)
     {
         if (err)
             res.send(err);

@@ -11,7 +11,7 @@ angular.module('myServices', [])
     // Game API Service
     .factory('Game', function($resource)
     {
-        return $resource('/api/games/:game_url', { game_url: '@url'}, {
+        return $resource('/api/games/:url', { url: '@url'}, {
             update: {
                 method: 'POST'
             }
@@ -26,15 +26,22 @@ angular.module('myServices', [])
             }
         });
     })
-    // Hearth Stone Card API Service
+    // Hearth Stone API Service
     .factory('HSCard', function($resource)
     {
         return $resource('/api/hearth-stone/cards');
     })
-    // Hearth Stone Deck API Service
     .factory('HSDeck', function($resource)
     {
         return $resource('/api/hearth-stone/decks/:id', { id: '@_id' }, {
+            update: {
+                method: 'POST'
+            }
+        });
+    })
+    .factory('HSSeason', function($resource)
+    {
+        return $resource('/api/hearth-stone/seasons/:url', { url: '@url' }, {
             update: {
                 method: 'POST'
             }

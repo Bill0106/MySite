@@ -6,7 +6,7 @@ var gameController = angular.module('gameController', []);
 
 gameController.controller('gameController', function($scope, $rootScope, $state, Game, GAME_PLATFORMS, GAME_GENRES)
 {
-    Game.get({ game_url: $state.params.url }, function(data)
+    Game.get({ url: $state.params.url }, function(data)
     {
         $rootScope.title = data.name + '_My Games';
         $scope.game = data;
