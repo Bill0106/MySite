@@ -133,9 +133,18 @@ angular.module('hearthStoneAdmin', [])
             });
         };
     })
-    .controller('hsSeasonsController', function($scope, HSSeason)
+    .controller('hsSeasonsController', function($scope, HSSeason, HSDeck)
     {
         $scope.seasons = HSSeason.query();
+
+        $scope.decks = [];
+        HSDeck.query(function(data)
+        {
+            angular.forEach(data, function(deck)
+            {
+                $scope.decks[deck._id] = deck;
+            });
+        });
     })
     .controller('hsSeasonCreateController', function($scope, $state, HSSeason, HSDeck)
     {

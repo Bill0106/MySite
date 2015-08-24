@@ -21,7 +21,7 @@
         <td>
             <ul class="list-inline">
                 <li ng-repeat="deck in season.decks">
-                    <a ui-sref="HSdeckUpdate({ id: deck })">{{ deck }}</a>
+                    <a ui-sref="HSdeckUpdate({ id: deck })">{{ decks[deck].name }}</a>
                 </li>
             </ul>
         </td>
