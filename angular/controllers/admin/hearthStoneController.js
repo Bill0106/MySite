@@ -142,6 +142,7 @@ angular.module('hearthStoneAdmin', [])
         $scope.fields = ['title', 'month', 'rank', 'image'];
         $scope.season = new HSSeason();
         $scope.decks = HSDeck.query();
+        $scope.season.decks = [];
 
         $scope.selectDeck = function(id)
         {
