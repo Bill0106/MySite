@@ -216,6 +216,78 @@ angular.module('hearthStoneAdmin', [])
 
         $scope.loadSeason();
     })
+    .controller('hsWinsController', function($scope, HSWin, HSDeck, HSSeason)
+    {
+        $scope.wins = HSWin.query();
+
+        $scope.decks = [];
+        HSDeck.query(function(data)
+        {
+            angular.forEach(data, function(deck)
+            {
+                $scope.decks[deck._id] = deck;
+            });
+        });
+
+        $scope.seasons = [];
+        HSSeason.query(function(data)
+        {
+            angular.forEach(data, function(season)
+            {
+                $scope.seasons[season._id] = season;
+            });
+        });
+    })
+    .controller('hsWinCreateController', function($scope, $state, HSWin, HSSeason, HSDeck, HS_PLAYER_CLASSES)
+    {
+        $scope.playerClasses = HS_PLAYER_CLASSES;
+        $scope.seasons = HSSeason.query();
+        $scope.decks = HSDeck.query();
+        $scope.win = new HSWin();
+
+        $scope.saveWin = function()
+        {
+            $scope.win.$save(function(data)
+            {
+                if (!data.success) {
+                    $scope.show = true;
+                    $scope.result = data.msg;
+                } else {
+                    $state.go('HSWins');
+                }
+            });
+        };
+    })
+    .controller('hsWinUpdateController', function($scope, $state, HSWin, HSSeason, HSDeck, HS_PLAYER_CLASSES)
+    {
+        $scope.playerClasses = HS_PLAYER_CLASSES;
+        $scope.seasons = HSSeason.query();
+        $scope.decks = HSDeck.query();
+
+        $scope.saveWin = function()
+        {
+            $scope.win.$update(function(data)
+            {
+                if (!data.success) {
+                    $scope.show = true;
+                    $scope.result = data.msg;
+                } else {
+                    $state.go('HSWins');
+                }
+            });
+        };
+
+        $scope.loadWin = function()
+        {
+            HSWin.get({ id: $state.params.id }, function(data)
+            {
+                $scope.win = data;
+                $scope.win.detail = data.detail[0];
+            });
+        };
+
+        $scope.loadWin();
+    })
     .filter('checkCard', function()
     {
         return function checkCard(item, object)

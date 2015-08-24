@@ -46,4 +46,12 @@ angular.module('myServices', [])
                 method: 'POST'
             }
         });
+    })
+    .factory('HSWin', function($resource)
+    {
+        return $resource('/api/hearth-stone/wins/:id', { id: '@_id'}, {
+            update: {
+                method: 'POST'
+            }
+        });
     });
