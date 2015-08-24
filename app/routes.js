@@ -42,6 +42,7 @@ module.exports = function(app, router)
     var cards = require('./controllers/hearthStone/cards');
     var decks = require('./controllers/hearthStone/decks');
     var seasons = require('./controllers/hearthStone/seasons');
+    var wins = require('./controllers/hearthStone/wins');
     router.route('/hearth-stone/seasons')
         .get(seasons.list)
         .post(seasons.create);
@@ -56,6 +57,12 @@ module.exports = function(app, router)
         .post(decks.update);
     router.route('/hearth-stone/cards')
         .get(cards.list);
+    router.route('/hearth-stone/wins')
+        .get(wins.list)
+        .post(wins.create);
+    router.route('/hearth-stone/wins/:id')
+        .get(wins.find)
+        .post(wins.update);
 
     // Model Count API Route
     var count = require('./controllers/count');
