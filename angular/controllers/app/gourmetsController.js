@@ -2,122 +2,120 @@
  * Created by bill on 15/8/13.
  */
 
-var gourmetsController = angular.module('gourmetsController', []);
-
-gourmetsController.controller('gourmetsController', function($scope, Gourmet, Count)
-{
-    $scope.show = true;
-
-    var count = 24;
-    var limit = 18;
-    Gourmet.query({ limit: count }, function(data)
+angular.module('gourmetsApp', ['infinite-scroll'])
+    .controller('gourmetsController', function($scope, Gourmet, Count)
     {
-        $scope.gourmets = data;
+        $scope.show = true;
 
-        $scope.images = [];
-        angular.forEach(data, function(item)
+        var count = 24;
+        var limit = 18;
+        Gourmet.query({ limit: count }, function(data)
         {
-            $scope.images.push(item.image);
-        });
-    });
+            $scope.gourmets = data;
 
-    Count.get({ model: 'gourmets' }, function(data)
-    {
-        $scope.loadMore = function()
-        {
-            $scope.busy = true;
-
-            if (count >= data.count) {
-                $scope.show = false;
-                return false;
-            }
-
-            Gourmet.query({ offset: count, limit: limit }, function(data)
+            $scope.images = [];
+            angular.forEach(data, function(item)
             {
-                $scope.moreImages = [];
-                angular.forEach(data, function(value)
-                {
-                    $scope.gourmets.push(value);
-                    $scope.moreImages.push(value.image);
-                });
+                $scope.images.push(item.image);
             });
+        });
 
-            count += limit;
-        };
-    });
-
-    $scope.loadComplete = function(complete)
-    {
-        if (complete) {
-            $scope.complete = true;
-        }
-    };
-});
-
-gourmetsController.directive('ngGourmets', function()
-{
-    return {
-        restrict: 'A',
-        replace: true,
-        scope: {
-            complete: '=loadComplete',
-            busy: '=scrollBusy',
-            val: '=gourmetImages'
-        },
-        link: function(scope, element, attrs)
+        Count.get({ model: 'gourmets' }, function(data)
         {
-            function imageLoading(item, callback)
+            $scope.loadMore = function()
             {
-                var path = scope.$root.imagePath;
-                var src = path + item;
-                var image = new Image();
+                $scope.busy = true;
 
-                $(image).attr('src', src).bind('load', function()
+                if (count >= data.count) {
+                    $scope.show = false;
+                    return false;
+                }
+
+                Gourmet.query({ offset: count, limit: limit }, function(data)
                 {
-                    callback();
+                    $scope.moreImages = [];
+                    angular.forEach(data, function(value)
+                    {
+                        $scope.gourmets.push(value);
+                        $scope.moreImages.push(value.image);
+                    });
                 });
-            }
 
-            function loadMore()
+                count += limit;
+            };
+        });
+
+        $scope.loadComplete = function(complete)
+        {
+            if (complete) {
+                $scope.complete = true;
+            }
+        };
+    })
+    .directive('ngGourmets', function()
+    {
+        return {
+            restrict: 'A',
+            replace: true,
+            scope: {
+                complete: '=loadComplete',
+                busy: '=scrollBusy',
+                val: '=gourmetImages'
+            },
+            link: function(scope, element, attrs)
             {
-                scope.$watch('val', function(newValue)
+                function imageLoading(item, callback)
                 {
-                    if (newValue) {
-                        var count = 0;
-                        var total = newValue.length;
-                        angular.forEach(newValue, function(item)
-                        {
-                            imageLoading(item, function()
+                    var path = scope.$root.imagePath;
+                    var src = path + item;
+                    var image = new Image();
+
+                    $(image).attr('src', src).bind('load', function()
+                    {
+                        callback();
+                    });
+                }
+
+                function loadMore()
+                {
+                    scope.$watch('val', function(newValue)
+                    {
+                        if (newValue) {
+                            var count = 0;
+                            var total = newValue.length;
+                            angular.forEach(newValue, function(item)
                             {
-                                count++;
-                                if (count == total) {
-                                    $("[data-gourmet-item]").removeClass('hidden');
-                                    scope.busy = false;
-                                    scope.$apply();
-                                }
+                                imageLoading(item, function()
+                                {
+                                    count++;
+                                    if (count == total) {
+                                        $("[data-gourmet-item]").removeClass('hidden');
+                                        scope.busy = false;
+                                        scope.$apply();
+                                    }
+                                });
                             });
-                        });
+                        }
+                    });
+                }
+
+                function showContent()
+                {
+                    element.removeClass('hidden');
+                    $("[data-gourmet-item]").removeClass('hidden');
+                    setTimeout(function()
+                    {
+                        $("[data-load='mask']").fadeOut();
+                        loadMore();
+                    }, 300);
+                }
+
+                scope.$watch('complete', function(complete)
+                {
+                    if (complete) {
+                        showContent();
                     }
                 });
             }
-
-            function showContent()
-            {
-                element.removeClass('hidden');
-                $("[data-gourmet-item]").removeClass('hidden');
-                setTimeout(function()
-                {
-                    $("[data-load='mask']").fadeOut();
-                    loadMore();
-                }, 300);
-            }
-
-            scope.$watch('complete', function(complete)
-            {
-                if (complete) {
-                    showContent();
-                }
-            });
-        }
-    };
-});
+        };
+    });

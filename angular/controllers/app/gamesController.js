@@ -2,127 +2,145 @@
  * Created by bill on 15/8/3.
  */
 
-var gamesController = angular.module('gamesController', []);
-
-gamesController.controller('gamesController', function($scope, Game, Count)
-{
-    $scope.show = true;
-
-    var count = 20;
-    var limit = 12;
-    Game.query({ limit: count }, function(data)
+angular.module('gamesApp', ['infinite-scroll'])
+    .controller('gamesController', function($scope, Game, Count)
     {
-        $scope.games = data;
+        $scope.show = true;
 
-        $scope.images = [];
-        angular.forEach(data, function(value)
+        var count = 20;
+        var limit = 12;
+        Game.query({ limit: count }, function(data)
         {
-            $scope.images.push(value.image);
-        });
-    });
+            $scope.games = data;
 
-    Count.get({ model: 'games' }, function(data)
-    {
-        $scope.loadMore = function()
-        {
-            $scope.busy = true;
-
-            if (count >= data.count) {
-                $scope.show = false;
-                return false;
-            }
-
-            Game.query({ offset: count, limit: limit }, function(data)
+            $scope.images = [];
+            angular.forEach(data, function(value)
             {
-                $scope.moreImages = [];
-                angular.forEach(data, function(value)
-                {
-                    $scope.games.push(value);
-                    $scope.moreImages.push(value.image);
-                });
+                $scope.images.push(value.image);
             });
+        });
 
-            count += limit;
-        };
-    });
-
-    $scope.loadComplete = function(complete)
-    {
-        if (complete) {
-            $scope.complete = true;
-        }
-    };
-
-    $scope.getNumber = function(num)
-    {
-        return new Array(num);
-    };
-});
-
-gamesController.directive('ngGames', function()
-{
-    return {
-        restrict: 'A',
-        replace: true,
-        scope: {
-            complete: '=loadComplete',
-            busy: '=scrollBusy',
-            val: '=gameImages'
-        },
-        link: function(scope, element, attrs)
+        Count.get({ model: 'games' }, function(data)
         {
-            function imageLoading(item, callback)
+            $scope.loadMore = function()
             {
-                var path = scope.$root.imagePath;
-                var src = path + item;
-                var image = new Image();
+                $scope.busy = true;
 
-                $(image).attr('src', src).bind('load', function()
+                if (count >= data.count) {
+                    $scope.show = false;
+                    return false;
+                }
+
+                Game.query({ offset: count, limit: limit }, function(data)
                 {
-                    callback();
+                    $scope.moreImages = [];
+                    angular.forEach(data, function(value)
+                    {
+                        $scope.games.push(value);
+                        $scope.moreImages.push(value.image);
+                    });
                 });
-            }
 
-            function loadMore()
+                count += limit;
+            };
+        });
+
+        $scope.loadComplete = function(complete)
+        {
+            if (complete) {
+                $scope.complete = true;
+            }
+        };
+
+        $scope.getNumber = function(num)
+        {
+            return new Array(num);
+        };
+    })
+    .controller('gameController', function($scope, $rootScope, $state, Game, GAME_PLATFORMS, GAME_GENRES)
+    {
+        Game.get({ url: $state.params.url }, function(data)
+        {
+            $rootScope.title = data.name + '_My Games';
+            $scope.game = data;
+        });
+
+        $scope.platforms = GAME_PLATFORMS;
+        $scope.genres = GAME_GENRES;
+
+        $scope.rateText = ['Terrible', 'Poor', 'Fair', 'Good', 'Great'];
+
+        $scope.getParagraph = function(text)
+        {
+            if (text) {
+                return text.split('\n');
+            }
+        };
+    })
+    .directive('ngGames', function()
+    {
+        return {
+            restrict: 'A',
+            replace: true,
+            scope: {
+                complete: '=loadComplete',
+                busy: '=scrollBusy',
+                val: '=gameImages'
+            },
+            link: function(scope, element, attrs)
             {
-                scope.$watch('val', function(newValue)
+                function imageLoading(item, callback)
                 {
-                    if (newValue) {
-                        var count = 0;
-                        var total = newValue.length;
-                        angular.forEach(newValue, function(item)
-                        {
-                            imageLoading(item, function()
+                    var path = scope.$root.imagePath;
+                    var src = path + item;
+                    var image = new Image();
+
+                    $(image).attr('src', src).bind('load', function()
+                    {
+                        callback();
+                    });
+                }
+
+                function loadMore()
+                {
+                    scope.$watch('val', function(newValue)
+                    {
+                        if (newValue) {
+                            var count = 0;
+                            var total = newValue.length;
+                            angular.forEach(newValue, function(item)
                             {
-                                count++;
-                                if (count == total) {
-                                    $("[data-games-item]").removeClass('hidden');
-                                    scope.busy = false;
-                                    scope.$apply();
-                                }
+                                imageLoading(item, function()
+                                {
+                                    count++;
+                                    if (count == total) {
+                                        $("[data-games-item]").removeClass('hidden');
+                                        scope.busy = false;
+                                        scope.$apply();
+                                    }
+                                });
                             });
-                        });
+                        }
+                    });
+                }
+
+                function showContent()
+                {
+                    element.removeClass('hidden');
+                    $("[data-games-item]").removeClass('hidden');
+                    setTimeout(function()
+                    {
+                        $("[data-load='mask']").fadeOut();
+                        loadMore();
+                    }, 300);
+                }
+
+                scope.$watch('complete', function(complete)
+                {
+                    if (complete) {
+                        showContent();
                     }
                 });
             }
-
-            function showContent()
-            {
-                element.removeClass('hidden');
-                $("[data-games-item]").removeClass('hidden');
-                setTimeout(function()
-                {
-                    $("[data-load='mask']").fadeOut();
-                    loadMore();
-                }, 300);
-            }
-
-            scope.$watch('complete', function(complete)
-            {
-                if (complete) {
-                    showContent();
-                }
-            });
-        }
-    };
-});
+        };
+    });
