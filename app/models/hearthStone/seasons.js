@@ -6,12 +6,13 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var SeasonsSchema = new Schema({
-    title   : String,
-    month   : Number,
-    rank    : Number,
-    image   : String,
-    url     : String,
-    decks   : Array
+    title       : String,
+    month       : Number,
+    rank        : Number,
+    image       : String,
+    url         : String,
+    description : String,
+    decks       : Array
 });
 
 module.exports = mongoose.model('HearthStoneSeasons', SeasonsSchema);

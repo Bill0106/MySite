@@ -8,7 +8,7 @@ var month = require('../../config/month');
 
 exports.list = function(req, res)
 {
-    seasons.find(function(err, data)
+    seasons.find().sort({ month: 'desc' }).exec(function(err, data)
     {
         if (err)
             res.send(err);
@@ -41,6 +41,7 @@ exports.create = function(req, res)
     season.month = ts;
     season.url = month[newTs.getMonth()].toLowerCase() + '-' + newTs.getFullYear() + '-' + req.body.title.toLowerCase().replace(/ /g, '-');
     season.decks = req.body.decks;
+    season.description = req.body.description;
 
     season.save(function(error)
     {
@@ -70,6 +71,7 @@ exports.update = function(req, res)
         data.month = timestamp(req.body.month);
         data.url = req.body.url;
         data.decks = req.body.decks;
+        data.description = req.body.description;
 
         data.save(function(error)
         {
