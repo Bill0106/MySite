@@ -39,6 +39,8 @@ exports.find = function(req, res)
                     res.json(data);
                 });
             });
+        } else {
+            res.json(data);
         }
     });
 };
