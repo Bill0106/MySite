@@ -12,6 +12,12 @@
         </div>
     </div>
     <div class="form-group">
+        <label for="description" class="col-sm-1 control-label">DESCRIPTION:</label>
+        <div class="col-sm-11">
+            <textarea class="form-control" id="description" ng-model="season.description" placeholder="Enter DESCRIPTION"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
         <label class="col-sm-1 control-label">DECKS:</label>
         <div class="col-sm-11">
             <label class="checkbox-inline" ng-repeat="deck in decks">

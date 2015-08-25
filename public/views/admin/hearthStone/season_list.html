@@ -10,6 +10,7 @@
         <th>Image</th>
         <th>Decks</th>
         <th>URL</th>
+        <th>Description</th>
         <th>Operation</th>
     </tr>
     </thead>
@@ -26,6 +27,7 @@
             </ul>
         </td>
         <td>{{ season.url }}</td>
+        <td>{{ season.description }}</td>
         <td><a ui-sref="HSSeasonUpdate({ url: season.url })" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a></td>
     </tr>
 </table>
