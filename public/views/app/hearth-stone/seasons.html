@@ -1,0 +1,21 @@
+<div class="container">
+    <section class="season-list">
+        <div class="row">
+            <div class="col-sm-6" ng-repeat="season in seasons">
+                <div class="thumbnail season-item">
+                    <div class="season-item-title">
+                        <h2>{{ season.title }}</h2>
+                        <img ng-src="{{ imagePath + season.image }}" alt="{{ season.title }}" title="{{ season.title }}"/>
+                        <div class="season-item-rank rank-{{ season.rank }}" title="Final Rank: {{ season.rank }}">{{ season.rank }}</div>
+                    </div>
+                    <div class="season-item-text">
+                        <p>{{ season.description }}</p>
+                    </div>
+                    <div class="season-item-action">
+                        <a href="" class="btn btn-link">Get Detail</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

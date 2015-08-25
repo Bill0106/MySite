@@ -4,9 +4,9 @@
 
 angular.module('myApp',[
     'ui.router', 'appRoutes',
-    'homeApp', 'gamesApp', 'gourmetsApp',
+    'homeApp', 'gamesApp', 'gourmetsApp', 'hearthStoneApp',
     'myServices', 'myConfig'])
-    .run(function($rootScope, $state, $http)
+    .run(function($rootScope, $location, $state, $http)
     {
         $http.defaults.headers.common.auth = 'ljpon3UUVTMMmIhE6Kcf';
 

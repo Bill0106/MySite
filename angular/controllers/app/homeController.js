@@ -26,7 +26,8 @@ angular.module('homeApp', [])
             {
                 'title' : "HearthStone",
                 'icon' : "fd7f11741da6dd01db206a29d0536427.jpg",
-                'background' : "5233e5089e1ff5fff7a85c8aa13304ff.jpg"
+                'background' : "5233e5089e1ff5fff7a85c8aa13304ff.jpg",
+                'url' : 'hsSeasons'
             },
             {
                 'title' : "Manchester United",

@@ -13,6 +13,16 @@
   }
 }
 
+// HearthStone Season Rank Icon Loop
+.hearthStoneRankIconLoop (@index: 25) when (@index > 0) {
+  .hearthStoneRankIconLoop(@index - 1);
+  &.rank-@{index} {
+    @x: (mod(@index, 10) - 1);
+    @y: floor(@index / 10);
+    background-position: unit((-(@x * 50 + @x)), px) unit((-(@y * 65 + @y)), px) ;
+  }
+}
+
 // Background Opacity
 .background-opacity (@red, @green, @blue, @alpha, @startHex, @endHex) {
   background: rgb(@red, @green, @blue) transparent;

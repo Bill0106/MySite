@@ -31,6 +31,12 @@ angular.module('appRoutes', [])
                 templateUrl: '/views/app/gourmets.html',
                 controller: 'gourmetsController',
                 title: 'My Gourmets Tour'
+            })
+            .state('hsSeasons', {
+                url: '/hearth-stone/seasons',
+                templateUrl: '/views/app/hearth-stone/seasons.html',
+                controller: 'hsSeasonsController',
+                title: 'My HearthStone Seasons'
             });
 
         $locationProvider.html5Mode({
