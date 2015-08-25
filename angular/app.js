@@ -3,7 +3,7 @@
  */
 
 angular.module('myApp',[
-    'ui.router', 'ngResource', 'appRoutes',
+    'ui.router', 'appRoutes',
     'homeApp', 'gamesApp', 'gourmetsApp',
     'myServices', 'myConfig'])
     .run(function($rootScope, $state, $http)

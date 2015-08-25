@@ -2,7 +2,7 @@
  * Created by bill on 15/8/20.
  */
 
-angular.module('myServices', [])
+angular.module('myServices', ['ngResource'])
     // Model Count API Service
     .factory('Count', function($resource)
     {
