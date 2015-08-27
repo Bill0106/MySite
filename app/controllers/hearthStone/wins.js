@@ -32,9 +32,19 @@ exports.find = function(req, res)
             };
 
             if (detail.length == data.detail.length) {
-                console.log(detail);
+                data.detail = detail;
+                res.json(data);
             }
         });
+    });
+};
+
+exports.search = function(req, res)
+{
+    wins.find({ season_id: req.params.id }, function(err, data)
+    {
+        if (err)
+            res.send(err);
 
         res.json(data);
     });

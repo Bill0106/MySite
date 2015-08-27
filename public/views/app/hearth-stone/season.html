@@ -1,0 +1,36 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <section class="page-header season-title">
+                <h1>{{ season.month | date: "MMMM yyyy" }} Season – {{ season.title }}</h1>
+                <p>{{ season.description }}</p>
+                <img ng-src="{{ imagePath + season.image }}" alt=""/>
+            </section>
+            <section class="table-responsive">
+                <p><span>Final Rank: </span><span class="rank">{{ season.rank }}</span></p>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Deck</th>
+                        <th ng-repeat="class in playerClasses">{{ class.name }}</th>
+                        <th>Total</th>
+                        <th>PCT</th>
+                    </tr>
+                    </thead>
+                    <tr ng-repeat="win in wins">
+                        <td><a ui-sref="hsDeck({ id: win.deck_id })">{{ decks[win.deck_id].name }}</a></td>
+                        <td ng-repeat="class in playerClasses">{{ win.detail[0][class.value].win ? win.detail[0][class.value].win : '--' }} / {{ win.detail[0][class.value].total ? win.detail[0][class.value].total : '--' }}</td>
+                        <td>{{ win.overall[0].win  }} / {{ win.overall[0].total }}</td>
+                        <td>{{ win.overall[0].win / win.overall[0].total * 100 | number: 2 }}%</td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td ng-repeat="class in playerClasses">{{ total[class.value].win }} / {{ total[class.value].total }}</td>
+                        <td>{{ overall.win }} / {{ overall.total }}</td>
+                        <td>{{ overall.win / overall.total * 100 | number: 2 }}%</td>
+                    </tr>
+                </table>
+            </section>
+        </div>
+    </div>
+</div>

@@ -54,4 +54,8 @@ angular.module('myServices', ['ngResource'])
                 method: 'POST'
             }
         });
+    })
+    .factory('HSSeasonWin', function($resource)
+    {
+        return $resource('/api/hearth-stone/season_wins/:id');
     });

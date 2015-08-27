@@ -63,6 +63,8 @@ module.exports = function(app, router)
     router.route('/hearth-stone/wins/:id')
         .get(wins.find)
         .post(wins.update);
+    router.route('/hearth-stone/season_wins/:id')
+        .get(wins.search);
 
     // Model Count API Route
     var count = require('./controllers/count');
@@ -77,13 +79,13 @@ module.exports = function(app, router)
     app.route('/admin*')
         .get(function(req, res)
         {
-            var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
-
-            if (ip == '127.0.0.1') {
+            //var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
+            //
+            //if (ip == '127.0.0.1') {
                 res.sendFile(path.join(__dirname, '../public/views/admin', 'layout.html'));
-            } else {
-                res.redirect('/');
-            }
+            //} else {
+            //    res.redirect('/');
+            //}
         });
 
     // Fronted Route

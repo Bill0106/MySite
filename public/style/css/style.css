@@ -514,7 +514,11 @@ body.gourmetsController section.more-load {
 body.gourmetsController section.more-load > i {
   color: #333333;
 }
-section.season-list .season-item {
+body.hsSeasonsController,
+body.hsSeasonController {
+  background-color: #f1d6a9;
+}
+body.hsSeasonsController section.season-list .season-item {
   padding: 0;
   border: none;
   border-radius: 0;
@@ -522,10 +526,10 @@ section.season-list .season-item {
   -moz-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
-section.season-list .season-item .season-item-title {
+body.hsSeasonsController section.season-list .season-item .season-item-title {
   position: relative;
 }
-section.season-list .season-item .season-item-title > h2 {
+body.hsSeasonsController section.season-list .season-item .season-item-title > h2 {
   position: absolute;
   bottom: 16px;
   left: 16px;
@@ -534,11 +538,11 @@ section.season-list .season-item .season-item-title > h2 {
   font-weight: 300;
   color: #ffffff;
 }
-section.season-list .season-item .season-item-title > img {
+body.hsSeasonsController section.season-list .season-item .season-item-title > img {
   width: 100%;
   max-width: 760px;
 }
-section.season-list .season-item .season-item-title .season-item-rank {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank {
   position: absolute;
   top: 16px;
   right: 16px;
@@ -547,105 +551,143 @@ section.season-list .season-item .season-item-title .season-item-rank {
   color: transparent;
   background-image: url('http://zhuhaolin.com/images/cce4da3329e8e6e0848fc95a6a6e304e.png');
 }
-section.season-list .season-item .season-item-title .season-item-rank.rank-1 {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank.rank-1 {
   background-position: 0px 0px;
 }
-section.season-list .season-item .season-item-title .season-item-rank.rank-2 {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank.rank-2 {
   background-position: -51px 0px;
 }
-section.season-list .season-item .season-item-title .season-item-rank.rank-3 {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank.rank-3 {
   background-position: -102px 0px;
 }
-section.season-list .season-item .season-item-title .season-item-rank.rank-4 {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank.rank-4 {
   background-position: -153px 0px;
 }
-section.season-list .season-item .season-item-title .season-item-rank.rank-5 {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank.rank-5 {
   background-position: -204px 0px;
 }
-section.season-list .season-item .season-item-title .season-item-rank.rank-6 {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank.rank-6 {
   background-position: -255px 0px;
 }
-section.season-list .season-item .season-item-title .season-item-rank.rank-7 {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank.rank-7 {
   background-position: -306px 0px;
 }
-section.season-list .season-item .season-item-title .season-item-rank.rank-8 {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank.rank-8 {
   background-position: -357px 0px;
 }
-section.season-list .season-item .season-item-title .season-item-rank.rank-9 {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank.rank-9 {
   background-position: -408px 0px;
 }
-section.season-list .season-item .season-item-title .season-item-rank.rank-10 {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank.rank-10 {
   background-position: 51px -66px;
 }
-section.season-list .season-item .season-item-title .season-item-rank.rank-11 {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank.rank-11 {
   background-position: 0px -66px;
 }
-section.season-list .season-item .season-item-title .season-item-rank.rank-12 {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank.rank-12 {
   background-position: -51px -66px;
 }
-section.season-list .season-item .season-item-title .season-item-rank.rank-13 {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank.rank-13 {
   background-position: -102px -66px;
 }
-section.season-list .season-item .season-item-title .season-item-rank.rank-14 {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank.rank-14 {
   background-position: -153px -66px;
 }
-section.season-list .season-item .season-item-title .season-item-rank.rank-15 {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank.rank-15 {
   background-position: -204px -66px;
 }
-section.season-list .season-item .season-item-title .season-item-rank.rank-16 {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank.rank-16 {
   background-position: -255px -66px;
 }
-section.season-list .season-item .season-item-title .season-item-rank.rank-17 {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank.rank-17 {
   background-position: -306px -66px;
 }
-section.season-list .season-item .season-item-title .season-item-rank.rank-18 {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank.rank-18 {
   background-position: -357px -66px;
 }
-section.season-list .season-item .season-item-title .season-item-rank.rank-19 {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank.rank-19 {
   background-position: -408px -66px;
 }
-section.season-list .season-item .season-item-title .season-item-rank.rank-20 {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank.rank-20 {
   background-position: 51px -132px;
 }
-section.season-list .season-item .season-item-title .season-item-rank.rank-21 {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank.rank-21 {
   background-position: 0px -132px;
 }
-section.season-list .season-item .season-item-title .season-item-rank.rank-22 {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank.rank-22 {
   background-position: -51px -132px;
 }
-section.season-list .season-item .season-item-title .season-item-rank.rank-23 {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank.rank-23 {
   background-position: -102px -132px;
 }
-section.season-list .season-item .season-item-title .season-item-rank.rank-24 {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank.rank-24 {
   background-position: -153px -132px;
 }
-section.season-list .season-item .season-item-title .season-item-rank.rank-25 {
+body.hsSeasonsController section.season-list .season-item .season-item-title .season-item-rank.rank-25 {
   background-position: -204px -132px;
 }
-section.season-list .season-item .season-item-text {
+body.hsSeasonsController section.season-list .season-item .season-item-text {
   padding: 16px;
   background-color: #ffffff;
 }
-section.season-list .season-item .season-item-text > p {
+body.hsSeasonsController section.season-list .season-item .season-item-text > p {
   margin-bottom: 0;
   color: #666666;
 }
-section.season-list .season-item .season-item-action {
+body.hsSeasonsController section.season-list .season-item .season-item-action {
   padding: 8px;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
 }
-section.season-list .season-item .season-item-action .btn {
+body.hsSeasonsController section.season-list .season-item .season-item-action .btn {
   padding: 6px 7px;
   font-weight: 500;
   color: #3f51b5;
   text-transform: uppercase;
 }
-section.season-list .season-item .season-item-action .btn:hover,
-section.season-list .season-item .season-item-action .btn:active,
-section.season-list .season-item .season-item-action .btn:focus {
+body.hsSeasonsController section.season-list .season-item .season-item-action .btn:hover,
+body.hsSeasonsController section.season-list .season-item .season-item-action .btn:active,
+body.hsSeasonsController section.season-list .season-item .season-item-action .btn:focus {
   text-decoration: none;
   background-color: rgba(158, 158, 158, 0.2);
+}
+body.hsSeasonController section.season-title {
+  text-align: center;
+  border-color: transparent;
+}
+body.hsSeasonController section.season-title > h1 {
+  color: #233a6e;
+}
+body.hsSeasonController section.season-title > img {
+  width: 100%;
+  max-width: 760px;
+}
+body.hsSeasonController section.table-responsive > p {
+  text-align: center;
+  font-size: 16px;
+}
+body.hsSeasonController section.table-responsive > p > span {
+  margin: 0 3px;
+  display: inline-block;
+  vertical-align: middle;
+}
+body.hsSeasonController section.table-responsive > p > span.rank {
+  font-size: 24px;
+}
+body.hsSeasonController section.table-responsive .table > thead > tr > th {
+  text-align: center;
+}
+body.hsSeasonController section.table-responsive .table > thead > tr > th:first-child {
+  text-align: left;
+}
+body.hsSeasonController section.table-responsive .table > tbody > tr:last-child > td {
+  font-weight: bold;
+}
+body.hsSeasonController section.table-responsive .table > tbody > tr > td {
+  text-align: center;
+}
+body.hsSeasonController section.table-responsive .table > tbody > tr > td:first-child {
+  text-align: left;
 }
 body {
   font-family: tahoma, arial, 'Hiragino Sans GB', 'Microsoft Yahei', sans-serif;
