@@ -8,7 +8,20 @@ angular.module('hearthStoneApp', [])
         HSSeason.query(function(data)
         {
             $scope.seasons = data;
+
+            $scope.images = [];
+            angular.forEach(data, function(value)
+            {
+                $scope.images.push(value.image);
+            });
         });
+
+        $scope.loadComplete = function(complete)
+        {
+            if (complete) {
+                $scope.complete = true;
+            }
+        };
     })
     .controller('hsSeasonController', function($rootScope, $scope, $state, HSSeason, HSSeasonWin, HSDeck, HS_PLAYER_CLASSES)
     {
@@ -81,4 +94,33 @@ angular.module('hearthStoneApp', [])
                 });
             }
         });
+    })
+    .directive('ngHearthStone', function()
+    {
+        return {
+            restrict: 'A',
+            replace: true,
+            scope: {
+                complete: '=loadComplete'
+            },
+            link: function(scope, element, attrs)
+            {
+
+                function showContent()
+                {
+                    element.removeClass('hidden');
+                    setTimeout(function()
+                    {
+                        $("[data-load='mask']").fadeOut();
+                    }, 300);
+                }
+
+                scope.$watch('complete', function(complete)
+                {
+                    if (complete) {
+                        showContent();
+                    }
+                });
+            }
+        };
     });

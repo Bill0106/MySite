@@ -33,7 +33,7 @@ angular.module('appRoutes', [])
                 title: 'My Gourmets Tour'
             })
             .state('hsSeasons', {
-                url: '/hearth-stone/seasons',
+                url: '/hearth-stone',
                 templateUrl: '/views/app/hearth-stone/seasons.html',
                 controller: 'hsSeasonsController',
                 title: 'My HearthStone Seasons'
