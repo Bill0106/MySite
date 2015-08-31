@@ -23,22 +23,42 @@ exports.find = function(req, res)
         if (err)
             res.send(err);
 
-        if (data.cards[0]) {
-            cards.find({ _id: { $in: data.cards[0].origin } }).exec(function(error_origin, cards_origin)
+        if (data.cards) {
+            var cardsData = data.cards;
+            var ids = [];
+            var format = [];
+            var count = 0;
+
+            cardsData.forEach(function(element, index, array)
             {
-                if (error_origin)
-                    res.send(error_origin);
+                format[element.card] = element.count;
+                ids.push(element.card);
 
-                cards.find({ _id: { $in: data.cards[0].extend } }).exec(function(error_extend, cards_extend)
-                {
-                    if (error_extend)
-                        res.send(error_extend);
+                count++;
 
-                    data.cards = cards_origin.concat(cards_extend);
+                if (count == array.length) {
+                    cards.find({ _id: { $in: ids } }, function(error, cards)
+                    {
+                        var array = [];
 
-                    res.json(data);
-                });
+                        cards.forEach(function(ele, ind, arr)
+                        {
+                            var item = {
+                                card: ele,
+                                count: format[ele._id]
+                            };
+
+                            array.push(item);
+                            if (array.length == arr.length) {
+                                data.cards = array;
+
+                                res.json(data);
+                            }
+                        });
+                    });
+                }
             });
+
         } else {
             res.json(data);
         }
@@ -72,41 +92,58 @@ exports.create = function(req, res)
 
 exports.update = function(req, res)
 {
-    decks.findOne({ _id: req.params.id }, function(err, data)
-    {
-        data.name = req.body.name;
-        data.playerClass = req.body.playerClass;
+    var cardsArray = req.body.cards;
+    var cards = [];
+    var cardsData = [];
+    var count = 0;
 
-        if (req.body.cards) {
-            var cards = {
-                    origin: [],
-                    extend: []
-            };
-            for (var i = 0; i < req.body.cards.length; i++) {
-                if (cards.origin.indexOf(req.body.cards[i]._id) < 0) {
-                    cards.origin.push(req.body.cards[i]._id);
-                } else {
-                    cards.extend.push(req.body.cards[i]._id);
-                }
-            }
-            data.cards = cards;
+    cardsArray.forEach(function(element, index, array)
+    {
+        if (cardsData[element._id]) {
+            cardsData[element._id] = 2;
+        } else {
+            cardsData[element._id] = 1;
         }
 
-        data.save(function(error)
-        {
-            var result = {
-                "success": true,
-                "msg": data._id
-            };
+        count++;
 
-            if (error) {
-                result = {
-                    "success": false,
-                    "msg": error
+        if (count == array.length) {
+            var keys = Object.keys(cardsData);
+            keys.forEach(function(ele, ind, arr)
+            {
+                var item = {
+                    card: ele,
+                    count: cardsData[ele]
+                };
+
+                cards.push(item);
+
+                if (cards.length == arr.length) {
+                    decks.findOne({ _id: req.params.id }, function(err, data)
+                    {
+                        data.name = req.body.name;
+                        data.playerClass = req.body.playerClass;
+                        data.cards = cards;
+
+                        data.save(function(error)
+                        {
+                            var result = {
+                                "success": true,
+                                "msg": data._id
+                            };
+
+                            if (error) {
+                                result = {
+                                    "success": false,
+                                    "msg": error
+                                }
+                            }
+
+                            res.json(result);
+                        });
+                    });
                 }
-            }
-
-            res.json(result);
-        });
+            });
+        }
     });
 };

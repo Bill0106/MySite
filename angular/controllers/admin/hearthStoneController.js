@@ -63,14 +63,20 @@ angular.module('hearthStoneAdmin', [])
 
         $scope.deck = HSDeck.get({ id: $state.params.deck_id }, function(data)
         {
+            $scope.deckCards = [];
             if (data.cards) {
-                $scope.deckCards = data.cards;
-            } else {
-                $scope.deckCards = [];
+                angular.forEach(data.cards, function(item)
+                {
+                    $scope.deckCards.push(item.card);
+                    if (item.count === 2) {
+                        $scope.deckCards.push(item.card);
+                    }
+                });
             }
-            HSCard.query({ playerClass: data.playerClass }, function(data)
+
+            HSCard.query({ playerClass: data.playerClass }, function(cards)
             {
-                $scope.classCards = data;
+                $scope.classCards = cards;
             });
         });
 
