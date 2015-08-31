@@ -37,7 +37,10 @@ exports.find = function(req, res)
                 count++;
 
                 if (count == array.length) {
-                    cards.find({ _id: { $in: ids } }, function(error, cards)
+                    cards.find({ _id: { $in: ids } }).sort({
+                        cost: 'asc',
+                        name: 'asc'
+                    }).exec(function(error, cards)
                     {
                         var array = [];
 
