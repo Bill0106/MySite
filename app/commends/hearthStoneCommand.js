@@ -8,6 +8,7 @@ var cards       = require('../models/hearthStone/cards');
 mongoose.connect(database);
 
 var playerClass = ["Druid", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Shaman", "Warlock", "Warrior"];
+var rarity = ["Free", "Common", "Rare", "Epic", "Legendary"];
 
 var rawData = [];
 
@@ -21,14 +22,13 @@ var rawData = [];
     };
     var count = 0;
 
-    var qualities = ["Common", "Free", "Rare", "Epic", "Legendary"];
-    for (var i = 0; i < qualities.length; i++) {
-        options['url'] = 'https://omgvamp-hearthstone-v1.p.mashape.com/cards/qualities/' + qualities[i];
+    for (var i = 0; i < rarity.length; i++) {
+        options['url'] = 'https://omgvamp-hearthstone-v1.p.mashape.com/cards/qualities/' + rarity[i];
 
         requestApi(options, function()
         {
             count++;
-            if (count == qualities.length) {
+            if (count == rarity.length) {
                 console.log('API requests complete, progress on saving data!');
                 saveData(rawData, function(result)
                 {
@@ -106,6 +106,7 @@ function saveToDataBase(data, callback)
         card.image = data.img;
         card.cost = data.cost;
         card.playerClass = playerClass.indexOf(data.playerClass);
+        card.rarity = rarity.indexOf(data.rarity);
 
         card.save(function()
         {

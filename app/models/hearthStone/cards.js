@@ -10,7 +10,8 @@ var CardsSchema = new Schema({
     name        : String,
     image       : String,
     cost        : Number,
-    playerClass : Number
+    playerClass : Number,
+    rarity      : Number
 });
 
 module.exports = mongoose.model('HearthStoneCards', CardsSchema);
