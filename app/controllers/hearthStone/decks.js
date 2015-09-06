@@ -23,7 +23,7 @@ exports.find = function(req, res)
         if (err)
             res.send(err);
 
-        if (data.cards) {
+        if (data.cards && data.cards.length > 0) {
             var cardsData = data.cards;
             var ids = [];
             var format = [];
@@ -61,7 +61,6 @@ exports.find = function(req, res)
                     });
                 }
             });
-
         } else {
             res.json(data);
         }
