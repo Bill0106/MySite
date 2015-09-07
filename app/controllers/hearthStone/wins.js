@@ -3,6 +3,7 @@
  */
 
 var wins = require('../../models/hearthStone/wins');
+var seasons = require('../../models/hearthStone/seasons');
 
 exports.list = function(req, res)
 {
@@ -39,7 +40,7 @@ exports.find = function(req, res)
     });
 };
 
-exports.search = function(req, res)
+exports.season = function(req, res)
 {
     wins.find({ season_id: req.params.id }, function(err, data)
     {
@@ -47,6 +48,45 @@ exports.search = function(req, res)
             res.send(err);
 
         res.json(data);
+    });
+};
+
+exports.deck = function(req, res)
+{
+    wins.find({ deck_id: req.params.id }, function(err, data)
+    {
+        if (err)
+            res.send(err);
+
+        var ids = [];
+        var wins = [];
+        data.forEach(function(element, index, array)
+        {
+            ids.push(element.season_id);
+            wins[element.season_id] = element;
+
+            if (ids.length == array.length) {
+                var arrayData = [];
+                seasons.find({ _id: { $in: ids } }).sort({ month: 'desc' }).exec(function(error, seasons)
+                {
+                    if (error)
+                        res.send(error);
+
+                    seasons.forEach(function(element, index, array)
+                    {
+                        var item = {
+                            season: element,
+                            win: wins[element._id]
+                        };
+
+                        arrayData.push(item);
+                        if (arrayData.length == array.length) {
+                            res.json(arrayData);
+                        }
+                    });
+                });
+            }
+        });
     });
 };
 

@@ -64,7 +64,9 @@ module.exports = function(app, router)
         .get(wins.find)
         .post(wins.update);
     router.route('/hearth-stone/season_wins/:id')
-        .get(wins.search);
+        .get(wins.season);
+    router.route('/hearth-stone/deck_wins/:id')
+        .get(wins.deck);
 
     // Model Count API Route
     var count = require('./controllers/count');

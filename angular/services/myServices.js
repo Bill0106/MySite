@@ -58,4 +58,8 @@ angular.module('myServices', ['ngResource'])
     .factory('HSSeasonWin', function($resource)
     {
         return $resource('/api/hearth-stone/season_wins/:id');
+    })
+    .factory('HSDeckWin', function($resource)
+    {
+        return $resource('/api/hearth-stone/deck_wins/:id');
     });

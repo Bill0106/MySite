@@ -515,7 +515,8 @@ body.gourmetsController section.more-load > i {
   color: #333333;
 }
 body.hsSeasonsController,
-body.hsSeasonController {
+body.hsSeasonController,
+body.hsDeckController {
   background-color: #f1d6a9;
 }
 body.hsSeasonsController section.season-list .season-item {
@@ -688,6 +689,128 @@ body.hsSeasonController section.table-responsive .table > tbody > tr > td {
 }
 body.hsSeasonController section.table-responsive .table > tbody > tr > td:first-child {
   text-align: left;
+}
+body.hsDeckController section.deck-name {
+  margin-bottom: 30px;
+}
+body.hsDeckController section.deck-name > h1 {
+  text-align: center;
+}
+body.hsDeckController ul.deck-cards-list:before,
+body.hsDeckController ul.deck-cards-list:after {
+  content: " ";
+  display: table;
+}
+body.hsDeckController ul.deck-cards-list:after {
+  clear: both;
+}
+body.hsDeckController ul.deck-cards-list > li {
+  float: left;
+  position: relative;
+  margin-bottom: 1px;
+  width: 25%;
+  cursor: pointer;
+}
+body.hsDeckController ul.deck-cards-list > li:before,
+body.hsDeckController ul.deck-cards-list > li:after {
+  content: " ";
+  display: table;
+}
+body.hsDeckController ul.deck-cards-list > li:after {
+  clear: both;
+}
+body.hsDeckController ul.deck-cards-list > li:hover .card-image-lg {
+  display: block;
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  body.hsDeckController ul.deck-cards-list > li {
+    width: 33.33333333%;
+  }
+}
+@media only screen and (max-width: 767px) {
+  body.hsDeckController ul.deck-cards-list > li {
+    float: none;
+    width: 100%;
+  }
+}
+body.hsDeckController ul.deck-cards-list > li > span {
+  float: left;
+  display: block;
+  height: 30px;
+  line-height: 30px;
+  vertical-align: middle;
+  color: #ffffff;
+}
+body.hsDeckController ul.deck-cards-list > li .card-mana,
+body.hsDeckController ul.deck-cards-list > li .card-count {
+  width: 25px;
+  text-align: center;
+  font-size: 20px;
+  font-family: "Impact";
+  background-color: #2766ad;
+}
+body.hsDeckController ul.deck-cards-list > li .card-name {
+  position: relative;
+  padding-left: 10px;
+  width: 82%;
+  background-color: #333333;
+}
+body.hsDeckController ul.deck-cards-list > li .card-name.rarity-0,
+body.hsDeckController ul.deck-cards-list > li .card-name.rarity-1 {
+  color: #ffffff;
+}
+body.hsDeckController ul.deck-cards-list > li .card-name.rarity-2 {
+  color: #0070ff;
+}
+body.hsDeckController ul.deck-cards-list > li .card-name.rarity-3 {
+  color: #a335ee;
+}
+body.hsDeckController ul.deck-cards-list > li .card-name.rarity-4 {
+  color: #ff8000;
+}
+@media only screen and (max-width: 1199px) {
+  body.hsDeckController ul.deck-cards-list > li .card-name {
+    width: 78%;
+  }
+}
+@media only screen and (max-width: 767px) {
+  body.hsDeckController ul.deck-cards-list > li .card-name {
+    width: 82%;
+  }
+}
+body.hsDeckController ul.deck-cards-list > li .card-name > span {
+  position: relative;
+  z-index: 200;
+}
+body.hsDeckController ul.deck-cards-list > li .card-name .card-image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 110px;
+  height: 100%;
+  overflow: hidden;
+}
+body.hsDeckController ul.deck-cards-list > li .card-name .card-image .mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}
+body.hsDeckController ul.deck-cards-list > li .card-name .card-image .image {
+  position: relative;
+  width: 200px;
+  margin-top: -80px;
+  margin-left: -35px;
+  z-index: 10;
+}
+body.hsDeckController ul.deck-cards-list > li .card-count {
+  color: #cbb800;
+  background-color: #333333;
+}
+body.hsDeckController ul.deck-cards-list > li .card-count .fa {
+  font-size: 18px;
 }
 body {
   font-family: tahoma, arial, 'Hiragino Sans GB', 'Microsoft Yahei', sans-serif;

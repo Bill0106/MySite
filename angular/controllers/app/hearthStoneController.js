@@ -95,6 +95,80 @@ angular.module('hearthStoneApp', [])
             }
         });
     })
+    .controller('hsDeckController', function($rootScope, $scope, $state, HSDeck, HSDeckWin, HS_PLAYER_CLASSES)
+    {
+        $scope.playerClasses = HS_PLAYER_CLASSES;
+
+        HSDeck.get({ id: $state.params.id }, function(data)
+        {
+            $scope.deck = data;
+        });
+
+        $scope.$watch('deck._id', function(newValue)
+        {
+            if (newValue) {
+                HSDeckWin.query({ id : newValue }, function(data)
+                {
+                    $scope.wins = data;
+                });
+            }
+        });
+
+        $scope.$watch('wins', function(wins)
+        {
+            if (wins) {
+                var winsArray = [];
+                angular.forEach(wins, function(value)
+                {
+                    winsArray.push(value.win);
+
+                    if (winsArray.length == wins.length) {
+                        var array = [];
+                        for (var i = 0; i < HS_PLAYER_CLASSES.length; i++) {
+                            sum(i, array);
+                        }
+                    }
+
+
+                    $scope.overall = {
+                        win: 0,
+                        total: 0
+                    };
+                    angular.forEach(winsArray, function(item)
+                    {
+                        $scope.overall.win += item.overall[0].win;
+                        $scope.overall.total += item.overall[0].total;
+                    });
+                });
+            }
+
+            function sum(i, array)
+            {
+                var win = 0;
+                var total = 0;
+                angular.forEach(winsArray, function(item)
+                {
+                    if (item.detail[0][i]) {
+                        win += parseInt(item.detail[0][i].win);
+                        total += parseInt(item.detail[0][i].total);
+                        array[i] = {
+                            win: win,
+                            total: total
+                        };
+                    } else {
+                        array[i] = {
+                            win: '--',
+                            total: '--'
+                        };
+                    }
+
+                    if (array.length == HS_PLAYER_CLASSES.length) {
+                        $scope.total = array;
+                    }
+                });
+            }
+        });
+    })
     .directive('ngHearthStone', function()
     {
         return {

@@ -1,0 +1,53 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <section class="deck-name">
+                <h1>{{ deck.name }}</h1>
+            </section>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="list-unstyled deck-cards-list">
+                <li ng-repeat="card in deck.cards" data-hearth-stone="cardItem">
+                    <span class="card-mana">{{ card.card.cost }}</span>
+                    <span class="card-name rarity-{{ card.card.rarity }}">
+                        <span>{{ card.card.name }}</span>
+                        <div class="card-image">
+                            <img class="mask" src="../../mask.png" alt=""/>
+                            <img class="image" ng-src="{{ card.card.image }}" alt="{{ card.card.name }}" title="{{ card.card.name }}"/>
+                        </div>
+                    </span>
+                    <span class="card-count" ng-if="card.card.rarity == 4"><i class="fa fa-star"></i></span>
+                    <span class="card-count" ng-if="card.card.rarity != 4">{{ card.count }}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Season</th>
+                    <th ng-repeat="class in playerClasses">{{ class.name }}</th>
+                    <th>Total</th>
+                    <th>PCT</th>
+                </tr>
+                </thead>
+                <tr ng-repeat="win in wins">
+                    <td><a ui-sref="hsSeason({ url: win.season.url })">{{ win.season.title }}</a></td>
+                    <td ng-repeat="class in playerClasses">{{ win.win.detail[0][class.value].win ? win.win.detail[0][class.value].win : '--' }} / {{ win.win.detail[0][class.value].total ? win.win.detail[0][class.value].total : '--' }}</td>
+                    <td>{{ win.win.overall[0].win  }} / {{ win.win.overall[0].total }}</td>
+                    <td>{{ win.win.overall[0].win / win.win.overall[0].total * 100 | number: 2 }}%</td>
+                </tr>
+                <tr>
+                    <td>Total</td>
+                    <td ng-repeat="class in playerClasses">{{ total[class.value].win }} / {{ total[class.value].total }}</td>
+                    <td>{{ overall.win }} / {{ overall.total }}</td>
+                    <td>{{ overall.win / overall.total * 100 | number: 2 }}%</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
