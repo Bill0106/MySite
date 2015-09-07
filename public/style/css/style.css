@@ -812,6 +812,9 @@ body.hsDeckController ul.deck-cards-list > li .card-count {
 body.hsDeckController ul.deck-cards-list > li .card-count .fa {
   font-size: 18px;
 }
+body.hsDeckController .deck-tips {
+  font-size: 12px;
+}
 body {
   font-family: tahoma, arial, 'Hiragino Sans GB', 'Microsoft Yahei', sans-serif;
   font-style: normal;
