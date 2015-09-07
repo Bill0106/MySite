@@ -23,7 +23,7 @@ exports.find = function(req, res)
         if (err)
             res.send(err);
 
-        if (data.cards && data.cards.length > 0) {
+        if (data.cards && data.cards.length > 1) {
             var cardsData = data.cards;
             var ids = [];
             var format = [];
