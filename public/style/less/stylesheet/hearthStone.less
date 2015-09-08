@@ -2,6 +2,21 @@ body.hsSeasonsController, body.hsSeasonController, body.hsDeckController {
   background-color: @hearthStoneBodyBackground;
 }
 body.hsSeasonsController {
+  section.season-total-wins {
+    @media @screenMobile {
+      display: none;
+    }
+    .table-bordered {
+      border-color: @grayDarken;
+      > thead, > tbody {
+        > tr {
+          > td, > th {
+            border-color: @grayDarken;
+          }
+        }
+      }
+    }
+  }
   section.season-list {
     .season-item {
       padding: 0;

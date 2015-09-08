@@ -1,4 +1,20 @@
 <div class="container hidden" load-complete=complete ng-hearth-stone>
+    <section class="season-total-wins table-responsive">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th ng-repeat="class in playerClasses">{{ class.name }}</th>
+                <th>Total</th>
+                <th>PCT</th>
+            </tr>
+            </thead>
+            <tr>
+                <td ng-repeat="class in playerClasses">{{ total[class.value].win }} / {{ total[class.value].total }}</td>
+                <td>{{ overall.win }} / {{ overall.total }}</td>
+                <td>{{ overall.win / overall.total * 100 | number: 2 }}%</td>
+            </tr>
+        </table>
+    </section>
     <section class="season-list">
         <div class="row">
             <div class="col-sm-6" ng-repeat="season in seasons">

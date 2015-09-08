@@ -3,8 +3,10 @@
  */
 
 angular.module('hearthStoneApp', [])
-    .controller('hsSeasonsController', function($scope, HSSeason)
+    .controller('hsSeasonsController', function($scope, HSSeason, HSWin, HS_PLAYER_CLASSES)
     {
+        $scope.playerClasses = HS_PLAYER_CLASSES;
+
         HSSeason.query(function(data)
         {
             $scope.seasons = data;
@@ -14,6 +16,46 @@ angular.module('hearthStoneApp', [])
             {
                 $scope.images.push(value.image);
             });
+        });
+
+        HSWin.query(function(data)
+        {
+            var array = [];
+            for (var i = 0; i < HS_PLAYER_CLASSES.length; i++) {
+                sum(i, array);
+            }
+
+            $scope.overall = {
+                win: 0,
+                total: 0
+            };
+            angular.forEach(data, function(value)
+            {
+                $scope.overall.win += value.overall[0].win;
+                $scope.overall.total += value.overall[0].total;
+            });
+
+            function sum(i, array)
+            {
+                var win = 0;
+                var total = 0;
+                angular.forEach(data, function(value)
+                {
+                    if (value.detail[0][i]) {
+                        win += parseInt(value.detail[0][i].win);
+                        total += parseInt(value.detail[0][i].total);
+                        array[i] = {
+                            win: win,
+                            total: total
+                        };
+
+                        if (array.length == HS_PLAYER_CLASSES.length) {
+                            $scope.total = array;
+                            console.log($scope.total);
+                        }
+                    }
+                });
+            }
         });
 
         $scope.loadComplete = function(complete)

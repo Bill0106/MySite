@@ -519,6 +519,20 @@ body.hsSeasonController,
 body.hsDeckController {
   background-color: #f1d6a9;
 }
+@media only screen and (max-width: 767px) {
+  body.hsSeasonsController section.season-total-wins {
+    display: none;
+  }
+}
+body.hsSeasonsController section.season-total-wins .table-bordered {
+  border-color: #333333;
+}
+body.hsSeasonsController section.season-total-wins .table-bordered > thead > tr > td,
+body.hsSeasonsController section.season-total-wins .table-bordered > tbody > tr > td,
+body.hsSeasonsController section.season-total-wins .table-bordered > thead > tr > th,
+body.hsSeasonsController section.season-total-wins .table-bordered > tbody > tr > th {
+  border-color: #333333;
+}
 body.hsSeasonsController section.season-list .season-item {
   padding: 0;
   border: none;
