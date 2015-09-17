@@ -32,6 +32,12 @@ angular.module('adminRoutes', [])
                 controller: 'gameUpdateController',
                 title: 'Game Update'
             })
+            .state('gameTrophies', {
+                url: '/admin/trophies/:id',
+                templateUrl: '/views/admin/games/trophies.html',
+                controller: 'gameTrophiesController',
+                title: 'Game Trophies'
+            })
             // Gourmet Admin Route
             .state('gourmets', {
                 url: '/admin/gourmets',

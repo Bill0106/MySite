@@ -72,4 +72,39 @@ angular.module('gamesAdmin', [])
         };
 
         $scope.loadGame();
+    })
+    .controller('gameTrophiesController', function($scope, $state, $filter, GameTrophy, GAME_TROPHY_RARITY)
+    {
+        $scope.rarities = GAME_TROPHY_RARITY;
+
+        GameTrophy.get({ id: $state.params.id }, function(data)
+        {
+            var format = [];
+            angular.forEach(data.trophies, function(value)
+            {
+                if (value.date) {
+                    value.date = $filter('date')(value.date, 'yyyy-MM-dd');
+                }
+
+                format.push(value);
+
+                if (format.length == data.trophies.length) {
+                    data.trophies = format;
+                    $scope.trophies = data;
+                }
+            });
+        });
+
+        $scope.saveTrophies = function()
+        {
+            $scope.trophies.$update(function(data)
+            {
+                if (!data.success) {
+                    $scope.show = true;
+                    $scope.result = data.msg;
+                } else {
+                    $state.go('games');
+                }
+            });
+        };
     });

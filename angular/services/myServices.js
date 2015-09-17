@@ -11,7 +11,15 @@ angular.module('myServices', ['ngResource'])
     // Game API Service
     .factory('Game', function($resource)
     {
-        return $resource('/api/games/:url', { url: '@url'}, {
+        return $resource('/api/games/:url', { url: '@url' }, {
+            update: {
+                method: 'POST'
+            }
+        });
+    })
+    .factory('GameTrophy', function($resource)
+    {
+        return $resource('/api/games/trophy/:id', { id: '@_id' }, {
             update: {
                 method: 'POST'
             }

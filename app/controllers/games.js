@@ -3,7 +3,9 @@
  */
 
 var games = require('../models/games');
+var gamesTrophies = require('../models/trophies');
 var timestamp = require('../libraries/timestamp');
+var moment = require('moment');
 
 exports.list = function(req, res)
 {
@@ -113,5 +115,63 @@ exports.update = function(req, res)
 
             res.json(result);
         });
+    });
+};
+
+exports.findTrophy = function(req, res)
+{
+    gamesTrophies.findOne({ _id: req.params.id }, function(err, data)
+    {
+        if (err)
+            res.send(err);
+
+        res.json(data);
+    });
+};
+
+exports.updateTrophy = function(req, res)
+{
+    var trophies = req.body.trophies;
+    var format = [];
+    var earned = 0;
+    trophies.forEach(function(element, index, array)
+    {
+        if (element.date) {
+            element.date = moment(element.date, 'YYYY-MM-DD').valueOf();
+            earned++;
+        }
+
+        format.push(element);
+
+        if (format.length == array.length) {
+            trophies = format;
+
+            gamesTrophies.findOne({ _id: req.body._id }, function(err, data)
+            {
+                if (err)
+                    res.send(err);
+
+                data.total = trophies.length;
+                data.earned = earned;
+                data.trophies = trophies;
+
+                data.save(function(error)
+                {
+                    var result = {
+                        "success": true,
+                        "msg": data._id
+                    };
+
+                    if (error) {
+                        result = {
+                            "success": false,
+                            "msg": error
+                        }
+                    }
+
+                    res.json(result);
+                });
+            });
+        }
     });
 };

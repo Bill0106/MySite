@@ -88,4 +88,22 @@ angular.module('myConfig', [])
             value: 8,
             name: "Warrior"
         }
+    ])
+    .constant('GAME_TROPHY_RARITY', [
+        {
+            value: 0,
+            name: "Bronze"
+        },
+        {
+            value: 1,
+            name: "Gold"
+        },
+        {
+            value: 2,
+            name: "Silver"
+        },
+        {
+            value: 3,
+            name: "Platinum"
+        }
     ]);

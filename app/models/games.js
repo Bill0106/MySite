@@ -17,7 +17,8 @@ var GamesSchema = new Schema({
     url         : String,
     platform    : Number,
     genre       : Number,
-    description : String
+    description : String,
+    trophies    : String
 });
 
 module.exports = mongoose.model('Games', GamesSchema);

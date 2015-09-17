@@ -25,6 +25,9 @@ module.exports = function(app, router)
     router.route('/games')
         .get(games.list)
         .post(games.create);
+    router.route('/games/trophy/:id')
+        .get(games.findTrophy)
+        .post(games.updateTrophy);
     router.route('/games/:url')
         .get(games.find)
         .post(games.update);
