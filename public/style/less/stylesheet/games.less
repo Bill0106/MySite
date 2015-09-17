@@ -275,4 +275,59 @@ body.gameController {
   .btn-block {
     margin-bottom: 20px;
   }
+  section.game-trophies-list {
+    margin-top: 30px;
+    .game-trophy-item {
+      margin: 10px 0;
+      padding: 10px;
+      background-color: @gameTrophyBackground;
+      &.not-earned {
+        .trophy-main {
+          > img {
+            background-color: @gameTrophyNotEarned;
+            .opacity(50);
+          }
+        }
+        > p {
+          > span {
+            display: none;
+          }
+        }
+      }
+      &.earned {
+        .trophy-main {
+          > img {
+            background-color: @gameTrophyEarned;
+          }
+        }
+      }
+      .trophy-main {
+        margin-bottom: 5px;
+        .clearfix();
+        > img {
+          float: left;
+          padding: 5px;
+        }
+        .game-trophy-text {
+          margin-left: 75px;
+          > p {
+            margin-bottom: 0;
+          }
+          .description {
+            display: block;
+            height: (@lineHeightMedium * 2);
+            overflow: hidden;
+          }
+        }
+      }
+      > p {
+        margin: 0;
+        height: @lineHeightMedium;
+        > span.date {
+          font-weight: bold;
+          color: @gameTrophyEarned;
+        }
+      }
+    }
+  }
 }

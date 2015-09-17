@@ -57,7 +57,7 @@ angular.module('gamesApp', ['infinite-scroll'])
             return new Array(num);
         };
     })
-    .controller('gameController', function($scope, $rootScope, $state, Game, GAME_PLATFORMS, GAME_GENRES)
+    .controller('gameController', function($scope, $rootScope, $state, Game, GameTrophy, GAME_PLATFORMS, GAME_GENRES, GAME_TROPHY_RARITY)
     {
         Game.get({ url: $state.params.url }, function(data)
         {
@@ -67,6 +67,7 @@ angular.module('gamesApp', ['infinite-scroll'])
 
         $scope.platforms = GAME_PLATFORMS;
         $scope.genres = GAME_GENRES;
+        $scope.trophy_rarity = GAME_TROPHY_RARITY;
 
         $scope.rateText = ['Terrible', 'Poor', 'Fair', 'Good', 'Great'];
 
@@ -76,6 +77,16 @@ angular.module('gamesApp', ['infinite-scroll'])
                 return text.split('\n');
             }
         };
+
+        $scope.$watch('game.trophies', function(trophy_id)
+        {
+            if (trophy_id) {
+                GameTrophy.get({ id: trophy_id }, function(data)
+                {
+                    $scope.trophies = data;
+                });
+            }
+        });
     })
     .directive('ngGames', function()
     {

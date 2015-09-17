@@ -2,6 +2,9 @@
      Breakpoints
 --------------------*/
 /*-------------------
+      Line Height
+--------------------*/
+/*-------------------
         Fonts
 --------------------*/
 /*-------------------
@@ -467,6 +470,59 @@ body.gameController .dl-horizontal > dd {
 }
 body.gameController .btn-block {
   margin-bottom: 20px;
+}
+body.gameController section.game-trophies-list {
+  margin-top: 30px;
+}
+body.gameController section.game-trophies-list .game-trophy-item {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #044a42;
+}
+body.gameController section.game-trophies-list .game-trophy-item.not-earned .trophy-main > img {
+  background-color: #cccccc;
+  opacity: 0.5;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+}
+body.gameController section.game-trophies-list .game-trophy-item.not-earned > p > span {
+  display: none;
+}
+body.gameController section.game-trophies-list .game-trophy-item.earned .trophy-main > img {
+  background-color: #61bf19;
+}
+body.gameController section.game-trophies-list .game-trophy-item .trophy-main {
+  margin-bottom: 5px;
+}
+body.gameController section.game-trophies-list .game-trophy-item .trophy-main:before,
+body.gameController section.game-trophies-list .game-trophy-item .trophy-main:after {
+  content: " ";
+  display: table;
+}
+body.gameController section.game-trophies-list .game-trophy-item .trophy-main:after {
+  clear: both;
+}
+body.gameController section.game-trophies-list .game-trophy-item .trophy-main > img {
+  float: left;
+  padding: 5px;
+}
+body.gameController section.game-trophies-list .game-trophy-item .trophy-main .game-trophy-text {
+  margin-left: 75px;
+}
+body.gameController section.game-trophies-list .game-trophy-item .trophy-main .game-trophy-text > p {
+  margin-bottom: 0;
+}
+body.gameController section.game-trophies-list .game-trophy-item .trophy-main .game-trophy-text .description {
+  display: block;
+  height: 40px;
+  overflow: hidden;
+}
+body.gameController section.game-trophies-list .game-trophy-item > p {
+  margin: 0;
+  height: 20px;
+}
+body.gameController section.game-trophies-list .game-trophy-item > p > span.date {
+  font-weight: bold;
+  color: #61bf19;
 }
 body.gourmetsController {
   background-color: #fefcef;
