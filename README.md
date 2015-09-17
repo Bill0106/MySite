@@ -8,6 +8,8 @@ Dependencies
    - NodeJS
       - connect-multiparty
       - request
+      - cheerio
+      - moment
    - Express framework
       - morgan
       - body-parser
