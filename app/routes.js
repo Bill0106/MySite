@@ -21,7 +21,8 @@ module.exports = function(app, router)
         .post(multipartyMiddleware, images.post);
 
     // Games API Route
-    var games = require('./controllers/games');
+    var games = require('./controllers/games/games');
+    var scrap = require('./controllers/games/scrap');
     router.route('/games')
         .get(games.list)
         .post(games.create);
@@ -31,6 +32,8 @@ module.exports = function(app, router)
     router.route('/games/:url')
         .get(games.find)
         .post(games.update);
+    router.route('/games/scrap/:id')
+        .post(scrap.scrap);
 
     // Gourmets API Route
     var gourmets = require('./controllers/gourmets');

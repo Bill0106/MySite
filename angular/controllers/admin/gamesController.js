@@ -107,4 +107,20 @@ angular.module('gamesAdmin', [])
                 }
             });
         };
+    })
+    .controller('gameTrophiesScrapController', function($scope, $state, $http)
+    {
+        $scope.scrapGame = function()
+        {
+            $http.post('/api/games/scrap/' + $state.params.id, { url: $scope.url })
+                .success(function(data)
+                {
+                    $state.go('gameTrophies', { id: data });
+                }).
+                error(function(error)
+                {
+                    $scope.show = true;
+                    $scope.result = error;
+                });
+        };
     });

@@ -32,6 +32,12 @@ angular.module('adminRoutes', [])
                 controller: 'gameUpdateController',
                 title: 'Game Update'
             })
+            .state('gameTrophiesScrap', {
+                url: '/admin/scrap/:id',
+                templateUrl: '/views/admin/games/scrap.html',
+                controller: 'gameTrophiesScrapController',
+                title: 'Game Trophies Scrap'
+            })
             .state('gameTrophies', {
                 url: '/admin/trophies/:id',
                 templateUrl: '/views/admin/games/trophies.html',

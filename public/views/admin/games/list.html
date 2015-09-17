@@ -25,7 +25,8 @@
         <td>{{ game.buy_at | date:"yyyy-MM-dd" }}</td>
         <td>
             <a ui-sref="gameUpdate({ url: game.url })" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a>
-            <a ui-sref="gameTrophies({ id: game.trophies })" class="btn btn-success"><i class="fa fa-trophy"></i></a>
+            <a ui-sref="gameTrophies({ id: game.trophies })" class="btn btn-success" ng-if="game.trophies"><i class="fa fa-trophy"></i></a>
+            <a ui-sref="gameTrophiesScrap({ id: game._id })" class="btn btn-success" ng-if="!game.trophies"><i class="fa fa-trophy"></i></a>
         </td>
     </tr>
 </table>

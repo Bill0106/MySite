@@ -2,9 +2,9 @@
  * Created by bill on 15/8/2.
  */
 
-var games = require('../models/games');
-var gamesTrophies = require('../models/trophies');
-var timestamp = require('../libraries/timestamp');
+var games = require('../../models/games');
+var gamesTrophies = require('../../models/trophies');
+var timestamp = require('../../libraries/timestamp');
 var moment = require('moment');
 
 exports.list = function(req, res)

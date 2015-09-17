@@ -1,40 +1,28 @@
 /**
- * Created by bill on 15/9/16.
+ * Created by bill on 15/9/17.
  */
 
-(function fire()
+
+exports.scrap = function(req, res)
 {
-    var prompt = require('prompt');
-    prompt.start();
+    var game_id = req.params.id;
 
-    prompt.get(['url', 'id'], function(err, result)
-    {
-        if (err)
-            console.log(err);
-
-        requestHtml(result);
-    });
-})();
-
-function requestHtml(data)
-{
     var request = require('request');
-    var url = data.url;
+    var url = req.body.url;
 
     request(url, function(error, response, body)
     {
         if (error)
-            console.log(error);
+            res.status(400).send(error);
 
         if (response.statusCode != 200)
-            console.log(response.statusCode, body);
+            res.status(response.statusCode).send(body);
 
-        console.log('URL Request Finish!');
-        scrapHtml(body, data.id);
+        scrapHtml(body, game_id, res);
     });
-}
+};
 
-function scrapHtml(body, id)
+function scrapHtml(body, id, res)
 {
     var rarities = ['Bronze', 'Gold', 'Silver', 'Platinum'];
 
@@ -71,20 +59,15 @@ function scrapHtml(body, id)
         array.push(item);
 
         if (array.length == items.length) {
-            console.log('Data Get Finish!');
-            save(id, array, earned);
+            save(id, array, earned, res);
         }
     });
 }
 
-function save(id, data, earned)
+function save(id, data, earned, res)
 {
-    var mongoose = require('mongoose');
-    var database = require('../config/database');
-    var trophies = require('../models/trophies');
-    var games = require('../models/games');
-
-    mongoose.connect(database);
+    var trophies = require('../../models/trophies');
+    var games = require('../../models/games');
 
     var trophy = new trophies();
 
@@ -96,19 +79,21 @@ function save(id, data, earned)
     trophy.save(function(err)
     {
         if (err)
-            console.log(err);
+            res.status(500).send(err);
 
         games.findOne({ _id: id }, function(error, game)
         {
+            if (error)
+                res.status(500).send(error);
+
             game.trophies = trophy._id;
 
             game.save(function(gameError)
             {
                 if (gameError)
-                    console.log(gameError);
+                    res.status(500).send(gameError);
 
-                console.log('Data Saved!');
-                process.exit();
+                res.send(trophy._id);
             });
         });
     });
