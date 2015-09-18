@@ -107,6 +107,11 @@ angular.module('gamesAdmin', [])
                 }
             });
         };
+
+        $scope.removeTrophy = function(index)
+        {
+            $scope.trophies.trophies.splice(index, 1);
+        };
     })
     .controller('gameTrophiesScrapController', function($scope, $state, $http)
     {
