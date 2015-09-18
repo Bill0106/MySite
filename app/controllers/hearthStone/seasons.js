@@ -3,8 +3,7 @@
  */
 
 var seasons = require('../../models/hearthStone/seasons');
-var timestamp = require('../../libraries/timestamp');
-var month = require('../../config/month');
+var moment = require('moment');
 
 exports.list = function(req, res)
 {
@@ -30,8 +29,7 @@ exports.find = function(req, res)
 
 exports.create = function(req, res)
 {
-    var ts = timestamp(req.body.month);
-    var newTs = new Date(ts);
+    var ts = moment(req.body.month, 'YYYY-MM').valueOf();
 
     var season = new seasons();
 
@@ -39,7 +37,7 @@ exports.create = function(req, res)
     season.rank = req.body.rank;
     season.image = req.body.image;
     season.month = ts;
-    season.url = month[newTs.getMonth()].toLowerCase() + '-' + newTs.getFullYear() + '-' + req.body.title.toLowerCase().replace(/ /g, '-');
+    season.url = moment(ts).format('MMMM').toLowerCase() + '-' + moment(ts).format('YYYY') + '-' + req.body.title.toLowerCase().replace(/ /g, '-');
     season.decks = req.body.decks;
     season.description = req.body.description;
 
@@ -68,7 +66,7 @@ exports.update = function(req, res)
         data.title = req.body.title;
         data.rank = req.body.rank;
         data.image = req.body.image;
-        data.month = timestamp(req.body.month);
+        data.month = moment(req.body.month, 'YYYY-MM').valueOf();
         data.url = req.body.url;
         data.decks = req.body.decks;
         data.description = req.body.description;

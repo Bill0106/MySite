@@ -4,7 +4,6 @@
 
 var games = require('../../models/games');
 var gamesTrophies = require('../../models/trophies');
-var timestamp = require('../../libraries/timestamp');
 var moment = require('moment');
 
 exports.list = function(req, res)
@@ -47,8 +46,8 @@ exports.create = function(req, res)
     game.name        = req.body.name;
     game.publisher   = req.body.publisher;
     game.developer   = req.body.developer;
-    game.release_at  = timestamp(req.body.release_at);
-    game.buy_at      = timestamp(req.body.buy_at);
+    game.release_at  = moment(req.body.release_at, 'YYYY-MM-DD').valueOf();
+    game.buy_at      = moment(req.body.buy_at, 'YYYY-MM-DD').valueOf();
     game.rate        = req.body.rate;
     game.image       = req.body.image;
     game.url         = req.body.name.toLowerCase().replace(/ /g, '-').replace(/:/g, '');
@@ -86,8 +85,8 @@ exports.update = function(req, res)
         data.name        = req.body.name;
         data.publisher   = req.body.publisher;
         data.developer   = req.body.developer;
-        data.release_at  = timestamp(req.body.release_at);
-        data.buy_at      = timestamp(req.body.buy_at);
+        data.release_at  = moment(req.body.release_at, 'YYYY-MM-DD').valueOf();
+        data.buy_at      = moment(req.body.buy_at, 'YYYY-MM-DD').valueOf();
         data.rate        = req.body.rate;
         data.image       = req.body.image;
         data.url         = req.body.name.toLowerCase().replace(/ /g, '-').replace(/:/g, '');

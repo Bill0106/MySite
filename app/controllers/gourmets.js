@@ -3,7 +3,7 @@
  */
 
 var gourmets = require('../models/gourmets');
-var timestamp = require('../libraries/timestamp');
+var moment = require('moment');
 
 exports.list = function(req, res)
 {
@@ -45,7 +45,7 @@ exports.create = function(req, res)
     gourmet.restaurant     = req.body.restaurant;
     gourmet.image          = req.body.image;
     gourmet.url            = req.body.url;
-    gourmet.date           = timestamp(req.body.date);
+    gourmet.date           = moment(req.body.date, 'YYYY-MM-DD').valueOf();
 
     gourmet.save(function(error)
     {
@@ -73,7 +73,7 @@ exports.update = function(req, res)
         data.restaurant     = req.body.restaurant;
         data.image          = req.body.image;
         data.url            = req.body.url;
-        data.date           = timestamp(req.body.date);
+        data.date           = moment(req.body.date, 'YYYY-MM-DD').valueOf();
 
         data.save(function(error)
         {
