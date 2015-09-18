@@ -31,6 +31,9 @@ body.gamesController {
           color: @grayLight;
           .text-limit();
         }
+        &.item-rate {
+          height: @lineHeightMedium;
+        }
         > i {
           margin: 0 3px;
         }
@@ -81,6 +84,20 @@ body.gameController {
           > span {
             display: inline-block;
             border-bottom: 1px solid lighten(@PlayStation, 10%);
+            &.game-trophy {
+              position: relative;
+              border-color: transparent;
+              .trophy-line {
+                display: block;
+                position: absolute;
+                left: 0;
+                bottom: -1px;
+                width: 0;
+                height: 1px;
+                background-color: @gameRate;
+                .transition(width, 1s, ease-in-out, 1s);
+              }
+            }
           }
         }
         &.game-date {
@@ -284,7 +301,6 @@ body.gameController {
       &.not-earned {
         .trophy-main {
           > img {
-            background-color: @gameTrophyNotEarned;
             .opacity(50);
           }
         }
@@ -297,7 +313,7 @@ body.gameController {
       &.earned {
         .trophy-main {
           > img {
-            background-color: @gameTrophyEarned;
+            border-color: @gameTrophyEarned;
           }
         }
       }
@@ -306,12 +322,13 @@ body.gameController {
         .clearfix();
         > img {
           float: left;
-          padding: 5px;
+          border: 5px solid @gameTrophyNotEarned;
         }
         .game-trophy-text {
           margin-left: 75px;
           > p {
             margin-bottom: 0;
+            font-weight: bold;
           }
           .description {
             display: block;

@@ -1,3 +1,11 @@
+// Transitions
+.transition(@property, @duration, @function, @delay) {
+  -webkit-transition: @property @duration @function @delay;
+  -moz-transition: @property @duration @function @delay;
+  -o-transition: @property @duration @function @delay;
+  transition: @property @duration @function @delay;
+}
+
 // Opacity
 .opacity(@alpha) {
   opacity: (@alpha / 100);

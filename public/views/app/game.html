@@ -6,7 +6,7 @@
                 <div class="page-header-text">
                     <h1>{{ game.title }} <small>{{ game.name }}</small></h1>
                     <p class="game-date"><span>Release at {{ game.release_at | date: 'MMM dd, yyyy'}}</span> <i>/</i> <span>Buy at {{ game.buy_at | date: 'MMM dd, yyyy'}}</span></p>
-                    <p class="game-platform"><span>{{ platforms[game.platform].name }}</span> / {{ trophies ? (trophies.earned / trophies.total * 100 | number: 0) : '0' }}% Completed</p>
+                    <p class="game-platform"><span>{{ platforms[game.platform].name }}</span> / <span class="game-trophy">{{ trophies_completed ? trophies_completed : '0' }}% Trophies Completed<span class="trophy-line" ng-style="{ width: trophies_completed + '%' }"></span></span></p>
                 </div>
                 <div ng-if="game.rate != 0" class="game-rate game-rate-{{ game.rate }}">
                     <div class="game-rate-clip right">
@@ -45,7 +45,7 @@
     </div>
     <section class="game-trophies-list">
         <div class="row">
-            <div class="col-sm-4" ng-repeat="trophy in trophies.trophies">
+            <div class="col-sm-4" ng-repeat="trophy in trophies">
                 <div class="game-trophy-item" ng-class="trophy.date ? 'earned' : 'not-earned'">
                     <div class="trophy-main">
                         <img ng-src="{{ trophy.image }}" alt="{{ trophy.title }}" title="{{ trophy_rarity[trophy.rarity].name }}"/>

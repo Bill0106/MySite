@@ -207,6 +207,9 @@ body.gamesController a.thumbnail .caption > p.item-second-title {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+body.gamesController a.thumbnail .caption > p.item-rate {
+  height: 20px;
+}
 body.gamesController a.thumbnail .caption > p > i {
   margin: 0 3px;
 }
@@ -270,6 +273,23 @@ body.gameController section.page-header .page-header-text > p {
 body.gameController section.page-header .page-header-text > p.game-platform > span {
   display: inline-block;
   border-bottom: 1px solid #0042ba;
+}
+body.gameController section.page-header .page-header-text > p.game-platform > span.game-trophy {
+  position: relative;
+  border-color: transparent;
+}
+body.gameController section.page-header .page-header-text > p.game-platform > span.game-trophy .trophy-line {
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 0;
+  height: 1px;
+  background-color: #e63900;
+  -webkit-transition: width 1s ease-in-out 1s;
+  -moz-transition: width 1s ease-in-out 1s;
+  -o-transition: width 1s ease-in-out 1s;
+  transition: width 1s ease-in-out 1s;
 }
 @media only screen and (max-width: 767px) {
   body.gameController section.page-header .page-header-text > p.game-date > i {
@@ -480,7 +500,6 @@ body.gameController section.game-trophies-list .game-trophy-item {
   background-color: #044a42;
 }
 body.gameController section.game-trophies-list .game-trophy-item.not-earned .trophy-main > img {
-  background-color: #cccccc;
   opacity: 0.5;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 }
@@ -488,7 +507,7 @@ body.gameController section.game-trophies-list .game-trophy-item.not-earned > p 
   display: none;
 }
 body.gameController section.game-trophies-list .game-trophy-item.earned .trophy-main > img {
-  background-color: #61bf19;
+  border-color: #61bf19;
 }
 body.gameController section.game-trophies-list .game-trophy-item .trophy-main {
   margin-bottom: 5px;
@@ -503,13 +522,14 @@ body.gameController section.game-trophies-list .game-trophy-item .trophy-main:af
 }
 body.gameController section.game-trophies-list .game-trophy-item .trophy-main > img {
   float: left;
-  padding: 5px;
+  border: 5px solid #cccccc;
 }
 body.gameController section.game-trophies-list .game-trophy-item .trophy-main .game-trophy-text {
   margin-left: 75px;
 }
 body.gameController section.game-trophies-list .game-trophy-item .trophy-main .game-trophy-text > p {
   margin-bottom: 0;
+  font-weight: bold;
 }
 body.gameController section.game-trophies-list .game-trophy-item .trophy-main .game-trophy-text .description {
   display: block;

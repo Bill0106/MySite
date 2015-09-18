@@ -57,7 +57,7 @@ angular.module('gamesApp', ['infinite-scroll'])
             return new Array(num);
         };
     })
-    .controller('gameController', function($scope, $rootScope, $state, Game, GameTrophy, GAME_PLATFORMS, GAME_GENRES, GAME_TROPHY_RARITY)
+    .controller('gameController', function($scope, $rootScope, $state, $filter, Game, GameTrophy, GAME_PLATFORMS, GAME_GENRES, GAME_TROPHY_RARITY)
     {
         Game.get({ url: $state.params.url }, function(data)
         {
@@ -83,7 +83,8 @@ angular.module('gamesApp', ['infinite-scroll'])
             if (trophy_id) {
                 GameTrophy.get({ id: trophy_id }, function(data)
                 {
-                    $scope.trophies = data;
+                    $scope.trophies = data.trophies;
+                    $scope.trophies_completed = $filter('number')((data.earned / data.total) * 100, 0);
                 });
             }
         });
