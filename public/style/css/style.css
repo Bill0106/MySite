@@ -530,6 +530,9 @@ body.gameController section.game-trophies-list .game-trophy-item .trophy-main .g
 body.gameController section.game-trophies-list .game-trophy-item .trophy-main .game-trophy-text > p {
   margin-bottom: 0;
   font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 body.gameController section.game-trophies-list .game-trophy-item .trophy-main .game-trophy-text .description {
   display: block;
