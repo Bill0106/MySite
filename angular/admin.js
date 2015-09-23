@@ -4,7 +4,7 @@
 
 angular.module('myAdmin', [
     'ui.router', 'ngFileUpload', 'adminRoutes',
-    'gamesAdmin', 'gourmetsAdmin', 'hearthStoneAdmin',
+    'gamesAdmin', 'gourmetsAdmin', 'hearthStoneAdmin', 'saibanAdmin',
     'myServices', 'myConfig'])
     .run(function($rootScope, $state, $http)
     {

@@ -70,4 +70,13 @@ angular.module('myServices', ['ngResource'])
     .factory('HSDeckWin', function($resource)
     {
         return $resource('/api/hearth-stone/deck_wins/:id');
+    })
+    // Gyakuten Saiban API Service
+    .factory('saibanGame', function($resource)
+    {
+        return $resource('/api/saiban/games/:url', { url: '@url' }, {
+            update: {
+                method: 'POST'
+            }
+        });
     });

@@ -6,10 +6,9 @@ var path = require('path');
 var multiparty = require('connect-multiparty');
 var multipartyMiddleware = multiparty();
 
-var isChecked = require('./libraries/auth');
-
 module.exports = function(app, router)
 {
+    var isChecked = require('./libraries/auth');
     router.use(isChecked, function(req, res, next)
     {
         next();
@@ -73,6 +72,15 @@ module.exports = function(app, router)
         .get(wins.season);
     router.route('/hearth-stone/deck_wins/:id')
         .get(wins.deck);
+
+    // Saiban API Route
+    var saibanGames = require('./controllers/saiban/games');
+    router.route('/saiban/games')
+        .get(saibanGames.list)
+        .post(saibanGames.create);
+    router.route('/saiban/:url')
+        .get(saibanGames.find)
+        .post(saibanGames.update);
 
     // Model Count API Route
     var count = require('./controllers/count');

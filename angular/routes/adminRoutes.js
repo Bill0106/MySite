@@ -123,6 +123,13 @@ angular.module('adminRoutes', [])
                 templateUrl: '/views/admin/hearthStone/win_create.html',
                 controller: 'hsWinUpdateController',
                 title: 'Hearth Stone Win Update'
+            })
+            // Gyakuten Saiban Admin Route
+            .state('saibanGames', {
+                url: '/admin/saiban-games',
+                templateUrl: '/views/admin/saiban/games.html',
+                controller: 'saibanGamesController',
+                title: 'Gyakuten Saiban Games'
             });
 
         $locationProvider.html5Mode({

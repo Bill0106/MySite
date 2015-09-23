@@ -10,7 +10,8 @@ var GamesSchema = new Schema({
     release_at   : Number,
     platform     : Number,
     description  : String,
-    chapters     : Array
+    chapters     : Array,
+    url          : String
 });
 
 module.exports = mongoose.model('SaibanGames', GamesSchema);
