@@ -3,6 +3,7 @@
  */
 
 angular.module('myConfig', [])
+    // Games Config
     .constant('GAME_PLATFORMS', [
         {
             value: 0,
@@ -51,6 +52,25 @@ angular.module('myConfig', [])
             name: 'Strategy'
         }
     ])
+    .constant('GAME_TROPHY_RARITY', [
+        {
+            value: 0,
+            name: "Bronze"
+        },
+        {
+            value: 1,
+            name: "Gold"
+        },
+        {
+            value: 2,
+            name: "Silver"
+        },
+        {
+            value: 3,
+            name: "Platinum"
+        }
+    ])
+    // HearthStone Config
     .constant('HS_PLAYER_CLASSES', [
         {
             value: 0,
@@ -89,21 +109,32 @@ angular.module('myConfig', [])
             name: "Warrior"
         }
     ])
-    .constant('GAME_TROPHY_RARITY', [
+    // Gyakuten Saiban Config
+    .constant('SAIBAN_PLATFORM', [
         {
             value: 0,
-            name: "Bronze"
+            name: "GBA"
         },
         {
             value: 1,
-            name: "Gold"
+            name: "NDS"
         },
         {
             value: 2,
-            name: "Silver"
+            name: "3DS"
+        }
+    ])
+    .constant('SAIBAN_SERIES', [
+        {
+            value: 0,
+            name: "逆转裁判"
         },
         {
-            value: 3,
-            name: "Platinum"
+            value: 1,
+            name: "逆转检事"
+        },
+        {
+            value: 2,
+            name: "大逆转裁判"
         }
     ]);

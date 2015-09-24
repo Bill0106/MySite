@@ -32,6 +32,9 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
+                <div class="alert alert-danger" role="alert" ng-show="show">{{ result.msg }}</div>
+            </div>
+            <div class="col-sm-12">
                 <div ui-view></div>
             </div>
         </div>

@@ -1,0 +1,31 @@
+<p>
+    <a ui-sref="saibanGameCreate" class="btn btn-primary">Add Game</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Platform</th>
+        <th>Release_at</th>
+        <th>Second_Title</th>
+        <th>Image</th>
+        <th>Chapters</th>
+        <th>URL</th>
+        <th>Operation</th>
+    </tr>
+    </thead>
+    <tr ng-repeat="game in games">
+        <td>{{ game._id }}</td>
+        <td>{{ serieses[game.series].name + game.order }}</td>
+        <td>{{ platforms[game.platform].name }}</td>
+        <td>{{ game.release_at | date:"yyyy-MM-dd" }}</td>
+        <td>{{ game.title }}</td>
+        <td>{{ game.image }}</td>
+        <td>{{ game.chapters.length }}</td>
+        <td>{{ game.url }}</td>
+        <td>
+            <a ui-sref="saibanGameUpdate({ url: game.url })" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a>
+        </td>
+    </tr>
+</table>

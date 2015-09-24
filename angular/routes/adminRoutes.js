@@ -127,9 +127,21 @@ angular.module('adminRoutes', [])
             // Gyakuten Saiban Admin Route
             .state('saibanGames', {
                 url: '/admin/saiban-games',
-                templateUrl: '/views/admin/saiban/games.html',
+                templateUrl: '/views/admin/saiban/game_list.html',
                 controller: 'saibanGamesController',
                 title: 'Gyakuten Saiban Games'
+            })
+            .state('saibanGameCreate', {
+                url: '/admin/saiban-games/add',
+                templateUrl: '/views/admin/saiban/game_create.html',
+                controller: 'saibanGameCreateController',
+                title: 'Gyakuten Saiban Game Create'
+            })
+            .state('saibanGameUpdate', {
+                url: '/admin/saiban-games/:url',
+                templateUrl: '/views/admin/saiban/game_create.html',
+                controller: 'saibanGameUpdateController',
+                title: 'Gyakuten Saiban Game Update'
             });
 
         $locationProvider.html5Mode({
