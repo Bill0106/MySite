@@ -135,6 +135,6 @@ angular.module('myConfig', [])
         },
         {
             value: 2,
-            name: "大逆转裁判"
+            name: "其他"
         }
     ]);
