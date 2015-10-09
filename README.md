@@ -26,3 +26,12 @@ Dependencies
      - ngInfiniteScroll
    - Bootstrap
    - FontAwesome
+
+Versions
+-----------
+### v1.0
+    - Set up website with AngularJS & NodeJS
+
+### v2.0
+    - Optimaze AngularJS code directory structure
+    - Recode Frontend code
