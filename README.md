@@ -27,11 +27,24 @@ Dependencies
 - Bootstrap
 - FontAwesome
 
+### Gulp
+- Gulp
+  - gulp-less
+  - gulp-minify-css
+  - gulp-uglify
+  - gulp-notify
+  - gulp-nodemon
+  - gulp-jshint
+  - gulp-concat
+- jshint-stylish
+
+
 Installation
 ------------
 1. Run `npm install` to install backend dependencies
 2. Run `node server.js`, and visit [http://localhost:8888](http://localhost:8888)
-3. For development, run `bower install` to get frontend dependencies
+3. Run `gulp start` in development enviroment
+4. For development, run `bower install` to get frontend dependencies
 
 Versions
 --------
@@ -41,3 +54,8 @@ Versions
 ### v2.0
 1. Optimaze AngularJS code directory structure
 2. Recode Frontend code3. js`
+
+### v2.1
+1. Use Gulp instead of Grunt for development
+2. Change the Less file directory
+3. Change CSS and compressed JS file directory

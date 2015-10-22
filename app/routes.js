@@ -95,12 +95,16 @@ module.exports = function(app, router)
     app.route('/admin*')
         .get(function(req, res)
         {
-            var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
-
-            if (ip == '127.0.0.1') {
+            if (process.env.NODE_ENV && process.env.NODE_ENV == 'development') {
                 res.sendFile(path.join(__dirname, '../public/views/admin', 'layout.html'));
             } else {
-                res.redirect('/');
+                var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
+
+                if (ip == '127.0.0.1') {
+                    res.sendFile(path.join(__dirname, '../public/views/admin', 'layout.html'));
+                } else {
+                    res.redirect('/');
+                }
             }
         });
 
