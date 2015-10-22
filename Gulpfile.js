@@ -73,8 +73,6 @@ gulp.task('watch', function()
 
 gulp.task('start', function()
 {
-    livereload.listen();
-
     nodemon({
         script: 'server.js',
         ext: 'js html less',
