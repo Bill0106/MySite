@@ -48,14 +48,15 @@ Installation
 
 Versions
 --------
-### v1.0
-1. Set up website with AngularJS & NodeJS
-
-### v2.0
-1. Optimaze AngularJS code directory structure
-2. Recode Frontend code3. js`
 
 ### v2.1
 1. Use Gulp instead of Grunt for development
 2. Change the Less file directory
 3. Change CSS and compressed JS file directory
+
+### v2.0
+1. Optimaze AngularJS code directory structure
+2. Recode Frontend code
+
+### v1.0
+1. Set up website with AngularJS & NodeJS
