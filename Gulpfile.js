@@ -4,36 +4,37 @@
 
 var path = require('path');
 
-var gulp = require('gulp');
-var less = require('gulp-less');
-var minifyCSS = require('gulp-minify-css');
-var uglify = require('gulp-uglify');
-var notify = require('gulp-notify');
-var jshint = require('gulp-jshint');
-var nodemon = require('gulp-nodemon');
-var concat = require('gulp-concat');
+var gulp      = require('gulp'),
+    less      = require('gulp-less'),
+    minifyCSS = require('gulp-minify-css'),
+    uglify    = require('gulp-uglify'),
+    notify    = require('gulp-notify'),
+    jshint    = require('gulp-jshint'),
+    nodemon   = require('gulp-nodemon'),
+    concat    = require('gulp-concat');
 
-gulp.task('less', function()
+
+
+// Style Tasks
+function lessCompile()
 {
-    var stream =  gulp.src('./resources/less/style.less')
+    return gulp.src('./resources/less/style.less')
         .pipe(less({
             paths: [path.join(__dirname, 'less', 'includes')]
         }))
         .pipe(minifyCSS())
         .pipe(gulp.dest('./public/build/css'));
+}
 
-    return stream;
-});
+// Scripts Tasks
+var commonJS  = [
+    'angular/services/myServices.js',
+    'angular/config.js'
+];
 
-gulp.task('js-app', function()
+function appJS()
 {
-    var stream = gulp.src([
-        'angular/app.js',
-        'angular/controllers/app/*.js',
-        'angular/services/myServices.js',
-        'angular/routes/appRoutes.js',
-        'angular/config.js'
-    ])
+    return stream = gulp.src(['angular/app.js', 'angular/controllers/app/*.js', 'angular/routes/appRoutes.js'].concat(commonJS))
         .pipe(jshint())
         .pipe(jshint.reporter('jshint-stylish'))
         .pipe(uglify({
@@ -41,19 +42,11 @@ gulp.task('js-app', function()
         }))
         .pipe(concat('app.js'))
         .pipe(gulp.dest('./public/build/js'));
+}
 
-    return stream;
-});
-
-gulp.task('js-admin', function()
+function adminJS()
 {
-    var stream = gulp.src([
-        'angular/admin.js',
-        'angular/controllers/admin/*.js',
-        'angular/services/myServices.js',
-        'angular/routes/adminRoutes.js',
-        'angular/config.js'
-    ])
+    return stream = gulp.src(['angular/admin.js', 'angular/controllers/admin/*.js', 'angular/routes/adminRoutes.js'].concat(commonJS))
         .pipe(jshint())
         .pipe(jshint.reporter('jshint-stylish'))
         .pipe(uglify({
@@ -61,16 +54,20 @@ gulp.task('js-admin', function()
         }))
         .pipe(concat('admin.js'))
         .pipe(gulp.dest('./public/build/js'));
+}
 
-    return stream;
-});
-
-gulp.task('watch', function()
+// Watch Files
+function watchStyle()
 {
-    gulp.watch('./resources/less/**/*.less', ['less']);
-    gulp.watch('./angular/**/*.js', ['js-app', 'js-admin']);
-});
+    return gulp.watch('./resources/less/**/*.less', gulp.series(lessCompile));
+}
+function watchScripts()
+{
+    return gulp.watch('./angular/**/*.js', gulp.series(appJS, adminJS));
+}
+gulp.task('watch', gulp.parallel(watchStyle, watchScripts));
 
+// Start Server
 gulp.task('start', function()
 {
     nodemon({
@@ -78,14 +75,12 @@ gulp.task('start', function()
         ext: 'js html less',
         env: {
             'NODE_ENV': 'development'
-        }
+        },
+        tasks: ['watch']
     }).on('restart', function()
     {
         return gulp.src('').pipe(notify('All Finish!'));
     });
 });
 
-gulp.task('default', ['less', 'js-app', 'js-admin'], function()
-{
-    return gulp.src('').pipe(notify('All Finish!'));
-});
+gulp.task('default', gulp.parallel(lessCompile, adminJS, appJS));
