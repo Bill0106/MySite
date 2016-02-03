@@ -112,6 +112,12 @@ angular.module('gamesAdmin', [])
         {
             $scope.trophies.trophies.splice(index, 1);
         };
+
+        $scope.addTrophy = function()
+        {
+            var trophy = new GameTrophy();
+            $scope.trophies.trophies.push(trophy);
+        };
     })
     .controller('gameTrophiesScrapController', function($scope, $state, $http)
     {
