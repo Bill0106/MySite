@@ -48,6 +48,12 @@ Installation
 
 Versions
 --------
+### v2.3
+1. Game trophy admin can add new trophy
+2. Game trophy admin style optimize
+
+### v2.2
+1. Update Gulp to 4.0
 
 ### v2.1
 1. Use Gulp instead of Grunt for development
