@@ -44,10 +44,12 @@ Installation
 1. Run `npm install` to install backend dependencies
 2. Run `node server.js`, and visit [http://localhost:8888](http://localhost:8888)
 3. Run `gulp start` in development enviroment
-4. For development, run `bower install` to get frontend dependencies
 
 Versions
 --------
+### v2.4
+1. Delete bower.json
+
 ### v2.3
 1. Game trophy admin can add new trophy
 2. Game trophy admin style optimize
