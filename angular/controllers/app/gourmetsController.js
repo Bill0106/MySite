@@ -52,7 +52,7 @@ angular.module('gourmetsApp', ['infinite-scroll'])
             }
         };
     })
-    .directive('ngGourmets', function()
+    .directive('ngGourmets', function($timeout)
     {
         return {
             restrict: 'A',
@@ -75,46 +75,29 @@ angular.module('gourmetsApp', ['infinite-scroll'])
                         callback();
                     });
                 }
-
-                function loadMore()
+                scope.$watch('val', function(newValue)
                 {
-                    scope.$watch('val', function(newValue)
-                    {
-                        if (newValue) {
-                            var count = 0;
-                            var total = newValue.length;
-                            angular.forEach(newValue, function(item)
+                    if (newValue) {
+                        var count = 0;
+                        var total = newValue.length;
+                        angular.forEach(newValue, function(item)
+                        {
+                            imageLoading(item, function()
                             {
-                                imageLoading(item, function()
-                                {
-                                    count++;
-                                    if (count == total) {
-                                        $("[data-gourmet-item]").removeClass('hidden');
-                                        scope.busy = false;
-                                        scope.$apply();
-                                    }
-                                });
+                                count++;
+                                if (count == total) {
+                                    $("[data-gourmet-item]").removeClass('hidden');
+                                    scope.busy = false;
+                                    scope.$apply();
+                                }
                             });
-                        }
-                    });
-                }
-
-                function showContent()
-                {
-                    element.removeClass('hidden');
-                    $("[data-gourmet-item]").removeClass('hidden');
-                    setTimeout(function()
-                    {
-                        $("[data-load='mask']").fadeOut();
-                        loadMore();
-                    }, 300);
-                }
-
-                scope.$watch('complete', function(complete)
-                {
-                    if (complete) {
-                        showContent();
+                        });
                     }
+                });
+
+                $timeout(function()
+                {
+                    $("[data-gourmet-item]").removeClass('hidden');
                 });
             }
         };

@@ -1,19 +1,32 @@
-section.loading-mask {
+section.loading-container {
   position: fixed;
   top: 0;
   bottom: 0;
   width: 100%;
+  text-align: center;
   background-color: @black;
   z-index: 100;
-  .progress {
+  > svg {
     position: fixed;
     top: 50%;
-    left: 50px;
-    right: 50px;
-    margin: -10px 0 0;
-    @media @screenMobile {
-      left: 25px;
-      right: 25px;
+    left: 50%;
+    margin: -45px 0 0 -45px;
+    width: 90px;
+    height: 90px;
+    .rotate(-90deg);
+    > circle {
+      stroke: red;
+      fill: @black;
+      stroke-width: 5px;
+      stroke-dasharray: 268px;
+      stroke-dashoffset: 268px;
+      .transition(all, 1s, ease-in-out, 0s);
     }
+  }
+  > img {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin: -18px 0 0 -18px;
   }
 }

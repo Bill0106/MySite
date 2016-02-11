@@ -25,26 +25,26 @@ angular.module('myApp',[
             scope: {
                 val: '=loadImages'
             },
-            require:"ngModel",
-            link: function(scope, element, attrs, ngModel)
+            link: function(scope, element, attrs)
             {
                 function progressIncrease(total)
                 {
-                    var mask = $("[data-load='mask']");
-                    var progress = $("[data-load='progress']", mask);
-                    var count = progress.data('count');
+                    var circle = $("circle", element),
+                        radius = circle.attr('r'),
+                        length = Math.ceil(radius * 2 * Math.PI),
+                        count  = $("svg", element).data('count');
 
                     count++;
-                    var percentage = Math.floor((count / total) * 100);
-                    progress
-                        .css('width', percentage + '%')
-                        .attr('aria-valuenow', percentage)
-                        .text(percentage + '%')
-                        .data('count', count);
+                    var progress = length - length * (count / total);
+
+                    circle.css('stroke-dashoffset', progress);
+                    $("svg", element).data('count', count);
 
                     if (count == total) {
-                        ngModel.$setViewValue(true);
-                        ngModel.$render();
+                        setTimeout(function()
+                        {
+                            element.fadeOut();
+                        }, 1000);
                     }
                 }
 

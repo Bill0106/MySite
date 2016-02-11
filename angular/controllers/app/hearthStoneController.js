@@ -210,33 +210,4 @@ angular.module('hearthStoneApp', [])
                 });
             }
         });
-    })
-    .directive('ngHearthStone', function()
-    {
-        return {
-            restrict: 'A',
-            replace: true,
-            scope: {
-                complete: '=loadComplete'
-            },
-            link: function(scope, element, attrs)
-            {
-
-                function showContent()
-                {
-                    element.removeClass('hidden');
-                    setTimeout(function()
-                    {
-                        $("[data-load='mask']").fadeOut();
-                    }, 300);
-                }
-
-                scope.$watch('complete', function(complete)
-                {
-                    if (complete) {
-                        showContent();
-                    }
-                });
-            }
-        };
     });

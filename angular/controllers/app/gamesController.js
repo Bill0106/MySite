@@ -89,13 +89,12 @@ angular.module('gamesApp', ['infinite-scroll'])
             }
         });
     })
-    .directive('ngGames', function()
+    .directive('ngGames', function($timeout)
     {
         return {
             restrict: 'A',
             replace: true,
             scope: {
-                complete: '=loadComplete',
                 busy: '=scrollBusy',
                 val: '=gameImages'
             },
@@ -113,45 +112,29 @@ angular.module('gamesApp', ['infinite-scroll'])
                     });
                 }
 
-                function loadMore()
+                scope.$watch('val', function(newValue)
                 {
-                    scope.$watch('val', function(newValue)
-                    {
-                        if (newValue) {
-                            var count = 0;
-                            var total = newValue.length;
-                            angular.forEach(newValue, function(item)
+                    if (newValue) {
+                        var count = 0;
+                        var total = newValue.length;
+                        angular.forEach(newValue, function(item)
+                        {
+                            imageLoading(item, function()
                             {
-                                imageLoading(item, function()
-                                {
-                                    count++;
-                                    if (count == total) {
-                                        $("[data-games-item]").removeClass('hidden');
-                                        scope.busy = false;
-                                        scope.$apply();
-                                    }
-                                });
+                                count++;
+                                if (count == total) {
+                                    $("[data-games-item]").removeClass('hidden');
+                                    scope.busy = false;
+                                    scope.$apply();
+                                }
                             });
-                        }
-                    });
-                }
-
-                function showContent()
-                {
-                    element.removeClass('hidden');
-                    $("[data-games-item]").removeClass('hidden');
-                    setTimeout(function()
-                    {
-                        $("[data-load='mask']").fadeOut();
-                        loadMore();
-                    }, 300);
-                }
-
-                scope.$watch('complete', function(complete)
-                {
-                    if (complete) {
-                        showContent();
+                        });
                     }
+                });
+
+                $timeout(function()
+                {
+                    $("[data-games-item]").removeClass('hidden');
                 });
             }
         };

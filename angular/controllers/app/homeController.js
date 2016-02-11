@@ -28,17 +28,17 @@ angular.module('homeApp', [])
                 'icon' : "fd7f11741da6dd01db206a29d0536427.jpg",
                 'background' : "5233e5089e1ff5fff7a85c8aa13304ff.jpg",
                 'url' : 'hsSeasons'
-            },
-            {
-                'title' : "Manchester United",
-                'icon' : "a8ae912e1037ff7b5e75d4660682bf12.jpg",
-                'background' : "abb4387b620523942e197d39bf38b611.jpg"
-            },
-            {
-                'title' : "Gyakuten Saiban",
-                'icon' : "4b654282902acbaf2b3ac3051b574717.jpg",
-                'background' : "566b87a4710605f312ec139dcd71088a.jpg"
             }
+            //{
+            //    'title' : "Manchester United",
+            //    'icon' : "a8ae912e1037ff7b5e75d4660682bf12.jpg",
+            //    'background' : "abb4387b620523942e197d39bf38b611.jpg"
+            //},
+            //{
+            //    'title' : "Gyakuten Saiban",
+            //    'icon' : "4b654282902acbaf2b3ac3051b574717.jpg",
+            //    'background' : "566b87a4710605f312ec139dcd71088a.jpg"
+            //}
         ];
 
         $scope.images = [];
