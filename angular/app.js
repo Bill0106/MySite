@@ -17,15 +17,29 @@ angular.module('myApp',[
             $rootScope.title = $state.current.title;
         });
     })
-    .directive('ngLoading', function()
+    .service('imageLoading', function()
+    {
+        this.images = [];
+
+        this.addImage = function(image)
+        {
+            this.images.push(image);
+        };
+
+        this.getImages = function()
+        {
+            return this.images;
+        };
+
+        return this;
+    })
+    .directive('ngLoading', function(imageLoading)
     {
         return {
             restrict: 'A',
             replace: true,
-            scope: {
-                val: '=loadImages'
-            },
-            link: function(scope, element, attrs)
+            require: "ngModel",
+            link: function(scope, element, attrs, ngModel)
             {
                 function progressIncrease(total)
                 {
@@ -44,6 +58,8 @@ angular.module('myApp',[
                         setTimeout(function()
                         {
                             element.fadeOut();
+                            ngModel.$setViewValue(true);
+                            ngModel.$render();
                         }, 1000);
                     }
                 }
@@ -60,14 +76,15 @@ angular.module('myApp',[
                     });
                 }
 
-                scope.$watch('val', function(newValue, oldValue)
+                scope.$watch(function()
                 {
-                    if (newValue) {
-                        var total = scope.val.length;
-
-                        angular.forEach(scope.val, function(value)
+                    return imageLoading.getImages();
+                }, function(newVal)
+                {
+                    if (newVal) {
+                        angular.forEach(imageLoading.getImages(), function(value)
                         {
-                            loadImage(value, total);
+                            loadImage(value, newVal.length);
                         });
                     }
                 });

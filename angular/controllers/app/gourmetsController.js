@@ -3,7 +3,7 @@
  */
 
 angular.module('gourmetsApp', ['infinite-scroll'])
-    .controller('gourmetsController', function($scope, Gourmet, Count)
+    .controller('gourmetsController', function($scope, Gourmet, Count, imageLoading)
     {
         $scope.show = true;
 
@@ -13,10 +13,9 @@ angular.module('gourmetsApp', ['infinite-scroll'])
         {
             $scope.gourmets = data;
 
-            $scope.images = [];
             angular.forEach(data, function(item)
             {
-                $scope.images.push(item.image);
+                imageLoading.addImage(item.image);
             });
         });
 
@@ -95,9 +94,11 @@ angular.module('gourmetsApp', ['infinite-scroll'])
                     }
                 });
 
-                $timeout(function()
+                scope.$watch('complete', function(complete)
                 {
-                    $("[data-gourmet-item]").removeClass('hidden');
+                    if (complete) {
+                        $("[data-gourmet-item]").removeClass('hidden');
+                    }
                 });
             }
         };

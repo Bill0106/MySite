@@ -3,7 +3,7 @@
  */
 
 angular.module('hearthStoneApp', [])
-    .controller('hsSeasonsController', function($scope, HSSeason, HSWin, HS_PLAYER_CLASSES)
+    .controller('hsSeasonsController', function($scope, HSSeason, HSWin, HS_PLAYER_CLASSES, imageLoading)
     {
         $scope.playerClasses = HS_PLAYER_CLASSES;
 
@@ -11,10 +11,9 @@ angular.module('hearthStoneApp', [])
         {
             $scope.seasons = data;
 
-            $scope.images = [];
             angular.forEach(data, function(value)
             {
-                $scope.images.push(value.image);
+                imageLoading.addImage(value.image);
             });
         });
 

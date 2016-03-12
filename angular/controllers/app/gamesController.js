@@ -3,7 +3,7 @@
  */
 
 angular.module('gamesApp', ['infinite-scroll'])
-    .controller('gamesController', function($scope, Game, Count)
+    .controller('gamesController', function($scope, Game, Count, imageLoading)
     {
         $scope.show = true;
 
@@ -13,10 +13,9 @@ angular.module('gamesApp', ['infinite-scroll'])
         {
             $scope.games = data;
 
-            $scope.images = [];
             angular.forEach(data, function(value)
             {
-                $scope.images.push(value.image);
+                imageLoading.addImage(value.image);
             });
         });
 
@@ -89,14 +88,15 @@ angular.module('gamesApp', ['infinite-scroll'])
             }
         });
     })
-    .directive('ngGames', function($timeout)
+    .directive('ngGames', function()
     {
         return {
             restrict: 'A',
             replace: true,
             scope: {
                 busy: '=scrollBusy',
-                val: '=gameImages'
+                val: '=gameImages',
+                complete: '=loadComplete'
             },
             link: function(scope, element, attrs)
             {
@@ -132,9 +132,11 @@ angular.module('gamesApp', ['infinite-scroll'])
                     }
                 });
 
-                $timeout(function()
+                scope.$watch('complete', function(complete)
                 {
-                    $("[data-games-item]").removeClass('hidden');
+                    if (complete) {
+                        $("[data-games-item]").removeClass('hidden');
+                    }
                 });
             }
         };

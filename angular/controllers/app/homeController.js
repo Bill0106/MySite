@@ -3,7 +3,7 @@
  */
 
 angular.module('homeApp', [])
-    .controller('homeController', function($scope)
+    .controller('homeController', function($scope, imageLoading)
     {
         $scope.items = [
             {
@@ -41,11 +41,10 @@ angular.module('homeApp', [])
             //}
         ];
 
-        $scope.images = [];
         angular.forEach($scope.items, function(value)
         {
-            $scope.images.push(value.background);
-            $scope.images.push(value.icon);
+            imageLoading.addImage(value.background);
+            imageLoading.addImage(value.icon);
         });
 
         $scope.loadComplete = function(complete)
@@ -68,13 +67,12 @@ angular.module('homeApp', [])
                 function startCarousel()
                 {
                     var carousel = $("[data-app-index='carousel']");
-                    var carouselSlide = $("[data-slide]", carousel);
-                    var pause  = $("[data-app-index='pauseCarousel']");
 
                     carousel.carousel({
                         pause: "false"
                     });
-                    pause.hover(
+
+                    $("[data-app-index='pauseCarousel']").hover(
                         function()
                         {
                             carousel.carousel('pause');
@@ -83,25 +81,17 @@ angular.module('homeApp', [])
                             carousel.carousel('cycle');
                         }
                     );
-                    carouselSlide.click(function(e)
+
+                    $("[data-slide]", carousel).click(function(e)
                     {
                         e.preventDefault();
                     });
                 }
 
-                function showContent()
-                {
-                    setTimeout(function()
-                    {
-                        $("[data-load='mask']").fadeOut();
-                        startCarousel();
-                    }, 300);
-                }
-
                 scope.$watch('complete', function(complete)
                 {
                     if (complete) {
-                        showContent();
+                        startCarousel();
                     }
                 });
             }
