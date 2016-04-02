@@ -71,6 +71,14 @@ angular.module('myServices', ['ngResource'])
     {
         return $resource('/api/hearth-stone/deck_wins/:id');
     })
+    .factory('HSMatch', function($resource)
+    {
+        return $resource('/api/hearth-stone/matches', { id: '@_id' }, {
+            update: {
+                method: 'POST'
+            }
+        });
+    })
     // Gyakuten Saiban API Service
     .factory('saibanGame', function($resource)
     {

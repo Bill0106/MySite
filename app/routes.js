@@ -48,6 +48,7 @@ module.exports = function(app, router)
     var decks = require('./controllers/hearthStone/decks');
     var seasons = require('./controllers/hearthStone/seasons');
     var wins = require('./controllers/hearthStone/wins');
+    var matches = require('./controllers/hearthStone/matches');
     router.route('/hearth-stone/seasons')
         .get(seasons.list)
         .post(seasons.create);
@@ -72,6 +73,8 @@ module.exports = function(app, router)
         .get(wins.season);
     router.route('/hearth-stone/deck_wins/:id')
         .get(wins.deck);
+    router.route('/hearth-stone/matches')
+        .get(matches.list);
 
     // Saiban API Route
     var saibanGames = require('./controllers/saiban/games');

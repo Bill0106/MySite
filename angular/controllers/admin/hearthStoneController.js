@@ -294,6 +294,22 @@ angular.module('hearthStoneAdmin', [])
 
         $scope.loadWin();
     })
+    .controller('hsMatchesController', function($scope, $stateParams, HSMatch, HS_PLAYER_CLASSES)
+    {
+        var limit = 50;
+        var page = parseInt($stateParams.page) ? parseInt($stateParams.page) : 1;
+        HSMatch.get({ page: page }, function(data)
+        {
+            if (data.success) {
+                $scope.matches = data.data.list;
+
+                var total = data.data.total;
+                $scope.totalPage = new Array(Math.ceil(total / limit));
+                $scope.currentPage = data.data.currentPage;
+            }
+        });
+        $scope.playerClasses = HS_PLAYER_CLASSES;
+    })
     .filter('checkCard', function()
     {
         return function checkCard(item, object)

@@ -9,7 +9,7 @@ var MatchesSchema = new Schema({
     deck_id  : String,
     opponent : Number,
     result   : Number,
-    time     : Number,
+    time     : Number
 });
 
 module.exports = mongoose.model('HearthStoneMatches', MatchesSchema);

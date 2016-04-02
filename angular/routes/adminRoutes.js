@@ -124,6 +124,12 @@ angular.module('adminRoutes', [])
                 controller: 'hsWinUpdateController',
                 title: 'Hearth Stone Win Update'
             })
+            .state('HSMatches', {
+                url: '/admin/hearth-stone-matches?page',
+                templateUrl: '/views/admin/hearthStone/matches_list.html',
+                controller: 'hsMatchesController',
+                title: 'Hearth Stone Matches'
+            })
             // Gyakuten Saiban Admin Route
             .state('saibanGames', {
                 url: '/admin/saiban-games',

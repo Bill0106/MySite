@@ -6,7 +6,6 @@ var mongoose = require('mongoose');
 var database = require('../config/database');
 var Wins = require('../models/hearthStone/wins');
 var Seasons = require('../models/hearthStone/seasons');
-var moment = require('moment');
 var async = require('async');
 var Matches = require('../models/hearthStone/matches');
 
@@ -58,14 +57,14 @@ function itemHandle(item, cb)
                     if (i < item.detail[0][element].win) {
                         var result = 1;
                     } else {
-                        var result = 0;
+                        var result = -1;
                     }
 
                     var val = {
                         deck_id: item.deck_id,
                         time: month,
                         result: result,
-                        opponent: element,
+                        opponent: parseInt(element)
                     };
 
                     matches.push(val);
@@ -85,8 +84,8 @@ function itemHandle(item, cb)
 
                 match.deck_id = element.deck_id;
                 match.result = element.result;
-                match.time = element.result;
-                match.opponent = match.opponent;
+                match.time = element.time;
+                match.opponent = element.opponent;
 
                 match.save(function(err)
                 {
@@ -100,7 +99,7 @@ function itemHandle(item, cb)
                     }
                 });
             });
-        },
+        }
     ], function (err, result) {
         console.log(result);
         cb();

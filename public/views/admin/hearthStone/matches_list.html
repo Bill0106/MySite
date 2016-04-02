@@ -1,0 +1,36 @@
+<p class="clearfix">
+    <a href="#" class="btn btn-primary pull-right">Add Match</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Time</th>
+        <th>Deck</th>
+        <th>Opponent</th>
+        <th>Result</th>
+        <th>Operation</th>
+    </tr>
+    </thead>
+    <tr ng-repeat="match in matches">
+        <td>{{ match._id }}</td>
+        <td>{{ match.time | date: "yyyy-MM-dd HH:mm:ss" }}</td>
+        <td>{{ match.deck }}</td>
+        <td>{{ playerClasses[match.opponent].name }}</td>
+        <td ng-switch="match.result">
+            <span ng-switch-default>Draw</span>
+            <span ng-switch-when="1">Win</span>
+            <span ng-switch-when="-1">Lose</span>
+        </td>
+        <td>
+            <a href="" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a>
+            <a href="" class="btn btn-danger"><i class="fa fa-times"></i></a>
+        </td>
+    </tr>
+</table>
+<ul class="pagination">
+    <li ng-repeat="i in totalPage track by $index" ng-switch="$index" ng-class="$index + 1 == currentPage ? 'active' : ''">
+        <span ng-switch-when="currentPage">{{ $index + 1 }}</span>
+        <a ui-sref="HSMatches({ page: $index + 1 })" ng-switch-default>{{ $index + 1 }}</a>
+    </li>
+</ul>
