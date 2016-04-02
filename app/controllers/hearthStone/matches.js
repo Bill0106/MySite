@@ -5,6 +5,7 @@
 var async = require('async');
 var Matches = require('../../models/hearthStone/matches');
 var Decks = require('../../models/hearthStone/decks');
+var moment = require('moment');
 
 exports.list = function(req, res)
 {
@@ -88,6 +89,35 @@ exports.list = function(req, res)
                 }
             }
         });
+};
+
+exports.create = function(req, res)
+{
+    var match = new Matches();
+
+    match.deck_id = req.body.deck;
+    match.opponent = parseInt(req.body.opponent);
+    match.result = req.body.result;
+    match.time = moment().valueOf();
+
+    match.save(function(err)
+    {
+        var result = {};
+
+        if (err) {
+            result = {
+                success: false,
+                errorMsg: err
+            };
+        } else {
+            result = {
+                success: true,
+                data: match
+            };
+        }
+
+        res.json(result);
+    });
 };
 
 exports.delete = function(req, res)

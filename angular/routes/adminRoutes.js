@@ -130,6 +130,12 @@ angular.module('adminRoutes', [])
                 controller: 'hsMatchesController',
                 title: 'Hearth Stone Matches'
             })
+            .state('HSMatchCreate', {
+                url: '/admin/hearth-stone-matches/add',
+                templateUrl: '/views/admin/hearthStone/match_create.html',
+                controller: 'hsMatchCreateController',
+                title: 'Hearth Stone Match Create'
+            })
             // Gyakuten Saiban Admin Route
             .state('saibanGames', {
                 url: '/admin/saiban-games',

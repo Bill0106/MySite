@@ -310,6 +310,29 @@ angular.module('hearthStoneAdmin', [])
         });
         $scope.playerClasses = HS_PLAYER_CLASSES;
     })
+    .controller('hsMatchCreateController', function($scope, HSDeck, HSMatch, HS_PLAYER_CLASSES)
+    {
+        $scope.match = new HSMatch();
+
+        $scope.matches = [];
+        $scope.decks = HSDeck.query();
+        $scope.playerClasses = HS_PLAYER_CLASSES;
+
+        $scope.saveMatch = function(result)
+        {
+            $scope.match.result = result;
+
+            $scope.match.$save(function(data)
+            {
+                if (!data.success) {
+                    $scope.show = true;
+                    $scope.result = data.data.errorMsg;
+                } else {
+                    $scope.matches.push(data.data);
+                }
+            });
+        }
+    })
     .filter('checkCard', function()
     {
         return function checkCard(item, object)

@@ -74,7 +74,8 @@ module.exports = function(app, router)
     router.route('/hearth-stone/deck_wins/:id')
         .get(wins.deck);
     router.route('/hearth-stone/matches')
-        .get(matches.list);
+        .get(matches.list)
+        .post(matches.create);
 
     // Saiban API Route
     var saibanGames = require('./controllers/saiban/games');
