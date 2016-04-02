@@ -65,22 +65,6 @@ function watchScripts()
 {
     return gulp.watch('./angular/**/*.js', gulp.series(appJS, adminJS));
 }
+
 gulp.task('watch', gulp.parallel(watchStyle, watchScripts));
-
-// Start Server
-gulp.task('start', function()
-{
-    nodemon({
-        script: 'server.js',
-        ext: 'js html less',
-        env: {
-            'NODE_ENV': 'development'
-        },
-        tasks: ['watch']
-    }).on('restart', function()
-    {
-        return gulp.src('').pipe(notify('All Finish!'));
-    });
-});
-
 gulp.task('default', gulp.parallel(lessCompile, adminJS, appJS));
