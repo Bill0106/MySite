@@ -13,6 +13,7 @@ angular.module('adminRoutes', [])
                 templateUrl: '/views/admin/index.html',
                 title: 'Home'
             })
+
             // Game Admin Route
             .state('games', {
                 url: '/admin/games',
@@ -44,6 +45,7 @@ angular.module('adminRoutes', [])
                 controller: 'gameTrophiesController',
                 title: 'Game Trophies'
             })
+
             // Gourmet Admin Route
             .state('gourmets', {
                 url: '/admin/gourmets',
@@ -63,6 +65,7 @@ angular.module('adminRoutes', [])
                 controller: 'gourmetUpdateController',
                 title: 'Gourmet Update'
             })
+
             // Hearth Stone Admin Route
             .state('HSdecks', {
                 url: '/admin/hearth-stone-decks',
@@ -106,24 +109,6 @@ angular.module('adminRoutes', [])
                 controller: 'hsSeasonUpdateController',
                 title: 'Hearth Stone Season Update'
             })
-            .state('HSWins', {
-                url: '/admin/hearth-stone-wins',
-                templateUrl: '/views/admin/hearthStone/win_list.html',
-                controller: 'hsWinsController',
-                title: 'Hearth Stone Wins'
-            })
-            .state('HSWinCreate', {
-                url: '/admin/hearth-stone-wins/add',
-                templateUrl: '/views/admin/hearthStone/win_create.html',
-                controller: 'hsWinCreateController',
-                title: 'Hearth Stone Win Create'
-            })
-            .state('HSWinUpdate', {
-                url: '/admin/hearth-stone-wins/:id',
-                templateUrl: '/views/admin/hearthStone/win_create.html',
-                controller: 'hsWinUpdateController',
-                title: 'Hearth Stone Win Update'
-            })
             .state('HSMatches', {
                 url: '/admin/hearth-stone-matches?page',
                 templateUrl: '/views/admin/hearthStone/matches_list.html',
@@ -136,6 +121,7 @@ angular.module('adminRoutes', [])
                 controller: 'hsMatchCreateController',
                 title: 'Hearth Stone Match Create'
             })
+
             // Gyakuten Saiban Admin Route
             .state('saibanGames', {
                 url: '/admin/saiban-games',
