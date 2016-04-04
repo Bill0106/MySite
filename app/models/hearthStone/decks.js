@@ -8,7 +8,8 @@ var Schema = mongoose.Schema;
 var DeckSchema = new Schema({
     name        : String,
     playerClass : Number,
-    cards       : Array
+    cards       : Array,
+    active      : Boolean
 });
 
 module.exports = mongoose.model('HearthStoneDecks', DeckSchema);

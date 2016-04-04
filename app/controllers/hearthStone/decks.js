@@ -126,6 +126,7 @@ exports.update = function(req, res)
                         data.name = req.body.name;
                         data.playerClass = req.body.playerClass;
                         data.cards = cards;
+                        data.active = req.body.active;
 
                         data.save(function(error)
                         {

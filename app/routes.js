@@ -55,14 +55,17 @@ module.exports = function(app, router)
     router.route('/hearth-stone/seasons/:url')
         .get(seasons.find)
         .post(seasons.update);
+
     router.route('/hearth-stone/decks')
         .get(decks.list)
         .post(decks.create);
     router.route('/hearth-stone/decks/:id')
         .get(decks.find)
         .post(decks.update);
+
     router.route('/hearth-stone/cards')
         .get(cards.list);
+
     router.route('/hearth-stone/wins')
         .get(wins.list)
         .post(wins.create);
@@ -73,6 +76,7 @@ module.exports = function(app, router)
         .get(wins.season);
     router.route('/hearth-stone/deck_wins/:id')
         .get(wins.deck);
+
     router.route('/hearth-stone/matches')
         .get(matches.list)
         .post(matches.create);
