@@ -246,6 +246,9 @@ angular.module('hearthStoneAdmin', [])
         $scope.decks = HSDeck.query();
         $scope.playerClasses = HS_PLAYER_CLASSES;
 
+        $scope.total = 0;
+        $scope.win = 0;
+
         $scope.saveMatch = function(result)
         {
             $scope.match.result = result;
@@ -257,6 +260,11 @@ angular.module('hearthStoneAdmin', [])
                     $scope.result = data.data.errorMsg;
                 } else {
                     $scope.matches.push(data.data);
+
+                    $scope.total++;
+                    if (data.data.result == 1) {
+                        $scope.win++;
+                    }
                 }
             });
         }

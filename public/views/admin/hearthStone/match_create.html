@@ -26,6 +26,17 @@
         </div>
     </div>
 </form>
+<ul class="list-inline">
+    <li>
+        <span>Total: {{ total }}</span>
+    </li>
+    <li>
+        <span>Win: {{ win }}</span>
+    </li>
+    <li>
+        <span>Percentage: {{ win / total * 100 | number: 2 }}%</span>
+    </li>
+</ul>
 <div class="table-responsive">
     <table class="table table-bordered">
         <tr ng-repeat="match in matches">

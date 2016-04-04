@@ -10,6 +10,7 @@ Dependencies
   - request
   - cheerio
   - moment
+  - async
 - Express framework
   - morgan
   - body-parser
@@ -43,10 +44,19 @@ Installation
 ------------
 1. Run `npm install` to install backend dependencies
 2. Run `node server.js`, and visit [http://localhost:8888](http://localhost:8888)
-3. Run `gulp start` in development enviroment
+3. For Development, run `npm install nodemon -g` to install nodemon
+4. Run `NODE_ENV=development nodemon server.js` to start server with development enviroment
+5. Run `gulp watch` for frontend development
 
 Versions
 --------
+### v2.5
+1. Use nodemon instead of Gulp-nodemon
+2. Remove sourcemap
+3. Set Up HearthStone Matches Admin
+4. Add HearthStone Matches Commands
+5. Use HearthStone matches instead of win rates
+
 ### v2.4
 1. Delete bower.json
 
