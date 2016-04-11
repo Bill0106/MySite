@@ -1,6 +1,6 @@
 {
   "name": "zhuhaolin.com",
-  "version": "2.1.0",
+  "version": "2.5.0",
   "author": "Bill",
   "main": "server.js",
   "repository": {
@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "async": "^1.5.2",
+    "basic-auth": "^1.0.3",
     "body-parser": "~1.*",
     "cheerio": "~0.*",
     "connect-multiparty": "~2.*",

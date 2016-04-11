@@ -11,6 +11,7 @@ Dependencies
   - cheerio
   - moment
   - async
+  - base-auth
 - Express framework
   - morgan
   - body-parser
@@ -56,6 +57,7 @@ Versions
 3. Set Up HearthStone Matches Admin
 4. Add HearthStone Matches Commands
 5. Use HearthStone matches instead of win rates
+6. Use Basic Auth to access admin
 
 ### v2.4
 1. Delete bower.json

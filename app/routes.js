@@ -100,20 +100,10 @@ module.exports = function(app, router)
     app.use('/api', router);
 
     // Admin Route
-    app.route('/admin*')
-        .get(function(req, res)
+    var adminAuth = require('./libraries/adminAuth');
+    app.get('/admin*', adminAuth, function(req, res)
         {
-            if (process.env.NODE_ENV && process.env.NODE_ENV == 'development') {
-                res.sendFile(path.join(__dirname, '../public/views/admin', 'layout.html'));
-            } else {
-                var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
-
-                if (ip == '127.0.0.1') {
-                    res.sendFile(path.join(__dirname, '../public/views/admin', 'layout.html'));
-                } else {
-                    res.redirect('/');
-                }
-            }
+            res.sendFile(path.join(__dirname, '../public/views/admin', 'layout.html'));
         });
 
     // Fronted Route
