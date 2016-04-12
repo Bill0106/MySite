@@ -4,10 +4,17 @@
 
 var decks = require('../../models/hearthStone/decks');
 var cards = require('../../models/hearthStone/cards');
+var async = require('async');
 
 exports.list = function(req, res)
 {
-    decks.find().exec(function(err, data)
+    var query = decks.find();
+
+    if (req.query.active) {
+        query.where('active').equals(true);
+    }
+
+    query.exec(function(err, data)
     {
         if (err)
             res.send(err);
@@ -18,52 +25,70 @@ exports.list = function(req, res)
 
 exports.find = function(req, res)
 {
-    decks.findOne({ _id: req.params.id }, function(err, data)
-    {
-        if (err)
-            res.send(err);
-
-        if (data.cards && data.cards.length > 1) {
-            var cardsData = data.cards;
-            var ids = [];
-            var format = [];
-            var count = 0;
-
-            cardsData.forEach(function(element, index, array)
+    async.waterfall([
+        function(callback)
+        {
+            decks.findOne({ _id: req.params.id }, function(error, data)
             {
-                format[element.card] = element.count;
-                ids.push(element.card);
-
-                count++;
-
-                if (count == array.length) {
-                    cards.find({ _id: { $in: ids } }).sort({
-                        cost: 'asc',
-                        name: 'asc'
-                    }).exec(function(error, cards)
-                    {
-                        var array = [];
-
-                        cards.forEach(function(ele, ind, arr)
-                        {
-                            var item = {
-                                card: ele,
-                                count: format[ele._id]
-                            };
-
-                            array.push(item);
-                            if (array.length == arr.length) {
-                                data.cards = array;
-
-                                res.json(data);
-                            }
-                        });
-                    });
+                if (error) {
+                    callback(error);
                 }
+
+                callback(null, data);
             });
-        } else {
-            res.json(data);
+        },
+        function(deck, callback)
+        {
+            if (!deck.cards || deck.cards.length == 0) {
+                callback(null, deck, null);
+            }
+
+            var ids = {};
+            async.each(deck.cards, function(item, eachCallback)
+            {
+                ids[item.card] = item.count;
+
+                eachCallback();
+            }, function()
+            {
+                callback(null, deck, ids);
+            });
+        },
+        function(deck, ids, callback)
+        {
+            cards.find({ _id: { $in: Object.keys(ids) } }).sort({
+                cost: 'asc',
+                name: 'asc'
+            }).exec(function(error, data)
+            {
+                if (error) {
+                    callback(error);
+                }
+
+                var array = [];
+                async.each(data, function(item, eachCallback)
+                {
+                    array.push(item);
+                    if (ids[item._id] == 2) {
+                        array.push(item);
+                    }
+
+                    eachCallback();
+                }, function()
+                {
+                    callback(null, deck, array);
+                });
+            });
         }
+    ], function(error, deck, cards)
+    {
+        if (error)
+            throw error;
+
+
+        deck.cards = cards;
+
+        res.json(deck);
     });
 };
 
@@ -73,80 +98,107 @@ exports.create = function(req, res)
 
     deck.name = req.body.name;
     deck.playerClass = req.body.playerClass;
+    deck.active = req.body.active;
 
-    deck.save(function(error)
+    _formatCards(req.body.cards, function(cards)
     {
-        var result = {
-            "success": true,
-            "msg": deck._id
-        };
+        deck.cards = cards;
 
-        if (error) {
-            result = {
-                "success": false,
-                "msg": error
+        deck.save(function(error)
+        {
+            var result = {
+                "success": true,
+                "msg": deck._id
+            };
+
+            if (error) {
+                result = {
+                    "success": false,
+                    "msg": error
+                }
             }
-        }
 
-        res.json(result);
+            res.json(result);
+        });
     });
 };
 
 exports.update = function(req, res)
 {
-    var cardsArray = req.body.cards;
-    var cards = [];
-    var cardsData = [];
-    var count = 0;
-
-    cardsArray.forEach(function(element, index, array)
+    decks.findOne({ _id: req.params.id }, function(error, data)
     {
-        if (cardsData[element._id]) {
-            cardsData[element._id] = 2;
-        } else {
-            cardsData[element._id] = 1;
-        }
+        data.name = req.body.name;
+        data.playerClass = req.body.playerClass;
+        data.active = req.body.active;
 
-        count++;
+        _formatCards(req.body.cards, function(cards)
+        {
+            data.cards = cards;
 
-        if (count == array.length) {
-            var keys = Object.keys(cardsData);
-            keys.forEach(function(ele, ind, arr)
+            data.save(function(error)
             {
-                var item = {
-                    card: ele,
-                    count: cardsData[ele]
+                var result = {
+                    "success": true,
+                    "msg": data._id
                 };
 
-                cards.push(item);
-
-                if (cards.length == arr.length) {
-                    decks.findOne({ _id: req.params.id }, function(err, data)
-                    {
-                        data.name = req.body.name;
-                        data.playerClass = req.body.playerClass;
-                        data.cards = cards;
-                        data.active = req.body.active;
-
-                        data.save(function(error)
-                        {
-                            var result = {
-                                "success": true,
-                                "msg": data._id
-                            };
-
-                            if (error) {
-                                result = {
-                                    "success": false,
-                                    "msg": error
-                                }
-                            }
-
-                            res.json(result);
-                        });
-                    });
+                if (error) {
+                    result = {
+                        "success": false,
+                        "msg": error
+                    }
                 }
+
+                res.json(result);
             });
-        }
+        });
     });
 };
+
+function _formatCards(cards, callback)
+{
+    async.waterfall([
+        function(cb)
+        {
+            var data = [];
+            async.each(cards, function(item, eachCallback)
+            {
+                if (data[item._id]) {
+                    data[item._id] = 2;
+                } else {
+                    data[item._id] = 1;
+                }
+
+                eachCallback()
+            }, function()
+            {
+                cb(null, data);
+            });
+        },
+        function(result, cb)
+        {
+            var data = [];
+            var keys = Object.keys(result);
+
+            async.each(keys, function(item, eachCallback)
+            {
+                var value = {
+                    card: item,
+                    count: result[item]
+                };
+
+                data.push(value);
+                eachCallback();
+            }, function()
+            {
+                cb(null, data);
+            });
+        }
+    ], function(error, data)
+    {
+        if (error)
+            throw error;
+
+        callback(data);
+    });
+}

@@ -1,16 +1,8 @@
-<form ng-submit="saveDeck()" class="form-horizontal">
+<form ng-submit="saveDeck()" class="form-horizontal clearfix" style="margin-bottom: 20px">
     <div class="form-group">
         <label for="name" class="col-sm-1 control-label">Name:</label>
         <div class="col-sm-11">
             <input type="text" class="form-control" ng-model="deck.name" id="name" required/>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="playerClass" class="col-sm-1 control-label">PlayerClass:</label>
-        <div class="col-sm-11">
-            <select name="playerClass" id="playerClass" class="form-control" ng-model="deck.playerClass" ng-options="playerClass.value as playerClass.name for playerClass in playerClasses" required>
-                <option value="">Choose player class</option>
-            </select>
         </div>
     </div>
     <div class="form-group">
@@ -23,5 +15,43 @@
         </div>
     </div>
     <button class="btn btn-primary pull-right" type="submit">Submit</button>
-    <a ui-sref="HScardAdd({ deck_id: deck._id })" class="btn btn-success">Add Cards</a>
 </form>
+<div class="row">
+    <div class="col-sm-9">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#class" aria-controls="class" role="tab" data-toggle="tab">Class Card</a></li>
+            <li role="presentation"><a href="#neutral" aria-controls="neutral" role="tab" data-toggle="tab">Neutral Card</a></li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="row tab-pane active" id="class">
+                <div class="col-sm-3" ng-repeat="card in classCards">
+                    <button type="button" class="btn btn-link" ng-click="addCard(card)">{{ card.cost + ' - ' + card.name }}</button>
+                </div>
+            </div>
+            <div role="tabpanel" class="row tab-pane" id="neutral">
+                <div class="col-sm-3" ng-repeat="card in neutralCards">
+                    <button type="button" class="btn btn-link" ng-click="addCard(card)">{{ card.cost + ' - ' + card.name }}</button>
+                </div>
+                <div class="col-sm-12 text-center">
+                    <ul class="pagination">
+                        <li ng-repeat="i in getNumber(7) track by $index">
+                            <a href="#" ng-click="getCardByCost($index + 1, $event)">{{ $index + 1 }}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">Cards Selected: {{ deck.cards.length }}</div>
+            <div class="panel-body">
+                <ul class="list-unstyled">
+                    <li ng-repeat="card in deck.cards | orderBy: ['cost', 'name'] track by $index">
+                        <a href="#" ng-click="removeCard(card, $event)">{{ card.cost + ' - ' + card.name }}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

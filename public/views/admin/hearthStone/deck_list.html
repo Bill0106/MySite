@@ -1,6 +1,13 @@
-<p>
-    <a ui-sref="HSdeckCreate" class="btn btn-lg btn-primary">Add Deck</a>
-</p>
+<div class="btn-group">
+    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Add Deck <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        <li ng-repeat="class in playerClasses">
+            <a ui-sref="HSdeckCreate({ class: class.value })">{{ class.name }}</a>
+        </li>
+    </ul>
+</div>
 <table class="table">
     <thead>
     <tr>

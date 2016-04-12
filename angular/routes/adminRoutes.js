@@ -74,7 +74,7 @@ angular.module('adminRoutes', [])
                 title: 'Hearth Stone Decks'
             })
             .state('HSdeckCreate', {
-                url: '/admin/hearth-stone-decks/add',
+                url: '/admin/hearth-stone-decks/add?class',
                 templateUrl: '/views/admin/hearthStone/deck_create.html',
                 controller: 'hsDeckCreateController',
                 title: 'Hearth Stone Deck Create'
@@ -84,12 +84,6 @@ angular.module('adminRoutes', [])
                 templateUrl: '/views/admin/hearthStone/deck_create.html',
                 controller: 'hsDeckUpdateController',
                 title: 'Hearth Stone Deck Update'
-            })
-            .state('HScardAdd', {
-                url: '/admin/hearth-stone-cards/:deck_id',
-                templateUrl: '/views/admin/hearthStone/cards.html',
-                controller: 'hsCardAddController',
-                title: 'Hearth Stone Card Add'
             })
             .state('HSseasons', {
                 url: '/admin/hearth-stone-seasons',
