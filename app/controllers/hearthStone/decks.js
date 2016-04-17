@@ -14,6 +14,11 @@ exports.list = function(req, res)
         query.where('active').equals(true);
     }
 
+    if (req.query.ids) {
+        var ids = req.query.ids.split(',');
+        query.where('_id').in(ids);
+    }
+
     query.exec(function(err, data)
     {
         if (err)

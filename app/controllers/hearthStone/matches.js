@@ -4,27 +4,32 @@
 
 var async = require('async');
 var Matches = require('../../models/hearthStone/matches');
-var Decks = require('../../models/hearthStone/decks');
 var moment = require('moment');
 
 exports.list = function(req, res)
 {
-    var page = 1;
+    var time = moment().startOf('month').format("YYYY-MM-DD HH:mm:ss");
+    if (req.query.season) {
+        time = moment.unix(req.query.season / 1000).format("YYYY-MM-DD HH:mm:ss");
+    }
+    var startTime = moment(time).set('hour', 0).valueOf();
+    var endTime   = moment(time).add(1, 'month').set('hour', 0).valueOf();
+
     if (req.query.page) {
-        page = req.query.page;
+        var page   = req.query.page;
+        var limit  = 50;
+        var offset = limit * (page - 1);
+    }
+
+    var query = Matches.find().where('time').gt(startTime).lt(endTime);
+    if (req.query.page) {
+        query = query.limit(limit).skip(offset);
     }
 
     async.parallel([
             function(callback)
             {
-                var limit = 50;
-                if (req.query.limit) {
-                    limit = req.query.limit;
-                }
-
-                var offset = limit * (page - 1);
-
-                Matches.find().limit(limit).skip(offset).sort({ time: 'desc' }).exec(function(err, data)
+                query.sort({ time: 'desc' }).exec(function(err, data)
                 {
                     if (err)
                         throw err;
@@ -34,26 +39,7 @@ exports.list = function(req, res)
             },
             function(callback)
             {
-                Decks.find(function(err, data)
-                {
-                    if (err)
-                        throw err;
-
-                    var count = 0;
-                    var array = [];
-                    for (var i = 0; i < data.length; i++) {
-                        array[data[i]._id] = data[i].name;
-                        count++;
-
-                        if (count == data.length) {
-                            callback(null, array);
-                        }
-                    }
-                });
-            },
-            function(callback)
-            {
-                Matches.count(function(err, data)
+                query.count(function(err, data)
                 {
                     if (err)
                         throw err;
@@ -64,30 +50,10 @@ exports.list = function(req, res)
         ],
         function(err, results)
         {
-            var array = [];
-            var matches = results[0];
-            var decks = results[1];
-            for (var i = 0; i < matches.length; i++) {
-                var data = {
-                    _id: matches[i]._id,
-                    deck: decks[matches[i].deck_id],
-                    time: matches[i].time,
-                    opponent: matches[i].opponent,
-                    result: matches[i].result
-                };
-
-                array.push(data);
-                if (array.length == matches.length) {
-                    res.json({
-                        success: true,
-                        data: {
-                            list: array,
-                            total: results[2],
-                            currentPage: page
-                        }
-                    });
-                }
-            }
+            res.json({
+                list: results[0],
+                total: results[1]
+            });
         });
 };
 

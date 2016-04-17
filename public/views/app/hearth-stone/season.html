@@ -17,8 +17,8 @@
                         <th>PCT</th>
                     </tr>
                     </thead>
-                    <tr ng-repeat="win in wins">
-                        <td><a ui-sref="hsDeck({ id: win.deck_id })">{{ decks[win.deck_id].name }}</a></td>
+                    <tr ng-repeat="deck in decks">
+                        <td><a ui-sref="hsDeck({ id: deck._id })">{{ deck.name }}</a></td>
                         <td ng-repeat="class in playerClasses">{{ win.detail[0][class.value].win ? win.detail[0][class.value].win : '--' }} / {{ win.detail[0][class.value].total ? win.detail[0][class.value].total : '--' }}</td>
                         <td>{{ win.overall[0].win  }} / {{ win.overall[0].total }}</td>
                         <td>{{ win.overall[0].win / win.overall[0].total * 100 | number: 2 }}%</td>
