@@ -9,6 +9,10 @@ var password = new Buffer(auth.password, 'base64');
 
 function adminAuth(req, res, next)
 {
+    if (process.env && process.env.NODE_ENV == 'dev') {
+        return next();
+    }
+
     function unauthorized(res)
     {
         res.set('WWW-Authenticate', 'Basic realm=Authorization Required');

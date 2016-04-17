@@ -46,7 +46,7 @@ Installation
 1. Run `npm install` to install backend dependencies
 2. Run `node server.js`, and visit [http://localhost:8888](http://localhost:8888)
 3. For Development, run `npm install nodemon -g` to install nodemon
-4. Run `NODE_ENV=development nodemon server.js` to start server with development enviroment
+4. Run `NODE_ENV=dev nodemon server.js` to start server with development enviroment
 5. Run `gulp watch` for frontend development
 
 Versions
