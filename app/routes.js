@@ -47,7 +47,6 @@ module.exports = function(app, router)
     var cards = require('./controllers/hearthStone/cards');
     var decks = require('./controllers/hearthStone/decks');
     var seasons = require('./controllers/hearthStone/seasons');
-    var wins = require('./controllers/hearthStone/wins');
     var matches = require('./controllers/hearthStone/matches');
     router.route('/hearth-stone/seasons')
         .get(seasons.list)
@@ -65,17 +64,6 @@ module.exports = function(app, router)
 
     router.route('/hearth-stone/cards')
         .get(cards.list);
-
-    router.route('/hearth-stone/wins')
-        .get(wins.list)
-        .post(wins.create);
-    router.route('/hearth-stone/wins/:id')
-        .get(wins.find)
-        .post(wins.update);
-    router.route('/hearth-stone/season_wins/:id')
-        .get(wins.season);
-    router.route('/hearth-stone/deck_wins/:id')
-        .get(wins.deck);
 
     router.route('/hearth-stone/matches')
         .get(matches.list)

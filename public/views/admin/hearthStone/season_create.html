@@ -17,13 +17,5 @@
             <textarea class="form-control" id="description" ng-model="season.description" placeholder="Enter DESCRIPTION"></textarea>
         </div>
     </div>
-    <div class="form-group">
-        <label class="col-sm-1 control-label">DECKS:</label>
-        <div class="col-sm-11">
-            <label class="checkbox-inline" ng-repeat="deck in decks">
-                <input type="checkbox" value="{{ deck._id }}" ng-click="selectDeck(deck._id)" ng-checked="season.decks.indexOf(deck._id) > -1"/> {{ deck.name }}
-            </label>
-        </div>
-    </div>
     <button class="btn btn-primary pull-right" type="submit">Submit</button>
 </form>

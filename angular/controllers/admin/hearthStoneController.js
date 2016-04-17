@@ -111,34 +111,14 @@ angular.module('hearthStoneAdmin', [])
             $scope.deck.cards.splice($scope.deck.cards.indexOf(card), 1);
         };
     })
-    .controller('hsSeasonsController', function($scope, HSSeason, HSDeck)
+    .controller('hsSeasonsController', function($scope, HSSeason)
     {
         $scope.seasons = HSSeason.query();
-
-        $scope.decks = [];
-        HSDeck.query(function(data)
-        {
-            angular.forEach(data, function(deck)
-            {
-                $scope.decks[deck._id] = deck;
-            });
-        });
     })
-    .controller('hsSeasonCreateController', function($scope, $state, HSSeason, HSDeck)
+    .controller('hsSeasonCreateController', function($scope, $state, HSSeason)
     {
         $scope.fields = ['title', 'month', 'rank', 'image'];
         $scope.season = new HSSeason();
-        $scope.decks = HSDeck.query();
-        $scope.season.decks = [];
-
-        $scope.selectDeck = function(id)
-        {
-            if ($scope.season.decks.indexOf(id) < 0) {
-                $scope.season.decks.push(id);
-            } else {
-                $scope.season.decks.splice($scope.season.decks.indexOf(id), 1);
-            }
-        };
 
         $scope.saveSeason = function()
         {
@@ -153,19 +133,9 @@ angular.module('hearthStoneAdmin', [])
             });
         };
     })
-    .controller('hsSeasonUpdateController', function($scope, $state, $filter, HSSeason, HSDeck)
+    .controller('hsSeasonUpdateController', function($scope, $state, $filter, HSSeason)
     {
         $scope.fields = ['title', 'month', 'rank', 'image'];
-        $scope.decks = HSDeck.query();
-
-        $scope.selectDeck = function(id)
-        {
-            if ($scope.season.decks.indexOf(id) < 0) {
-                $scope.season.decks.push(id);
-            } else {
-                $scope.season.decks.splice($scope.season.decks.indexOf(id), 1);
-            }
-        };
 
         $scope.saveSeason = function()
         {

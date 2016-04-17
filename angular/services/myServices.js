@@ -55,22 +55,6 @@ angular.module('myServices', ['ngResource'])
             }
         });
     })
-    .factory('HSWin', function($resource)
-    {
-        return $resource('/api/hearth-stone/wins/:id', { id: '@_id'}, {
-            update: {
-                method: 'POST'
-            }
-        });
-    })
-    .factory('HSSeasonWin', function($resource)
-    {
-        return $resource('/api/hearth-stone/season_wins/:id');
-    })
-    .factory('HSDeckWin', function($resource)
-    {
-        return $resource('/api/hearth-stone/deck_wins/:id');
-    })
     .factory('HSMatch', function($resource)
     {
         return $resource('/api/hearth-stone/matches', { id: '@_id' }, {
