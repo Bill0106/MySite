@@ -36,17 +36,17 @@
                     <th>PCT</th>
                 </tr>
                 </thead>
-                <tr ng-repeat="win in wins">
-                    <td><a ui-sref="hsSeason({ url: win.season.url })">{{ win.season.title }}</a></td>
-                    <td ng-repeat="class in playerClasses">{{ win.win.detail[0][class.value].win ? win.win.detail[0][class.value].win : '--' }} / {{ win.win.detail[0][class.value].total ? win.win.detail[0][class.value].total : '--' }}</td>
-                    <td>{{ win.win.overall[0].win  }} / {{ win.win.overall[0].total }}</td>
-                    <td>{{ win.win.overall[0].win / win.win.overall[0].total * 100 | number: 2 }}%</td>
+                <tr ng-repeat="season in seasons">
+                    <td><a ui-sref="hsSeason({ url: season.url })">{{ season.title }}</a></td>
+                    <td ng-repeat="class in playerClasses">{{ seasonDetailStats[season._id][class.value].win }} - {{ seasonDetailStats[season._id][class.value].lose }}</td>
+                    <td>{{ seasonTotalStats[season._id].win  }} - {{ seasonTotalStats[season._id].lose }}</td>
+                    <td>{{ seasonTotalStats[season._id].win / (seasonTotalStats[season._id].win + seasonTotalStats[season._id].lose) * 100 | number: 2 }}%</td>
                 </tr>
                 <tr>
                     <td>Total</td>
-                    <td ng-repeat="class in playerClasses">{{ total[class.value].win }} / {{ total[class.value].total }}</td>
-                    <td>{{ overall.win }} / {{ overall.total }}</td>
-                    <td>{{ overall.win / overall.total * 100 | number: 2 }}%</td>
+                    <td ng-repeat="class in playerClasses">{{ deckDetailStats[class.value].win }} - {{ deckDetailStats[class.value].lose }}</td>
+                    <td>{{ deckTotalStats.win }} - {{ deckTotalStats.lose }}</td>
+                    <td>{{ deckTotalStats.win / (deckTotalStats.win + deckTotalStats.lose) * 100 | number: 2 }}%</td>
                 </tr>
             </table>
         </div>

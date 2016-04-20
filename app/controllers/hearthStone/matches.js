@@ -8,21 +8,24 @@ var moment = require('moment');
 
 exports.list = function(req, res)
 {
-    var time = moment().startOf('month').format("YYYY-MM-DD HH:mm:ss");
+    var query = Matches.find();
     if (req.query.season) {
-        time = moment.unix(req.query.season / 1000).format("YYYY-MM-DD HH:mm:ss");
+        var time      = moment.unix(req.query.season / 1000).format("YYYY-MM-DD HH:mm:ss");
+        var startTime = moment(time).startOf('month').set('hour', 0).valueOf();
+        var endTime   = moment(time).add(1, 'month').set('hour', 0).valueOf();
+
+        query = query.where('time').gt(startTime).lt(endTime);
     }
-    var startTime = moment(time).set('hour', 0).valueOf();
-    var endTime   = moment(time).add(1, 'month').set('hour', 0).valueOf();
+
+    if (req.query.deck) {
+        query = query.where('deck_id').equals(req.query.deck);
+    }
 
     if (req.query.page) {
         var page   = req.query.page;
         var limit  = 50;
         var offset = limit * (page - 1);
-    }
 
-    var query = Matches.find().where('time').gt(startTime).lt(endTime);
-    if (req.query.page) {
         query = query.limit(limit).skip(offset);
     }
 
