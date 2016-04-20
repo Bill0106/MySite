@@ -51,13 +51,19 @@ Installation
 
 Versions
 --------
+### v2.6
+1. Use Basic Auth to access admin
+
+### v2.5.1
+1. Recode HearthStone API
+2. HearthStone matches display like: 'win - lose'
+
 ### v2.5
 1. Use nodemon instead of Gulp-nodemon
 2. Remove sourcemap
 3. Set Up HearthStone Matches Admin
 4. Add HearthStone Matches Commands
 5. Use HearthStone matches instead of win rates
-6. Use Basic Auth to access admin
 
 ### v2.4
 1. Delete bower.json
