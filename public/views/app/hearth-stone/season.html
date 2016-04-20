@@ -19,15 +19,15 @@
                     </thead>
                     <tr ng-repeat="deck in decks">
                         <td><a ui-sref="hsDeck({ id: deck._id })">{{ deck.name }}</a></td>
-                        <td ng-repeat="class in playerClasses">{{ win.detail[0][class.value].win ? win.detail[0][class.value].win : '--' }} / {{ win.detail[0][class.value].total ? win.detail[0][class.value].total : '--' }}</td>
-                        <td>{{ win.overall[0].win  }} / {{ win.overall[0].total }}</td>
-                        <td>{{ win.overall[0].win / win.overall[0].total * 100 | number: 2 }}%</td>
+                        <td ng-repeat="class in playerClasses">{{ deckDetailStats[deck._id][class.value].win }} - {{ deckDetailStats[deck._id][class.value].lose }}</td>
+                        <td>{{ deckTotalStats[deck._id].win  }} - {{ deckTotalStats[deck._id].lose }}</td>
+                        <td>{{ deckTotalStats[deck._id].win / (deckTotalStats[deck._id].lose + deckTotalStats[deck._id].win) * 100 | number: 2 }}%</td>
                     </tr>
                     <tr>
                         <td>Total</td>
-                        <td ng-repeat="class in playerClasses">{{ total[class.value].win }} / {{ total[class.value].total }}</td>
-                        <td>{{ overall.win }} / {{ overall.total }}</td>
-                        <td>{{ overall.win / overall.total * 100 | number: 2 }}%</td>
+                        <td ng-repeat="class in playerClasses">{{ seasonDetailStats[class.value].win }} - {{ seasonDetailStats[class.value].lose }}</td>
+                        <td>{{ seasonTotalStats.win }} - {{ seasonTotalStats.lose }}</td>
+                        <td>{{ seasonTotalStats.win / (seasonTotalStats.win + seasonTotalStats.lose) * 100 | number: 2 }}%</td>
                     </tr>
                 </table>
             </section>
