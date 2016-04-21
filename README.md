@@ -57,6 +57,7 @@ Versions
 ### v2.5.1
 1. Recode HearthStone API
 2. HearthStone matches display like: 'win - lose'
+3. HearthStone pages optimize
 
 ### v2.5
 1. Use nodemon instead of Gulp-nodemon
