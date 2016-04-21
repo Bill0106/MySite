@@ -23,7 +23,7 @@ exports.list = function(req, res)
 
     if (req.query.page) {
         var page   = req.query.page;
-        var limit  = 50;
+        var limit  = 100;
         var offset = limit * (page - 1);
 
         query = query.limit(limit).skip(offset);
@@ -42,7 +42,7 @@ exports.list = function(req, res)
             },
             function(callback)
             {
-                query.count(function(err, data)
+                Matches.count(function(err, data)
                 {
                     if (err)
                         throw err;

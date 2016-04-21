@@ -164,21 +164,37 @@ angular.module('hearthStoneAdmin', [])
 
         $scope.loadSeason();
     })
-    .controller('hsMatchesController', function($scope, $stateParams, HSMatch, HS_PLAYER_CLASSES)
+    .controller('hsMatchesController', function($scope, $stateParams, HSMatch, HSDeck, HS_PLAYER_CLASSES)
     {
-        var limit = 100;
-        var page = parseInt($stateParams.page) ? parseInt($stateParams.page) : 1;
-        HSMatch.get({ page: page }, function(data)
-        {
-            if (data.success) {
-                $scope.matches = data.data.list;
+        $scope.playerClasses = HS_PLAYER_CLASSES;
 
-                var total = data.data.total;
-                $scope.totalPage = new Array(Math.ceil(total / limit));
-                $scope.currentPage = data.data.currentPage;
+        $scope.currentPage = parseInt($stateParams.page) ? parseInt($stateParams.page) : 1;
+        HSMatch.get({ page: $scope.currentPage }, function(data)
+        {
+            $scope.matches = data.list;
+            $scope.totalPage = new Array(Math.ceil(data.total / 100));
+        });
+
+        $scope.$watch('matches', function (newValue)
+        {
+            if (newValue) {
+                var ids = [];
+                angular.forEach(newValue, function (value)
+                {
+                    if (ids.indexOf(value.deck_id) < 0) {
+                        ids.push(value.deck_id);
+                    }
+                });
+
+                HSDeck.query({ ids: ids.join() }, function (data) {
+                    $scope.decks = {};
+                    angular.forEach(data, function (value) {
+                        $scope.decks[value._id] = value;
+                    });
+                });
             }
         });
-        $scope.playerClasses = HS_PLAYER_CLASSES;
+
     })
     .controller('hsMatchCreateController', function($scope, HSDeck, HSMatch, HS_PLAYER_CLASSES)
     {
