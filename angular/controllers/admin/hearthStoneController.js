@@ -157,7 +157,7 @@ angular.module('hearthStoneAdmin', [])
             $scope.$watch('season.month', function(newValue)
             {
                 if (newValue) {
-                    $scope.season.month = $filter('date')(newValue, 'yyyy-MM');
+                    $scope.season.month = new Date(newValue).getTime();
                 }
             });
         };

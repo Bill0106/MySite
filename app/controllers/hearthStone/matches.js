@@ -10,15 +10,15 @@ exports.list = function(req, res)
 {
     var query = Matches.find();
     if (req.query.season) {
-        var time      = moment.unix(req.query.season / 1000).format("YYYY-MM-DD HH:mm:ss");
-        var startTime = moment(time).startOf('month').set('hour', 0).valueOf();
-        var endTime   = moment(time).add(1, 'month').set('hour', 0).valueOf();
+        var startTime = moment(req.query.season, 'YYYYMM').startOf('month').startOf('day').valueOf();
+        var endTime   = moment(req.query.season, 'YYYYMM').add(1, 'month').startOf('day').valueOf();
 
         query = query.where('time').gte(startTime).lt(endTime);
     }
 
     if (req.query.deck) {
-        query = query.where('deck_id').equals(req.query.deck);
+        var month = moment().startOf('month').startOf('day').valueOf();
+        query = query.where('deck_id').equals(req.query.deck).where('time').lt(month);
     }
 
     if (req.query.page) {

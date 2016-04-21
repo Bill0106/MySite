@@ -54,6 +54,9 @@ Versions
 ### v2.6
 1. Use Basic Auth to access admin
 
+### v2.5.2
+1. Fix HearthStone season time to 'YYYYMM'
+
 ### v2.5.1
 1. Recode HearthStone API
 2. HearthStone matches display like: 'win - lose'
@@ -62,8 +65,8 @@ Versions
 ### v2.5
 1. Use nodemon instead of Gulp-nodemon
 2. Remove sourcemap
-3. Set Up HearthStone Matches Admin
-4. Add HearthStone Matches Commands
+3. Set Up HearthStone matches admin
+4. Add HearthStone matches Commands
 5. Use HearthStone matches instead of win rates
 
 ### v2.4

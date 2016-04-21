@@ -109,16 +109,8 @@ angular.module('hearthStoneApp', [])
             return hearthStoneMatches.getMatches();
         }, function (newValue)
         {
-            if (newValue) {
-                var months = [];
-                angular.forEach(newValue, function (value)
-                {
-                    var month = $filter('date')(value.time, 'yyyyMM');
-                    if (months.indexOf(month) < 0) {
-                        months.push(month);
-                    }
-                });
-
+            var months = hearthStoneMatches.getMatchSeasons();
+            if (newValue.length > 0) {
                 HSSeason.query({ months: months.join() }, function (data)
                 {
                     $scope.seasons = data;
@@ -208,7 +200,7 @@ angular.module('hearthStoneApp', [])
                 if (filter == 'deck') {
                     filteredMatches = matches.filter(byDeck(value._id));
                 } else if (filter == 'season') {
-                    filteredMatches = matches.filter(bySeason($filter('date')(value.month, 'yyyyMM')));
+                    filteredMatches = matches.filter(bySeason(value.month));
                 }
 
                 var detail = {};

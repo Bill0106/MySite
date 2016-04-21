@@ -10,12 +10,7 @@ exports.list = function(req, res)
     var query = seasons.find();
 
     if (req.query.months) {
-        var months = req.query.months.split(',').map(function (value)
-        {
-            return moment(value, 'YYYY-MM').set('hour', 0).valueOf();
-        });
-
-        query = query.where('month').in(months);
+        query = query.where('month').in(req.query.months.split(','));
     }
 
     query.sort({ month: 'desc' }).exec(function(err, data)
@@ -47,7 +42,7 @@ exports.create = function(req, res)
     season.title = req.body.title;
     season.rank = req.body.rank;
     season.image = req.body.image;
-    season.month = ts;
+    season.month = moment(ts).format('YYYYMM');
     season.url = moment(ts).format('MMMM').toLowerCase() + '-' + moment(ts).format('YYYY') + '-' + req.body.title.toLowerCase().replace(/ /g, '-');
     season.decks = req.body.decks;
     season.description = req.body.description;
@@ -72,12 +67,14 @@ exports.create = function(req, res)
 
 exports.update = function(req, res)
 {
+    var ts = moment(req.body.month, 'YYYY-MM').set('hour', 0).valueOf();
+
     seasons.findOne({ _id: req.body._id }, function(err, data)
     {
         data.title = req.body.title;
         data.rank = req.body.rank;
         data.image = req.body.image;
-        data.month = moment(req.body.month, 'YYYY-MM').set('hour', 0).valueOf();
+        data.month = moment(ts).format('YYYYMM');
         data.url = req.body.url;
         data.decks = req.body.decks;
         data.description = req.body.description;

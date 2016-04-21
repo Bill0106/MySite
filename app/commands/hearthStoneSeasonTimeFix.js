@@ -30,7 +30,7 @@ mongoose.connect(database);
 
 function saveData(season, callback)
 {
-    var month = moment(season.month).set('hour', 0).valueOf();
+    var month = moment(season.month).format('YYYYMM');
 
     seasons.findOne({ _id: season._id }, function(err, data)
     {
