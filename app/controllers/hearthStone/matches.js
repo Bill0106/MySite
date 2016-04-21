@@ -14,7 +14,7 @@ exports.list = function(req, res)
         var startTime = moment(time).startOf('month').set('hour', 0).valueOf();
         var endTime   = moment(time).add(1, 'month').set('hour', 0).valueOf();
 
-        query = query.where('time').gt(startTime).lt(endTime);
+        query = query.where('time').gte(startTime).lt(endTime);
     }
 
     if (req.query.deck) {

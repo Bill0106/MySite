@@ -10,9 +10,9 @@ exports.list = function(req, res)
 
     if (req.query.playerClass == -1) {
         if (!req.query.cost || req.query.cost == 1) {
-            query.where('cost').lt(2);
+            query.where('cost').lte(1);
         } else if (req.query.cost == 7) {
-            query.where('cost').gt(6);
+            query.where('cost').gte(7);
         } else {
             query.where('cost').equals(req.query.cost);
         }
