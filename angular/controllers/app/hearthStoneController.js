@@ -38,16 +38,19 @@ angular.module('hearthStoneApp', [])
         {
             if (newValue) {
                 HSMatch.get({ season: newValue }, function (data) {
-                    $scope.matches = data.list;
+                    hearthStoneMatches.addMatches(data.list);
                 });
             }
         });
 
         // Get Season Decks
-        $scope.$watch('matches', function (newValue)
+        $scope.$watch(function()
+        {
+            return hearthStoneMatches.getMatches();
+        }, function (newValue)
         {
             if (newValue.length > 0) {
-                var ids = hearthStoneMatches.getMatchDecks(newValue);
+                var ids = hearthStoneMatches.getMatchDecks();
 
                 HSDeck.query({ ids: ids.join() }, function (data) {
                     $scope.decks = {};
@@ -62,40 +65,7 @@ angular.module('hearthStoneApp', [])
         $scope.$watch('decks', function (newValue)
         {
             if (newValue) {
-                $scope.deckTotalStats = {};
-                $scope.deckDetailStats = {};
-                $scope.seasonDetailStats = {};
-                angular.forEach(newValue, function (value)
-                {
-                    var deckMatches = hearthStoneMatches.getMatchesByDeck(value._id, $scope.matches);
-                    $scope.deckTotalStats[value._id] = {
-                        win: hearthStoneMatches.getMatchesByResult(1, deckMatches).length,
-                        lose: hearthStoneMatches.getMatchesByResult(0, deckMatches).length
-                    };
-
-                    var detail = {};
-                    angular.forEach(HS_PLAYER_CLASSES, function (item)
-                    {
-                        var deckOpponentMatches = hearthStoneMatches.getMatchesByOpponent(item.value, deckMatches);
-                        var seasonOpponentMatches = hearthStoneMatches.getMatchesByOpponent(item.value, $scope.matches);
-
-                        detail[item.value] = {
-                            win: hearthStoneMatches.getMatchesByResult(1, deckOpponentMatches).length,
-                            lose: hearthStoneMatches.getMatchesByResult(0, deckOpponentMatches).length
-                        };
-
-                        $scope.seasonDetailStats[item.value] = {
-                            win: hearthStoneMatches.getMatchesByResult(1, seasonOpponentMatches).length,
-                            lose: hearthStoneMatches.getMatchesByResult(0, seasonOpponentMatches).length
-                        };
-                    });
-                    $scope.deckDetailStats[value._id] = detail;
-                });
-
-                $scope.seasonTotalStats = {
-                    win: hearthStoneMatches.getMatchesByResult(1, $scope.matches).length,
-                    lose: hearthStoneMatches.getMatchesByResult(0, $scope.matches).length
-                };
+                $scope.stats = hearthStoneMatches.getMatchesStats('deck', $scope.decks);
             }
         });
     })
@@ -128,13 +98,16 @@ angular.module('hearthStoneApp', [])
             if (newValue) {
                 HSMatch.get({ deck: newValue }, function (data)
                 {
-                    $scope.matches = data.list;
+                    hearthStoneMatches.addMatches(data.list);
                 });
             }
         });
 
         // Get Months
-        $scope.$watch('matches', function (newValue)
+        $scope.$watch(function ()
+        {
+            return hearthStoneMatches.getMatches();
+        }, function (newValue)
         {
             if (newValue) {
                 var months = [];
@@ -156,58 +129,34 @@ angular.module('hearthStoneApp', [])
         $scope.$watch('seasons', function (newValue)
         {
             if (newValue) {
-                $scope.deckDetailStats = {};
-                $scope.seasonDetailStats = {};
-                $scope.seasonTotalStats = {};
-                angular.forEach(newValue, function (value)
-                {
-                    var month = $filter('date')(value.month, 'yyyyMM');
-                    var seasonMatches = hearthStoneMatches.getMatchesBySeason(month, $scope.matches);
-
-                    $scope.seasonTotalStats[value._id] = {
-                        win: hearthStoneMatches.getMatchesByResult(1, seasonMatches).length,
-                        lose: hearthStoneMatches.getMatchesByResult(0, seasonMatches).length
-                    };
-
-                    var detail = {};
-                    angular.forEach(HS_PLAYER_CLASSES, function (item)
-                    {
-                        var seasonOpponentMatches = hearthStoneMatches.getMatchesByOpponent(item.value, seasonMatches);
-                        var deckOpponentMatches = hearthStoneMatches.getMatchesByOpponent(item.value, $scope.matches);
-
-                        detail[item.value] = {
-                            win: hearthStoneMatches.getMatchesByResult(1, seasonOpponentMatches).length,
-                            lose: hearthStoneMatches.getMatchesByResult(0, seasonOpponentMatches).length
-                        };
-
-                        $scope.deckDetailStats[item.value] = {
-                            win: hearthStoneMatches.getMatchesByResult(1, deckOpponentMatches).length,
-                            lose: hearthStoneMatches.getMatchesByResult(0, deckOpponentMatches).length
-                        };
-                    });
-                    $scope.seasonDetailStats[value._id] = detail;
-                });
-
-                $scope.deckTotalStats = {
-                    win: hearthStoneMatches.getMatchesByResult(1, $scope.matches).length,
-                    lose: hearthStoneMatches.getMatchesByResult(0, $scope.matches).length
-                };
+                $scope.stats = hearthStoneMatches.getMatchesStats('season', $scope.seasons);
             }
         });
     })
-    .service('hearthStoneMatches', function ($filter)
+    .service('hearthStoneMatches', function ($filter, HS_PLAYER_CLASSES)
     {
-        this.getMatchDecks = function (matches)
+        this.matches = [];
+
+        this.addMatches = function (matches)
+        {
+            this.matches = matches;
+        };
+
+        this.getMatches = function ()
+        {
+            return this.matches;
+        };
+
+        this.getMatchDecks = function ()
         {
             var ids = [];
-            if (!matches) {
+            if (this.matches.length < 0) {
                 return ids;
             }
 
-            angular.forEach(matches, function (value)
+            angular.forEach(this.matches, function (value)
             {
-                if (ids.indexOf(value.deck_id) < 0)
-                {
+                if (ids.indexOf(value.deck_id) < 0) {
                     ids.push(value.deck_id);
                 }
             });
@@ -215,64 +164,115 @@ angular.module('hearthStoneApp', [])
             return ids;
         };
 
-        this.getMatchesByDeck = function (id, matches)
+        this.getMatchSeasons = function ()
         {
-            function byDeck(id)
-            {
-                return function (value)
-                {
-                    return value.deck_id == id;
-                };
+            var months = [];
+            if (this.matches.length < 0) {
+                return months;
             }
 
-            return matches.filter(byDeck(id));
-        };
-
-        this.getMatchesByResult = function (result, matches)
-        {
-            function byResult(result)
+            angular.forEach(this.matches, function (value)
             {
-                if (result == 1) {
-                    return function (value)
-                    {
-                        return value.result == result;
-                    };
-                } else {
-                    return function (value)
-                    {
-                        return value.result != 1;
-                    };
+                var month = $filter('date')(value.time, 'yyyyMM');
+                if (months.indexOf(month) < 0) {
+                    months.push(month);
                 }
-            }
+            });
 
-            return matches.filter(byResult(result));
+            return months;
         };
 
-        this.getMatchesByOpponent = function (opponent, matches)
+        this.getMatchesStats = function (filter, list)
         {
-            function byOpponent(opponent)
+            var matches = this.matches;
+            var main = {};
+            main.total = {
+                win: matches.filter(byResult(1)).length,
+                lose: matches.filter(byResult(0)).length
+            };
+
+            main.detail = {};
+            angular.forEach(HS_PLAYER_CLASSES, function (value)
             {
+                main.detail[value.value] = {
+                    win: matches.filter(byOpponent(value.value)).filter(byResult(1)).length,
+                    lose: matches.filter(byOpponent(value.value)).filter(byResult(0)).length
+                };
+            });
+
+            var array = {};
+            angular.forEach(list, function (value)
+            {
+                var item = {};
+                var filteredMatches = [];
+                if (filter == 'deck') {
+                    filteredMatches = matches.filter(byDeck(value._id));
+                } else if (filter == 'season') {
+                    filteredMatches = matches.filter(bySeason($filter('date')(value.month, 'yyyyMM')));
+                }
+
+                var detail = {};
+                angular.forEach(HS_PLAYER_CLASSES, function (val)
+                {
+                    detail[val.value] = {
+                        win: filteredMatches.filter(byOpponent(val.value)).filter(byResult(1)).length,
+                        lose: filteredMatches.filter(byOpponent(val.value)).filter(byResult(0)).length
+                    };
+                });
+
+                item.total = {
+                    win: filteredMatches.filter(byResult(1)).length,
+                    lose: filteredMatches.filter(byResult(0)).length
+                };
+                item.detail = detail;
+
+                array[value._id] = item;
+            });
+
+            return {
+                main: main,
+                list: array
+            };
+        };
+
+        function byDeck(id)
+        {
+            return function (value)
+            {
+                return value.deck_id == id;
+            };
+        }
+
+        function byResult(result)
+        {
+            if (result == 1) {
                 return function (value)
                 {
-                    return value.opponent == opponent;
+                    return value.result == result;
                 };
-            }
-
-            return matches.filter(byOpponent(opponent));
-        };
-
-        this.getMatchesBySeason = function (season, matches)
-        {
-            function bySeason(season)
-            {
+            } else {
                 return function (value)
                 {
-                    return $filter('date')(value.time, 'yyyyMM') == season;
+                    return value.result != 1;
                 };
             }
+        }
 
-            return matches.filter(bySeason(season));
-        };
+        function byOpponent(opponent)
+        {
+            return function (value)
+            {
+                return value.opponent == opponent;
+            };
+        }
+
+        function bySeason(season)
+        {
+            return function (value)
+            {
+                return $filter('date')(value.time, 'yyyyMM') == season;
+            };
+        }
 
         return this;
     });

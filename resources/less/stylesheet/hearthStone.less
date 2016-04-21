@@ -1,5 +1,34 @@
 body.hsSeasonsController, body.hsSeasonController, body.hsDeckController {
   background-color: @hearthStoneBodyBackground;
+  section.table-responsive {
+    .table {
+      > thead {
+        > tr {
+          > th {
+            text-align: center;
+            &:first-child {
+              text-align: left;
+            }
+          }
+        }
+      }
+      > tbody {
+        > tr {
+          &:last-child {
+            > td {
+              font-weight: bold;
+            }
+          }
+          > td {
+            text-align: center;
+            &:first-child {
+              text-align: left;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 body.hsSeasonsController {
   section.season-total-wins {
@@ -99,33 +128,6 @@ body.hsSeasonController {
         vertical-align: middle;
         &.rank {
           font-size: @fontSizeMassive;
-        }
-      }
-    }
-    .table {
-      > thead {
-        > tr {
-          > th {
-            text-align: center;
-            &:first-child {
-              text-align: left;
-            }
-          }
-        }
-      }
-      > tbody {
-        > tr {
-          &:last-child {
-            > td {
-              font-weight: bold;
-            }
-          }
-          > td {
-            text-align: center;
-            &:first-child {
-              text-align: left;
-            }
-          }
         }
       }
     }

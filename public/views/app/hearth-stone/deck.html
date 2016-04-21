@@ -26,29 +26,31 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12 table-responsive">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Season</th>
-                    <th ng-repeat="class in playerClasses">{{ class.name }}</th>
-                    <th>Total</th>
-                    <th>PCT</th>
-                </tr>
-                </thead>
-                <tr ng-repeat="season in seasons">
-                    <td><a ui-sref="hsSeason({ url: season.url })">{{ season.title }}</a></td>
-                    <td ng-repeat="class in playerClasses">{{ seasonDetailStats[season._id][class.value].win }} - {{ seasonDetailStats[season._id][class.value].lose }}</td>
-                    <td>{{ seasonTotalStats[season._id].win  }} - {{ seasonTotalStats[season._id].lose }}</td>
-                    <td>{{ seasonTotalStats[season._id].win / (seasonTotalStats[season._id].win + seasonTotalStats[season._id].lose) * 100 | number: 2 }}%</td>
-                </tr>
-                <tr>
-                    <td>Total</td>
-                    <td ng-repeat="class in playerClasses">{{ deckDetailStats[class.value].win }} - {{ deckDetailStats[class.value].lose }}</td>
-                    <td>{{ deckTotalStats.win }} - {{ deckTotalStats.lose }}</td>
-                    <td>{{ deckTotalStats.win / (deckTotalStats.win + deckTotalStats.lose) * 100 | number: 2 }}%</td>
-                </tr>
-            </table>
+        <div class="col-sm-12">
+            <section class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Season</th>
+                        <th ng-repeat="class in playerClasses">{{ class.name }}</th>
+                        <th>Total</th>
+                        <th>PCT</th>
+                    </tr>
+                    </thead>
+                    <tr ng-repeat="season in seasons">
+                        <td><a ui-sref="hsSeason({ url: season.url })">{{ season.title }}</a></td>
+                        <td ng-repeat="class in playerClasses">{{ stats.list[season._id].detail[class.value].win }} - {{ stats.list[season._id].detail[class.value].lose }}</td>
+                        <td>{{ stats.list[season._id].total.win  }} - {{ stats.list[season._id].total.lose }}</td>
+                        <td>{{ stats.list[season._id].total.win / (stats.list[season._id].total.win + stats.list[season._id].total.lose) * 100 | number: 2 }}%</td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td ng-repeat="class in playerClasses">{{ stats.main.detail[class.value].win }} - {{ stats.main.detail[class.value].lose }}</td>
+                        <td>{{ stats.main.total.win }} - {{ stats.main.total.lose }}</td>
+                        <td>{{ stats.main.total.win / (stats.main.total.win + stats.main.total.lose) * 100 | number: 2 }}%</td>
+                    </tr>
+                </table>
+            </section>
         </div>
     </div>
 </div>
