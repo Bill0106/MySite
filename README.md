@@ -55,6 +55,7 @@ Versions
 1. Use Basic Auth to access admin
 2. Optimize admin image upload
 3. Optimize admin pages
+4. HearthStone match create query only active deck
 
 ### v2.5.2
 1. Fix HearthStone season time to 'YYYYMM'

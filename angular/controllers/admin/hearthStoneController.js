@@ -221,7 +221,7 @@ angular.module('hearthStoneAdmin', [])
         $scope.match = new HSMatch();
 
         $scope.matches = [];
-        $scope.decks = HSDeck.query();
+        $scope.decks = HSDeck.query({ active: true });
         $scope.playerClasses = HS_PLAYER_CLASSES;
 
         $scope.total = 0;
