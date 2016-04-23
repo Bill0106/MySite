@@ -1,16 +1,17 @@
 <form class="form-horizontal" ng-submit="saveGame()">
     <div class="form-group" ng-repeat="field in fields" ng-switch="field">
-        <label for="{{ field }}" class="col-sm-2 control-label">{{ field.toUpperCase() }}:</label>
+        <label for="{{ field }}" class="col-sm-2 control-label">{{ field | capitalize }}:</label>
 
         <!--Default Input-->
         <div class="col-sm-10" ng-switch-default>
-            <input class="form-control" type="text" placeholder="Enter {{ field }}" ng-model="game[field]" id="{{ field }}"/>
+            <input class="form-control" type="text" placeholder="Enter {{ field | capitalize }}" ng-model="game[field]" id="{{ field }}"/>
         </div>
 
         <!--Image Upload-->
         <div class="col-sm-10" ng-switch-when="image">
-            <span class="admin-image-upload">
-                <img src="" alt=""/>
+            <span class="admin-image-upload small">
+                <img ng-src="{{ imagePath + game.image }}" ng-if="game.image" alt=""/>
+                <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=360%C3%97360&w=150&h=150" ng-if="!game.image" alt=""/>
                 <input type="file" class="form-control" name="image_file" ngf-select ng-model="file"/>
             </span>
             <input type="hidden" ng-model="game.image" id="image"/>
@@ -19,20 +20,39 @@
         <!--Platform Select-->
         <div class="col-sm-10" ng-switch-when="platform">
             <select class="form-control" ng-model="game.platform" ng-options="platform.value as platform.name for platform in platforms" id="platform" required>
-                <option value="">Choose platform</option>
+                <option value="">Choose Platform</option>
             </select>
         </div>
 
         <!--Genre Select-->
         <div class="col-sm-10" ng-switch-when="genre">
             <select class="form-control" ng-model="game.genre" ng-options="genre.value as genre.name for genre in genres" id="genre" required>
-                <option value="">Choose genre</option>
+                <option value="">Choose Genre</option>
             </select>
         </div>
 
         <!--Description Textarea-->
         <div class="col-sm-10" ng-switch-when="description">
-            <textarea class="form-control" rows="15" placeholder="Enter description" ng-model="game.description" id="description" required></textarea>
+            <textarea class="form-control" rows="15" placeholder="Enter Description" ng-model="game.description" id="description" required></textarea>
+        </div>
+
+        <!--Rate Radio-->
+        <div class="col-sm-10" ng-switch-when="rate">
+            <label class="radio-inline">
+                <input type="radio" name="rate" ng-model="game.rate" value="1"> 1
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="rate" ng-model="game.rate" value="2"> 2
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="rate" ng-model="game.rate" value="3"> 3
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="rate" ng-model="game.rate" value="4"> 4
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="rate" ng-model="game.rate" value="5"> 5
+            </label>
         </div>
     </div>
     <button class="btn btn-primary pull-right" type="submit">Submit</button>

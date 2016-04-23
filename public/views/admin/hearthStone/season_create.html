@@ -1,16 +1,17 @@
 <form class="form-horizontal" ng-submit="saveSeason()">
     <div class="form-group" ng-repeat="field in fields" ng-switch="field">
-        <label for="{{ field }}" class="col-sm-2 control-label">{{ field.toUpperCase() }}:</label>
+        <label for="{{ field }}" class="col-sm-2 control-label">{{ field | capitalize }}:</label>
 
         <!--Default Input-->
         <div class="col-sm-10" ng-switch-default>
-            <input type="text" class="form-control" id="{{ field }}" ng-model="season[field]" placeholder="Enter {{ field.toUpperCase() }}"/>
+            <input type="text" class="form-control" id="{{ field }}" ng-model="season[field]" placeholder="Enter {{ field | capitalize }}"/>
         </div>
 
         <!--Image Upload-->
         <div class="col-sm-10" ng-switch-when="image">
-            <span class="admin-image-upload">
-                <img src="" alt=""/>
+            <span class="admin-image-upload large">
+                <img ng-src="{{ imagePath + season.image }}" alt="" ng-if="season.image"/>
+                <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=760%C3%97270&w=442&h=150" alt="" ng-if="!season.image"/>
                 <input type="file" class="form-control" name="image_file" ngf-select ng-model="file"/>
             </span>
             <input type="hidden" ng-model="season.image" id="image"/>
@@ -18,7 +19,7 @@
 
         <!--Description Input-->
         <div class="col-sm-10" ng-switch-when="description">
-            <textarea class="form-control" id="description" ng-model="season.description" placeholder="Enter DESCRIPTION"></textarea>
+            <textarea class="form-control" id="description" ng-model="season.description" placeholder="Enter Description"></textarea>
         </div>
     </div>
     <button class="btn btn-primary pull-right" type="submit">Submit</button>

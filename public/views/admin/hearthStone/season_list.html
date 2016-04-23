@@ -4,6 +4,7 @@
 <table class="table">
     <thead>
     <tr>
+        <th>ID</th>
         <th>Title</th>
         <th>Month</th>
         <th>Rank</th>
@@ -12,6 +13,7 @@
     </tr>
     </thead>
     <tr ng-repeat="season in seasons">
+        <td>{{ season._id }}</td>
         <td>
             <a ui-sref="HSSeasonUpdate({ url: season.url })">{{ season.title }}</a>
         </td>
@@ -19,6 +21,5 @@
         <td>{{ season.rank }}</td>
         <td>{{ season.image }}</td>
         <td>{{ season.url }}</td>
-        <td>{{ season.description }}</td>
     </tr>
 </table>

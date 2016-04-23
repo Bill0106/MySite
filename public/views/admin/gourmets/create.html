@@ -1,16 +1,17 @@
 <form class="form-horizontal" ng-submit="saveGourmet()">
     <div class="form-group" ng-repeat="field in fields" ng-switch="field">
-        <label for="{{ field }}" class="col-sm-2 control-label">{{ field.toUpperCase() }}:</label>
+        <label for="{{ field }}" class="col-sm-2 control-label">{{ field | capitalize }}:</label>
 
         <!--Default Input-->
         <div class="col-sm-10" ng-switch-default>
-            <input class="form-control" type="text" placeholder="Enter {{ field }}" ng-model="gourmet[field]" id="{{ field }}" required/>
+            <input class="form-control" type="text" placeholder="Enter {{ field | capitalize }}" ng-model="gourmet[field]" id="{{ field }}" required/>
         </div>
 
         <!--Image Upload-->
         <div class="col-sm-10" ng-switch-when="image">
-            <span class="admin-image-upload">
-                <img src="" alt=""/>
+            <span class="admin-image-upload small">
+                <img ng-src="{{ imagePath + gourmet.image }}" alt="" ng-if="gourmet.image"/>
+                <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=300%C3%97300&w=150&h=150" alt="" ng-if="!gourmet.image"/>
                 <input type="file" class="form-control" name="image_file" ngf-select ng-model="file"/>
             </span>
             <input type="hidden" ng-model="gourmet.image" id="image"/>

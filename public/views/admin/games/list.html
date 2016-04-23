@@ -10,13 +10,15 @@
         <th>Name</th>
         <th>Platform</th>
         <th>Genre</th>
-        <th>released_at</th>
-        <th>buy_at</th>
+        <th>Released</th>
+        <th>Buy</th>
         <th>Operation</th>
     </tr>
     </thead>
     <tr ng-repeat="game in games">
-        <td>{{ game._id }}</td>
+        <td>
+            <a ui-sref="gameUpdate({ url: game.url })">{{ game._id }}</a>
+        </td>
         <td>{{ game.title }}</td>
         <td>{{ game.name }}</td>
         <td>{{ platforms[game.platform].name }}</td>
@@ -24,7 +26,6 @@
         <td>{{ game.release_at | date:"yyyy-MM-dd" }}</td>
         <td>{{ game.buy_at | date:"yyyy-MM-dd" }}</td>
         <td>
-            <a ui-sref="gameUpdate({ url: game.url })" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a>
             <a ui-sref="gameTrophies({ id: game.trophies })" class="btn btn-success" ng-if="game.trophies"><i class="fa fa-trophy"></i></a>
             <a ui-sref="gameTrophiesScrap({ id: game._id })" class="btn btn-success" ng-if="!game.trophies"><i class="fa fa-trophy"></i></a>
         </td>
