@@ -54,6 +54,7 @@ Versions
 ### v2.6
 1. Use Basic Auth to access admin
 2. Optimize admin image upload
+3. Optimize admin pages
 
 ### v2.5.2
 1. Fix HearthStone season time to 'YYYYMM'
