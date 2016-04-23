@@ -115,10 +115,20 @@ angular.module('hearthStoneAdmin', [])
     {
         $scope.seasons = HSSeason.query();
     })
-    .controller('hsSeasonCreateController', function($scope, $state, HSSeason)
+    .controller('hsSeasonCreateController', function($scope, $state, imageUpload, HSSeason, SEASON_FIELDS)
     {
-        $scope.fields = ['title', 'month', 'rank', 'image'];
+        $scope.fields = SEASON_FIELDS;
         $scope.season = new HSSeason();
+
+        $scope.$watch('file', function (file)
+        {
+            if (file) {
+                var image = imageUpload.uploadImage(file);
+                if (image.success) {
+                    $scope.season.image = image.image;
+                }
+            }
+        });
 
         $scope.saveSeason = function()
         {
@@ -133,9 +143,19 @@ angular.module('hearthStoneAdmin', [])
             });
         };
     })
-    .controller('hsSeasonUpdateController', function($scope, $state, $filter, HSSeason)
+    .controller('hsSeasonUpdateController', function($scope, $state, $filter, imageUpload, HSSeason, SEASON_FIELDS)
     {
-        $scope.fields = ['title', 'month', 'rank', 'image'];
+        $scope.fields = SEASON_FIELDS;
+
+        $scope.$watch('file', function (file)
+        {
+            if (file) {
+                var image = imageUpload.uploadImage(file);
+                if (image.success) {
+                    $scope.season.image = image.image;
+                }
+            }
+        });
 
         $scope.saveSeason = function()
         {
@@ -255,4 +275,7 @@ angular.module('hearthStoneAdmin', [])
             }
             return true;
         };
-    });
+    })
+    .constant('SEASON_FIELDS', [
+        'title', 'month', 'rank', 'image', 'url', 'description'
+    ]);

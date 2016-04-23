@@ -12,9 +12,19 @@ angular.module('gourmetsAdmin', [])
         });
 
     })
-    .controller('gourmetCreateController', function($scope, $state, Gourmet)
+    .controller('gourmetCreateController', function($scope, $state, Gourmet, imageUpload, GOURMET_FIELDS)
     {
-        $scope.fields = ['food', 'restaurant', 'date', 'image', 'url'];
+        $scope.fields = GOURMET_FIELDS;
+
+        $scope.$watch('file', function (file)
+        {
+            if (file) {
+                var image = imageUpload.uploadImage(file);
+                if (image.success) {
+                    $scope.gourmet.image = image.image;
+                }
+            }
+        });
 
         $scope.gourmet = new Gourmet();
         $scope.saveGourmet = function()
@@ -30,9 +40,19 @@ angular.module('gourmetsAdmin', [])
             });
         };
     })
-    .controller('gourmetUpdateController', function($scope, $filter, $state, Gourmet)
+    .controller('gourmetUpdateController', function($scope, $filter, $state, Gourmet, imageUpload, GOURMET_FIELDS)
     {
-        $scope.fields = ['food', 'restaurant', 'date', 'image', 'url'];
+        $scope.fields = GOURMET_FIELDS;
+
+        $scope.$watch('file', function (file)
+        {
+            if (file) {
+                var image = imageUpload.uploadImage(file);
+                if (image.success) {
+                    $scope.gourmet.image = image.image;
+                }
+            }
+        });
 
         $scope.saveGourmet = function()
         {
@@ -60,4 +80,7 @@ angular.module('gourmetsAdmin', [])
         };
 
         $scope.loadGourmet();
-    });
+    })
+    .constant('GOURMET_FIELDS', [
+        'food', 'restaurant', 'date', 'image', 'url'
+    ]);

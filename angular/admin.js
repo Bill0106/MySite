@@ -17,30 +17,25 @@ angular.module('myAdmin', [
             $rootScope.title = $state.current.title;
         });
     })
-    .controller('imageUploadController',['$scope', 'Upload', function($scope, Upload)
+    .service('imageUpload', ['Upload', function (Upload)
     {
-        $scope.$watch('file', function(file)
-        {
-            if (file) {
-                $scope.upload($scope.file);
-            }
-        });
-
-        $scope.upload = function(file)
+        this.uploadImage = function (file)
         {
             Upload.upload({
                 url: '/api/images',
                 file: file
-            }).progress(function (evt) {
-                $scope.uploading = true;
-                $scope.progress = parseInt(100.0 * evt.loaded / evt.total);
             }).success(function (data, status, headers, config) {
-                $scope.progress = 0;
-                $scope.success = true;
-                $scope.imageName = data;
+                return {
+                    success: true,
+                    image: data
+                };
             }).error(function (data, status, headers, config) {
-                $scope.fail = true;
-                $scope.msg = data;
+                return {
+                    success: false,
+                    errorMsg: data
+                };
             });
         };
+
+        return this;
     }]);

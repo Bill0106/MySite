@@ -46,39 +46,6 @@
                 <div ui-view></div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="panel panel-default" style="margin-top: 20px" ng-controller="imageUploadController">
-                    <div class="panel-heading">Image Upload</div>
-                    <div class="panel-body">
-                        <form>
-                            <div class="form-group">
-                                <input class="form-control" type="file" ngf-select ng-model="file"/>
-                            </div>
-                            <div class="progress" ng-show="uploading">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%;">
-                                    <span class="sr-only">{{ progress }}% Complete</span>
-                                </div>
-                            </div>
-                        </form>
-                        <ul>
-                            <li>Game: 360 * 360</li>
-                            <li>Gourmet: 300 * 300</li>
-                            <li>HearthStone: 720 * 270</li>
-                            <li>Blog: 1280 * 500</li>
-                        </ul>
-                    </div>
-                    <div class="panel-footer">
-                        <div class="alert alert-success" role="alert" ng-show="success">
-                            <p>success: {{ imageName }}</p>
-                        </div>
-                        <div class="alert alert-danger" role="alert" ng-show="fail">
-                            <p>error: {{ msg }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- AngularJS Dependencies -->

@@ -1,19 +1,23 @@
 <form class="form-horizontal" ng-submit="saveSeason()">
-    <div class="form-group" ng-repeat="field in fields">
-        <label for="{{ field }}" class="col-sm-1 control-label">{{ field.toUpperCase() }}:</label>
-        <div class="col-sm-11">
-            <input type="text" class="form-control" id="{{ field }}" ng-model="season[field]" placeholder="Enter {{ field.toUpperCase() }}" required/>
+    <div class="form-group" ng-repeat="field in fields" ng-switch="field">
+        <label for="{{ field }}" class="col-sm-2 control-label">{{ field.toUpperCase() }}:</label>
+
+        <!--Default Input-->
+        <div class="col-sm-10" ng-switch-default>
+            <input type="text" class="form-control" id="{{ field }}" ng-model="season[field]" placeholder="Enter {{ field.toUpperCase() }}"/>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="url" class="col-sm-1 control-label">URL:</label>
-        <div class="col-sm-11">
-            <input type="text" class="form-control" id="url" ng-model="season.url" placeholder="Enter URL"/>
+
+        <!--Image Upload-->
+        <div class="col-sm-10" ng-switch-when="image">
+            <span class="admin-image-upload">
+                <img src="" alt=""/>
+                <input type="file" class="form-control" name="image_file" ngf-select ng-model="file"/>
+            </span>
+            <input type="hidden" ng-model="season.image" id="image"/>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="description" class="col-sm-1 control-label">DESCRIPTION:</label>
-        <div class="col-sm-11">
+
+        <!--Description Input-->
+        <div class="col-sm-10" ng-switch-when="description">
             <textarea class="form-control" id="description" ng-model="season.description" placeholder="Enter DESCRIPTION"></textarea>
         </div>
     </div>

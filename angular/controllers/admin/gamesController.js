@@ -14,11 +14,21 @@ angular.module('gamesAdmin', [])
         $scope.platforms = GAME_PLATFORMS;
         $scope.genres = GAME_GENRES;
     })
-    .controller('gameCreateController', function($scope, $state, Game, GAME_PLATFORMS, GAME_GENRES)
+    .controller('gameCreateController', function($scope, $state, Game, imageUpload, GAME_FIELDS, GAME_PLATFORMS, GAME_GENRES)
     {
-        $scope.fields = ['title', 'name', 'developer', 'publisher', 'release_at', 'buy_at', 'rate', 'image'];
+        $scope.fields = GAME_FIELDS;
         $scope.platforms = GAME_PLATFORMS;
         $scope.genres = GAME_GENRES;
+
+        $scope.$watch('file', function (file)
+        {
+            if (file) {
+                var image = imageUpload.uploadImage(file);
+                if (image.success) {
+                    $scope.game.image = image.image;
+                }
+            }
+        });
 
         $scope.game = new Game();
         $scope.saveGame = function()
@@ -34,11 +44,21 @@ angular.module('gamesAdmin', [])
             });
         };
     })
-    .controller('gameUpdateController', function($scope, $filter, $state, Game, GAME_PLATFORMS, GAME_GENRES)
+    .controller('gameUpdateController', function($scope, $filter, $state, Game, imageUpload, GAME_FIELDS, GAME_PLATFORMS, GAME_GENRES)
     {
-        $scope.fields = ['title', 'name', 'developer', 'publisher', 'release_at', 'buy_at', 'rate', 'image'];
+        $scope.fields = GAME_FIELDS;
         $scope.platforms = GAME_PLATFORMS;
         $scope.genres = GAME_GENRES;
+
+        $scope.$watch('file', function (file)
+        {
+            if (file) {
+                var image = imageUpload.uploadImage(file);
+                if (image.success) {
+                    $scope.game.image = image.image;
+                }
+            }
+        });
 
         $scope.saveGame = function()
         {
@@ -134,4 +154,8 @@ angular.module('gamesAdmin', [])
                     $scope.result = error;
                 });
         };
-    });
+    })
+    .constant('GAME_FIELDS', [
+        'title', 'name', 'developer', 'publisher', 'release_at', 'buy_at',
+        'rate', 'image', 'url', 'platform', 'genre', 'description'
+    ]);
