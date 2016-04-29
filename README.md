@@ -51,6 +51,10 @@ Installation
 
 Versions
 --------
+### v2.6.1
+1. Update hearthStoneCardsUpdate command
+2. HearthStone card database add 'standard' field
+
 ### v2.6
 1. Use Basic Auth to access admin
 2. Optimize admin image upload

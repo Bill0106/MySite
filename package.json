@@ -1,6 +1,6 @@
 {
   "name": "zhuhaolin.com",
-  "version": "2.6.0",
+  "version": "2.6.1",
   "author": "Bill",
   "main": "server.js",
   "repository": {
@@ -19,6 +19,7 @@
     "moment": "~2.*",
     "mongoose": "~4.*",
     "morgan": "~1.*",
+    "qiniu": "^6.1.10",
     "request": "~2.*",
     "serve-favicon": "~2.*"
   },
