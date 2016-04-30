@@ -51,8 +51,6 @@ Installation
 
 Versions
 --------
-### v.2.6.2
-1. Git ignore public/build
 
 ### v2.6.1
 1. Update hearthStoneCardsUpdate command
