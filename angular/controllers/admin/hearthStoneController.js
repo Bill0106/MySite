@@ -8,22 +8,18 @@ angular.module('hearthStoneAdmin', [])
         $scope.playerClasses = HS_PLAYER_CLASSES;
         $scope.decks = HSDeck.query();
     })
-    .controller('hsDeckCreateController', function($scope, $state, $filter, HSDeck, HSCard)
+    .controller('hsDeckCreateController', function($scope, $state, $filter, HSDeck, hearthStoneCards)
     {
         $scope.deck = new HSDeck();
         $scope.deck.playerClass = $state.params.class;
         $scope.deck.cards = [];
 
-        $scope.classCards = HSCard.query({ playerClass: $state.params.class });
-        $scope.neutralCards = HSCard.query({ playerClass: -1 });
-
+        $scope.classCards = hearthStoneCards.getCards($state.params.class);
+        $scope.neutralCards = hearthStoneCards.getCardsByCost(-1, 1);
         $scope.getCardByCost = function(cost, event)
         {
             event.preventDefault();
-            HSCard.query({ playerClass: -1, cost: cost }, function(data)
-            {
-                $scope.neutralCards = data;
-            });
+            $scope.neutralCards = hearthStoneCards.getCardsByCost(-1, cost);
         };
 
         $scope.getNumber = function(num) {
@@ -56,7 +52,7 @@ angular.module('hearthStoneAdmin', [])
             });
         };
     })
-    .controller('hsDeckUpdateController', function($scope, $state, $filter, HSDeck, HSCard)
+    .controller('hsDeckUpdateController', function($scope, $state, $filter, HSDeck, hearthStoneCards)
     {
         $scope.loadDeck = function()
         {
@@ -64,34 +60,17 @@ angular.module('hearthStoneAdmin', [])
             {
                 $scope.deck = data;
 
-                $scope.classCards = HSCard.query({ playerClass: data.playerClass });
+                $scope.classCards = hearthStoneCards.getCards(data.playerClass);
             });
 
         };
-
         $scope.loadDeck();
 
-        $scope.saveDeck = function()
-        {
-            $scope.deck.$update(function(data)
-            {
-                if (!data.success) {
-                    $scope.show = true;
-                    $scope.result = data.msg;
-                } else {
-                    $state.go('HSdecks');
-                }
-            });
-        };
-
-        $scope.neutralCards = HSCard.query({ playerClass: -1 });
+        $scope.neutralCards = hearthStoneCards.getCardsByCost(-1, 1);
         $scope.getCardByCost = function(cost, event)
         {
             event.preventDefault();
-            HSCard.query({ playerClass: -1, cost: cost }, function(data)
-            {
-                $scope.neutralCards = data;
-            });
+            $scope.neutralCards = hearthStoneCards.getCardsByCost(-1, cost);
         };
 
         $scope.getNumber = function(num) {
@@ -109,6 +88,19 @@ angular.module('hearthStoneAdmin', [])
         {
             event.preventDefault();
             $scope.deck.cards.splice($scope.deck.cards.indexOf(card), 1);
+        };
+
+        $scope.saveDeck = function()
+        {
+            $scope.deck.$update(function(data)
+            {
+                if (!data.success) {
+                    $scope.show = true;
+                    $scope.result = data.msg;
+                } else {
+                    $state.go('HSdecks');
+                }
+            });
         };
     })
     .controller('hsSeasonsController', function($scope, HSSeason)
@@ -275,6 +267,20 @@ angular.module('hearthStoneAdmin', [])
             }
             return true;
         };
+    })
+    .service('hearthStoneCards', function (HSCard)
+    {
+        this.getCards = function (playerClass)
+        {
+            return HSCard.query({ playerClass: playerClass, standard: true });
+        };
+
+        this.getCardsByCost = function (playerClass, cost)
+        {
+            return HSCard.query({ playerClass: playerClass, cost: cost, standard: true });
+        };
+
+        return this;
     })
     .constant('SEASON_FIELDS', [
         'title', 'month', 'rank', 'image', 'url', 'description'
