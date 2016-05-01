@@ -158,5 +158,5 @@ angular.module('gamesAdmin', [])
     })
     .constant('GAME_FIELDS', [
         'title', 'name', 'developer', 'publisher', 'release_at', 'buy_at',
-        'rate', 'image', 'url', 'platform', 'genre', 'description'
+        'rate', 'url', 'platform', 'genre', 'description'
     ]);

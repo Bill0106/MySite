@@ -114,6 +114,7 @@ angular.module('hearthStoneAdmin', [])
 
         $scope.$watch('file', function (file)
         {
+            console.log(file);
             if (file) {
                 var image = imageUpload.uploadImage(file);
                 if (image.success) {
@@ -283,5 +284,5 @@ angular.module('hearthStoneAdmin', [])
         return this;
     })
     .constant('SEASON_FIELDS', [
-        'title', 'month', 'rank', 'image', 'url', 'description'
+        'title', 'month', 'rank', 'url', 'description'
     ]);

@@ -81,6 +81,4 @@ angular.module('gourmetsAdmin', [])
 
         $scope.loadGourmet();
     })
-    .constant('GOURMET_FIELDS', [
-        'food', 'restaurant', 'date', 'image', 'url'
-    ]);
+    .constant('GOURMET_FIELDS', ['food', 'restaurant', 'date', 'url']);
