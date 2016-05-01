@@ -40,6 +40,8 @@ angular.module('hearthStoneApp', [])
                 HSMatch.get({ season: newValue }, function (data) {
                     hearthStoneMatches.addMatches(data.list);
                 });
+
+                $scope.season.month = new Date(newValue).getTime();
             }
         });
 

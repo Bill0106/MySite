@@ -159,6 +159,13 @@ angular.module('hearthStoneAdmin', [])
             }
         });
 
+        $scope.$watch('season.month', function(newValue)
+        {
+            if (newValue) {
+                $scope.season.month = new Date(newValue).getTime();
+            }
+        });
+
         $scope.saveSeason = function()
         {
             $scope.season.$update(function(data)
@@ -175,13 +182,6 @@ angular.module('hearthStoneAdmin', [])
         $scope.loadSeason = function()
         {
             $scope.season = HSSeason.get({ url: $state.params.url });
-
-            $scope.$watch('season.month', function(newValue)
-            {
-                if (newValue) {
-                    $scope.season.month = new Date(newValue).getTime();
-                }
-            });
         };
 
         $scope.loadSeason();
