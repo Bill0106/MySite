@@ -16,7 +16,7 @@ angular.module('adminRoutes', [])
 
             // Game Admin Route
             .state('games', {
-                url: '/admin/games',
+                url: '/admin/games?page',
                 templateUrl: '/views/admin/games/list.html',
                 controller: 'gamesController',
                 title: 'Games'

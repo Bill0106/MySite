@@ -3,45 +3,51 @@
  */
 
 angular.module('gamesApp', ['infinite-scroll'])
-    .controller('gamesController', function($scope, Game, Count, imageLoading)
+    .controller('gamesController', function($scope, Game, imageLoading)
     {
         $scope.show = true;
 
-        var count = 20;
-        var limit = 12;
-        Game.query({ limit: count }, function(data)
+        var page  = 1;
+        var limit = 20;
+        Game.get({ limit: limit }, function(data)
         {
-            $scope.games = data;
+            $scope.games = data.list;
+            $scope.total = data.total;
 
-            angular.forEach(data, function(value)
+            page++;
+            angular.forEach(data.list, function(value)
             {
                 imageLoading.addImage(value.image);
             });
         });
 
-        Count.get({ model: 'games' }, function(data)
+        $scope.$watch('total', function (newVal)
         {
-            $scope.loadMore = function()
-            {
-                $scope.busy = true;
+            if (newVal) {
+                var totalPage = Math.ceil($scope.total / limit);
 
-                if (count >= data.count) {
-                    $scope.show = false;
-                    return false;
-                }
-
-                Game.query({ offset: count, limit: limit }, function(data)
+                $scope.loadMore = function()
                 {
-                    $scope.moreImages = [];
-                    angular.forEach(data, function(value)
-                    {
-                        $scope.games.push(value);
-                        $scope.moreImages.push(value.image);
-                    });
-                });
+                    $scope.busy = true;
 
-                count += limit;
-            };
+                    if (page > totalPage) {
+                        $scope.show = false;
+                        return false;
+                    }
+
+                    Game.get({ page: page, limit: limit }, function(data)
+                    {
+                        $scope.moreImages = [];
+                        angular.forEach(data.list, function(value)
+                        {
+                            $scope.games.push(value);
+                            $scope.moreImages.push(value.image);
+                        });
+                    });
+
+                    page++;
+                };
+            }
         });
 
         $scope.loadComplete = function(complete)

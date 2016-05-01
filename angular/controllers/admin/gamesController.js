@@ -3,12 +3,13 @@
  */
 
 angular.module('gamesAdmin', [])
-    .controller('gamesController', function($scope, Game, Count, GAME_PLATFORMS, GAME_GENRES)
+    .controller('gamesController', function ($scope, $stateParams, Game, GAME_PLATFORMS, GAME_GENRES)
     {
-        Count.get({ model: 'games' }, function(count)
+        $scope.currentPage = parseInt($stateParams.page) ? parseInt($stateParams.page) : 1;
+        Game.get({ page: $scope.currentPage, limit: 30 }, function (data)
         {
-            $scope.count = count.count;
-            $scope.games = Game.query({ limit: count.count });
+            $scope.games = data.list;
+            $scope.totalPage = new Array(Math.ceil(data.total / 30));
         });
 
         $scope.platforms = GAME_PLATFORMS;

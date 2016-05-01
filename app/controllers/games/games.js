@@ -2,34 +2,63 @@
  * Created by bill on 15/8/2.
  */
 
-var games = require('../../models/games');
-var gamesTrophies = require('../../models/trophies');
+var async = require('async');
+var Games = require('../../models/games');
+var GamesTrophies = require('../../models/trophies');
 var moment = require('moment');
 
-exports.list = function(req, res)
+exports.list = function (req, res)
 {
-    var offset = 0;
-    if (req.query.offset) {
-        offset = req.query.offset;
-    }
+    async.parallel([
+        function (callback)
+        {
+            var query = Games.find();
 
-    var limit = 12;
-    if (req.query.limit) {
-        limit = req.query.limit;
-    }
+            if (req.query.limit) {
+                var limit = req.query.limit;
+                query = query.limit(limit);
+            }
 
-    games.find().sort({ buy_at: 'desc' }).limit(limit).skip(offset).exec(function(err, data)
+            if (req.query.page && limit) {
+                var page = parseInt(req.query.page);
+                var offset = limit * (page - 1);
+                query = query.skip(offset);
+            }
+
+            query.sort({ buy_at: 'desc' }).exec(function (error, data)
+            {
+                if (error)
+                    callback(error);
+
+                callback(null, data);
+            });
+        },
+        function (callback)
+        {
+            Games.count(function (error, data)
+            {
+                if (error)
+                    callback(error);
+
+                callback(null, data);
+
+            });
+        }
+    ], function (error, results)
     {
-        if (err)
-            res.send(err);
+        if (error)
+            throw error;
 
-        res.json(data);
+        res.json({
+            list: results[0],
+            total: results[1]
+        });
     });
 };
 
 exports.find = function(req, res)
 {
-    games.findOne({ url: req.params.url }, function(err, data)
+    Games.findOne({ url: req.params.url }, function(err, data)
     {
         if (err)
             res.send(err);
@@ -40,7 +69,7 @@ exports.find = function(req, res)
 
 exports.create = function(req, res)
 {
-    var game = new games();
+    var game = new Games();
 
     game.title       = req.body.title;
     game.name        = req.body.name;
@@ -79,7 +108,7 @@ exports.create = function(req, res)
 
 exports.update = function(req, res)
 {
-    games.findOne({ _id: req.body._id }, function(err, data)
+    Games.findOne({ _id: req.body._id }, function(err, data)
     {
         data.title       = req.body.title;
         data.name        = req.body.name;
@@ -119,7 +148,7 @@ exports.update = function(req, res)
 
 exports.findTrophy = function(req, res)
 {
-    gamesTrophies.findOne({ _id: req.params.id }, function(err, data)
+    GamesTrophies.findOne({ _id: req.params.id }, function(err, data)
     {
         if (err)
             res.send(err);

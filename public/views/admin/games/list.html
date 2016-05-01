@@ -1,6 +1,5 @@
 <p>
     <a ui-sref="gameCreate" class="btn btn-primary">Add Game</a>
-    Count: {{ count }}
 </p>
 <table class="table">
     <thead>
@@ -26,8 +25,14 @@
         <td>{{ game.release_at | date:"yyyy-MM-dd" }}</td>
         <td>{{ game.buy_at | date:"yyyy-MM-dd" }}</td>
         <td>
-            <a ui-sref="gameTrophies({ id: game.trophies })" class="btn btn-success" ng-if="game.trophies"><i class="fa fa-trophy"></i></a>
-            <a ui-sref="gameTrophiesScrap({ id: game._id })" class="btn btn-success" ng-if="!game.trophies"><i class="fa fa-trophy"></i></a>
+            <a ui-sref="gameTrophies({ id: game.trophies })" class="btn btn-success btn-sm" ng-if="game.trophies"><i class="fa fa-trophy"></i></a>
+            <a ui-sref="gameTrophiesScrap({ id: game._id })" class="btn btn-success btn-sm" ng-if="!game.trophies"><i class="fa fa-trophy"></i></a>
         </td>
     </tr>
 </table>
+<ul class="pagination">
+    <li ng-repeat="i in totalPage track by $index" ng-switch="$index" ng-class="$index + 1 == currentPage ? 'active' : ''">
+        <span ng-switch-when="currentPage">{{ $index + 1 }}</span>
+        <a ui-sref="games({ page: $index + 1 })" ng-switch-default>{{ $index + 1 }}</a>
+    </li>
+</ul>
