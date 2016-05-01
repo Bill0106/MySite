@@ -44,46 +44,50 @@ exports.find = function(req, res)
         },
         function(deck, callback)
         {
-            if (!deck.cards || deck.cards.length == 0) {
+            if (!deck.cards || deck.cards.length === 0) {
                 callback(null, deck, null);
-            }
-
-            var ids = {};
-            async.each(deck.cards, function(item, eachCallback)
-            {
-                ids[item.card] = item.count;
-
-                eachCallback();
-            }, function()
-            {
-                callback(null, deck, ids);
-            });
-        },
-        function(deck, ids, callback)
-        {
-            cards.find({ _id: { $in: Object.keys(ids) } }).sort({
-                cost: 'asc',
-                name: 'asc'
-            }).exec(function(error, data)
-            {
-                if (error) {
-                    callback(error);
-                }
-
-                var array = [];
-                async.each(data, function(item, eachCallback)
+            } else {
+                var ids = {};
+                async.each(deck.cards, function(item, eachCallback)
                 {
-                    array.push(item);
-                    if (ids[item._id] == 2) {
-                        array.push(item);
-                    }
+                    ids[item.card] = item.count;
 
                     eachCallback();
                 }, function()
                 {
-                    callback(null, deck, array);
+                    callback(null, deck, ids);
                 });
-            });
+            }
+        },
+        function(deck, ids, callback)
+        {
+            if (!ids) {
+                callback(null, deck, []);
+            } else {
+                cards.find({ _id: { $in: Object.keys(ids) } }).sort({
+                    cost: 'asc',
+                    name: 'asc'
+                }).exec(function(error, data)
+                {
+                    if (error) {
+                        callback(error);
+                    }
+
+                    var array = [];
+                    async.each(data, function(item, eachCallback)
+                    {
+                        array.push(item);
+                        if (ids[item._id] == 2) {
+                            array.push(item);
+                        }
+
+                        eachCallback();
+                    }, function()
+                    {
+                        callback(null, deck, array);
+                    });
+                });
+            }
         }
     ], function(error, deck, cards)
     {
