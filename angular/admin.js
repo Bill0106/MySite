@@ -17,28 +17,6 @@ angular.module('myAdmin', [
             $rootScope.title = $state.current.title;
         });
     })
-    .service('imageUpload', ['Upload', function (Upload)
-    {
-        this.uploadImage = function (file)
-        {
-            Upload.upload({
-                url: '/api/images',
-                file: file
-            }).success(function (data, status, headers, config) {
-                return {
-                    success: true,
-                    image: data
-                };
-            }).error(function (data, status, headers, config) {
-                return {
-                    success: false,
-                    errorMsg: data
-                };
-            });
-        };
-
-        return this;
-    }])
     .filter('capitalize', function()
     {
         return function (str)

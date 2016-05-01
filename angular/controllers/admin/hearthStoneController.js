@@ -107,19 +107,23 @@ angular.module('hearthStoneAdmin', [])
     {
         $scope.seasons = HSSeason.query();
     })
-    .controller('hsSeasonCreateController', function($scope, $state, imageUpload, HSSeason, SEASON_FIELDS)
+    .controller('hsSeasonCreateController', function($scope, $state, HSSeason, SEASON_FIELDS, Upload)
     {
         $scope.fields = SEASON_FIELDS;
         $scope.season = new HSSeason();
 
         $scope.$watch('file', function (file)
         {
-            console.log(file);
             if (file) {
-                var image = imageUpload.uploadImage(file);
-                if (image.success) {
-                    $scope.season.image = image.image;
-                }
+                Upload.upload({
+                    url: '/api/images',
+                    file: file
+                }).success(function (data, status, headers, config) {
+                    $scope.season.image = data;
+                }).error(function (data, status, headers, config) {
+                    $scope.show = true;
+                    $scope.result = data;
+                });
             }
         });
 
@@ -136,17 +140,22 @@ angular.module('hearthStoneAdmin', [])
             });
         };
     })
-    .controller('hsSeasonUpdateController', function($scope, $state, $filter, imageUpload, HSSeason, SEASON_FIELDS)
+    .controller('hsSeasonUpdateController', function($scope, $state, $filter, Upload, HSSeason, SEASON_FIELDS)
     {
         $scope.fields = SEASON_FIELDS;
 
         $scope.$watch('file', function (file)
         {
             if (file) {
-                var image = imageUpload.uploadImage(file);
-                if (image.success) {
-                    $scope.season.image = image.image;
-                }
+                Upload.upload({
+                    url: '/api/images',
+                    file: file
+                }).success(function (data, status, headers, config) {
+                    $scope.season.image = data;
+                }).error(function (data, status, headers, config) {
+                    $scope.show = true;
+                    $scope.result = data;
+                });
             }
         });
 

@@ -12,17 +12,22 @@ angular.module('gourmetsAdmin', [])
         });
 
     })
-    .controller('gourmetCreateController', function($scope, $state, Gourmet, imageUpload, GOURMET_FIELDS)
+    .controller('gourmetCreateController', function($scope, $state, Gourmet, Upload, GOURMET_FIELDS)
     {
         $scope.fields = GOURMET_FIELDS;
 
         $scope.$watch('file', function (file)
         {
             if (file) {
-                var image = imageUpload.uploadImage(file);
-                if (image.success) {
-                    $scope.gourmet.image = image.image;
-                }
+                Upload.upload({
+                    url: '/api/images',
+                    file: file
+                }).success(function (data, status, headers, config) {
+                    $scope.gourmet.image = data;
+                }).error(function (data, status, headers, config) {
+                    $scope.show = true;
+                    $scope.result = data;
+                });
             }
         });
 
@@ -40,17 +45,22 @@ angular.module('gourmetsAdmin', [])
             });
         };
     })
-    .controller('gourmetUpdateController', function($scope, $filter, $state, Gourmet, imageUpload, GOURMET_FIELDS)
+    .controller('gourmetUpdateController', function($scope, $filter, $state, Gourmet, Upload, GOURMET_FIELDS)
     {
         $scope.fields = GOURMET_FIELDS;
 
         $scope.$watch('file', function (file)
         {
             if (file) {
-                var image = imageUpload.uploadImage(file);
-                if (image.success) {
-                    $scope.gourmet.image = image.image;
-                }
+                Upload.upload({
+                    url: '/api/images',
+                    file: file
+                }).success(function (data, status, headers, config) {
+                    $scope.game.image = data;
+                }).error(function (data, status, headers, config) {
+                    $scope.show = true;
+                    $scope.result = data;
+                });
             }
         });
 

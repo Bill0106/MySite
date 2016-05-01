@@ -15,7 +15,7 @@ angular.module('gamesAdmin', [])
         $scope.platforms = GAME_PLATFORMS;
         $scope.genres = GAME_GENRES;
     })
-    .controller('gameCreateController', function($scope, $state, Game, imageUpload, GAME_FIELDS, GAME_PLATFORMS, GAME_GENRES)
+    .controller('gameCreateController', function($scope, $state, Game, Upload, GAME_FIELDS, GAME_PLATFORMS, GAME_GENRES)
     {
         $scope.fields = GAME_FIELDS;
         $scope.platforms = GAME_PLATFORMS;
@@ -24,10 +24,15 @@ angular.module('gamesAdmin', [])
         $scope.$watch('file', function (file)
         {
             if (file) {
-                var image = imageUpload.uploadImage(file);
-                if (image.success) {
-                    $scope.game.image = image.image;
-                }
+                Upload.upload({
+                    url: '/api/images',
+                    file: file
+                }).success(function (data, status, headers, config) {
+                    $scope.game.image = data;
+                }).error(function (data, status, headers, config) {
+                    $scope.show = true;
+                    $scope.result = data;
+                });
             }
         });
 
@@ -45,7 +50,7 @@ angular.module('gamesAdmin', [])
             });
         };
     })
-    .controller('gameUpdateController', function($scope, $filter, $state, Game, imageUpload, GAME_FIELDS, GAME_PLATFORMS, GAME_GENRES)
+    .controller('gameUpdateController', function($scope, $filter, $state, Game, Upload, GAME_FIELDS, GAME_PLATFORMS, GAME_GENRES)
     {
         $scope.fields = GAME_FIELDS;
         $scope.platforms = GAME_PLATFORMS;
@@ -54,10 +59,15 @@ angular.module('gamesAdmin', [])
         $scope.$watch('file', function (file)
         {
             if (file) {
-                var image = imageUpload.uploadImage(file);
-                if (image.success) {
-                    $scope.game.image = image.image;
-                }
+                Upload.upload({
+                    url: '/api/images',
+                    file: file
+                }).success(function (data, status, headers, config) {
+                    $scope.game.image = data;
+                }).error(function (data, status, headers, config) {
+                    $scope.show = true;
+                    $scope.result = data;
+                });
             }
         });
 
