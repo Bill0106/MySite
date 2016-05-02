@@ -22,7 +22,7 @@ angular.module('hearthStoneApp', [])
             }
         };
     })
-    .controller('hsSeasonController', function ($rootScope, $scope, $state, HSSeason, HSDeck, HSMatch, hearthStoneMatches, HS_PLAYER_CLASSES)
+    .controller('hsSeasonController', function ($rootScope, $scope, $state, $filter, HSSeason, HSDeck, HSMatch, hearthStoneMatches, HS_PLAYER_CLASSES)
     {
         $scope.playerClasses = HS_PLAYER_CLASSES;
 
@@ -37,7 +37,8 @@ angular.module('hearthStoneApp', [])
         $scope.$watch('season.month', function (newValue)
         {
             if (newValue) {
-                HSMatch.get({ season: newValue }, function (data) {
+                var month = $filter('date')(newValue, 'yyyyMM');
+                HSMatch.get({ season: month }, function (data) {
                     hearthStoneMatches.addMatches(data.list);
                 });
 
@@ -71,7 +72,8 @@ angular.module('hearthStoneApp', [])
             }
         });
     })
-    .controller('hsDeckController', function ($rootScope, $scope, $state, $filter, HSDeck, HSSeason, HSMatch, hearthStoneMatches, HS_PLAYER_CLASSES) {
+    .controller('hsDeckController', function ($rootScope, $scope, $state, $filter, HSDeck, HSSeason, HSMatch, hearthStoneMatches, HS_PLAYER_CLASSES)
+    {
         $scope.playerClasses = HS_PLAYER_CLASSES;
 
         // Get Deck
