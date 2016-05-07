@@ -2,16 +2,16 @@
  * Created by bill on 16/4/26.
  */
 
-var async    = require('async');
-var fs       = require('fs');
-var qiniu    = require('qiniu');
-var request  = require('request');
-var checksum = require('../libraries/checksum');
-var key      = require('../config/qiniuKey');
+var async       = require('async');
+var fs          = require('fs');
+var qiniu       = require('qiniu');
+var request     = require('request');
+var checksum    = require('../libraries/checksum');
+var qiniuConfig = require('../config/qiNiu');
 
 var bucket            = 'website';
-qiniu.conf.ACCESS_KEY = key.AK;
-qiniu.conf.SECRET_KEY = key.SK;
+qiniu.conf.ACCESS_KEY = qiniuConfig.AK;
+qiniu.conf.SECRET_KEY = qiniuConfig.SK;
 
 var totalSaved = 0;
 (function handle()
@@ -181,7 +181,7 @@ function uptoken(bucket, key)
 function uploadFile(uptoken, key, localFile, callback)
 {
     var extra = new qiniu.io.PutExtra();
-    var domain = 'http://7xtddu.com1.z0.glb.clouddn.com/';
+    var domain = qiniuConfig.domain;
 
     qiniu.io.putFile(uptoken, key, localFile, extra, function (error, ret)
     {
