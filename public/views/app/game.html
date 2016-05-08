@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-sm-12">
             <section class="page-header">
-                <img ng-src="{{ imagePath + game.image}}" alt="{{ game.title + ' ' + game.name }}" title="{{ game.title + ' ' + game.name }}"/>
+                <img ng-src="{{ game.image | imageUrl }}" alt="{{ game.title + ' ' + game.name }}" title="{{ game.title + ' ' + game.name }}"/>
                 <div class="page-header-text">
                     <h1>{{ game.title }} <small>{{ game.name }}</small></h1>
                     <p class="game-date"><span>Release at {{ game.release_at | date: 'MMM dd, yyyy'}}</span> <i>/</i> <span>Buy at {{ game.buy_at | date: 'MMM dd, yyyy'}}</span></p>

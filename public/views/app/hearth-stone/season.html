@@ -4,7 +4,7 @@
             <section class="page-header season-title">
                 <h1>{{ season.month | date: "MMMM yyyy" }} Season – {{ season.title }}</h1>
                 <p>{{ season.description }}</p>
-                <img ng-src="{{ imagePath + season.image }}" alt=""/>
+                <img ng-src="{{ season.image | imageUrl }}" alt=""/>
             </section>
             <section class="table-responsive">
                 <p><span>Final Rank: </span><span class="rank">{{ season.rank }}</span></p>

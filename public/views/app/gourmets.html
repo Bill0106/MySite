@@ -1,4 +1,4 @@
-<div class="container-fluid" load-complete=complete scroll-busy=busy gourmet-images="moreImages" ng-gourmets>
+<div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
             <section class="gourmets-title">
@@ -11,8 +11,8 @@
     <section class="gourmets-list">
         <div class="row" infinite-scroll="loadMore()" infinite-scroll-disabled=busy>
             <div class="col-lg-2 col-sm-3 col-xs-6" ng-repeat="gourmet in gourmets">
-                <a ng-href="{{ gourmet.url }}" target="_blank" class="gourmet-item hidden" data-gourmet-item="{{ gourmet._id }}">
-                    <img ng-src="{{ imagePath + gourmet.image }}" alt="{{ gourmet.food + ' - ' + gourmet.restaurant }}" title="{{ gourmet.food + ' - ' + gourmet.restaurant }}"/>
+                <a ng-href="{{ gourmet.url }}" target="_blank" class="gourmet-item" data-gourmet-item="{{ gourmet._id }}">
+                    <img ng-src="{{ gourmet.image | imageUrl }}" alt="{{ gourmet.food + ' - ' + gourmet.restaurant }}" title="{{ gourmet.food + ' - ' + gourmet.restaurant }}"/>
                     <div class="gourmet-item-text">
                         <h3>{{ gourmet.food }}</h3>
                         <p>{{ gourmet.date | date:"yyyy.MM.dd" }}</p>
@@ -21,6 +21,7 @@
             </div>
         </div>
     </section>
-    <div ng-include="'views/components/moreLoad.html'"></div>
+    <section class="more-load" ng-show="show">
+        <i class="fa fa-spinner fa-pulse"></i>
+    </section>
 </div>
-<div ng-include="'views/components/loading.html'"></div>
