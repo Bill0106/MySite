@@ -48,7 +48,7 @@ angular.module('adminRoutes', [])
 
             // Gourmet Admin Route
             .state('gourmets', {
-                url: '/admin/gourmets',
+                url: '/admin/gourmets?page',
                 templateUrl: '/views/admin/gourmets/list.html',
                 controller: 'gourmetsController',
                 title: 'Gourmets'

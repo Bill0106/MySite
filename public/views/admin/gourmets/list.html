@@ -22,3 +22,9 @@
         <td><a ng-href="{{ gourmet.url }}" target="_blank">{{ gourmet.url }}</a></td>
     </tr>
 </table>
+<ul class="pagination">
+    <li ng-repeat="i in totalPage track by $index" ng-switch="$index" ng-class="$index + 1 == currentPage ? 'active' : ''">
+        <span ng-switch-when="currentPage">{{ $index + 1 }}</span>
+        <a ui-sref="gourmets({ page: $index + 1 })" ng-switch-default>{{ $index + 1 }}</a>
+    </li>
+</ul>

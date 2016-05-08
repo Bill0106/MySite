@@ -3,15 +3,13 @@
  */
 
 angular.module('gourmetsAdmin', [])
-    .controller('gourmetsController', function($scope, Gourmet, Count)
+    .controller('gourmetsController', function($scope, $stateParams, Gourmet, Count)
     {
-        Count.get({ model: 'gourmets' }, function(count)
+        $scope.currentPage = parseInt($stateParams.page) ? parseInt($stateParams.page) : 1;
+        Gourmet.get({ limit: 30, page: $scope.currentPage }, function (data)
         {
-            $scope.count = count.count;
-            Gourmet.get({ limit: count.count }, function (data)
-            {
-                $scope.gourmets = data.list;
-            });
+            $scope.gourmets = data.list;
+            $scope.totalPage = new Array(Math.ceil(data.total / 30));
         });
 
     })
