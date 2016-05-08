@@ -3,7 +3,7 @@
  */
 
 angular.module('gamesApp', ['infinite-scroll'])
-    .controller('gamesController', function($scope, Game, imageLoading)
+    .controller('gamesController', function($scope, Game)
     {
         $scope.show = true;
 
@@ -15,10 +15,6 @@ angular.module('gamesApp', ['infinite-scroll'])
             $scope.total = data.total;
 
             page++;
-            angular.forEach(data.list, function(value)
-            {
-                imageLoading.addImage(value.image);
-            });
         });
 
         $scope.$watch('total', function (newVal)
@@ -31,31 +27,26 @@ angular.module('gamesApp', ['infinite-scroll'])
                     $scope.busy = true;
 
                     if (page > totalPage) {
-                        $scope.show = false;
                         return false;
                     }
 
                     Game.get({ page: page, limit: limit }, function(data)
                     {
-                        $scope.moreImages = [];
                         angular.forEach(data.list, function(value)
                         {
                             $scope.games.push(value);
-                            $scope.moreImages.push(value.image);
                         });
+
+                        $scope.busy = false;
                     });
 
                     page++;
+                    if (page > totalPage) {
+                        $scope.show = false;
+                    }
                 };
             }
         });
-
-        $scope.loadComplete = function(complete)
-        {
-            if (complete) {
-                $scope.complete = true;
-            }
-        };
 
         $scope.getNumber = function(num)
         {
@@ -93,57 +84,4 @@ angular.module('gamesApp', ['infinite-scroll'])
                 });
             }
         });
-    })
-    .directive('ngGames', function()
-    {
-        return {
-            restrict: 'A',
-            replace: true,
-            scope: {
-                busy: '=scrollBusy',
-                val: '=gameImages',
-                complete: '=loadComplete'
-            },
-            link: function(scope, element, attrs)
-            {
-                function imageLoading(item, callback)
-                {
-                    var path = scope.$root.imagePath;
-                    var src = path + item;
-                    var image = new Image();
-
-                    $(image).attr('src', src).bind('load', function()
-                    {
-                        callback();
-                    });
-                }
-
-                scope.$watch('val', function(newValue)
-                {
-                    if (newValue) {
-                        var count = 0;
-                        var total = newValue.length;
-                        angular.forEach(newValue, function(item)
-                        {
-                            imageLoading(item, function()
-                            {
-                                count++;
-                                if (count == total) {
-                                    $("[data-games-item]").removeClass('hidden');
-                                    scope.busy = false;
-                                    scope.$apply();
-                                }
-                            });
-                        });
-                    }
-                });
-
-                scope.$watch('complete', function(complete)
-                {
-                    if (complete) {
-                        $("[data-games-item]").removeClass('hidden');
-                    }
-                });
-            }
-        };
     });
