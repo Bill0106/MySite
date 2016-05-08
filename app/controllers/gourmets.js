@@ -2,33 +2,54 @@
  * Created by bill on 15/8/13.
  */
 
-var gourmets = require('../models/gourmets');
-var moment = require('moment');
+var async    = require('async');
+var moment   = require('moment');
+var Gourmets = require('../models/gourmets');
 
 exports.list = function(req, res)
 {
-    var offset = 0;
-    if (req.query.offset) {
-        offset = req.query.offset;
-    }
+    async.parallel([
+        function (callback)
+        {
+            var limit  = req.query.limit ? req.query.limit : 30;
+            var page   = req.query.page ? parseInt(req.query.page) : 1;
+            var offset = limit * (page - 1);
 
-    var limit = 12;
-    if (req.query.limit) {
-        limit = req.query.limit;
-    }
-
-    gourmets.find().sort({ date: 'desc' }).limit(limit).skip(offset).exec(function(err, data)
+            Gourmets.find().limit(limit).skip(offset).sort({ date: 'desc' }).exec(function (error, data)
+            {
+                if (error) {
+                    callback(error);
+                } else {
+                    callback(null, data);
+                }
+            });
+        },
+        function (callback)
+        {
+            Gourmets.count(function (error, data)
+            {
+                if (error) {
+                    callback(error);
+                } else {
+                    callback(null, data);
+                }
+            });
+        }
+    ], function (error, results)
     {
-        if (err)
-            res.send(err);
+        if (error)
+            throw error;
 
-        res.json(data);
+        res.json({
+            list: results[0],
+            total: results[1]
+        });
     });
 };
 
 exports.find = function(req, res)
 {
-    gourmets.findOne({ _id: req.params.id }, function(err, data)
+    Gourmets.findOne({ _id: req.params.id }, function(err, data)
     {
         if (err)
             res.send(err);
@@ -39,7 +60,7 @@ exports.find = function(req, res)
 
 exports.create = function(req, res)
 {
-    var gourmet = new gourmets();
+    var gourmet = new Gourmets();
 
     gourmet.food           = req.body.food;
     gourmet.restaurant     = req.body.restaurant;
@@ -67,7 +88,7 @@ exports.create = function(req, res)
 
 exports.update = function(req, res)
 {
-    gourmets.findOne({ _id: req.body._id }, function(err, data)
+    Gourmets.findOne({ _id: req.body._id }, function(err, data)
     {
         data.food           = req.body.food;
         data.restaurant     = req.body.restaurant;

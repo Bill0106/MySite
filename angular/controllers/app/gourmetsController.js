@@ -3,103 +3,48 @@
  */
 
 angular.module('gourmetsApp', ['infinite-scroll'])
-    .controller('gourmetsController', function($scope, Gourmet, Count, imageLoading)
+    .controller('gourmetsController', function($scope, Gourmet)
     {
         $scope.show = true;
 
-        var count = 24;
-        var limit = 18;
-        Gourmet.query({ limit: count }, function(data)
+        var page  = 1;
+        var limit = 24;
+        Gourmet.get({ limit: limit }, function(data)
         {
-            $scope.gourmets = data;
+            $scope.total = data.total;
+            $scope.gourmets = data.list;
 
-            angular.forEach(data, function(item)
-            {
-                imageLoading.addImage(item.image);
-            });
+            page++;
         });
 
-        Count.get({ model: 'gourmets' }, function(data)
+        $scope.$watch('total', function (newValue)
         {
-            $scope.loadMore = function()
-            {
-                $scope.busy = true;
+            if (newValue) {
+                var totalPage = Math.ceil($scope.total / limit);
 
-                if (count >= data.count) {
-                    $scope.show = false;
-                    return false;
-                }
-
-                Gourmet.query({ offset: count, limit: limit }, function(data)
+                $scope.loadMore = function()
                 {
-                    $scope.moreImages = [];
-                    angular.forEach(data, function(value)
+                    $scope.busy = true;
+
+                    if (page > totalPage) {
+                        return false;
+                    }
+
+                    Gourmet.get({ page: page, limit: limit }, function (data)
                     {
-                        $scope.gourmets.push(value);
-                        $scope.moreImages.push(value.image);
-                    });
-                });
-
-                count += limit;
-            };
-        });
-
-        $scope.loadComplete = function(complete)
-        {
-            if (complete) {
-                $scope.complete = true;
-            }
-        };
-    })
-    .directive('ngGourmets', function($timeout)
-    {
-        return {
-            restrict: 'A',
-            replace: true,
-            scope: {
-                complete: '=loadComplete',
-                busy: '=scrollBusy',
-                val: '=gourmetImages'
-            },
-            link: function(scope, element, attrs)
-            {
-                function imageLoading(item, callback)
-                {
-                    var path = scope.$root.imagePath;
-                    var src = path + item;
-                    var image = new Image();
-
-                    $(image).attr('src', src).bind('load', function()
-                    {
-                        callback();
-                    });
-                }
-                scope.$watch('val', function(newValue)
-                {
-                    if (newValue) {
-                        var count = 0;
-                        var total = newValue.length;
-                        angular.forEach(newValue, function(item)
+                        angular.forEach(data.list, function(value)
                         {
-                            imageLoading(item, function()
-                            {
-                                count++;
-                                if (count == total) {
-                                    $("[data-gourmet-item]").removeClass('hidden');
-                                    scope.busy = false;
-                                    scope.$apply();
-                                }
-                            });
+                            $scope.gourmets.push(value);
                         });
-                    }
-                });
 
-                scope.$watch('complete', function(complete)
-                {
-                    if (complete) {
-                        $("[data-gourmet-item]").removeClass('hidden');
+                        $scope.busy = false;
+                    });
+
+                    page++;
+                    if (page > totalPage) {
+                        $scope.show = false;
                     }
-                });
+                };
             }
-        };
+        });
     });
