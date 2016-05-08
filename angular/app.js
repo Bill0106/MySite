@@ -90,4 +90,13 @@ angular.module('myApp',[
                 });
             }
         };
+    })
+    .filter('imageUrl', function ()
+    {
+        return function (image)
+        {
+            if (typeof image !== 'undefined') {
+                return JSON.parse(image).url;
+            }
+        };
     });

@@ -11,7 +11,6 @@ angular.module('myAdmin', [
         $http.defaults.headers.common.auth = 'ljpon3UUVTMMmIhE6Kcf';
         $http.defaults.headers.post.auth = 'HNoHW7HUKEYxW5DFxaVj';
 
-        $rootScope.imagePath = 'http://zhuhaolin.com/images/';
         $rootScope.$on('$stateChangeSuccess', function()
         {
             $rootScope.title = $state.current.title;
@@ -22,5 +21,14 @@ angular.module('myAdmin', [
         return function (str)
         {
             return str.charAt(0).toUpperCase() + str.slice(1);
+        };
+    })
+    .filter('imageUrl', function ()
+    {
+        return function (image)
+        {
+            if (typeof image !== 'undefined') {
+                return JSON.parse(image).url;
+            }
         };
     });
