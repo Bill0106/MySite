@@ -40,7 +40,7 @@ exports.post = function(req, res)
         {
             var token = uptoken(bucket, imageName);
 
-            uploadFile(token, imageName, image, function(error, result)
+            uploadFile(token, imageName, tmpPath, function(error, result)
             {
                 if (error) {
                     callback(error);
