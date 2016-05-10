@@ -3,7 +3,7 @@
  */
 
 angular.module('gourmetsAdmin', [])
-    .controller('gourmetsController', function($scope, $stateParams, Gourmet, Count)
+    .controller('gourmetsController', function($scope, $stateParams, Gourmet)
     {
         $scope.currentPage = parseInt($stateParams.page) ? parseInt($stateParams.page) : 1;
         Gourmet.get({ limit: 30, page: $scope.currentPage }, function (data)
