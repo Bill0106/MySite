@@ -119,7 +119,7 @@ angular.module('hearthStoneAdmin', [])
                     url: '/api/images',
                     file: file
                 }).success(function (data, status, headers, config) {
-                    $scope.season.image = data;
+                    $scope.season.image = JSON.stringify(data);
                 }).error(function (data, status, headers, config) {
                     $scope.show = true;
                     $scope.result = data;
@@ -151,7 +151,7 @@ angular.module('hearthStoneAdmin', [])
                     url: '/api/images',
                     file: file
                 }).success(function (data, status, headers, config) {
-                    $scope.season.image = data;
+                    $scope.season.image = JSON.stringify(data);
                 }).error(function (data, status, headers, config) {
                     $scope.show = true;
                     $scope.result = data;

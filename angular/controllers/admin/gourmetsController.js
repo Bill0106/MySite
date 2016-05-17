@@ -24,7 +24,7 @@ angular.module('gourmetsAdmin', [])
                     url: '/api/images',
                     file: file
                 }).success(function (data, status, headers, config) {
-                    $scope.gourmet.image = data;
+                    $scope.gourmet.image = JSON.stringify(data);
                 }).error(function (data, status, headers, config) {
                     $scope.show = true;
                     $scope.result = data;
@@ -57,7 +57,7 @@ angular.module('gourmetsAdmin', [])
                     url: '/api/images',
                     file: file
                 }).success(function (data, status, headers, config) {
-                    $scope.game.image = data;
+                    $scope.game.image = JSON.stringify(data);
                 }).error(function (data, status, headers, config) {
                     $scope.show = true;
                     $scope.result = data;

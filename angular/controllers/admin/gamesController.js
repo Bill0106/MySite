@@ -28,7 +28,7 @@ angular.module('gamesAdmin', [])
                     url: '/api/images',
                     file: file
                 }).success(function (data, status, headers, config) {
-                    $scope.game.image = data;
+                    $scope.game.image = JSON.stringify(data);
                 }).error(function (data, status, headers, config) {
                     $scope.show = true;
                     $scope.result = data;
@@ -63,7 +63,7 @@ angular.module('gamesAdmin', [])
                     url: '/api/images',
                     file: file
                 }).success(function (data, status, headers, config) {
-                    $scope.game.image = data;
+                    $scope.game.image = JSON.stringify(data);
                 }).error(function (data, status, headers, config) {
                     $scope.show = true;
                     $scope.result = data;

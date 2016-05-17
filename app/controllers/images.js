@@ -64,7 +64,7 @@ exports.post = function(req, res)
                                 color: JSON.parse(body).RGB
                             };
 
-                            parallelCallback(null, JSON.stringify(data));
+                            parallelCallback(null, data);
                         }
                     });
                 },
