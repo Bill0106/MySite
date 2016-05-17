@@ -21,18 +21,18 @@ module.exports = function(app, router)
 
     // Games API Route
     var games = require('./controllers/games/games');
-    var scrap = require('./controllers/games/scrap');
+    var trophies = require('./controllers/games/trophies');
     router.route('/games')
         .get(games.list)
         .post(games.create);
     router.route('/games/trophy/:id')
-        .get(games.findTrophy)
-        .post(games.updateTrophy);
+        .get(trophies.find)
+        .post(trophies.update);
     router.route('/games/:url')
         .get(games.find)
         .post(games.update);
     router.route('/games/scrap/:id')
-        .post(scrap.scrap);
+        .post(trophies.create);
 
     // Gourmets API Route
     var gourmets = require('./controllers/gourmets');

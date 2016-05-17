@@ -2,7 +2,6 @@
  * Created by bill on 15/9/17.
  */
 
-
 exports.scrap = function(req, res)
 {
     var game_id = req.params.id;

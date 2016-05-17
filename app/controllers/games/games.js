@@ -4,7 +4,6 @@
 
 var async = require('async');
 var Games = require('../../models/games');
-var GamesTrophies = require('../../models/trophies');
 var moment = require('moment');
 
 exports.list = function (req, res)
@@ -12,36 +11,28 @@ exports.list = function (req, res)
     async.parallel([
         function (callback)
         {
-            var query = Games.find();
+            var limit  = req.query.limit ? req.query.limit : 30;
+            var page   = req.query.page ? parseInt(req.query.page) : 1;
+            var offset = limit * (page - 1);
 
-            if (req.query.limit) {
-                var limit = req.query.limit;
-                query = query.limit(limit);
-            }
-
-            if (req.query.page && limit) {
-                var page = parseInt(req.query.page);
-                var offset = limit * (page - 1);
-                query = query.skip(offset);
-            }
-
-            query.sort({ buy_at: 'desc' }).exec(function (error, data)
+            Games.find().limit(limit).skip(offset).sort({ buy_at: 'desc' }).exec(function (error, data)
             {
-                if (error)
+                if (error) {
                     callback(error);
-
-                callback(null, data);
+                } else {
+                    callback(null, data);
+                }
             });
         },
         function (callback)
         {
             Games.count(function (error, data)
             {
-                if (error)
+                if (error) {
                     callback(error);
-
-                callback(null, data);
-
+                } else {
+                    callback(null, data);
+                }
             });
         }
     ], function (error, results)
@@ -143,63 +134,5 @@ exports.update = function(req, res)
 
             res.json(result);
         });
-    });
-};
-
-exports.findTrophy = function(req, res)
-{
-    GamesTrophies.findOne({ _id: req.params.id }, function(err, data)
-    {
-        if (err)
-            res.send(err);
-
-        res.json(data);
-    });
-};
-
-exports.updateTrophy = function(req, res)
-{
-    var trophies = req.body.trophies;
-    var format = [];
-    var earned = 0;
-    trophies.forEach(function(element, index, array)
-    {
-        if (element.date) {
-            element.date = moment(element.date, 'YYYY-MM-DD').valueOf();
-            earned++;
-        }
-
-        format.push(element);
-
-        if (format.length == array.length) {
-            trophies = format;
-
-            gamesTrophies.findOne({ _id: req.body._id }, function(err, data)
-            {
-                if (err)
-                    res.send(err);
-
-                data.total = trophies.length;
-                data.earned = earned;
-                data.trophies = trophies;
-
-                data.save(function(error)
-                {
-                    var result = {
-                        "success": true,
-                        "msg": data._id
-                    };
-
-                    if (error) {
-                        result = {
-                            "success": false,
-                            "msg": error
-                        }
-                    }
-
-                    res.json(result);
-                });
-            });
-        }
     });
 };
