@@ -91,17 +91,17 @@ exports.create = function(req, res)
 
 exports.delete = function(req, res)
 {
-    Matches.remove({ _id: req.query.id }, function(err)
+    Matches.remove({ _id: req.params.id }, function(error)
     {
-        if (err) {
+        if (error) {
             res.json({
                 success: false,
-                errorMsg: err
+                errorMsg: error
+            })
+        } else {
+            res.json({
+                success: true
             })
         }
-
-        res.json({
-            success: true
-        })
     });
 };

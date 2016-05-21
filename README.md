@@ -54,6 +54,7 @@ Versions
 ### v2.6.2
 1. Optimize game trophy controller
 2. Optimize game and gourmet API
+3. Add HearthStone matches delete
 
 ### v2.6.1
 1. Update hearthStoneCardsUpdate command

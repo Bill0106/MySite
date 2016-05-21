@@ -217,6 +217,22 @@ angular.module('hearthStoneAdmin', [])
             }
         });
 
+        $scope.deleteMatch = function (match)
+        {
+            $scope.match = new HSMatch();
+            $scope.match._id = match._id;
+
+            $scope.match.$delete(function(data)
+            {
+                if (!data.success) {
+                    $scope.show = true;
+                    $scope.result = data.data.errorMsg;
+                } else {
+                    var index = $scope.matches.indexOf(match);
+                    $scope.matches.splice(index, 1);
+                }
+            });
+        };
     })
     .controller('hsMatchCreateController', function($scope, HSDeck, HSMatch, HS_PLAYER_CLASSES)
     {

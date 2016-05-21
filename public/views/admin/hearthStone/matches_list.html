@@ -9,7 +9,7 @@
         <th>Deck</th>
         <th>Opponent</th>
         <th>Result</th>
-        <!--<th>Operation</th>-->
+        <th>Operation</th>
     </tr>
     </thead>
     <tr ng-repeat="match in matches">
@@ -22,10 +22,9 @@
             <span ng-switch-when="1">Win</span>
             <span ng-switch-when="-1">Lose</span>
         </td>
-        <!--<td>-->
-            <!--<a href="" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a>-->
-            <!--<a href="" class="btn btn-danger"><i class="fa fa-times"></i></a>-->
-        <!--</td>-->
+        <td>
+            <button type="button" ng-click="deleteMatch(match)" class="btn btn-danger"><i class="fa fa-times"></i></button>
+        </td>
     </tr>
 </table>
 <ul class="pagination">

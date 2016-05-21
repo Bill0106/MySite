@@ -57,8 +57,8 @@ angular.module('myServices', ['ngResource'])
     })
     .factory('HSMatch', function($resource)
     {
-        return $resource('/api/hearth-stone/matches', { id: '@_id' }, {
-            update: {
+        return $resource('/api/hearth-stone/matches/:id', { id: '@_id' }, {
+            delete: {
                 method: 'POST'
             }
         });
