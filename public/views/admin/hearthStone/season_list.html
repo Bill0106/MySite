@@ -1,25 +1,27 @@
-<p class="clearfix">
-    <a ui-sref="HSSeasonCreate" class="btn btn-primary pull-right">Add Season</a>
+<p>
+    <a ui-sref="HSSeasonCreate" class="btn btn-primary">Add Season</a>
 </p>
-<table class="table">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Title</th>
-        <th>Month</th>
-        <th>Rank</th>
-        <th>Image</th>
-        <th>URL</th>
-    </tr>
-    </thead>
-    <tr ng-repeat="season in seasons">
-        <td>{{ season._id }}</td>
-        <td>
-            <a ui-sref="HSSeasonUpdate({ url: season.url })">{{ season.title }}</a>
-        </td>
-        <td>{{ season.month }}</td>
-        <td>{{ season.rank }}</td>
-        <td>{{ season.image }}</td>
-        <td>{{ season.url }}</td>
-    </tr>
-</table>
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Month</th>
+            <th>Rank</th>
+            <th>Image</th>
+            <th>URL</th>
+        </tr>
+        </thead>
+        <tr ng-repeat="season in seasons">
+            <td>{{ season._id }}</td>
+            <td>
+                <a ui-sref="HSSeasonUpdate({ url: season.url })">{{ season.title }}</a>
+            </td>
+            <td>{{ season.month }}</td>
+            <td>{{ season.rank }}</td>
+            <td>{{ season.image }}</td>
+            <td>{{ season.url }}</td>
+        </tr>
+    </table>
+</div>

@@ -1,27 +1,28 @@
 <p>
     <a ui-sref="gourmetCreate" class="btn btn-primary">Add Gourmet</a>
-    Count: {{ count }}
 </p>
-<table class="table">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Food</th>
-        <th>Restaurant</th>
-        <th>Date</th>
-        <th>Instagram</th>
-    </tr>
-    </thead>
-    <tr ng-repeat="gourmet in gourmets">
-        <td>
-            <a ui-sref="gourmetUpdate({ id: gourmet._id })">{{ gourmet._id }}</a>
-        </td>
-        <td>{{ gourmet.food }}</td>
-        <td>{{ gourmet.restaurant }}</td>
-        <td>{{ gourmet.date | date:'yyyy.MM.dd' }}</td>
-        <td><a ng-href="{{ gourmet.url }}" target="_blank">{{ gourmet.url }}</a></td>
-    </tr>
-</table>
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Food</th>
+            <th>Restaurant</th>
+            <th>Date</th>
+            <th>Instagram</th>
+        </tr>
+        </thead>
+        <tr ng-repeat="gourmet in gourmets">
+            <td>
+                <a ui-sref="gourmetUpdate({ id: gourmet._id })">{{ gourmet._id }}</a>
+            </td>
+            <td>{{ gourmet.food }}</td>
+            <td>{{ gourmet.restaurant }}</td>
+            <td>{{ gourmet.date | date:'yyyy.MM.dd' }}</td>
+            <td><a ng-href="{{ gourmet.url }}" target="_blank">{{ gourmet.url }}</a></td>
+        </tr>
+    </table>
+</div>
 <ul class="pagination">
     <li ng-repeat="i in totalPage track by $index" ng-switch="$index" ng-class="$index + 1 == currentPage ? 'active' : ''">
         <span ng-switch-when="currentPage">{{ $index + 1 }}</span>
