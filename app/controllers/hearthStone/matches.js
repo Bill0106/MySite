@@ -17,8 +17,7 @@ exports.list = function(req, res)
     }
 
     if (req.query.deck) {
-        var month = moment().startOf('month').startOf('day').valueOf();
-        query = query.where('deck_id').equals(req.query.deck).where('time').lt(month);
+        query = query.where('deck_id').equals(req.query.deck).where('time');
     }
 
     if (req.query.page) {
