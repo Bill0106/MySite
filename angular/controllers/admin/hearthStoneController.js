@@ -255,12 +255,18 @@ angular.module('hearthStoneAdmin', [])
                     $scope.show = true;
                     $scope.result = data.data.errorMsg;
                 } else {
-                    $scope.matches.push(data.data);
+                    var match = data.data;
+                    HSDeck.get({ id: data.data.deck_id }, function(deck)
+                    {
+                        match.deck = deck.name;
 
-                    $scope.total++;
-                    if (data.data.result == 1) {
-                        $scope.win++;
-                    }
+                        $scope.matches.push(data.data);
+                        $scope.total++;
+
+                        if (data.data.result == 1) {
+                            $scope.win++;
+                        }
+                    });
                 }
             });
         };
