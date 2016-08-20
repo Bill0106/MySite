@@ -16,12 +16,20 @@ exports.list = function(req, res)
 
     if (req.query.ids) {
         var ids = req.query.ids.split(',');
-        query.where('_id').in(ids);
+
+        function clear(value)
+        {
+            if (value) {
+                return value;
+            }
+        }
+
+        query.where('_id').in(ids.filter(clear));
     }
 
     query.exec(function(err, data)
     {
-        if (err)
+        if (err || !data)
             res.send(err);
 
         res.json(data);

@@ -1,13 +1,13 @@
 <form>
     <div class="form-group">
         <label for="deck">Deck:</label>
-        <select name="deck" id="deck" class="form-control" ng-model="match.deck">
+        <select name="deck" id="deck" class="form-control" ng-model="match.deck" required>
             <option value="{{ deck._id }}" ng-repeat="deck in decks">{{ deck.name }}</option>
         </select>
     </div>
     <div class="form-group">
         <label for="opponent">Opponent:</label>
-        <select name="opponent" id="opponent" class="form-control" ng-model="match.opponent">
+        <select name="opponent" id="opponent" class="form-control" ng-model="match.opponent" required>
             <option value="{{ class.value }}" ng-repeat="class in playerClasses">{{ class.name }}</option>
         </select>
     </div>
