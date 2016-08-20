@@ -1,0 +1,80 @@
+/*-------------------
+      Break Point
+--------------------*/
+
+// Screen Size
+$screenLarge       : 1200px;
+$screenLargeMin    : $screenLarge;
+$screenMedium      : 992px;
+$screenMediumMax   : ($screenLargeMin - 1);
+$screenMediumMin   : $screenMedium;
+$screenSmall       : 768px;
+$screenSmallMax    : ($screenMediumMin - 1);
+$screenSmallMin    : $screenSmall;
+$screenMini        : 320px;
+$screenMiniMax     : ($screenSmallMin - 1);
+$screenMiniMin     : $screenMini;
+
+// Media Query
+$screenDesktop     : "only screen and (min-width: #{$screenLargeMin})";
+$screenLaptop      : "only screen and (min-width: #{$screenMediumMin}) and (max-width: #{$screenMediumMax})";
+$screenLaptopAbove : "only screen and (min-width: #{$screenMediumMin})";
+$screenLaptopBlow  : "only screen and (max-width: #{$screenMediumMax})";
+$screenTablet      : "only screen and (min-width: #{$screenSmallMin}) and (max-width: #{$screenSmallMax})";
+$screenTabletAbove : "only screen and (min-width: #{$screenSmallMin})";
+$screenTabletBlow  : "only screen and (max-width: #{$screenSmallMax})";
+$screenMobile      : "only screen and (max-width: #{$screenMiniMax})";
+
+/*-------------------
+      Line Height
+--------------------*/
+
+$lineHeightBase     : 20px;
+$lineHeightMini     : $lineHeightBase * 0.8;   // 16px
+$lineHeightSmall    : $lineHeightBase * 0.9;   // 18px
+$lineHeightMedium   : $lineHeightBase * 1;     // 20px
+$lineHeightBig      : $lineHeightBase * 1.25;  // 25px
+$lineHeightLarge    : $lineHeightBase * 1.5;   // 30px
+
+/*-------------------
+         Font
+--------------------*/
+
+// Family
+$fontFamily : Tahoma, arial, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
+
+// Size
+$miniSize    : (10 / 14);
+$smallSize   : (12 / 14);
+$mediumSize  : (14 / 14);
+$bigSize     : (16 / 14);
+$largeSize   : (18 / 14);
+$hugeSize    : (20 / 14);
+$massiveSize : (24 / 14);
+
+// Font Size
+$fontSizeBase    : 14px;
+$fontSizeMini    : ($fontSizeBase * $miniSize);
+$fontSizeSmall   : ($fontSizeBase * $smallSize);
+$fontSizeMedium  : ($fontSizeBase * $mediumSize);
+$fontSizeBig     : ($fontSizeBase * $bigSize);
+$fontSizeLarge   : ($fontSizeBase * $largeSize);
+$fontSizeHuge    : ($fontSizeBase * $hugeSize);
+$fontSizeMassive : ($fontSizeBase * $massiveSize);
+
+/*-------------------
+        Color
+--------------------*/
+
+$pureWhite    : #fff;
+$pureBlack    : #000;
+$nightRider   : #333;
+$dimGray      : #666;
+$mountainMist : #999;
+
+/*-------------------
+        Image
+--------------------*/
+
+$imagePath        : 'http://7xtddu.com1.z0.glb.clouddn.com';
+$indexBackgrounds : '#{$imagePath}/73ad5a84dcefe956276f1bd07c6316dd.jpg', '#{$imagePath}/66a7d162d0bdf9aa302e280cbb5d90d6.jpg', '#{$imagePath}/a15bc6b5656eb67d2e0cde3c2e7f583a.jpg', '#{$imagePath}/5233e5089e1ff5fff7a85c8aa13304ff.jpg';

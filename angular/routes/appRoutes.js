@@ -11,7 +11,6 @@ angular.module('appRoutes', [])
             .state('index', {
                 url: '/',
                 templateUrl: '/views/app/index.html',
-                controller: 'homeController',
                 title: 'Home'
             })
             .state('games', {
