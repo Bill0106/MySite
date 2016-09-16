@@ -10,7 +10,6 @@ angular.module('myApp',[
     {
         $http.defaults.headers.common.auth = 'ljpon3UUVTMMmIhE6Kcf';
 
-        $rootScope.imagePath = 'http://zhuhaolin.com/images/';
         $rootScope.$on('$stateChangeSuccess', function()
         {
             $rootScope.bodyClass = $state.current.controller;
@@ -32,6 +31,25 @@ angular.module('myApp',[
         };
 
         return this;
+    })
+    .directive('ngMySite', function()
+    {
+        return {
+            restrict: 'A',
+            replace: true,
+            link: function (scope, element, attrs)
+            {
+                $(document).on('swipeleft.my.index.swipe', "#indexCarousel", function()
+                {
+                    $(this).carousel('next');
+                });
+
+                $(document).on('swiperight.my.index.swipe', "#indexCarousel", function()
+                {
+                    $(this).carousel('prev');
+                });
+            }
+        };
     })
     .directive('ngLoading', function(imageLoading)
     {

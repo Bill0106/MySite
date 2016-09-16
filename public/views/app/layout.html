@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="myApp">
+<html ng-app="myApp">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ title }} - Bill's Hobby | Write as a Interest</title>
+    <title ng-bind="$root.title + ' - Bill\'s Hobby'">Bill's Hobby | Write as a Interest</title>
 
     <link rel="stylesheet" href="/assets/style/bootstrap.min.css"/>
     <link rel="stylesheet" href="/assets/style/font-awesome.min.css"/>
     <link rel="stylesheet" href="/build/css/style.css"/>
 </head>
-<body>
+<body ng-class="bodyClass" ng-my-site>
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -19,21 +19,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" ui-sref="index">Home</a>
+                <a class="navbar-brand" ui-sref="index">Bill's Hobby</a>
             </div>
             <div class="collapse navbar-collapse" id="navBarCollapse">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav navbar-right">
                     <li ui-sref-active="active"><a ui-sref="games">My Games</a></li>
                     <li ui-sref-active="active"><a ui-sref="gourmets">My Gourmets Tour</a></li>
                     <li ui-sref-active="active"><a ui-sref="hsSeasons">My HearthStone</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="https://github.com/Bill0106" target="_blank" title="Github"><i class="fa fa-github"></i></a>
-                    </li>
-                    <li>
-                        <a href="http://instagram.com/bill0106" target="_blank" title="Instagram"><i class="fa fa-instagram"></i></a>
-                    </li>
                 </ul>
             </div>
         </div>
