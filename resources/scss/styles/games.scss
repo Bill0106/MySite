@@ -44,7 +44,13 @@ body.gamesController {
         .item-card-image {
           display: block;
           > img {
+            display: block !important;
             width: 100%;
+            opacity: 0;
+            @include transition(opacity, 0.3s, ease-in-out);
+            &.success {
+              opacity: 1;
+            }
           }
         }
         .item-card-caption {

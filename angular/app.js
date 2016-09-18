@@ -3,7 +3,7 @@
  */
 
 angular.module('myApp',[
-    'ui.router', 'appRoutes',
+    'ui.router', 'angularLazyImg', 'appRoutes',
     'gamesApp', 'gourmetsApp', 'hearthStoneApp',
     'myServices', 'myConfig'])
     .run(function($rootScope, $location, $state, $http)
@@ -16,6 +16,12 @@ angular.module('myApp',[
             $rootScope.title = $state.current.title;
         });
     })
+    .config(['lazyImgConfigProvider', function(lazyImgConfigProvider)
+    {
+        lazyImgConfigProvider.setOptions({
+            successClass: 'success'
+        });
+    }])
     .service('imageLoading', function()
     {
         this.images = [];
@@ -112,17 +118,14 @@ angular.module('myApp',[
     {
         return function (image, field)
         {
-            if (typeof image === 'undefined') {
-                return '';
-            }
-
             var data = '';
-            console.log(field, JSON.parse(image));
-            if (field == 'color') {
-                var color = JSON.parse(image).color;
-                data = '#' + color.substr(2);
-            } else {
-                data = JSON.parse(image).url;
+            if (typeof image !== 'undefined') {
+                if (field == 'color') {
+                    var color = JSON.parse(image).color;
+                    data = '#' + color.substr(2);
+                } else {
+                    data = JSON.parse(image).url;
+                }
             }
 
             return data;

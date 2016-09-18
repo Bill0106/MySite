@@ -14,3 +14,11 @@
   background-image: -ms-linear-gradient($deg, $start, $end);
   background-image: linear-gradient($deg, $start, $end);
 }
+
+// Transition
+@mixin transition($property, $duration, $function, $delay: 0s) {
+  -webkit-transition: $property $duration $function $delay;
+  -moz-transition: $property $duration $function $delay;
+  -o-transition: $property $duration $function $delay;
+  transition: $property $duration $function $delay;
+}
