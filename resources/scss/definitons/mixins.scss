@@ -1,0 +1,16 @@
+// Box Shadow
+@mixin box-shadow($h, $v, $blur, $spread, $color){
+  -webkit-box-shadow: $h $v $blur $spread $color;
+  -moz-box-shadow: $h $v $blur $spread $color;
+  box-shadow: $h $v $blur $spread $color;
+}
+
+// Linear Gradient
+@mixin linear-gradient($deg, $start, $end) {
+  background-color: $start;
+  background-image: -webkit-linear-gradient($deg, $start, $end);
+  background-image: -moz-linear-gradient($deg, $start, $end);
+  background-image: -o-linear-gradient($deg, $start, $end);
+  background-image: -ms-linear-gradient($deg, $start, $end);
+  background-image: linear-gradient($deg, $start, $end);
+}

@@ -1,0 +1,113 @@
+body.gamesController {
+  background: $bunker;
+  .games-trophy-card {
+    margin-bottom: 20px;
+    text-align: center;
+    .trophy-card-img {
+      max-width: 100%;
+    }
+  }
+  .games-list {
+    margin: -10px;
+    @media #{$screenTablet} {
+      margin: -7.5px;
+    }
+    @media #{$screenMobile} {
+      margin: -10px 0;
+    }
+    > li {
+      float: left;
+      margin: 10px;
+      width: 270px;
+      @media #{$screenLaptop} {
+        width: 220px;
+      }
+      @media #{$screenTablet} {
+        margin: 7.5px;
+        width: 230px;
+      }
+      @media #{$screenMobile} {
+        margin: 10px 0;
+        width: 48%;
+      }
+      &:nth-child(odd) {
+        @media #{$screenMobile} {
+          margin-right: 2%;
+        }
+      }
+      &:nth-child(even) {
+        @media #{$screenMobile} {
+          margin-left: 2%;
+        }
+      }
+      .game-item-card {
+        .item-card-image {
+          display: block;
+          > img {
+            width: 100%;
+          }
+        }
+        .item-card-caption {
+          position: relative;
+          padding: 15px;
+          background: $pureWhite;
+          .card-caption-title {
+            display: inline-block;
+            max-width: 100%;
+            overflow: hidden;
+            @media #{$screenMobile} {
+              display: block;
+            }
+            > h3 {
+              margin: 0;
+              line-height: $lineHeightMedium;
+              font-size: $fontSizeLarge;
+              white-space: nowrap;
+              @media #{$screenMobile} {
+                font-size: $fontSizeMedium;
+              }
+            }
+          }
+          .card-caption-second {
+            color: $mountainMist;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            @media #{$screenMobile} {
+              font-size: $fontSizeSmall;
+            }
+          }
+          .card-caption-footer {
+            .caption-footer-rate {
+              float: left;
+              display: block;
+              width: 75px;
+              height: 15px;
+              background: url("#{$playStationLogo}") repeat-x 0 0;
+              background-size: 15px;
+              text-indent: -9999px;
+            }
+            .caption-footer-time {
+              float: right;
+              line-height: 15px;
+              font-size: $fontSizeSmall;
+              color: $mountainMist;
+              @media #{$screenMobile} {
+                display: none;
+              }
+            }
+          }
+          .card-caption-end {
+            display: block;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 45px;
+            height: $lineHeightMedium;
+            @include linear-gradient(90deg, rgba($pureWhite, 0), rgba($pureWhite, 1))
+          }
+        }
+      }
+    }
+  }
+}

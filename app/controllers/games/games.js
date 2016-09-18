@@ -2,9 +2,9 @@
  * Created by bill on 15/8/2.
  */
 
-var async = require('async');
-var Games = require('../../models/games');
+var async  = require('async');
 var moment = require('moment');
+var Games  = require('../../models/games');
 
 exports.list = function (req, res)
 {
@@ -15,7 +15,7 @@ exports.list = function (req, res)
             var page   = req.query.page ? parseInt(req.query.page) : 1;
             var offset = limit * (page - 1);
 
-            Games.find().limit(limit).skip(offset).sort({ buy_at: 'desc' }).exec(function (error, data)
+            Games.find().limit(parseInt(limit)).skip(offset).sort({ buy_at: 'desc' }).exec(function (error, data)
             {
                 if (error) {
                     callback(error);

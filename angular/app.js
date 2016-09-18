@@ -4,7 +4,7 @@
 
 angular.module('myApp',[
     'ui.router', 'appRoutes',
-    'homeApp', 'gamesApp', 'gourmetsApp', 'hearthStoneApp',
+    'gamesApp', 'gourmetsApp', 'hearthStoneApp',
     'myServices', 'myConfig'])
     .run(function($rootScope, $location, $state, $http)
     {
@@ -43,7 +43,6 @@ angular.module('myApp',[
                 {
                     $(this).carousel('next');
                 });
-
                 $(document).on('swiperight.my.index.swipe', "#indexCarousel", function()
                 {
                     $(this).carousel('prev');
@@ -107,6 +106,26 @@ angular.module('myApp',[
                     }
                 });
             }
+        };
+    })
+    .filter('imageHelper', function()
+    {
+        return function (image, field)
+        {
+            if (typeof image === 'undefined') {
+                return '';
+            }
+
+            var data = '';
+            console.log(field, JSON.parse(image));
+            if (field == 'color') {
+                var color = JSON.parse(image).color;
+                data = '#' + color.substr(2);
+            } else {
+                data = JSON.parse(image).url;
+            }
+
+            return data;
         };
     })
     .filter('imageUrl', function ()
