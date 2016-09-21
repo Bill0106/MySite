@@ -47,17 +47,12 @@ angular.module('gamesApp', ['infinite-scroll'])
                 };
             }
         });
-
-        $scope.getNumber = function(num)
-        {
-            return new Array(num);
-        };
     })
     .controller('gameController', function($scope, $rootScope, $state, $filter, Game, GameTrophy, GAME_PLATFORMS, GAME_GENRES, GAME_TROPHY_RARITY)
     {
         Game.get({ url: $state.params.url }, function(data)
         {
-            $rootScope.title = data.name + '_My Games';
+            $rootScope.title = data.name + ' - Games';
             $scope.game = data;
         });
 
