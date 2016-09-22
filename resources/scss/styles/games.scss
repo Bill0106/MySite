@@ -192,108 +192,24 @@ body.gameController {
     .page-header-rate {
       float: right;
       position: relative;
-      margin: 15px 100px 0 0;
-      width: 70px;
-      height: 70px;
+      padding: 7px 100px 0 0;
       @media #{$screenTablet} {
-        margin-right: 20px;
+        padding-right: 20px;
       }
       @media #{$screenMobile} {
         float: none;
         margin: 20px auto 0;
-      }
-      &.rate-1, &.rate-2 {
-        .header-rate-clip {
-          &.right {
-            border-radius: 0;
-            .rate-clip-fill {
-              opacity: 0;
-            }
-            .rate-clip-mask {
-              opacity: 1;
-            }
-          }
-        }
-      }
-      &.rate-1 {
-        .header-rate-clip {
-          &.left {
-            @include rotate(72deg);
-          }
-        }
-      }
-      &.rate-2 {
-        .header-rate-clip {
-          &.left {
-            @include rotate(144deg);
-          }
-        }
-      }
-      &.rate-3 {
-        .header-rate-clip {
-          &.left {
-            @include rotate(216deg);
-          }
-        }
-      }
-      &.rate-4 {
-        .header-rate-clip {
-          &.left {
-            @include rotate(288deg);
-          }
-        }
-      }
-      .header-rate-clip {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        border-radius: 100%;
-        overflow: hidden;
-        &.right {
-          z-index: 20;
-          .rate-clip-fill {
-            right: 0;
-          }
-          .rate-clip-mask {
-            background-color: $bunker;
-            left: 0;
-            opacity: 0;
-          }
-        }
-        &.left {
-          z-index: 10;
-          .rate-clip-fill {
-            left: 0;
-          }
-          .rate-clip-mask {
-            right: 0;
-          }
-        }
-        .rate-clip-fill {
-          position: absolute;
-          top: 0;
-          width: 50%;
-          height: 100%;
-          background-color: $orangeRed;
-        }
-        .rate-clip-mask {
-          position: absolute;
-          top: 0;
-          width: 50%;
-          height: 100%;
-        }
+        padding: 0;
+        width: 70px;
       }
       .header-rate-inner {
-        position: absolute;
-        top: 7px;
-        right: 7px;
-        bottom: 7px;
-        left: 7px;
-        font-size: 35px;
-        line-height: 56px;
+        position: relative;
+        margin: 0 auto 10px;
+        width: 56px;
+        height: 56px;
         text-align: center;
+        line-height: 56px;
+        font-size: 35px;
         border-radius: 100%;
         background-color: $bunker;
         text-shadow: rgba($pureBlack, 0.5) 0 1px 5px;
@@ -301,10 +217,6 @@ body.gameController {
         z-index: 100;
       }
       > p {
-        position: absolute;
-        top: 110%;
-        left: 50%;
-        margin-left: -55px;
         margin-bottom: 0;
         width: 110px;
         text-align: center;
@@ -317,6 +229,26 @@ body.gameController {
           font-style: italic;
           color: $orangeRed;
           letter-spacing: 1px;
+        }
+      }
+      > svg {
+        position: absolute;
+        top: 0;
+        left: 20px;
+        width: 70px;
+        height: 70px;
+        @include rotate(-90deg);
+        @media #{$screenMobile} {
+          top: -7px;
+          left: 0;
+        }
+        > circle {
+          stroke-width: 7px;
+          stroke-dasharray: 190px;
+          stroke-dashoffset: 190px;
+          stroke: $orangeRed;
+          fill: $bunker;
+          @include transition(all, 1s, ease-in-out);
         }
       }
     }

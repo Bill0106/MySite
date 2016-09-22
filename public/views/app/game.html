@@ -20,17 +20,12 @@
                         </span>
                     </p>
                 </div>
-                <div ng-if="game.rate != 0" class="page-header-rate rate-{{ game.rate }}">
-                    <div class="header-rate-clip right">
-                        <div class="rate-clip-fill"></div>
-                        <div class="rate-clip-mask"></div>
-                    </div>
-                    <div class="header-rate-clip left">
-                        <div class="rate-clip-fill"></div>
-                        <div class="rate-clip-mask"></div>
-                    </div>
+                <div ng-if="game.rate != 0" class="page-header-rate">
                     <div class="header-rate-inner">{{ game.rate }}</div>
                     <p>Personal Review<span>{{ rateText[(game.rate - 1)] }}</span></p>
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="35" cy="35" r="30" ng-style="{ 'stroke-dashoffset': (190 - game.rate / 5 * 190) + 'px' }"></circle>
+                    </svg>
                 </div>
             </section>
         </div>
