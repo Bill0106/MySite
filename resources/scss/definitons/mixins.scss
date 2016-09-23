@@ -1,3 +1,10 @@
+// Background Opacity
+@mixin background-opacity ($color, $alpha) {
+  $rgba: rgba($color, $alpha);
+  background: rgb(red($color), green($color), blue($color)) transparent;
+  background: $rgba;
+}
+
 // Box Shadow
 @mixin box-shadow($h, $v, $blur, $spread, $color){
   -webkit-box-shadow: $h $v $blur $spread $color;

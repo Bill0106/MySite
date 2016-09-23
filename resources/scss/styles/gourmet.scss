@@ -1,0 +1,71 @@
+body.gourmetsController {
+  background: $oldLace;
+  section.gourmets-page-title {
+    margin-bottom: 20px;
+    text-align: center;
+    > a {
+      > img {
+        width: 100%;
+        max-width: 357px;
+      }
+    }
+  }
+  ul.gourmets-page-list {
+    margin: 0 auto;
+    max-width: 1020px;
+    @media #{$screenLaptop} {
+      max-width: 850px;
+    }
+    @media #{$screenTablet} {
+      max-width: 680px;
+    }
+    @media #{$screenMobile} {
+      max-width: none;
+    }
+    > li {
+      float: left;
+      margin: 10px;
+      padding: 0;
+      text-align: left;
+      @media #{$screenMobile} {
+        margin: 5px 0;
+        width: 48%;
+        &:nth-child(odd) {
+          margin-right: 2%;
+        }
+        &:nth-child(even) {
+          margin-left: 2%;
+        }
+      }
+      .gourmets-page-item {
+        display: block;
+        position: relative;
+        > img {
+          width: 150px;
+          @media #{$screenMobile} {
+            width: 100%;
+          }
+        }
+        .page-item-text {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          padding: 5px 10px;
+          width: 100%;
+          color: $pureWhite;
+          @include background-opacity($pureBlack, 0.3);
+          > h3 {
+            margin: 0;
+            font-size: $fontSizeMedium;
+            font-weight: 700;
+          }
+          > p {
+            margin-bottom: 0;
+            font-size: $fontSizeSmall;
+            text-align: right;
+          }
+        }
+      }
+    }
+  }
+}

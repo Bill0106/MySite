@@ -2,7 +2,7 @@ nav.navbar {
   display: none;
   border-radius: 0;
 }
-body.gamesController, body.gameController {
+body.gamesController, body.gameController, body.gourmetsController {
   nav.navbar {
     display: block;
   }
