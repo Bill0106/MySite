@@ -12,11 +12,14 @@
         <div class="col-sm-12">
             <ul class="list-unstyled gourmets-page-list clearfix" infinite-scroll="loadMore()" infinite-scroll-disabled=busy>
                 <li ng-repeat="gourmet in gourmets">
-                    <a ng-href="{{ gourmet.url }}" target="_blank" class="gourmets-page-item" data-gourmet-item="{{ gourmet._id }}">
-                        <img ng-src="{{ gourmet.image | imageUrl }}" alt="{{ gourmet.food + ' - ' + gourmet.restaurant }}" title="{{ gourmet.food + ' - ' + gourmet.restaurant }}"/>
+                    <a ng-href="{{ gourmet.url }}" target="_blank" class="gourmets-page-item" ng-style="{'background-color': (gourmet.image | imageHelper:'color')}">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGP6zwAAAgcBApocMXEAAAAASUVORK5CYII="
+                             lazy-img="{{ gourmet.image | imageHelper:'url' }}"
+                             alt="{{ gourmet.food + ' - ' + gourmet.restaurant }}"
+                             title="{{ gourmet.food + ' - ' + gourmet.restaurant }}"/>
                         <div class="page-item-text">
                             <h3>{{ gourmet.food }}</h3>
-                            <p>{{ gourmet.date | date:"yyyy.MM.dd" }}</p>
+                            <span>{{ gourmet.date | date:"yyyy.MM.dd" }}</span>
                         </div>
                     </a>
                 </li>

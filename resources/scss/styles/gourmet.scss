@@ -55,12 +55,13 @@ body.gourmetsController {
           color: $pureWhite;
           @include background-opacity($pureBlack, 0.3);
           > h3 {
-            margin: 0;
+            margin: 0 0 5px;
             font-size: $fontSizeMedium;
             font-weight: 700;
           }
-          > p {
-            margin-bottom: 0;
+          > span {
+            display: block;
+            line-height: $lineHeightMini;
             font-size: $fontSizeSmall;
             text-align: right;
           }
