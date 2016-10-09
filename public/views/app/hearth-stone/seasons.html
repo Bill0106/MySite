@@ -1,21 +1,20 @@
-<div class="container" load-complete=complete>
-    <section class="season-list">
-        <div class="row">
-            <div class="col-sm-6" ng-repeat="season in seasons">
-                <div class="thumbnail season-item">
-                    <div class="season-item-title">
-                        <h2>{{ season.title }}</h2>
-                        <img ng-src="{{ season.image | imageUrl }}" alt="{{ season.title }}" title="{{ season.title }}"/>
-                        <div class="season-item-rank rank-{{ season.rank }}" title="Final Rank: {{ season.rank }}">{{ season.rank }}</div>
-                    </div>
-                    <div class="season-item-text">
-                        <p>{{ season.description }}</p>
-                    </div>
-                    <div class="season-item-action">
-                        <a ui-sref="hsSeason({ url: season.url })" class="btn btn-link">Get Detail</a>
-                    </div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6" ng-repeat="season in seasons">
+            <section class="hs-season-item">
+                <a ui-sref="hsSeason({ url: season.url })" class="season-item-header" ng-style="{'background-color': (season.image | imageHelper:'color')}">
+                    <h2>{{ season.title }}</h2>
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAAAbCAQAAAB8FaHvAAAAGUlEQVRYR+3BAQEAAACAkP6v7ggKAAAAoAEQIwABgZwLrQAAAABJRU5ErkJggg=="
+                         lazy-img="{{ season.image | imageHelper:'url' }}"
+                         alt="{{ season.title }}"
+                         title="{{ season.title }}"/>
+                </a>
+                <div class="season-item-text">
+                    <p>{{ season.description }}</p>
                 </div>
-            </div>
+                <a ui-sref="hsSeason({ url: season.url })" class="btn btn-link">GET DETAIL</a>
+                <span class="season-item-rank rank-{{ season.rank }}" title="Final Rank: {{ season.rank }}">{{ season.rank }}</span>
+            </section>
         </div>
-    </section>
+    </div>
 </div>
