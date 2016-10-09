@@ -42,8 +42,13 @@ body.gourmetsController {
         position: relative;
         > img {
           width: 150px;
+          opacity: 0;
+          @include transition(opacity, 0.3s, ease-in-out);
           @media #{$screenMobile} {
             width: 100%;
+          }
+          &.success {
+            opacity: 1;
           }
         }
         .page-item-text {
