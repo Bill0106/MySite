@@ -114,6 +114,7 @@ table.hs-matches-table {
           display: none;
           &:nth-child(1), &:nth-child(11), &:nth-child(12) {
             display: table-cell;
+            width: percentage(1 / 3);
           }
         }
         &:first-child {
@@ -131,10 +132,12 @@ table.hs-matches-table {
       }
       > td {
         text-align: center;
+        vertical-align: middle;
         @media #{$screenTabletBlow} {
           display: none;
           &:nth-child(1), &:nth-child(11), &:nth-child(12) {
             display: table-cell;
+            width: percentage(1 / 3);
           }
         }
         &:first-child {
