@@ -27,7 +27,6 @@ Dependencies
   - angular-file-upload
   - ngInfiniteScroll
 - Bootstrap
-- FontAwesome
 
 ### Gulp
 - Gulp
@@ -51,6 +50,10 @@ Installation
 
 Versions
 --------
+### v2.7
+1. Use Sass instead of Less
+2. Optimize style
+
 ### v2.6.2
 1. Optimize game trophy controller
 2. Optimize game and gourmet API
