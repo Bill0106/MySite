@@ -17,7 +17,7 @@ var gulp      = require('gulp'),
 // Style Tasks
 function styleCompile()
 {
-    return gulp.src('./resources/scss/style.scss')
+    return gulp.src('./sass/style.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(minifyCSS())
         .pipe(gulp.dest('./public/build/css'));
@@ -56,7 +56,7 @@ function adminJS()
 // Watch Files
 function watchStyle()
 {
-    return gulp.watch('./resources/scss/**/*.scss', gulp.series(styleCompile));
+    return gulp.watch('./sass/**/*.scss', gulp.series(styleCompile));
 }
 function watchScripts()
 {
