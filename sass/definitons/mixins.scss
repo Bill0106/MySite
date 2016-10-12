@@ -1,0 +1,40 @@
+// Background Opacity
+@mixin background-opacity ($color, $alpha) {
+  $rgba: rgba($color, $alpha);
+  background: rgb(red($color), green($color), blue($color)) transparent;
+  background: $rgba;
+}
+
+// Box Shadow
+@mixin box-shadow($h, $v, $blur, $spread, $color){
+  -webkit-box-shadow: $h $v $blur $spread $color;
+  -moz-box-shadow: $h $v $blur $spread $color;
+  box-shadow: $h $v $blur $spread $color;
+}
+
+// Linear Gradient
+@mixin linear-gradient($deg, $start, $end) {
+  background-color: $start;
+  background-image: -webkit-linear-gradient($deg, $start, $end);
+  background-image: -moz-linear-gradient($deg, $start, $end);
+  background-image: -o-linear-gradient($deg, $start, $end);
+  background-image: -ms-linear-gradient($deg, $start, $end);
+  background-image: linear-gradient($deg, $start, $end);
+}
+
+// Rotate
+@mixin rotate($deg) {
+  -webkit-transform: rotate($deg);
+  -moz-transform: rotate($deg);
+  -ms-transform: rotate($deg);
+  -o-transform: rotate($deg);
+  transform: rotate($deg);
+}
+
+// Transition
+@mixin transition($property, $duration, $function, $delay: 0s) {
+  -webkit-transition: $property $duration $function $delay;
+  -moz-transition: $property $duration $function $delay;
+  -o-transition: $property $duration $function $delay;
+  transition: $property $duration $function $delay;
+}

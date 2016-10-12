@@ -5,23 +5,20 @@
 var path = require('path');
 
 var gulp      = require('gulp'),
-    less      = require('gulp-less'),
+    sass      = require('gulp-sass'),
     minifyCSS = require('gulp-minify-css'),
     uglify    = require('gulp-uglify'),
     notify    = require('gulp-notify'),
     jshint    = require('gulp-jshint'),
-    nodemon   = require('gulp-nodemon'),
     concat    = require('gulp-concat');
 
 
 
 // Style Tasks
-function lessCompile()
+function styleCompile()
 {
-    return gulp.src('./resources/less/style.less')
-        .pipe(less({
-            paths: [path.join(__dirname, 'less', 'includes')]
-        }))
+    return gulp.src('./sass/style.scss')
+        .pipe(sass().on('error', sass.logError))
         .pipe(minifyCSS())
         .pipe(gulp.dest('./public/build/css'));
 }
@@ -59,7 +56,7 @@ function adminJS()
 // Watch Files
 function watchStyle()
 {
-    return gulp.watch('./resources/less/**/*.less', gulp.series(lessCompile));
+    return gulp.watch('./sass/**/*.scss', gulp.series(styleCompile));
 }
 function watchScripts()
 {
@@ -67,4 +64,4 @@ function watchScripts()
 }
 
 gulp.task('watch', gulp.parallel(watchStyle, watchScripts));
-gulp.task('default', gulp.parallel(lessCompile, adminJS, appJS));
+gulp.task('default', gulp.parallel(styleCompile, adminJS, appJS));

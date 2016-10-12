@@ -1,0 +1,102 @@
+/*-------------------
+      Break Point
+--------------------*/
+
+// Screen Size
+$screenLarge       : 1200px;
+$screenLargeMin    : $screenLarge;
+$screenMedium      : 992px;
+$screenMediumMax   : ($screenLargeMin - 1);
+$screenMediumMin   : $screenMedium;
+$screenSmall       : 768px;
+$screenSmallMax    : ($screenMediumMin - 1);
+$screenSmallMin    : $screenSmall;
+$screenMini        : 320px;
+$screenMiniMax     : ($screenSmallMin - 1);
+$screenMiniMin     : $screenMini;
+
+// Media Query
+$screenDesktop     : "only screen and (min-width: #{$screenLargeMin})";
+$screenLaptop      : "only screen and (min-width: #{$screenMediumMin}) and (max-width: #{$screenMediumMax})";
+$screenLaptopAbove : "only screen and (min-width: #{$screenMediumMin})";
+$screenLaptopBlow  : "only screen and (max-width: #{$screenMediumMax})";
+$screenTablet      : "only screen and (min-width: #{$screenSmallMin}) and (max-width: #{$screenSmallMax})";
+$screenTabletAbove : "only screen and (min-width: #{$screenSmallMin})";
+$screenTabletBlow  : "only screen and (max-width: #{$screenSmallMax})";
+$screenMobile      : "only screen and (max-width: #{$screenMiniMax})";
+
+/*-------------------
+      Line Height
+--------------------*/
+
+$lineHeightBase     : 20px;
+$lineHeightMini     : $lineHeightBase * 0.8;   // 16px
+$lineHeightSmall    : $lineHeightBase * 0.9;   // 18px
+$lineHeightMedium   : $lineHeightBase * 1;     // 20px
+$lineHeightBig      : $lineHeightBase * 1.25;  // 25px
+$lineHeightLarge    : $lineHeightBase * 1.5;   // 30px
+
+/*-------------------
+         Font
+--------------------*/
+
+// Family
+$fontFamily : Tahoma, arial, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
+
+// Size
+$miniSize    : (10 / 14);
+$smallSize   : (12 / 14);
+$mediumSize  : (14 / 14);
+$bigSize     : (16 / 14);
+$largeSize   : (18 / 14);
+$hugeSize    : (20 / 14);
+$massiveSize : (24 / 14);
+
+// Font Size
+$fontSizeBase    : 14px;
+$fontSizeMini    : ($fontSizeBase * $miniSize);
+$fontSizeSmall   : ($fontSizeBase * $smallSize);
+$fontSizeMedium  : ($fontSizeBase * $mediumSize);
+$fontSizeBig     : ($fontSizeBase * $bigSize);
+$fontSizeLarge   : ($fontSizeBase * $largeSize);
+$fontSizeHuge    : ($fontSizeBase * $hugeSize);
+$fontSizeMassive : ($fontSizeBase * $massiveSize);
+
+/*-------------------
+        Color
+--------------------*/
+
+$pureWhite    : #fff;
+$pureBlack    : #000;
+$nightRider   : #333;
+$dimGray      : #666;
+$mountainMist : #999;
+$bunker       : #242628;
+$smalt        : #003087;
+$orangeRed    : #e63900;
+$tenne        : #c30;
+$sherpaBlue   : #044A42;
+$kellyGreen   : #61bf19;
+$oldLace      : #FEFCEF;
+$pinkLady     : #f1d6a9;
+$darkGray     : #9e9e9e;
+$regalBlue    : #233a6e;
+$ceruleanBlue : #2766ad;
+$dodgerBlue   : #0070ff;
+$blueViolet   : #a335ee;
+$darkOrange   : #ff8000;
+$laRioja      : #cbb800;
+
+/*-------------------
+        Image
+--------------------*/
+
+$imagePath        : 'http://7xtddu.com1.z0.glb.clouddn.com';
+$socialIcons      : '#{$imagePath}/social_icons.png';
+$indexBackgrounds : '#{$imagePath}/73ad5a84dcefe956276f1bd07c6316dd.jpg',
+                    '#{$imagePath}/66a7d162d0bdf9aa302e280cbb5d90d6.jpg',
+                    '#{$imagePath}/a15bc6b5656eb67d2e0cde3c2e7f583a.jpg',
+                    '#{$imagePath}/5233e5089e1ff5fff7a85c8aa13304ff.jpg';
+$hearthStoneRank  : '#{$imagePath}/hearth_stone_rank.png';
+$hearthStoneMask  : '#{$imagePath}/fd12f07923deb0b177ea57194ffb86ab.png';
+$playStationLogo  : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAQAAACROWYpAAABn0lEQVQ4y+2UTShEURTHRUS8hB73nv99IzYWKLKQBaUsLGwk2SpiochiJhtlqNmI8ZmEMjYWyg4rSlMWYi9NWYnEAiUGXfd9lJkFzXss59y673Te/XU+7rknIyMtjogW1uYZRpguWEhv9AYvQRoSEndY4Y2uPUN+L3Hsa/ACb6IZH5A+qQ+5h/1KP4ck6fvgmkuYppR+aoUu9QEv8JmT+boX+NxJYfsPMK25hSeVHrMKJo2m1Joz11ggO9SQgvcMhZb4UwDLenCCBQScPBctm05Vai+lzB+gck3v4Ut4EOpSaBWDTtgTaOHL7BAvll2KSxZiHUlgQXblNOLmbyH5PZuFhqADD9O+UF1OjzyMOtTQlXkG0QSYYtY9xvma/QhYvlh24HFs0AFZnU0VFMStZX1KLNA8fZo9RN1UiwnxTLsYsWFu56zxgC9Gpk+J64otjSUFToVGL98xn4Bab+jDmN2SFOCd4sZ8nqr677RJrb9Wm7KsfQ62n1FxZH4pin7KS7FJeA61UwSvaqLMIMKqXU8TVsSH0MXry4rTM/2f5AsqHs0Pu9KopwAAAABJRU5ErkJggg==';

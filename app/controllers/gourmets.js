@@ -15,7 +15,7 @@ exports.list = function(req, res)
             var page   = req.query.page ? parseInt(req.query.page) : 1;
             var offset = limit * (page - 1);
 
-            Gourmets.find().limit(limit).skip(offset).sort({ date: 'desc' }).exec(function (error, data)
+            Gourmets.find().limit(parseInt(limit)).skip(offset).sort({ date: 'desc' }).exec(function (error, data)
             {
                 if (error) {
                     callback(error);

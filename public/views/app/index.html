@@ -1,31 +1,50 @@
-<section class="carousel slide" id="indexCarousel" load-complete=complete data-app-index="carousel"  ng-home>
+<section class="carousel slide my-index" id="indexCarousel">
     <div class="carousel-inner" role="listbox">
-        <div class="item item-{{ $index }}" ng-class="$index === 0 ? 'active' : ''" ng-switch="$index" ng-repeat="item in items">
-            <div ng-if="!item.url">
-                <img class="img-circle" ng-src="{{ imagePath + item.icon }}" alt="{{ item.title }}" title="{{ item.title }}"/>
-                <h1 ng-switch-when="0">{{ item.title }}</h1>
-                <h2 ng-switch-default>{{ item.title }}</h2>
-            </div>
-            <div ng-if="item.url">
-                <a ui-sref="{{ item.url }}" data-app-index="pauseCarousel">
-                    <img class="img-circle" ng-src="{{ imagePath + item.icon }}" alt="{{ item.title }}" title="{{ item.title }}"/>
-                </a>
-                <a ui-sref="{{ item.url }}" data-app-index="pauseCarousel"><h2 ng-switch-default>{{ item.title }}</h2></a>
-            </div>
-            <ul class="list-inline" ng-switch-when="0" data-app-index="pauseCarousel">
+        <div class="item active" data-my-index="item">
+            <a ui-sref="index" class="item-icon">
+                <img class="img-circle" src="http://7xtddu.com1.z0.glb.clouddn.com/1b11d8d7a005a06b42514f5d9022e1df.jpg" alt="Bill's Hobby - Write as a Interest" title="Bill's Hobby - Write as a Interest"/>
+            </a>
+            <a ui-sref="index">
+                <h1>Bill's Hobby - Write as a Interest</h1>
+            </a>
+            <ul class="list-inline">
                 <li>
-                    <a href="https://github.com/Bill0106" target="_blank" title="Github"><i class="fa fa-github"></i></a>
+                    <a href="https://twitter.com/bill2012111" target="_blank" title="Twitter"><i></i></a>
                 </li>
                 <li>
-                    <a href="http://weibo.com/fuyundegugao" target="_blank" title="Weibo"><i class="fa fa-weibo"></i></a>
+                    <a href="https://github.com/Bill0106" target="_blank" title="Github"><i></i></a>
                 </li>
                 <li>
-                    <a href="http://instagram.com/bill0106" target="_blank" title="Instagram"><i class="fa fa-instagram"></i></a>
+                    <a href="http://instagram.com/bill_lord_z" target="_blank" title="Instagram"><i></i></a>
                 </li>
             </ul>
         </div>
+        <div class="item" data-my-index="item">
+            <a ui-sref="games" class="item-icon">
+                <img class="img-circle" src="http://7xtddu.com1.z0.glb.clouddn.com/84abb1fdfd670845666ac89f712b539a.jpg" alt="PlayStation Games" title="PlayStation Games"/>
+            </a>
+            <a ui-sref="games">
+                <h2>PlayStation Games</h2>
+            </a>
+        </div>
+        <div class="item" data-my-index="item">
+            <a ui-sref="gourmets" class="item-icon">
+                <img class="img-circle" src="http://7xtddu.com1.z0.glb.clouddn.com/09d6aeb87783661768b52c73f18c3069.jpg" alt="Gourmet Tour" title="Gourmet Tour"/>
+            </a>
+            <a ui-sref="gourmets">
+                <h2>Gourmet Tour</h2>
+            </a>
+        </div>
+        <div class="item" data-my-index="item">
+            <a ui-sref="hsSeasons" class="item-icon">
+                <img class="img-circle" src="http://7xtddu.com1.z0.glb.clouddn.com/fd7f11741da6dd01db206a29d0536427.jpg" alt="HearthStone" title="HearthStone"/>
+            </a>
+            <a ui-sref="hsSeasons">
+                <h2>HearthStone</h2>
+            </a>
+        </div>
     </div>
-    <a href="#indexCarousel" class="left carousel-control" role="button" data-slide="prev"><i class="fa fa-chevron-left"></i></a>
-    <a href="#indexCarousel" class="right carousel-control" role="button" data-slide="next"><i class="fa fa-chevron-right"></i></a>
+    <button data-target="#indexCarousel" class="left carousel-control" type="button" data-slide="prev"><i class="glyphicon glyphicon-menu-left"></i></button>
+    <button data-target="#indexCarousel" class="right carousel-control" type="button" data-slide="next"><i class="glyphicon glyphicon-menu-right"></i></button>
 </section>
-<div ng-include="'views/components/loading.html'"></div>
+<script src="/assets/javascripts/jquery.mobile.min.js"></script>

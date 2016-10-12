@@ -1,26 +1,41 @@
-<div class="container-fluid">
-    <section class="trophy-card">
-        <div class="row">
-            <div class="col-sm-12">
-                <a href="http://psnprofiles.com/bill_lord" target="_blank"><img class="trophy-card-img" src="http://card.psnprofiles.com/1/bill_lord.png" border="0"></a>
-            </div>
-        </div>
-    </section>
-    <div class="row" infinite-scroll="loadMore()" infinite-scroll-disabled=busy>
-        <div class="col-sm-4 col-md-3" ng-repeat="game in games">
-            <a class="thumbnail" ui-sref="game({ url: game.url })" data-games-item="{{ game._id }}">
-                <img ng-src="{{ game.image | imageUrl }}" alt="{{ game.title + ' ' + game.name }}" title="{{ game.title + ' ' + game.name }}"/>
-                <div class="caption">
-                    <h3>{{ game.title }}</h3>
-                    <p class="item-second-title">{{ game.name }}</p>
-                    <p class="item-rate">
-                        <i class="fa fa-gamepad" ng-repeat="i in getNumber(game.rate) track by $index"></i>
-                    </p>
-                </div>
-            </a>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <section class="games-trophy-card">
+                <a href="http://psnprofiles.com/bill_lord" target="_blank">
+                    <img class="trophy-card-img" src="http://card.psnprofiles.com/1/bill_lord.png" border="0">
+                </a>
+            </section>
         </div>
     </div>
-    <section class="more-load" ng-show="show">
-        <i class="fa fa-spinner fa-pulse"></i>
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="list-unstyled games-list clearfix" infinite-scroll="loadMore()" infinite-scroll-disabled=busy>
+                <li ng-repeat="game in games">
+                    <div class="game-item-card">
+                        <a ui-sref="game({ url: game.url })" class="item-card-image" ng-style="{'background-color': (game.image | imageHelper:'color')}">
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGP6zwAAAgcBApocMXEAAAAASUVORK5CYII="
+                                 lazy-img="{{ game.image | imageHelper:'url' }}"
+                                 alt="{{ game.title }}"
+                                 title="{{ game.title }}"/>
+                        </a>
+                        <div class="item-card-caption">
+                            <a ui-sref="game({ url: game.url })" class="card-caption-title">
+                                <h3>{{ game.title }}</h3>
+                            </a>
+                            <p class="card-caption-second">{{ game.name }}</p>
+                            <div class="card-caption-footer clearfix">
+                                <i class="caption-footer-rate" ng-style="{'width': (game.rate * 15) + 'px'}">{{ game.rate }}</i>
+                                <span class="caption-footer-time">{{ game.buy_at | date:"yyyy.MM.dd" }}</span>
+                            </div>
+                            <span class="card-caption-end"></span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <section class="site-loading-spinner" ng-show="show">
+        <img src="http://7xtddu.com1.z0.glb.clouddn.com/f93dde721529f9b0ef36ad1cc7a059eb.gif" alt=""/>
     </section>
 </div>

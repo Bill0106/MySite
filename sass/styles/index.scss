@@ -1,0 +1,126 @@
+section.my-index {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: $pureBlack;
+  &:hover {
+    .carousel-control {
+      opacity: 0.8;
+    }
+  }
+  .carousel-inner {
+    height: 100%;
+    .item {
+      padding: 200px 15px 0;
+      height: 100%;
+      text-align: center;
+      background: no-repeat center center fixed;
+      background-size: cover;
+      @media #{$screenMobile} {
+        padding-top: 100px;
+      }
+      @each $image in $indexBackgrounds {
+        $i: index($indexBackgrounds, $image);
+        &:nth-child(#{$i}) {
+          background-image: url("#{$image}");
+        }
+      }
+      > a {
+        display: inline-block;
+        &:hover, &:active, &:focus {
+          text-decoration: none;
+          > h1, h2 {
+            color: darken($pureWhite, 10%);
+          }
+          .img-circle {
+            border-color: darken($pureWhite, 10%);;
+          }
+        }
+        &.item-icon {
+          display: block;
+          width: 110px;
+          height: 110px;
+          margin: 0 auto 20px;
+        }
+        .img-circle {
+          margin: 0 auto;
+          width: 100%;
+          height: 100%;
+          border: 5px solid $pureWhite;
+        }
+        > h1, h2 {
+          margin: 0;
+          font-size: 36px;
+          color: $pureWhite;
+          @media #{$screenMobile} {
+            font-size: 35px;
+          }
+        }
+      }
+      .list-inline {
+        margin: 20px 0 0;
+        > li {
+          margin: 0 10px;
+          &:nth-child(1) {
+            > a {
+              > i {
+                background-position: 0 0;
+              }
+            }
+          }
+          &:nth-child(2) {
+            > a {
+              > i {
+                background-position: 0 -51px;
+              }
+            }
+          }
+          &:nth-child(3) {
+            > a {
+              > i {
+                background-position: 0 -102px;
+              }
+            }
+          }
+          > a {
+            &:hover, &:focus, &:active {
+              > i {
+                opacity: 0.8;
+              }
+            }
+            > i {
+              display: block;
+              width: 50px;
+              height: 50px;
+              background: url("#{$socialIcons}") no-repeat;
+              background-size: 50px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .carousel-control {
+    position: fixed;
+    top: 50%;
+    bottom: auto;
+    margin-top: -40px;
+    width: auto;
+    font-size: 40px;
+    color: $pureWhite;
+    background: none;
+    border: none;
+    opacity: 0;
+    @media #{$screenMobile} {
+      display: none;
+    }
+    &.left {
+      left: 15px;
+    }
+    &.right {
+      right: 15px;
+    }
+  }
+}

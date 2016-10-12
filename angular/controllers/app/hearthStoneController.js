@@ -3,24 +3,12 @@
  */
 
 angular.module('hearthStoneApp', [])
-    .controller('hsSeasonsController', function ($scope, HSSeason, imageLoading)
+    .controller('hsSeasonsController', function ($scope, HSSeason)
     {
         HSSeason.query(function (data)
         {
             $scope.seasons = data;
-
-            angular.forEach(data, function (value)
-            {
-                imageLoading.addImage(value.image);
-            });
         });
-
-        $scope.loadComplete = function (complete)
-        {
-            if (complete) {
-                $scope.complete = true;
-            }
-        };
     })
     .controller('hsSeasonController', function ($rootScope, $scope, $state, $filter, HSSeason, HSDeck, HSMatch, hearthStoneMatches, HS_PLAYER_CLASSES)
     {
