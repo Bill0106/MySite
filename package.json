@@ -31,6 +31,7 @@
     "@angular/common" : "~2.0.1",
     "@angular/compiler": "~2.0.1",
     "@angular/core": "~2.0.1",
+    "@angular/forms": "~2.0.1",
     "@angular/http": "~2.0.1",
     "@angular/platform-browser": "~2.0.1",
     "@angular/platform-browser-dynamic": "~2.0.1",
@@ -41,10 +42,14 @@
     "rxjs": "5.0.0-beta.12",
     "zone.js": "^0.6.25",
 
+    "angular2-template-loader": "^0.4.0",
     "awesome-typescript-loader": "^2.2.4",
     "gulp": "^3.9.1",
-    "gulp-sass": "~2.*",
+    "gulp-clean": "~0.3.*",
     "gulp-clean-css": "~2.*",
+    "gulp-notify": "~2.*",
+    "gulp-sass": "~2.*",
+    "html-loader": "^0.4.3",
     "typescript": "^2.0.3",
     "typings": "^1.4.0",
     "webpack-stream": "~3.*"
