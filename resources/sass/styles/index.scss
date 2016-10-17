@@ -27,36 +27,30 @@ section.my-index {
           background-image: url("#{$image}");
         }
       }
-      > a {
-        display: inline-block;
+      .img-circle {
+        display: block;
+        margin: 0 auto 20px;
+        width: 110px;
+        height: 110px;
+        border: 5px solid $pureWhite;
+        cursor: pointer;
         &:hover, &:active, &:focus {
-          text-decoration: none;
-          > h1, h2 {
-            color: darken($pureWhite, 10%);
-          }
-          .img-circle {
-            border-color: darken($pureWhite, 10%);;
-          }
+          border-color: darken($pureWhite, 10%);
         }
-        &.item-icon {
-          display: block;
-          width: 110px;
-          height: 110px;
-          margin: 0 auto 20px;
+      }
+      > h1, > h2 {
+        display: inline-block;
+        margin: 0;
+        font-size: 36px;
+        color: $pureWhite;
+        @media #{$screenMobile} {
+          font-size: 35px;
         }
-        .img-circle {
-          margin: 0 auto;
-          width: 100%;
-          height: 100%;
-          border: 5px solid $pureWhite;
-        }
-        > h1, h2 {
-          margin: 0;
-          font-size: 36px;
-          color: $pureWhite;
-          @media #{$screenMobile} {
-            font-size: 35px;
-          }
+      }
+      > h2 {
+        cursor: pointer;
+        &:hover, &:active, &:focus {
+          color: darken($pureWhite, 10%);
         }
       }
       .list-inline {

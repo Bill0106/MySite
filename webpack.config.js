@@ -12,6 +12,13 @@ module.exports = {
     resolve: {
         extensions: ['', '.js', '.ts']
     },
+    htmlLoader: {
+        minimize: true,
+        removeAttributeQuotes: false,
+        caseSensitive: true,
+        customAttrSurround: [ [/#/, /(?:)/], [/\*/, /(?:)/], [/\[?\(?/, /(?:)/] ],
+        customAttrAssign: [ /\)?\]?=/ ]
+    },
     module: {
         loaders: [
             {

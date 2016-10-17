@@ -6,14 +6,15 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" ui-sref="index">Bill's Hobby</a>
+            <a routerLink='/' class="navbar-brand">Bill's Hobby</a>
         </div>
         <div class="collapse navbar-collapse" id="navBarCollapse">
             <ul class="nav navbar-nav navbar-right">
-                <li ui-sref-active="active"><a ui-sref="games">Games</a></li>
-                <li ui-sref-active="active"><a ui-sref="gourmets">Gourmets</a></li>
-                <li ui-sref-active="active"><a ui-sref="hsSeasons">HearthStone</a></li>
+                <li routerLinkActive="active"><a routerLink='/games' >Games</a></li>
+                <li routerLinkActive="active"><a routerLink='/gourmets' >Gourmets</a></li>
+                <li routerLinkActive="active"><a routerLink='/hearth-stone' >HearthStone</a></li>
             </ul>
         </div>
     </div>
 </nav>
+<router-outlet></router-outlet>
