@@ -1,13 +1,15 @@
-body.gamesController {
+section.my-games-trophy {
+  padding: 20px 0;
+  text-align: center;
   background: $bunker;
   .games-trophy-card {
-    margin-bottom: 20px;
-    text-align: center;
-    .trophy-card-img {
-      max-width: 100%;
-    }
+    max-width: 100%;
   }
-  .games-list {
+}
+section.my-games-list {
+  padding: 20px 0;
+  background: $bunker;
+  .games-list-items {
     margin: -10px;
     @media #{$screenTablet} {
       margin: -7.5px;
@@ -48,7 +50,7 @@ body.gamesController {
             width: 100%;
             opacity: 0;
             @include transition(opacity, 0.3s, ease-in-out);
-            &.success {
+            &.ng2-lazyloaded {
               opacity: 1;
             }
           }
@@ -117,6 +119,7 @@ body.gamesController {
     }
   }
 }
+
 body.gameController {
   color: $pureWhite;
   background: $bunker;

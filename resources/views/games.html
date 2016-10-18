@@ -1,0 +1,42 @@
+<section class="my-games-trophy">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <a href="http://psnprofiles.com/bill_lord" target="_blank">
+                    <img class="games-trophy-card" src="http://card.psnprofiles.com/1/bill_lord.png" border="0">
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="my-games-list">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <ul class="list-unstyled games-list-items clearfix">
+                    <li *ngFor="let game of games">
+                        <div class="game-item-card">
+                            <div class="item-card-image" [ngStyle]="{'background-color': (game.image | imageHelper:'color')}">
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGP6zwAAAgcBApocMXEAAAAASUVORK5CYII="
+                                     [lazyLoad]="(game.image | imageHelper:'url')"
+                                     alt="{{ game.title }}"
+                                     title="{{ game.title }}"/>
+                            </div>
+                            <div class="item-card-caption">
+                                <div class="card-caption-title">
+                                    <h3>{{ game.title }}</h3>
+                                </div>
+                                <p class="card-caption-second">{{ game.name }}</p>
+                                <div class="card-caption-footer clearfix">
+                                    <i class="caption-footer-rate" [ngStyle]="{'width': (game.rate * 15) + 'px'}">{{ game.rate }}</i>
+                                    <span class="caption-footer-time">{{ game.buy_at | date:"yyyy.MM.dd" }}</span>
+                                </div>
+                                <span class="card-caption-end"></span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
