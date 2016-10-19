@@ -19,4 +19,12 @@ export class GameService {
             .toPromise()
             .then(response => response.json().list as Game[]);
     }
+
+    getGame(url: string): Promise<Game> {
+        let apiUrl = this.url + '/' + url;
+
+        return this.http.get(apiUrl, { headers: this.headers })
+            .toPromise()
+            .then(response => response.json() as Game);
+    }
 }

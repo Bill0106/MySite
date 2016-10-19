@@ -124,8 +124,8 @@ section.my-games-list {
     }
   }
 }
-
-body.gameController {
+main.my-game-page {
+  min-height: 1000px;
   color: $pureWhite;
   background: $bunker;
   .game-page-header {
@@ -173,6 +173,9 @@ body.gameController {
           > span {
             display: block;
           }
+        }
+        > i {
+          font-style: normal;
         }
       }
       .header-text-platform {
