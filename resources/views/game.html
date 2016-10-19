@@ -15,6 +15,10 @@
                         <p class="header-text-platform">
                             <span>{{ platforms[game.platform] }}</span>
                             /
+                            <span class="text-platform-trophy" *ngIf="trophy">
+                                {{ trophyComplete | number: '1.2-2' }}% Trophies Completed
+                                <span class="platform-trophy-line" [ngStyle]="{ 'width': (trophyComplete) + '%' }"></span>
+                            </span>
                         </p>
                     </div>
                     <div *ngIf="game.rate != 0" class="page-header-rate">
@@ -40,6 +44,26 @@
                     <dt>Genre:</dt>
                     <dd>{{ genres[game.genre] }}</dd>
                 </dl>
+            </div>
+        </div>
+        <div class="row" *ngIf="trophy">
+            <div class="col-sm-12">
+                <ul class="list-unstyled game-page-trophies clearfix">
+                    <li *ngFor="let item of trophy.trophies">
+                        <div class="page-trophy-item" [ngClass]="item.date ? '' : 'not-earned'">
+                            <div class="trophy-item-main clearfix">
+                                <img src="{{ item.image }}" alt="{{ item.title }}" title="{{ trophyRarity[item.rarity] }}"/>
+                                <div class="item-main-text">
+                                    <p>{{ item.title }}</p>
+                                    <span class="description">{{ item.description }}</span>
+                                </div>
+                            </div>
+                            <p class="trophy-item-date" *ngIf="item.date">
+                                Earned at: <span>{{ item.date | date: 'dd MMM yyyy'}}</span>
+                            </p>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
