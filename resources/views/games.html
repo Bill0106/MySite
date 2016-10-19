@@ -19,16 +19,19 @@
                     (scrolled)="onScroll()">
                     <li *ngFor="let game of games">
                         <div class="game-item-card">
-                            <div class="item-card-image" [ngStyle]="{'background-color': (game.image | imageHelper:'color')}">
+                            <div class="item-card-image"
+                                 [ngStyle]="{'background-color': (game.image | imageHelper:'color')}"
+                                 (click)="gotoDetail(game)"
+                            >
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGP6zwAAAgcBApocMXEAAAAASUVORK5CYII="
                                      [lazyLoad]="(game.image | imageHelper:'url')"
                                      alt="{{ game.title }}"
                                      title="{{ game.title }}"/>
                             </div>
                             <div class="item-card-caption">
-                                <div class="card-caption-title">
+                                <a class="card-caption-title" (click)="gotoDetail(game)">
                                     <h3>{{ game.title }}</h3>
-                                </div>
+                                </a>
                                 <p class="card-caption-second">{{ game.name }}</p>
                                 <div class="card-caption-footer clearfix">
                                     <i class="caption-footer-rate" [ngStyle]="{'width': (game.rate * 15) + 'px'}">{{ game.rate }}</i>

@@ -48,6 +48,7 @@ section.my-games-list {
       .game-item-card {
         .item-card-image {
           display: block;
+          cursor: pointer;
           > img {
             display: block !important;
             width: 100%;
@@ -66,6 +67,7 @@ section.my-games-list {
             display: inline-block;
             max-width: 100%;
             overflow: hidden;
+            cursor: pointer;
             @media #{$screenMobile} {
               display: block;
             }

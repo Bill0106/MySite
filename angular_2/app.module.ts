@@ -7,6 +7,7 @@ import { LazyLoadImageModule } from 'ng2-lazyload-image';
 import { AppComponent } from './components/app.component';
 import { HomeComponent } from './components/home.component';
 import { GamesComponent } from './components/games.component';
+import { GameComponent } from './components/game.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -24,6 +25,7 @@ import { ImageHelperPipe } from './pipes/image-helper.pipe';
         AppComponent,
         HomeComponent,
         GamesComponent,
+        GameComponent,
         ImageHelperPipe
     ],
     bootstrap: [ AppComponent ]

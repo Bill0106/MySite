@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { GameService } from '../services/game.service';
 import { Game } from '../models/game';
@@ -18,7 +19,10 @@ export class GamesComponent implements OnInit {
     scrollDisabled = false;
     hideLoading = false;
 
-    constructor(private gameService: GameService) { }
+    constructor(
+        private gameService: GameService,
+        private router: Router
+    ) { }
 
     getGames(page: number): void {
         this.gameService
@@ -51,5 +55,10 @@ export class GamesComponent implements OnInit {
         if (this.hasNextPage) {
             this.getGames(this.page);
         }
+    }
+
+    gotoDetail(game: Game): void {
+        let link = ['/games', game.url];
+        this.router.navigate(link);
     }
 }
