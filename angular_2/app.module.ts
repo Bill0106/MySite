@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
+import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { LazyLoadImageModule } from 'ng2-lazyload-image';
 
 import { AppComponent } from './components/app.component';
@@ -15,6 +16,7 @@ import { ImageHelperPipe } from './pipes/image-helper.pipe';
     imports: [
         BrowserModule,
         HttpModule,
+        InfiniteScrollModule,
         LazyLoadImageModule,
         AppRoutingModule
     ],

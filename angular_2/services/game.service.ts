@@ -10,17 +10,13 @@ export class GameService {
     private url = 'api/games';
     private headers = new Headers({ 'auth': 'ljpon3UUVTMMmIhE6Kcf' });
 
-    private handleError(error: any): Promise<any> {
-        console.error('An error occurred', error);
-        return Promise.reject(error.message || error);
-    }
-
     constructor(private http: Http) { };
 
-    getGames(): Promise<Game[]> {
-        return this.http.get(this.url, { headers: this.headers })
+    getGames(limit: number, page: number): Promise<Game[]> {
+        let apiUrl = this.url + '?limit=' + limit + '&page=' + page;
+
+        return this.http.get(apiUrl, { headers: this.headers })
             .toPromise()
-            .then(response => response.json().list as Game[])
-            .catch(this.handleError);
+            .then(response => response.json().list as Game[]);
     }
 }

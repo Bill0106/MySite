@@ -9,6 +9,9 @@ section.my-games-trophy {
 section.my-games-list {
   padding: 20px 0;
   background: $bunker;
+  & + .site-loading-spinner {
+    background: $bunker;
+  }
   .games-list-items {
     margin: -10px;
     @media #{$screenTablet} {

@@ -13,7 +13,10 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <ul class="list-unstyled games-list-items clearfix">
+                <ul class="list-unstyled games-list-items clearfix"
+                    infinite-scroll
+                    [infiniteScrollDisabled]="scrollDisabled"
+                    (scrolled)="onScroll()">
                     <li *ngFor="let game of games">
                         <div class="game-item-card">
                             <div class="item-card-image" [ngStyle]="{'background-color': (game.image | imageHelper:'color')}">
@@ -39,4 +42,7 @@
             </div>
         </div>
     </div>
+</section>
+<section class="site-loading-spinner" [hidden]="hideLoading">
+    <img src="http://7xtddu.com1.z0.glb.clouddn.com/f93dde721529f9b0ef36ad1cc7a059eb.gif" alt=""/>
 </section>
