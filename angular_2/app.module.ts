@@ -8,6 +8,7 @@ import { AppComponent } from './components/app.component';
 import { HomeComponent } from './components/home.component';
 import { GamesComponent } from './components/games.component';
 import { GameComponent } from './components/game.component';
+import { GourmetsComponent } from './components/gourmets.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -26,6 +27,7 @@ import { ImageHelperPipe } from './pipes/image-helper.pipe';
         HomeComponent,
         GamesComponent,
         GameComponent,
+        GourmetsComponent,
         ImageHelperPipe
     ],
     bootstrap: [ AppComponent ]

@@ -1,6 +1,8 @@
-body.gourmetsController {
+main.my-gourmets {
+  padding-top: 20px;
+  min-height: 800px;
   background: $oldLace;
-  section.gourmets-page-title {
+  section.my-gourmets-title {
     margin-bottom: 20px;
     text-align: center;
     > a {
@@ -10,7 +12,7 @@ body.gourmetsController {
       }
     }
   }
-  ul.gourmets-page-list {
+  ul.my-gourmets-list {
     margin: 0 auto;
     max-width: 1020px;
     @media #{$screenLaptop} {
@@ -37,7 +39,7 @@ body.gourmetsController {
           margin-left: 2%;
         }
       }
-      .gourmets-page-item {
+      .my-gourmets-item {
         display: block;
         position: relative;
         > img {
@@ -47,11 +49,11 @@ body.gourmetsController {
           @media #{$screenMobile} {
             width: 100%;
           }
-          &.success {
+          &.ng2-lazyloaded {
             opacity: 1;
           }
         }
-        .page-item-text {
+        .gourmets-item-text {
           position: absolute;
           bottom: 0;
           left: 0;
