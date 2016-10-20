@@ -1,10 +1,10 @@
-<main class="my-game-page" *ngIf="game">
+<main class="my-game" *ngIf="game">
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <section class="game-page-header page-header clearfix">
+                <section class="my-game-header page-header clearfix">
                     <img src="{{ game.image | imageHelper: 'url' }}" alt="{{ game.title + ' ' + game.name }}" title="{{ game.title + ' ' + game.name }}"/>
-                    <div class="page-header-text">
+                    <div class="game-header-text">
                         <h1>{{ game.title }}</h1>
                         <h2>{{ game.name }}</h2>
                         <p class="header-text-date">
@@ -21,7 +21,7 @@
                             </span>
                         </p>
                     </div>
-                    <div *ngIf="game.rate != 0" class="page-header-rate">
+                    <div *ngIf="game.rate != 0" class="game-header-rate">
                         <div class="header-rate-inner">{{ game.rate }}</div>
                         <p>Personal Review<span>{{ rateText[(game.rate - 1)] }}</span></p>
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -32,11 +32,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-8 game-page-description">
+            <div class="col-sm-8 my-game-description">
                 <p *ngFor="let paragraph of game.description.split('\n')">{{ paragraph }}</p>
             </div>
             <div class="col-sm-4">
-                <dl class="dl-horizontal game-page-info">
+                <dl class="dl-horizontal my-game-info">
                     <dt>Developed by:</dt>
                     <dd>{{ game.developer }}</dd>
                     <dt>Published by:</dt>
@@ -48,9 +48,9 @@
         </div>
         <div class="row" *ngIf="trophy">
             <div class="col-sm-12">
-                <ul class="list-unstyled game-page-trophies clearfix">
+                <ul class="list-unstyled my-game-trophies clearfix">
                     <li *ngFor="let item of trophy.trophies">
-                        <div class="page-trophy-item" [ngClass]="item.date ? '' : 'not-earned'">
+                        <div class="game-trophy-item" [ngClass]="item.date ? '' : 'not-earned'">
                             <div class="trophy-item-main clearfix">
                                 <img src="{{ item.image }}" alt="{{ item.title }}" title="{{ trophyRarity[item.rarity] }}"/>
                                 <div class="item-main-text">

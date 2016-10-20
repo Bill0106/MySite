@@ -14,10 +14,9 @@ const GAME_PER_PAGE = 20;
 
 export class GamesComponent implements OnInit {
     private page = 1;
-    private hasNextPage = true;
     games: Game[];
+    hasNextPage = true;
     scrollDisabled = false;
-    hideLoading = false;
 
     constructor(
         private gameService: GameService,
@@ -38,7 +37,6 @@ export class GamesComponent implements OnInit {
 
                 if (games.length < GAME_PER_PAGE) {
                     this.hasNextPage = false;
-                    this.hideLoading = true;
                 }
                 this.page++;
                 this.scrollDisabled = false;

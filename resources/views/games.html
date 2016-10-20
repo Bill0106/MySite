@@ -1,28 +1,20 @@
-<section class="my-games-trophy">
+<main class="my-games">
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <a href="http://psnprofiles.com/bill_lord" target="_blank">
-                    <img class="games-trophy-card" src="http://card.psnprofiles.com/1/bill_lord.png" border="0">
-                </a>
+                <section class="my-games-trophy">
+                    <a href="http://psnprofiles.com/bill_lord" target="_blank">
+                        <img class="games-trophy-card" src="http://card.psnprofiles.com/1/bill_lord.png" border="0">
+                    </a>
+                </section>
             </div>
         </div>
-    </div>
-</section>
-<section class="my-games-list">
-    <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <ul class="list-unstyled games-list-items clearfix"
-                    infinite-scroll
-                    [infiniteScrollDisabled]="scrollDisabled"
-                    (scrolled)="onScroll()">
+                <ul class="list-unstyled my-games-list clearfix" infinite-scroll [infiniteScrollDisabled]="scrollDisabled" (scrolled)="onScroll()">
                     <li *ngFor="let game of games">
                         <div class="game-item-card">
-                            <div class="item-card-image"
-                                 [ngStyle]="{'background-color': (game.image | imageHelper:'color')}"
-                                 (click)="gotoDetail(game)"
-                            >
+                            <div class="item-card-image" [ngStyle]="{'background-color': (game.image | imageHelper:'color')}" (click)="gotoDetail(game)">
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGP6zwAAAgcBApocMXEAAAAASUVORK5CYII="
                                      [lazyLoad]="(game.image | imageHelper:'url')"
                                      alt="{{ game.title }}"
@@ -45,7 +37,7 @@
             </div>
         </div>
     </div>
-</section>
-<section class="site-loading-spinner" [hidden]="hideLoading">
-    <img src="http://7xtddu.com1.z0.glb.clouddn.com/f93dde721529f9b0ef36ad1cc7a059eb.gif" alt=""/>
-</section>
+    <section class="site-loading-spinner" [hidden]="!hasNextPage">
+        <img src="http://7xtddu.com1.z0.glb.clouddn.com/f93dde721529f9b0ef36ad1cc7a059eb.gif" alt=""/>
+    </section>
+</main>

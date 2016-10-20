@@ -1,19 +1,17 @@
-section.my-games-trophy {
-  padding: 20px 0;
-  text-align: center;
+main.my-games {
+  min-height: 800px;
   background: $bunker;
-  .games-trophy-card {
-    max-width: 100%;
-  }
-}
-section.my-games-list {
-  padding: 20px 0;
-  background: $bunker;
-  & + .site-loading-spinner {
+  section.my-games-trophy {
+    padding: 20px 0;
+    text-align: center;
     background: $bunker;
+    .games-trophy-card {
+      max-width: 100%;
+    }
   }
-  .games-list-items {
-    margin: -10px;
+  ul.my-games-list {
+    margin: -10px -10px 0;
+    padding: 20px 0;
     @media #{$screenTablet} {
       margin: -7.5px;
     }
@@ -124,11 +122,10 @@ section.my-games-list {
     }
   }
 }
-main.my-game-page {
-  min-height: 800px;
+main.my-game {
   color: $pureWhite;
   background: $bunker;
-  .game-page-header {
+  .my-game-header {
     padding-bottom: 20px;
     @media #{$screenMobile} {
       margin-top: 0;
@@ -143,7 +140,7 @@ main.my-game-page {
         margin-bottom: 10px;
       }
     }
-    .page-header-text {
+    .game-header-text {
       float: left;
       margin-left: 30px;
       @media #{$screenMobile} {
@@ -199,7 +196,7 @@ main.my-game-page {
         }
       }
     }
-    .page-header-rate {
+    .game-header-rate {
       float: right;
       position: relative;
       padding: 7px 100px 0 0;
@@ -263,13 +260,13 @@ main.my-game-page {
       }
     }
   }
-  .game-page-description {
+  .my-game-description {
     border-right: 1px solid $pureWhite;
     @media #{$screenMobile} {
       border-right: none;
     }
   }
-  .game-page-info {
+  .my-game-info {
     @media #{$screenMobile} {
       padding-top: 10px;
       border-top: 1px solid $pureWhite;
@@ -288,7 +285,7 @@ main.my-game-page {
       }
     }
   }
-  .game-page-trophies {
+  .my-game-trophies {
     margin: 10px -10px 0;
     @media #{$screenMobile} {
       margin: 10px 0 0;
@@ -303,7 +300,7 @@ main.my-game-page {
         padding: 0;
         width: 100%;
       }
-      .page-trophy-item {
+      .game-trophy-item {
         padding: 10px;
         height: 105px;
         background: $sherpaBlue;
