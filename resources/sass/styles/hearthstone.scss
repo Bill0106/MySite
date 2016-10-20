@@ -1,75 +1,77 @@
-body.hsSeasonsController, body.hsSeasonController, body.hsDeckController {
+main.my-hearthstone {
+  padding: 20px 0;
   background: $pinkLady;
-}
-section.hs-season-item {
-  position: relative;
-  margin-bottom: 30px;
-  padding-bottom: 8px;
-  background: $pureWhite;
-  -webkit-box-shadow: 0 2px 2px 0 rgba($pureBlack, .14),0 3px 1px -2px rgba($pureBlack, .2),0 1px 5px 0 rgba($pureBlack, .12);
-  -moz-box-shadow: 0 2px 2px 0 rgba($pureBlack, .14),0 3px 1px -2px rgba($pureBlack, .2),0 1px 5px 0 rgba($pureBlack, .12);
-  box-shadow: 0 2px 2px 0 rgba($pureBlack, .14),0 3px 1px -2px rgba($pureBlack, .2),0 1px 5px 0 rgba($pureBlack, .12);
-  .season-item-header {
-    display: block;
+  section.my-hearthstone-item {
     position: relative;
-    &:hover, &:focus &:active {
-      text-decoration: none;
-    }
-    > h2 {
-      position: absolute;
-      left: 15px;
-      bottom: 10px;
-      margin: 0;
-      max-width: 90%;
-      line-height: $lineHeightLarge;
-      font-size: $fontSizeMassive;
-      color: $pureWhite;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
-    > img {
-      width: 100%;
-      opacity: 0;
-      @include transition(opacity, 0.3s, ease-in-out);
-      &.success {
-        opacity: 1;
+    margin-bottom: 30px;
+    padding-bottom: 8px;
+    background: $pureWhite;
+    -webkit-box-shadow: 0 2px 2px 0 rgba($pureBlack, .14),0 3px 1px -2px rgba($pureBlack, .2),0 1px 5px 0 rgba($pureBlack, .12);
+    -moz-box-shadow: 0 2px 2px 0 rgba($pureBlack, .14),0 3px 1px -2px rgba($pureBlack, .2),0 1px 5px 0 rgba($pureBlack, .12);
+    box-shadow: 0 2px 2px 0 rgba($pureBlack, .14),0 3px 1px -2px rgba($pureBlack, .2),0 1px 5px 0 rgba($pureBlack, .12);
+    .hearthstone-item-header {
+      display: block;
+      position: relative;
+      cursor: pointer;
+      &:hover, &:focus &:active {
+        text-decoration: none;
+      }
+      > h2 {
+        position: absolute;
+        left: 15px;
+        bottom: 10px;
+        margin: 0;
+        max-width: 90%;
+        line-height: $lineHeightLarge;
+        font-size: $fontSizeMassive;
+        color: $pureWhite;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+      > img {
+        width: 100%;
+        opacity: 0;
+        @include transition(opacity, 0.3s, ease-in-out);
+        &.ng2-lazyloaded {
+          opacity: 1;
+        }
       }
     }
-  }
-  .season-item-text {
-    margin-bottom: 10px;
-    padding: 15px;
-    border-bottom: 1px solid rgba($pureBlack, 0.1);
-    > p {
-      margin: 0;
-      height: ($lineHeightMedium * 3);
-      line-height: $lineHeightMedium;
-      color: $dimGray;
-      overflow: hidden;
+    .hearthstone-item-text {
+      margin-bottom: 10px;
+      padding: 15px;
+      border-bottom: 1px solid rgba($pureBlack, 0.1);
+      > p {
+        margin: 0;
+        height: ($lineHeightMedium * 3);
+        line-height: $lineHeightMedium;
+        color: $dimGray;
+        overflow: hidden;
+      }
     }
-  }
-  .btn {
-    margin-left: 8px;
-    padding: 5px 7px;
-    &:hover, &:active, &:focus {
-      text-decoration: none;
-      background-color: rgba($darkGray, .2);
+    .btn {
+      margin-left: 8px;
+      padding: 5px 7px;
+      &:hover, &:active, &:focus {
+        text-decoration: none;
+        background-color: rgba($darkGray, .2);
+      }
     }
-  }
-  .season-item-rank {
-    display: block;
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    width: 50px;
-    height: 64.5px;
-    background: url("#{$hearthStoneRank}") no-repeat;
-    background-size: 50px;
-    text-indent: -9999px;
-    @for $i from 1 through 25 {
-      &.rank-#{$i} {
-        background-position: 0 (($i - 1) * -65.5px);
+    .hearthstone-item-rank {
+      display: block;
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 50px;
+      height: 64.5px;
+      background: url("#{$hearthStoneRank}") no-repeat;
+      background-size: 50px;
+      text-indent: -9999px;
+      @for $i from 1 through 25 {
+        &.rank-#{$i} {
+          background-position: 0 (($i - 1) * -65.5px);
+        }
       }
     }
   }

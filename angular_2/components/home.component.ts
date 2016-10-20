@@ -20,8 +20,8 @@ const SECTIONS: Section[] = [
     },
     {
         image: 'http://7xtddu.com1.z0.glb.clouddn.com/fd7f11741da6dd01db206a29d0536427.jpg',
-        title: 'HearthStone',
-        link: '/hearth-stone',
+        title: 'Hearthstone',
+        link: '/hearthstone',
     },
 ];
 

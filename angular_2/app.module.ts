@@ -9,6 +9,7 @@ import { HomeComponent } from './components/home.component';
 import { GamesComponent } from './components/games.component';
 import { GameComponent } from './components/game.component';
 import { GourmetsComponent } from './components/gourmets.component';
+import { HearthstoneComponent } from './components/hearthstone.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -28,6 +29,7 @@ import { ImageHelperPipe } from './pipes/image-helper.pipe';
         GamesComponent,
         GameComponent,
         GourmetsComponent,
+        HearthstoneComponent,
         ImageHelperPipe
     ],
     bootstrap: [ AppComponent ]
