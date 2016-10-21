@@ -1,0 +1,22 @@
+<table class="table table-striped hearthstone-matches-table" *ngIf="matches">
+    <thead>
+    <tr>
+        <th>{{ tableType | uppercase }}</th>
+        <th *ngFor="let class of playerClasses">{{ class }}</th>
+        <th>Total</th>
+        <th>PCT</th>
+    </tr>
+    </thead>
+    <tr *ngFor="let deck of decks">
+        <td><a>{{ deck.name }}</a></td>
+        <td *ngFor="let class of playerClasses">{{ getStats(matches, deck._id, null, class).string }}</td>
+        <td>{{ getStats(matches, deck._id).string }}</td>
+        <td>{{ getStats(matches, deck._id).pct | percent: '1.2-2' }}</td>
+    </tr>
+    <tr>
+        <td>Total</td>
+        <td *ngFor="let class of playerClasses">{{ getStats(matches, null, season.month, class).string }}</td>
+        <td>{{ getStats(matches, null, season.month).string }}</td>
+        <td>{{ getStats(matches, null, season.month).pct | percent: '1.2-2' }}</td>
+    </tr>
+</table>

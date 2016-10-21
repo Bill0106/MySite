@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-sm-6" *ngFor="let season of seasons">
                 <section class="my-hearthstone-item">
-                    <div class="hearthstone-item-header" [ngStyle]="{'background-color': (season.image | imageHelper:'color')}">
+                    <div class="hearthstone-item-header" (click)="gotoSeason(season)" [ngStyle]="{'background-color': (season.image | imageHelper:'color')}">
                         <h2>{{ season.title }}</h2>
                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAAAbCAQAAAB8FaHvAAAAGUlEQVRYR+3BAQEAAACAkP6v7ggKAAAAoAEQIwABgZwLrQAAAABJRU5ErkJggg=="
                              [lazyLoad]="(season.image | imageHelper:'url')"
@@ -13,7 +13,7 @@
                     <div class="hearthstone-item-text">
                         <p>{{ season.description }}</p>
                     </div>
-                    <button type="button" class="btn btn-link">GET DETAIL</button>
+                    <button type="button" class="btn btn-link" (click)="gotoSeason(season)">GET DETAIL</button>
                     <span class="hearthstone-item-rank rank-{{ season.rank }}" title="Final Rank: {{ season.rank }}">{{ season.rank }}</span>
                 </section>
             </div>

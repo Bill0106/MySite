@@ -10,6 +10,8 @@ import { GamesComponent } from './components/games.component';
 import { GameComponent } from './components/game.component';
 import { GourmetsComponent } from './components/gourmets.component';
 import { HearthstoneComponent } from './components/hearthstone.component';
+import { HearthstoneSeasonComponent } from './components/hearthstone-season.component';
+import { HearthstoneMatchesComponent } from './components/hearthstone-matches.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -30,6 +32,8 @@ import { ImageHelperPipe } from './pipes/image-helper.pipe';
         GameComponent,
         GourmetsComponent,
         HearthstoneComponent,
+        HearthstoneSeasonComponent,
+        HearthstoneMatchesComponent,
         ImageHelperPipe
     ],
     bootstrap: [ AppComponent ]
