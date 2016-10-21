@@ -12,8 +12,12 @@ export class HearthstoneSeasonService {
 
     constructor(private http: Http) { }
 
-    getSeasons(): Promise<HearthstoneSeason[]> {
-        return this.http.get(this.url, { headers: this.headers })
+    getSeasons(month?: string): Promise<HearthstoneSeason[]> {
+        let apiUrl = this.url;
+
+        if (month) { apiUrl = this.url + '?months=' + month }
+
+        return this.http.get(apiUrl, { headers: this.headers })
             .toPromise()
             .then(response => response.json() as HearthstoneSeason[]);
     }

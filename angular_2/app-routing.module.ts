@@ -7,6 +7,7 @@ import { GameComponent } from './components/game.component';
 import { GourmetsComponent } from './components/gourmets.component';
 import { HearthstoneComponent } from './components/hearthstone.component';
 import { HearthstoneSeasonComponent } from './components/hearthstone-season.component';
+import { HearthstoneDeckComponent } from './components/hearthstone-deck.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -14,7 +15,8 @@ const routes: Routes = [
     { path: 'games/:url', component: GameComponent },
     { path: 'gourmets', component: GourmetsComponent },
     { path: 'hearthstone', component: HearthstoneComponent },
-    { path: 'hearthstone/seasons/:url', component: HearthstoneSeasonComponent }
+    { path: 'hearthstone/seasons/:url', component: HearthstoneSeasonComponent },
+    { path: 'hearthstone/deck/:id', component: HearthstoneDeckComponent }
 ];
 
 @NgModule({

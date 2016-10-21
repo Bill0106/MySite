@@ -19,4 +19,12 @@ export class HearthstoneDeckService {
             .toPromise()
             .then(response => response.json() as HearthstoneDeck[]);
     }
+
+    getDeck(id: string): Promise<HearthstoneDeck> {
+        let apiUrl = this.url + '/' + id;
+
+        return this.http.get(apiUrl, { headers: this.headers })
+            .toPromise()
+            .then(response => response.json() as HearthstoneDeck);
+    }
 }

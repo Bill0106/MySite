@@ -12,12 +12,12 @@ export class HearthstoneMatchService {
 
     constructor(private http: Http) { }
 
-    getMatches(season?: number): Promise<HearthstoneMatch[]> {
+    getMatches(season?: number, deck?: string): Promise<HearthstoneMatch[]> {
         let apiUrl = this.url;
 
-        if (season) {
-            apiUrl = this.url + '?season=' + season;
-        }
+        if (season) { apiUrl = this.url + '?season=' + season }
+
+        if (deck) { apiUrl = this.url + '?deck=' + deck }
 
         return this.http.get(apiUrl, { headers: this.headers })
             .toPromise()

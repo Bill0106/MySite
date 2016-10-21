@@ -12,6 +12,7 @@ import { GourmetsComponent } from './components/gourmets.component';
 import { HearthstoneComponent } from './components/hearthstone.component';
 import { HearthstoneSeasonComponent } from './components/hearthstone-season.component';
 import { HearthstoneMatchesComponent } from './components/hearthstone-matches.component';
+import { HearthstoneDeckComponent } from './components/hearthstone-deck.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -33,6 +34,7 @@ import { ImageHelperPipe } from './pipes/image-helper.pipe';
         GourmetsComponent,
         HearthstoneComponent,
         HearthstoneSeasonComponent,
+        HearthstoneDeckComponent,
         HearthstoneMatchesComponent,
         ImageHelperPipe
     ],
