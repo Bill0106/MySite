@@ -1,6 +1,6 @@
 Mysite
 ===========
-My personal site with NodeJS, MongoDB, ExpressJS and AngularJS.
+My personal site with MongoDB, ExpressJS, AngularJS and NodeJS.
 
 Dependencies
 ------------
@@ -21,23 +21,30 @@ Dependencies
   - mongoose
 
 ### Frontend
-- AngularJS
+- AngularJS 1.4.3
   - angular-ui-router
   - angular-resource
   - angular-file-upload
   - ngInfiniteScroll
+- AngularJS 2.0.2
+  - angular2-infinite-scroll
+  - ng2-lazyload-image
 - Bootstrap
+- Fontawsome
 
 ### Gulp
 - Gulp
-  - gulp-less
-  - gulp-minify-css
-  - gulp-uglify
+  - gulp-sass
+  - gulp-clean
+  - gulp-clean-css
   - gulp-notify
-  - gulp-nodemon
-  - gulp-jshint
-  - gulp-concat
-- jshint-stylish
+  - webpack-stream
+- Webpack
+  - angular2-template-loader
+  - awesome-typescript-loader
+  - html-loader
+  - typescript 	
+- Typings
 
 
 Installation
@@ -50,6 +57,9 @@ Installation
 
 Versions
 --------
+### v3.0
+1. Frontend upgrade AngularJS 1.x to AngularJS 2.0
+
 ### v2.7
 1. Use Sass instead of Less
 2. Optimize style
