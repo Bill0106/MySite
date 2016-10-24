@@ -29,7 +29,9 @@ exports.find = function(req, res)
         if (err)
             res.send(err);
 
-        data.month = moment(data.month, 'YYYYMM').valueOf();
+        if (data)
+            data.month = moment(data.month, 'YYYYMM').valueOf();
+
         res.json(data);
     });
 };

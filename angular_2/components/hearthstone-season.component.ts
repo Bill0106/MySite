@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
 import { HearthstoneSeasonService } from '../services/hearthstone-season.service';
@@ -15,21 +15,25 @@ export class HearthstoneSeasonComponent implements OnInit {
     season: HearthstoneSeason;
 
     constructor(
-        private router: ActivatedRoute,
+        private router: Router,
+        private activatedRoute: ActivatedRoute,
         private titleService: Title,
         private hearthstoneSeasonService: HearthstoneSeasonService
     ) { }
 
     ngOnInit(): void {
-        this.router.params.forEach((params: Params) => {
+        this.activatedRoute.params.forEach((params: Params) => {
             let url = params['url'];
 
             this.hearthstoneSeasonService
                 .getSeason(url)
                 .then(season => {
-                    this.season = season;
-
-                    this.titleService.setTitle(season.title + ' - Hearthstone Season | Bill\'s Hobby');
+                    if (!season) {
+                        this.router.navigate(['/hearthstone']);
+                    } else {
+                        this.season = season;
+                        this.titleService.setTitle(season.title + ' - Hearthstone Season | Bill\'s Hobby');
+                    }
                 });
         })
     }

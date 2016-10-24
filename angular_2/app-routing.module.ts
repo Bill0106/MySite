@@ -10,13 +10,35 @@ import { HearthstoneSeasonComponent } from './components/hearthstone-season.comp
 import { HearthstoneDeckComponent } from './components/hearthstone-deck.component';
 
 const routes: Routes = [
-    { path: '', component: HomeComponent },
-    { path: 'games', component: GamesComponent },
-    { path: 'games/:url', component: GameComponent },
-    { path: 'gourmets', component: GourmetsComponent },
-    { path: 'hearthstone', component: HearthstoneComponent },
-    { path: 'hearthstone/seasons/:url', component: HearthstoneSeasonComponent },
-    { path: 'hearthstone/deck/:id', component: HearthstoneDeckComponent }
+    {
+        path: '',
+        component: HomeComponent
+    },
+    {
+        path: 'games',
+        children: [
+            { path: '', component: GamesComponent },
+            { path: ':url', component: GameComponent }
+        ]
+    },
+    {
+        path: 'gourmets',
+        component: GourmetsComponent
+    },
+    {
+        path: 'hearthstone',
+        children: [
+            { path: '', component: HearthstoneComponent },
+            { path: 'seasons/:url', component: HearthstoneSeasonComponent},
+            { path: 'deck/:id', component: HearthstoneDeckComponent },
+            { path: '**', redirectTo: '/hearthstone', pathMatch: 'full' }
+        ]
+    },
+    {
+        path: '**',
+        redirectTo: '/',
+        pathMatch: 'full'
+    }
 ];
 
 @NgModule({

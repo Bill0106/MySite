@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
 import { GameService } from '../services/game.service';
@@ -32,27 +32,31 @@ export class GameComponent implements OnInit {
     trophyRarity = GAME_TROPHY_RARITY;
 
     constructor (
-        private router: ActivatedRoute,
+        private router: Router,
+        private activatedRouter: ActivatedRoute,
         private titleService: Title,
         private gameService: GameService,
         private gameTrophyService: GameTrophyService
     ) { }
 
     ngOnInit(): void {
-        this.router.params.forEach((params: Params) => {
+        this.activatedRouter.params.forEach((params: Params) => {
             let url = params['url'];
 
             this.gameService.getGame(url)
                 .then(game => {
-                    this.game = game;
+                    if (!game) {
+                        this.router.navigate(['/games']);
+                    } else {
+                        this.game = game;
+                        this.titleService.setTitle(game.name + ' - Games | Bill\'s Hobby');
 
-                    this.titleService.setTitle(game.name + ' - Games | Bill\'s Hobby');
-
-                    this.gameTrophyService.getTrophy(game.trophies)
-                        .then(trophy => {
-                            this.trophy = trophy;
-                            this.trophyComplete = trophy.earned / trophy.total * 100;
-                        });
+                        this.gameTrophyService.getTrophy(game.trophies)
+                            .then(trophy => {
+                                this.trophy = trophy;
+                                this.trophyComplete = trophy.earned / trophy.total * 100;
+                            });
+                    }
                 });
         })
     }

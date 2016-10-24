@@ -102,7 +102,6 @@ exports.find = function(req, res)
         if (error)
             throw error;
 
-
         deck.cards = cards;
 
         res.json(deck);
