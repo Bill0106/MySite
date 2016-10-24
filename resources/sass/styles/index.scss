@@ -1,3 +1,32 @@
+section.my-site-loading {
+  display: table;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: $pureBlack;
+  .site-loading-contents {
+    display: table-cell;
+    vertical-align: middle;
+    > h1 {
+      margin: 0 0 10px;
+      text-align: center;
+      font-size: $fontSizeHuge;
+      color: $orangeRed;
+    }
+    .progress {
+      margin: 0 auto;
+      width: 20%;
+      @media #{$screenMobile} {
+        width: 50%;
+      }
+      .progress-bar {
+        width: 100%;
+      }
+    }
+  }
+}
 section.my-index {
   position: fixed;
   top: 0;
