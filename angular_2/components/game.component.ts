@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 import { GameService } from '../services/game.service';
 import { GameTrophyService } from '../services/game-trophy.service';
@@ -32,6 +33,7 @@ export class GameComponent implements OnInit {
 
     constructor (
         private router: ActivatedRoute,
+        private titleService: Title,
         private gameService: GameService,
         private gameTrophyService: GameTrophyService
     ) { }
@@ -43,6 +45,8 @@ export class GameComponent implements OnInit {
             this.gameService.getGame(url)
                 .then(game => {
                     this.game = game;
+
+                    this.titleService.setTitle(game.name + ' - Games | Bill\'s Hobby');
 
                     this.gameTrophyService.getTrophy(game.trophies)
                         .then(trophy => {
