@@ -103,7 +103,6 @@ export class HearthstoneMatchesComponent implements OnInit {
 
     ngOnInit(): void {
         if (this.tableType == 'deck') {
-            console.log(this.season.month);
             this.hearthstoneMatchService
                 .getMatches(this.season.month)
                 .then(matches => {
