@@ -1,22 +1,20 @@
-<main class="my-hearthstone" *ngIf="season">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12">
-                <section class="hearthstone-season-header">
-                    <h1>{{ season.month | date: "MMMM yyyy" }} Season – {{ season.title }}</h1>
-                    <p>{{ season.description }}</p>
-                    <img src="{{ season.image | imageHelper: 'url' }}" alt="{{ season.title}}" title="{{ season.title }}"/>
-                    <div class="season-header-rank">
-                        <span>Final Rank: </span>
-                        <span>{{ season.rank }}</span>
-                    </div>
-                </section>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <my-hearthstone-matches [season]="season" [tableType]="'deck'"></my-hearthstone-matches>
-            </div>
+<div class="container" *ngIf="season">
+    <div class="row">
+        <div class="col-sm-12">
+            <section class="hearthstone-season-header">
+                <h1>{{ season.month | date: "MMMM yyyy" }} Season – {{ season.title }}</h1>
+                <p>{{ season.description }}</p>
+                <img src="{{ season.image | imageHelper: 'url' }}" alt="{{ season.title}}" title="{{ season.title }}"/>
+                <div class="season-header-rank">
+                    <span>Final Rank: </span>
+                    <span>{{ season.rank }}</span>
+                </div>
+            </section>
         </div>
     </div>
-</main>
+    <div class="row">
+        <div class="col-sm-12">
+            <my-hearthstone-matches [season]="season" [tableType]="'deck'"></my-hearthstone-matches>
+        </div>
+    </div>
+</div>

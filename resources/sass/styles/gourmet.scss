@@ -1,77 +1,72 @@
-main.my-gourmets {
-  padding-top: 20px;
-  min-height: 800px;
-  background: $oldLace;
-  section.my-gourmets-title {
-    margin-bottom: 20px;
-    text-align: center;
-    > a {
-      > img {
-        width: 100%;
-        max-width: 357px;
-      }
+section.my-gourmets-title {
+  margin-bottom: 20px;
+  text-align: center;
+  > a {
+    > img {
+      width: 100%;
+      max-width: 357px;
     }
   }
-  ul.my-gourmets-list {
-    margin: 0 auto;
-    max-width: 1020px;
-    @media #{$screenLaptop} {
-      max-width: 850px;
-    }
-    @media #{$screenTablet} {
-      max-width: 680px;
-    }
+}
+ul.my-gourmets-list {
+  margin: 0 auto;
+  max-width: 1020px;
+  @media #{$screenLaptop} {
+    max-width: 850px;
+  }
+  @media #{$screenTablet} {
+    max-width: 680px;
+  }
+  @media #{$screenMobile} {
+    max-width: none;
+  }
+  > li {
+    float: left;
+    margin: 10px;
+    padding: 0;
+    text-align: left;
     @media #{$screenMobile} {
-      max-width: none;
+      margin: 5px 0;
+      width: 48%;
+      &:nth-child(odd) {
+        margin-right: 2%;
+      }
+      &:nth-child(even) {
+        margin-left: 2%;
+      }
     }
-    > li {
-      float: left;
-      margin: 10px;
-      padding: 0;
-      text-align: left;
-      @media #{$screenMobile} {
-        margin: 5px 0;
-        width: 48%;
-        &:nth-child(odd) {
-          margin-right: 2%;
+    .my-gourmets-item {
+      display: block;
+      position: relative;
+      > img {
+        width: 150px;
+        opacity: 0;
+        @include transition(opacity, 0.3s, ease-in-out);
+        @media #{$screenMobile} {
+          width: 100%;
         }
-        &:nth-child(even) {
-          margin-left: 2%;
+        &.ng2-lazyloaded {
+          opacity: 1;
         }
       }
-      .my-gourmets-item {
-        display: block;
-        position: relative;
-        > img {
-          width: 150px;
-          opacity: 0;
-          @include transition(opacity, 0.3s, ease-in-out);
-          @media #{$screenMobile} {
-            width: 100%;
-          }
-          &.ng2-lazyloaded {
-            opacity: 1;
-          }
+      .gourmets-item-text {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        padding: 5px 10px;
+        width: 100%;
+        color: $pureWhite;
+        @include background-opacity($pureBlack, 0.3);
+        > h3 {
+          margin: 0 0 5px;
+          font-size: $fontSizeMedium;
+          font-weight: 700;
         }
-        .gourmets-item-text {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          padding: 5px 10px;
-          width: 100%;
-          color: $pureWhite;
-          @include background-opacity($pureBlack, 0.3);
-          > h3 {
-            margin: 0 0 5px;
-            font-size: $fontSizeMedium;
-            font-weight: 700;
-          }
-          > span {
-            display: block;
-            line-height: $lineHeightMini;
-            font-size: $fontSizeSmall;
-            text-align: right;
-          }
+        > span {
+          display: block;
+          line-height: $lineHeightMini;
+          font-size: $fontSizeSmall;
+          text-align: right;
         }
       }
     }

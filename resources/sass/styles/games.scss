@@ -1,348 +1,342 @@
-main.my-games {
-  min-height: 800px;
+section.my-games-trophy {
+  margin-bottom: 20px;
+  text-align: center;
   background: $bunker;
-  section.my-games-trophy {
-    padding: 20px 0;
-    text-align: center;
-    background: $bunker;
-    .games-trophy-card {
-      max-width: 100%;
-    }
+  .games-trophy-card {
+    max-width: 100%;
   }
-  ul.my-games-list {
-    margin: -10px -10px 0;
-    padding: 20px 0;
+}
+ul.my-games-list {
+  margin: -10px -10px 0;
+  @media #{$screenTablet} {
+    margin: -7.5px -7.5px 0;
+  }
+  @media #{$screenMobile} {
+    margin: -10px 0;
+  }
+  > li {
+    float: left;
+    margin: 10px;
+    width: 270px;
+    @media #{$screenLaptop} {
+      width: 220px;
+    }
     @media #{$screenTablet} {
-      margin: -7.5px;
+      margin: 7.5px;
+      width: 230px;
     }
     @media #{$screenMobile} {
-      margin: -10px 0;
+      margin: 10px 0;
+      width: 48%;
     }
-    > li {
-      float: left;
-      margin: 10px;
-      width: 270px;
-      @media #{$screenLaptop} {
-        width: 220px;
-      }
-      @media #{$screenTablet} {
-        margin: 7.5px;
-        width: 230px;
-      }
+    &:nth-child(odd) {
       @media #{$screenMobile} {
-        margin: 10px 0;
-        width: 48%;
+        margin-right: 2%;
       }
-      &:nth-child(odd) {
-        @media #{$screenMobile} {
-          margin-right: 2%;
+    }
+    &:nth-child(even) {
+      @media #{$screenMobile} {
+        margin-left: 2%;
+      }
+    }
+    .game-item-card {
+      .item-card-image {
+        display: block;
+        cursor: pointer;
+        > img {
+          display: block !important;
+          width: 100%;
+          opacity: 0;
+          @include transition(opacity, 0.3s, ease-in-out);
+          &.ng2-lazyloaded {
+            opacity: 1;
+          }
         }
       }
-      &:nth-child(even) {
-        @media #{$screenMobile} {
-          margin-left: 2%;
-        }
-      }
-      .game-item-card {
-        .item-card-image {
-          display: block;
+      .item-card-caption {
+        position: relative;
+        padding: 15px;
+        background: $pureWhite;
+        .card-caption-title {
+          display: inline-block;
+          max-width: 100%;
+          overflow: hidden;
           cursor: pointer;
-          > img {
-            display: block !important;
-            width: 100%;
-            opacity: 0;
-            @include transition(opacity, 0.3s, ease-in-out);
-            &.ng2-lazyloaded {
-              opacity: 1;
+          @media #{$screenMobile} {
+            display: block;
+          }
+          > h3 {
+            margin: 0;
+            line-height: $lineHeightMedium;
+            font-size: $fontSizeLarge;
+            white-space: nowrap;
+            @media #{$screenMobile} {
+              font-size: $fontSizeMedium;
             }
           }
         }
-        .item-card-caption {
-          position: relative;
-          padding: 15px;
-          background: $pureWhite;
-          .card-caption-title {
-            display: inline-block;
-            max-width: 100%;
-            overflow: hidden;
-            cursor: pointer;
-            @media #{$screenMobile} {
-              display: block;
-            }
-            > h3 {
-              margin: 0;
-              line-height: $lineHeightMedium;
-              font-size: $fontSizeLarge;
-              white-space: nowrap;
-              @media #{$screenMobile} {
-                font-size: $fontSizeMedium;
-              }
-            }
+        .card-caption-second {
+          color: $mountainMist;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          @media #{$screenMobile} {
+            font-size: $fontSizeSmall;
           }
-          .card-caption-second {
-            color: $mountainMist;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
-            @media #{$screenMobile} {
-              font-size: $fontSizeSmall;
-            }
-          }
-          .card-caption-footer {
-            .caption-footer-rate {
-              float: left;
-              display: block;
-              width: 75px;
-              height: 15px;
-              background: url("#{$playStationLogo}") repeat-x 0 0;
-              background-size: 15px;
-              text-indent: -9999px;
-            }
-            .caption-footer-time {
-              float: right;
-              line-height: 15px;
-              font-size: $fontSizeSmall;
-              color: $mountainMist;
-              @media #{$screenMobile} {
-                display: none;
-              }
-            }
-          }
-          .card-caption-end {
+        }
+        .card-caption-footer {
+          .caption-footer-rate {
+            float: left;
             display: block;
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 45px;
-            height: $lineHeightMedium;
-            @include linear-gradient(90deg, rgba($pureWhite, 0), rgba($pureWhite, 1))
+            width: 75px;
+            height: 15px;
+            background: url("#{$playStationLogo}") repeat-x 0 0;
+            background-size: 15px;
+            text-indent: -9999px;
           }
+          .caption-footer-time {
+            float: right;
+            line-height: 15px;
+            font-size: $fontSizeSmall;
+            color: $mountainMist;
+            @media #{$screenMobile} {
+              display: none;
+            }
+          }
+        }
+        .card-caption-end {
+          display: block;
+          position: absolute;
+          top: 15px;
+          right: 15px;
+          width: 45px;
+          height: $lineHeightMedium;
+          @include linear-gradient(90deg, rgba($pureWhite, 0), rgba($pureWhite, 1))
         }
       }
     }
   }
 }
-main.my-game {
+.text-color-white {
   color: $pureWhite;
-  background: $bunker;
-  .my-game-header {
-    padding-bottom: 20px;
+}
+section.my-game-header {
+  padding-bottom: 20px;
+  @media #{$screenMobile} {
+    margin-top: 0;
+    text-align: center;
+  }
+  > img {
+    float: left;
+    width: 180px;
+    height: 180px;
     @media #{$screenMobile} {
-      margin-top: 0;
-      text-align: center;
+      float: none;
+      margin-bottom: 10px;
     }
-    > img {
-      float: left;
-      width: 180px;
-      height: 180px;
-      @media #{$screenMobile} {
-        float: none;
-        margin-bottom: 10px;
-      }
+  }
+  .game-header-text {
+    float: left;
+    margin-left: 30px;
+    @media #{$screenMobile} {
+      float: none;
+      margin-left: 0;
     }
-    .game-header-text {
-      float: left;
-      margin-left: 30px;
+    > h1 {
+      margin: 10px 0 0;
       @media #{$screenMobile} {
-        float: none;
-        margin-left: 0;
-      }
-      > h1 {
-        margin: 10px 0 0;
-        @media #{$screenMobile} {
-          font-size: $fontSizeMassive;
-        }
-      }
-      > h2 {
-        margin: 0 0 20px;
         font-size: $fontSizeMassive;
-        color: $mountainMist;
-        @media #{$screenMobile} {
-          font-size: $fontSizeHuge;
-        }
-      }
-      .header-text-date {
-        font-size: $fontSizeBig;
-        @media #{$screenMobile} {
-          > i {
-            display: none;
-          }
-          > span {
-            display: block;
-          }
-        }
-        > i {
-          font-style: normal;
-        }
-      }
-      .header-text-platform {
-        font-size: $fontSizeBig;
-        > span {
-          display: inline-block;
-          border-bottom: 1px solid lighten($smalt, 10%);
-          &.text-platform-trophy {
-            position: relative;
-            border-color: transparent;
-            .platform-trophy-line {
-              display: block;
-              position: absolute;
-              left: 0;
-              bottom: -1px;
-              width: 0;
-              height: 1px;
-              background-color: $orangeRed;
-            }
-          }
-        }
       }
     }
-    .game-header-rate {
-      float: right;
-      position: relative;
-      padding: 7px 100px 0 0;
-      @media #{$screenTablet} {
-        padding-right: 20px;
-      }
+    > h2 {
+      margin: 0 0 20px;
+      font-size: $fontSizeMassive;
+      color: $mountainMist;
       @media #{$screenMobile} {
-        float: none;
-        margin: 20px auto 0;
-        padding: 0;
-        width: 70px;
+        font-size: $fontSizeHuge;
       }
-      .header-rate-inner {
-        position: relative;
-        margin: 0 auto 10px;
-        width: 56px;
-        height: 56px;
-        text-align: center;
-        line-height: 56px;
-        font-size: 35px;
-        border-radius: 100%;
-        background-color: $bunker;
-        text-shadow: rgba($pureBlack, 0.5) 0 1px 5px;
-        box-shadow: rgba($pureBlack, 0.75) 0 0 3px, rgba($pureWhite, 0.3) 0 0 1px inset;
-        z-index: 100;
-      }
-      > p {
-        margin-bottom: 0;
-        width: 110px;
-        text-align: center;
-        @media #{$screenMobile} {
+    }
+    .header-text-date {
+      font-size: $fontSizeBig;
+      @media #{$screenMobile} {
+        > i {
           display: none;
         }
         > span {
           display: block;
-          font-size: $fontSizeLarge;
-          font-style: italic;
-          color: $orangeRed;
-          letter-spacing: 1px;
         }
       }
-      > svg {
-        position: absolute;
-        top: 0;
-        left: 20px;
-        width: 70px;
-        height: 70px;
-        @include rotate(-90deg);
-        @media #{$screenMobile} {
-          top: -7px;
-          left: 0;
-        }
-        > circle {
-          stroke-width: 7px;
-          stroke-dasharray: 190px;
-          stroke-dashoffset: 190px;
-          stroke: $orangeRed;
-          fill: $bunker;
-          @include transition(all, 1s, ease-in-out);
-        }
+      > i {
+        font-style: normal;
       }
     }
-  }
-  .my-game-description {
-    border-right: 1px solid $pureWhite;
-    @media #{$screenMobile} {
-      border-right: none;
-    }
-  }
-  .my-game-info {
-    @media #{$screenMobile} {
-      padding-top: 10px;
-      border-top: 1px solid $pureWhite;
-    }
-    > dt {
-      width: 130px;
-      text-align: left;
-      font-weight: normal;
-      color: $mountainMist;
-    }
-    > dd {
-      margin-left: 150px;
-      color: $tenne;
-      @media #{$screenMobile} {
-        margin-left: 0;
-      }
-    }
-  }
-  .my-game-trophies {
-    margin: 10px -10px 0;
-    @media #{$screenMobile} {
-      margin: 10px 0 0;
-    }
-    > li {
-      float: left;
-      margin: 10px 0;
-      padding: 0 10px;
-      width: percentage(1 / 3);
-      @media #{$screenMobile} {
-        float: none;
-        padding: 0;
-        width: 100%;
-      }
-      .game-trophy-item {
-        padding: 10px;
-        height: 105px;
-        background: $sherpaBlue;
-        overflow: hidden;
-        &.not-earned {
-          .trophy-item-main {
-            > img {
-              opacity: 0.5;
-            }
+    .header-text-platform {
+      font-size: $fontSizeBig;
+      > span {
+        display: inline-block;
+        border-bottom: 1px solid lighten($smalt, 10%);
+        &.text-platform-trophy {
+          position: relative;
+          border-color: transparent;
+          .platform-trophy-line {
+            display: block;
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            width: 0;
+            height: 1px;
+            background-color: $orangeRed;
           }
         }
+      }
+    }
+  }
+  .game-header-rate {
+    float: right;
+    position: relative;
+    padding: 7px 100px 0 0;
+    @media #{$screenTablet} {
+      padding-right: 20px;
+    }
+    @media #{$screenMobile} {
+      float: none;
+      margin: 20px auto 0;
+      padding: 0;
+      width: 70px;
+    }
+    .header-rate-inner {
+      position: relative;
+      margin: 0 auto 10px;
+      width: 56px;
+      height: 56px;
+      text-align: center;
+      line-height: 56px;
+      font-size: 35px;
+      border-radius: 100%;
+      background-color: $bunker;
+      text-shadow: rgba($pureBlack, 0.5) 0 1px 5px;
+      box-shadow: rgba($pureBlack, 0.75) 0 0 3px, rgba($pureWhite, 0.3) 0 0 1px inset;
+      z-index: 100;
+    }
+    > p {
+      margin-bottom: 0;
+      width: 110px;
+      text-align: center;
+      @media #{$screenMobile} {
+        display: none;
+      }
+      > span {
+        display: block;
+        font-size: $fontSizeLarge;
+        font-style: italic;
+        color: $orangeRed;
+        letter-spacing: 1px;
+      }
+    }
+    > svg {
+      position: absolute;
+      top: 0;
+      left: 20px;
+      width: 70px;
+      height: 70px;
+      @include rotate(-90deg);
+      @media #{$screenMobile} {
+        top: -7px;
+        left: 0;
+      }
+      > circle {
+        stroke-width: 7px;
+        stroke-dasharray: 190px;
+        stroke-dashoffset: 190px;
+        stroke: $orangeRed;
+        fill: $bunker;
+        @include transition(all, 1s, ease-in-out);
+      }
+    }
+  }
+}
+.my-game-description {
+  border-right: 1px solid $pureWhite;
+  @media #{$screenMobile} {
+    border-right: none;
+  }
+}
+.my-game-info {
+  @media #{$screenMobile} {
+    padding-top: 10px;
+    border-top: 1px solid $pureWhite;
+  }
+  > dt {
+    width: 130px;
+    text-align: left;
+    font-weight: normal;
+    color: $mountainMist;
+  }
+  > dd {
+    margin-left: 150px;
+    color: $tenne;
+    @media #{$screenMobile} {
+      margin-left: 0;
+    }
+  }
+}
+.my-game-trophies {
+  margin: 10px -10px 0;
+  @media #{$screenMobile} {
+    margin: 10px 0 0;
+  }
+  > li {
+    float: left;
+    margin: 10px 0;
+    padding: 0 10px;
+    width: percentage(1 / 3);
+    @media #{$screenMobile} {
+      float: none;
+      padding: 0;
+      width: 100%;
+    }
+    .game-trophy-item {
+      padding: 10px;
+      height: 105px;
+      background: $sherpaBlue;
+      overflow: hidden;
+      &.not-earned {
         .trophy-item-main {
-          margin-bottom: 5px;
           > img {
-            float: left;
-            width: 60px;
-            height: 60px;
-            border: 5px solid $kellyGreen;
-          }
-          .item-main-text {
-            margin-left: 70px;
-            > p {
-              margin-bottom: 0;
-              font-weight: bold;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-              overflow: hidden;
-            }
-            > span {
-              display: block;
-              height: ($lineHeightMedium * 2);
-              overflow: hidden;
-            }
+            opacity: 0.5;
           }
         }
-        .trophy-item-date {
-          margin: 0;
-          height: $lineHeightMedium;
-          > span {
+      }
+      .trophy-item-main {
+        margin-bottom: 5px;
+        > img {
+          float: left;
+          width: 60px;
+          height: 60px;
+          border: 5px solid $kellyGreen;
+        }
+        .item-main-text {
+          margin-left: 70px;
+          > p {
+            margin-bottom: 0;
             font-weight: bold;
-            color: $kellyGreen;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
           }
+          > span {
+            display: block;
+            height: ($lineHeightMedium * 2);
+            overflow: hidden;
+          }
+        }
+      }
+      .trophy-item-date {
+        margin: 0;
+        height: $lineHeightMedium;
+        > span {
+          font-weight: bold;
+          color: $kellyGreen;
         }
       }
     }
