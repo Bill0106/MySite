@@ -1,0 +1,25 @@
+<section class="carousel slide my-index" id="indexCarousel">
+    <div class="carousel-inner" role="listbox">
+        <div class="item active" data-my-index="item">
+            <img class="img-circle" src="http://7xtddu.com1.z0.glb.clouddn.com/1b11d8d7a005a06b42514f5d9022e1df.jpg" alt="Bill's Hobby - Write as a Interest" title="Bill's Hobby - Write as a Interest"/>
+            <h1>Bill's Hobby - Write as a Interest</h1>
+            <ul class="list-inline">
+                <li>
+                    <a href="https://twitter.com/bill2012111" target="_blank" title="Twitter"><i></i></a>
+                </li>
+                <li>
+                    <a href="https://github.com/Bill0106" target="_blank" title="Github"><i></i></a>
+                </li>
+                <li>
+                    <a href="http://instagram.com/bill_lord_z" target="_blank" title="Instagram"><i></i></a>
+                </li>
+            </ul>
+        </div>
+        <div class="item" *ngFor="let section of sections">
+            <img class="img-circle" src="{{ section.image }}" alt="{{ section.title }}" title="{{ section.title }}" (click)="gotoSection(section)"/>
+            <h2 (click)="gotoSection(section)">{{ section.title }}</h2>
+        </div>
+    </div>
+    <button data-target="#indexCarousel" class="left carousel-control" type="button" data-slide="prev"><i class="glyphicon glyphicon-menu-left"></i></button>
+    <button data-target="#indexCarousel" class="right carousel-control" type="button" data-slide="next"><i class="glyphicon glyphicon-menu-right"></i></button>
+</section>

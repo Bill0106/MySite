@@ -10,8 +10,8 @@ exports.list = function(req, res)
 {
     var query = Matches.find();
     if (req.query.season) {
-        var startTime = moment(req.query.season, 'YYYYMM').startOf('month').startOf('day').valueOf();
-        var endTime   = moment(req.query.season, 'YYYYMM').add(1, 'month').startOf('day').valueOf();
+        var startTime = moment(req.query.season, 'x').startOf('month').startOf('day').valueOf();
+        var endTime   = moment(req.query.season, 'x').endOf('month').endOf('day').valueOf();
 
         query = query.where('time').gte(startTime).lt(endTime);
     }

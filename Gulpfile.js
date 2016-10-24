@@ -2,66 +2,68 @@
  * Created by bill on 15/10/22.
  */
 
-var path = require('path');
-
-var gulp      = require('gulp'),
-    sass      = require('gulp-sass'),
-    minifyCSS = require('gulp-minify-css'),
-    uglify    = require('gulp-uglify'),
-    notify    = require('gulp-notify'),
-    jshint    = require('gulp-jshint'),
-    concat    = require('gulp-concat');
-
-
+var gulp     = require('gulp'),
+    webpack  = require('webpack-stream'),
+    sass     = require('gulp-sass'),
+    cleanCSS = require('gulp-clean-css'),
+    clean    = require('gulp-clean'),
+    notify   = require("gulp-notify");
 
 // Style Tasks
-function styleCompile()
+gulp.task('style', function()
 {
-    return gulp.src('./sass/style.scss')
+    return gulp.src('./resources/sass/style.scss')
         .pipe(sass().on('error', sass.logError))
-        .pipe(minifyCSS())
+        .pipe(cleanCSS())
         .pipe(gulp.dest('./public/build/css'));
-}
+});
 
-// Scripts Tasks
-var commonJS  = [
-    'angular/services/myServices.js',
-    'angular/config.js'
-];
-
-function appJS()
+// Clean
+gulp.task('clean', function()
 {
-    return stream = gulp.src(['angular/app.js', 'angular/controllers/app/*.js', 'angular/routes/appRoutes.js'].concat(commonJS))
-        .pipe(jshint())
-        .pipe(jshint.reporter('jshint-stylish'))
-        .pipe(uglify({
-            mangle: false
+    return gulp.src('./public/build/js/app.js')
+        .pipe(clean());
+});
+
+// Scripts
+gulp.task('scripts', ['clean'], function()
+{
+    return gulp.src('./angular_2/app.ts')
+        .pipe(webpack({
+            output: {
+                filename: 'app.js'
+            },
+            resolve: {
+                extensions: ['', '.js', '.ts']
+            },
+            module: {
+                loaders: [
+                    {
+                        test: /\.ts$/,
+                        loaders: ['awesome-typescript-loader', 'angular2-template-loader']
+                    },
+                    {
+                        test: /\.html$/,
+                        loader: 'html'
+                    }
+                ]
+            }
         }))
-        .pipe(concat('app.js'))
+        .pipe(gulp.dest('./public/build/js'))
+        .pipe(notify('All Finished!'));
+});
+
+// Scripts:production
+gulp.task('scripts:build', function()
+{
+    return gulp.src('./angular_2/app.ts')
+        .pipe(webpack(require('./webpack.config.js')))
         .pipe(gulp.dest('./public/build/js'));
-}
+});
 
-function adminJS()
-{
-    return stream = gulp.src(['angular/admin.js', 'angular/controllers/admin/*.js', 'angular/routes/adminRoutes.js'].concat(commonJS))
-        .pipe(jshint())
-        .pipe(jshint.reporter('jshint-stylish'))
-        .pipe(uglify({
-            mangle: false
-        }))
-        .pipe(concat('admin.js'))
-        .pipe(gulp.dest('./public/build/js'));
-}
+gulp.task('watch', function() {
+    gulp.watch('./resources/sass/*/*.scss', ['style']);
+    gulp.watch(['./angular_2/**/*.ts', './resources/views/**/*.html'], ['scripts']);
+});
 
-// Watch Files
-function watchStyle()
-{
-    return gulp.watch('./sass/**/*.scss', gulp.series(styleCompile));
-}
-function watchScripts()
-{
-    return gulp.watch('./angular/**/*.js', gulp.series(appJS, adminJS));
-}
-
-gulp.task('watch', gulp.parallel(watchStyle, watchScripts));
-gulp.task('default', gulp.parallel(styleCompile, adminJS, appJS));
+gulp.task('default', ['style', 'scripts:build']);

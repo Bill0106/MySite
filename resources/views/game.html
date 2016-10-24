@@ -1,0 +1,68 @@
+<div class="container" *ngIf="game">
+    <div class="row">
+        <div class="col-sm-12">
+            <section class="my-game-header page-header text-color-white clearfix">
+                <img src="{{ game.image | imageHelper: 'url' }}" alt="{{ game.title + ' ' + game.name }}" title="{{ game.title + ' ' + game.name }}"/>
+                <div class="game-header-text">
+                    <h1>{{ game.title }}</h1>
+                    <h2>{{ game.name }}</h2>
+                    <p class="header-text-date">
+                        <span>Release at {{ game.release_at | date: 'MMM dd, yyyy'}}</span>
+                        <i>/</i>
+                        <span>Buy at {{ game.buy_at | date: 'MMM dd, yyyy'}}</span>
+                    </p>
+                    <p class="header-text-platform">
+                        <span>{{ platforms[game.platform] }}</span>
+                        /
+                        <span class="text-platform-trophy" *ngIf="trophy">
+                                {{ trophyComplete | number: '1.2-2' }}% Trophies Completed
+                                <span class="platform-trophy-line" [ngStyle]="{ 'width': (trophyComplete) + '%' }"></span>
+                            </span>
+                    </p>
+                </div>
+                <div *ngIf="game.rate != 0" class="game-header-rate">
+                    <div class="header-rate-inner">{{ game.rate }}</div>
+                    <p>Personal Review<span>{{ rateText[(game.rate - 1)] }}</span></p>
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="35" cy="35" r="30" [ngStyle]="{ 'stroke-dashoffset': (190 - game.rate / 5 * 190) + 'px' }"></circle>
+                    </svg>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-8 my-game-description text-color-white">
+            <p *ngFor="let paragraph of game.description.split('\n')">{{ paragraph }}</p>
+        </div>
+        <div class="col-sm-4">
+            <dl class="dl-horizontal my-game-info text-color-white">
+                <dt>Developed by:</dt>
+                <dd>{{ game.developer }}</dd>
+                <dt>Published by:</dt>
+                <dd>{{ game.publisher }}</dd>
+                <dt>Genre:</dt>
+                <dd>{{ genres[game.genre] }}</dd>
+            </dl>
+        </div>
+    </div>
+    <div class="row" *ngIf="trophy">
+        <div class="col-sm-12">
+            <ul class="list-unstyled my-game-trophies text-color-white clearfix">
+                <li *ngFor="let item of trophy.trophies">
+                    <div class="game-trophy-item" [ngClass]="item.date ? '' : 'not-earned'">
+                        <div class="trophy-item-main clearfix">
+                            <img src="{{ item.image }}" alt="{{ item.title }}" title="{{ trophyRarity[item.rarity] }}"/>
+                            <div class="item-main-text">
+                                <p>{{ item.title }}</p>
+                                <span class="description">{{ item.description }}</span>
+                            </div>
+                        </div>
+                        <p class="trophy-item-date" *ngIf="item.date">
+                            Earned at: <span>{{ item.date | date: 'dd MMM yyyy'}}</span>
+                        </p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

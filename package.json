@@ -1,11 +1,15 @@
 {
   "name": "zhuhaolin.com",
-  "version": "2.7",
+  "version": "3.0",
   "author": "Bill",
   "main": "server.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/bill0106/repository.git"
+  },
+  "scripts": {
+    "postinstall": "typings install",
+    "typings": "typings"
   },
   "dependencies": {
     "async": "^1.5.2",
@@ -24,14 +28,32 @@
     "serve-favicon": "~2.*"
   },
   "devDependencies": {
-    "gulp": "gulpjs/gulp#4.0",
-    "gulp-concat": "~2.*",
-    "gulp-jshint": "~1.*",
-    "gulp-sass": "~2.*",
-    "gulp-minify-css": "~1.*",
-    "gulp-nodemon": "~2.*",
+    "@angular/common" : "~2.0.1",
+    "@angular/compiler": "~2.0.1",
+    "@angular/core": "~2.0.1",
+    "@angular/forms": "~2.0.1",
+    "@angular/http": "~2.0.1",
+    "@angular/platform-browser": "~2.0.1",
+    "@angular/platform-browser-dynamic": "~2.0.1",
+    "@angular/router": "~3.0.1",
+
+    "core-js": "^2.4.1",
+    "reflect-metadata": "^0.1.8",
+    "rxjs": "5.0.0-beta.12",
+    "zone.js": "^0.6.25",
+
+    "angular2-infinite-scroll": "^0.2.4",
+    "angular2-template-loader": "^0.4.0",
+    "awesome-typescript-loader": "^2.2.4",
+    "gulp": "^3.9.1",
+    "gulp-clean": "~0.3.*",
+    "gulp-clean-css": "~2.*",
     "gulp-notify": "~2.*",
-    "gulp-uglify": "~1.*",
-    "jshint-stylish": "~2.*"
+    "gulp-sass": "~2.*",
+    "html-loader": "^0.4.3",
+    "ng2-lazyload-image": "^2.2.2",
+    "typescript": "^2.0.3",
+    "typings": "^1.4.0",
+    "webpack-stream": "~3.*"
   }
 }

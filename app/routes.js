@@ -97,6 +97,6 @@ module.exports = function(app, router)
     app.route('*')
         .get(function(req, res)
         {
-            res.sendFile(path.join(__dirname, '../public/views/app', 'layout.html'));
+            res.sendFile(path.join(__dirname, '../public', 'index.html'));
         });
 };

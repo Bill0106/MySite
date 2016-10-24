@@ -1,0 +1,38 @@
+<table class="table table-striped hearthstone-matches-table" *ngIf="matches">
+    <thead>
+        <tr>
+            <th>Deck</th>
+            <th *ngFor="let class of playerClasses">{{ class }}</th>
+            <th>Total</th>
+            <th>PCT</th>
+        </tr>
+    </thead>
+    <tbody *ngIf="tableType == 'deck' && decks">
+        <tr *ngFor="let deck of decks">
+            <td><a [routerLink]="['/hearthstone/deck', deck._id]">{{ deck.name }}</a></td>
+            <td *ngFor="let class of playerClasses">{{ getStats(deck._id, null, class).string }}</td>
+            <td>{{ getStats(deck._id).string }}</td>
+            <td>{{ getStats(deck._id).pct | percent: '1.2-2' }}</td>
+        </tr>
+        <tr>
+            <td>Total</td>
+            <td *ngFor="let class of playerClasses">{{ getStats(null, season.month, class).string }}</td>
+            <td>{{ getStats(null, season.month).string }}</td>
+            <td>{{ getStats(null, season.month).pct | percent: '1.2-2' }}</td>
+        </tr>
+    </tbody>
+    <tbody *ngIf="tableType == 'season' && seasons">
+        <tr *ngFor="let season of seasons">
+            <td><a [routerLink]="['/hearthstone/seasons', season.url]">{{ season.title }}</a></td>
+            <td *ngFor="let class of playerClasses">{{ getStats(null, season.month, class).string }}</td>
+            <td>{{ getStats(null, season.month).string }}</td>
+            <td>{{ getStats(null, season.month).pct | percent: '1.2-2' }}</td>
+        </tr>
+        <tr>
+            <td>Total</td>
+            <td *ngFor="let class of playerClasses">{{ getStats(deck._id, null, class).string }}</td>
+            <td>{{ getStats(deck._id).string }}</td>
+            <td>{{ getStats(deck._id).pct | percent: '1.2-2' }}</td>
+        </tr>
+    </tbody>
+</table>
