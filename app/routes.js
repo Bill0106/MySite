@@ -90,7 +90,7 @@ module.exports = function(app, router)
     var adminAuth = require('./libraries/adminAuth');
     app.get('/admin*', adminAuth, function(req, res)
         {
-            res.sendFile(path.join(__dirname, '../public/views/admin', 'layout.html'));
+            res.sendFile(path.join(__dirname, '../public', 'admin.html'));
         });
 
     // Fronted Route

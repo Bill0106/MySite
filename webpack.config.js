@@ -2,8 +2,8 @@ var webpack = require('webpack');
 
 module.exports = {
     entry: {
-        'polyfills': './resources/scripts/polyfills.ts',
-        'vendor'   : './resources/scripts/vendor.ts',
+        'polyfills': './resources/scripts/angular-polyfills.ts',
+        'vendor'   : './resources/scripts/angular-vendor.ts',
         'app'      : './angular_2/app.ts'
     },
     output: {

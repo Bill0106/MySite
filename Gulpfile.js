@@ -18,15 +18,15 @@ gulp.task('style', function()
         .pipe(gulp.dest('./public/build/css'));
 });
 
-// Clean
-gulp.task('clean', function()
+// Clean:angular
+gulp.task('clean:angular', function()
 {
     return gulp.src('./public/build/js/app.js')
         .pipe(clean());
 });
 
-// Scripts
-gulp.task('scripts', ['clean'], function()
+// Scripts:angular
+gulp.task('scripts:angular', ['clean:angular'], function()
 {
     return gulp.src('./angular_2/app.ts')
         .pipe(webpack({
@@ -53,17 +53,58 @@ gulp.task('scripts', ['clean'], function()
         .pipe(notify('All Finished!'));
 });
 
-// Scripts:production
-gulp.task('scripts:build', function()
+// Scripts:angular-production
+gulp.task('scripts:angular-build', function()
 {
     return gulp.src('./angular_2/app.ts')
         .pipe(webpack(require('./webpack.config.js')))
         .pipe(gulp.dest('./public/build/js'));
 });
 
-gulp.task('watch', function() {
-    gulp.watch('./resources/sass/*/*.scss', ['style']);
-    gulp.watch(['./angular_2/**/*.ts', './resources/views/**/*.html'], ['scripts']);
+// Clean:react
+gulp.task('clean:angular', function()
+{
+    return gulp.src('./public/build/js/admin.js')
+        .pipe(clean());
 });
 
-gulp.task('default', ['style', 'scripts:build']);
+// Scripts:react
+gulp.task('scripts:react', function()
+{
+    return gulp.src('./react/app.tsx')
+        .pipe(webpack({
+            output: {
+                filename: 'admin.js'
+            },
+            resolve: {
+                extensions: ['', '.js', '.tsx']
+            },
+            module: {
+                loaders: [
+                    {
+                        test: /\.tsx$/,
+                        loader: 'awesome-typescript-loader'
+                    }
+                ]
+            }
+        }))
+        .pipe(gulp.dest('./public/build/js'))
+        .pipe(notify('All Finished!'));
+});
+
+// Scripts:react-production
+gulp.task('scripts:react-build', function()
+{
+    return gulp.src('./react/app.tsx')
+        .pipe(webpack(require('./webpack.react.js')))
+        .pipe(gulp.dest('./public/build/js'));
+});
+
+// Watch
+gulp.task('watch', function() {
+    gulp.watch('./resources/sass/*/*.scss', ['style']);
+    gulp.watch(['./angular_2/**/*.ts', './resources/views/**/*.html'], ['scripts:angular']);
+    gulp.watch('./react/**/*.tsx', ['scripts:react']);
+});
+
+gulp.task('default', ['style', 'scripts:angular-build', 'scripts:react-build']);
