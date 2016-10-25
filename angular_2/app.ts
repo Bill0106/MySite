@@ -5,6 +5,6 @@ import { AppModule } from './app.module';
 
 const platform = platformBrowserDynamic();
 
-// enableProdMode(); // Comment this line when in developer mode
+enableProdMode(); // Comment this line when in developer mode
 
 platform.bootstrapModule(AppModule);
