@@ -136,6 +136,9 @@ section.my-index {
     background: none;
     border: none;
     opacity: 0;
+    @media #{$screenMobile} {
+      display: none;
+    }
     &.left {
       left: 15px;
     }

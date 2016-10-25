@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { LazyLoadImageModule } from 'ng2-lazyload-image';
@@ -17,6 +17,15 @@ import { HearthstoneDeckComponent } from './components/hearthstone-deck.componen
 import { AppRoutingModule } from './app-routing.module';
 
 import { ImageHelperPipe } from './pipes/image-helper.pipe';
+
+export class MyHammerConfig extends HammerGestureConfig  {
+    overrides = <any>{
+        'swipe': {
+            velocity: 0.4,
+            threshold: 20
+        }
+    }
+}
 
 @NgModule({
     imports: [
@@ -38,7 +47,11 @@ import { ImageHelperPipe } from './pipes/image-helper.pipe';
         HearthstoneMatchesComponent,
         ImageHelperPipe
     ],
-    bootstrap: [ AppComponent ]
+    bootstrap: [ AppComponent ],
+    providers: [{
+        provide: HAMMER_GESTURE_CONFIG,
+        useClass: MyHammerConfig
+    }]
 })
 
 export class AppModule { }
