@@ -1,9 +1,10 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { Router, browserHistory } from 'react-router';
 
-import { AppComponent } from './components/appComponent';
+import { routing } from './routing';
 
 ReactDOM.render(
-    <AppComponent compiler="TypeScript" framework="React"/>,
+    <Router history={browserHistory} routes={routing} />,
     document.getElementById('admin')
 );

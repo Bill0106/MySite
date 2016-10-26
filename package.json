@@ -47,6 +47,7 @@
 
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
+    "react-router": "^3.0",
 
     "awesome-typescript-loader": "^2.2.4",
     "gulp": "^3.9.1",
