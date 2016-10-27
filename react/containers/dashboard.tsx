@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Link } from 'react-router';
+
+import { DashboardItem } from '../components/dashboard-item';
 
 let sections = [
     { title: 'Games', link: '/admin/games' },
@@ -25,11 +26,7 @@ export class Dashboard extends React.Component<{}, {}> {
                         <div className="list-group">
                             {
                                 sections.map((section, key) => {
-                                    return (
-                                        <Link key={key} className="list-group-item list-group-item-info" to={section.link}>
-                                            <h4 className="list-group-item-heading">{section.title}</h4>
-                                        </Link>
-                                    )
+                                    return <DashboardItem title={section.title} link={section.link} key={key} />
                                 })
                             }
                         </div>

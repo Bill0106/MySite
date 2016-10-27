@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Nav } from './nav.component';
+import { Nav } from '../components/nav'
 
 export class App extends React.Component<{}, {}> {
     render() {

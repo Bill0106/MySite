@@ -77,10 +77,14 @@ gulp.task('scripts:react', function()
                 filename: 'admin.js'
             },
             resolve: {
-                extensions: ['', '.js', '.tsx']
+                extensions: ['', '.js', '.tsx', '.ts']
             },
             module: {
                 loaders: [
+                    {
+                        test: /\.ts$/,
+                        loader: 'awesome-typescript-loader'
+                    },
                     {
                         test: /\.tsx$/,
                         loader: 'awesome-typescript-loader'

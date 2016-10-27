@@ -1,6 +1,6 @@
-import { App } from './components/app.component';
-import { Dashboard } from './components/dashboard.component';
-import { Games } from './components/games.component';
+import { App } from './containers/app';
+import { Dashboard } from './containers/dashboard';
+import { Games } from './containers/games';
 
 const ROUTING_CONFIG = [
     {
