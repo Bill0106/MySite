@@ -1,5 +1,9 @@
 import * as React from 'react';
+import axios from 'axios';
 
+import { authKeys } from '../config/auth-keys';
+
+import { DashboardState } from '../interface/dashboard';
 import { DashboardItem } from '../components/dashboard-item';
 
 let sections = [
@@ -10,7 +14,26 @@ let sections = [
     { title: 'Hearthstone Matches', link: '/admin/hearthstone/matches' },
 ];
 
-export class Dashboard extends React.Component<{}, {}> {
+export class Dashboard extends React.Component<{}, DashboardState> {
+    constructor() {
+        super();
+
+        this.state = {
+            counts: []
+        };
+    }
+
+    componentDidMount() {
+        axios.get('/api/counts', {
+            headers: { 'auth': authKeys.get }
+        })
+            .then(response => {
+                this.setState({
+                    counts: response.data
+                })
+            })
+    }
+
     render() {
         return (
             <div className="container-fluid">
@@ -26,7 +49,13 @@ export class Dashboard extends React.Component<{}, {}> {
                         <div className="list-group">
                             {
                                 sections.map((section, key) => {
-                                    return <DashboardItem title={section.title} link={section.link} key={key} />
+                                    let count = 0;
+                                    let table = this.state.counts.find(count => count.table == section.title);
+                                    if (table) {
+                                        count = table.count;
+                                    }
+
+                                    return <DashboardItem title={section.title} link={section.link} count={count} key={key} />
                                 })
                             }
                         </div>
