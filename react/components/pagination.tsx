@@ -8,8 +8,11 @@ export class Pagination extends React.Component<PaginationProps, {}> {
         let pages = Math.ceil(this.props.total / this.props.per);
         let indent = [];
         for (let i = 0; i < pages; i++) {
-            let url = '/admin' + this.props.link + '?page=' + (i + 1);
+            let url = i === 0 ? '/admin' + this.props.link : '/admin' + this.props.link + '?page=' + (i + 1);
             let isActive = this.props.current == i + 1 ? 'active' : '';
+            if (!this.props.current && i === 0) {
+                isActive = 'active';
+            }
             indent.push(<li key={i} className={isActive}><Link to={url}>{i + 1}</Link></li>)
         }
 
