@@ -25,6 +25,17 @@
                 height: 100%;
                 opacity: 0;
             }
+            table.table td, table.table th {
+                vertical-align: middle !important;
+            }
+            @media only screen and (max-width: 768px) {
+                table.table td, table.table th {
+                    display: none;
+                }
+                table.table td:nth-child(2), table.table th:nth-child(2) {
+                    display: table-cell;
+                }
+            }
         </style>
     </head>
     <body>
