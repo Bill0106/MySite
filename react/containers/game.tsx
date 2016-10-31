@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { browserHistory } from 'react-router';
 import axios from 'axios';
 
 import { authKeys } from '../config/auth-keys';
@@ -15,6 +16,7 @@ export class Game extends React.Component<GameProps, GameState> {
         super();
 
         this.state = {
+            id: '',
             image: '',
             title: '',
             name: '',
@@ -37,6 +39,7 @@ export class Game extends React.Component<GameProps, GameState> {
         })
             .then(response => {
                 this.setState({
+                    id: response.data._id,
                     image: response.data.image,
                     title: response.data.title,
                     name: response.data.name,
@@ -55,7 +58,15 @@ export class Game extends React.Component<GameProps, GameState> {
 
     submitContent(e) {
         e.preventDefault();
-        console.log(this.state);
+
+        axios.post('/api/games/' + this.props.params['url'], this.state, {
+            headers: { 'auth': authKeys.post }
+        })
+            .then(response => {
+                if (response.data.success) {
+                    browserHistory.push('/admin/games');
+                }
+            })
     }
 
     handleChange(name, value) {
@@ -83,12 +94,11 @@ export class Game extends React.Component<GameProps, GameState> {
                                     GameFields.map((field, key) => {
                                         return (
                                             <tr key={key}>
-                                                <td>{field.field.toUpperCase()}</td>
                                                 <td>
-                                                    <Form field={field}
-                                                          func={this.handleChange.bind(this)}
-                                                          value={this.state[field.field]}
-                                                    />
+                                                    <label>{field.field.toUpperCase()}</label>
+                                                </td>
+                                                <td>
+                                                    <Form field={field} func={this.handleChange.bind(this)} value={this.state[field.field]} />
                                                 </td>
                                             </tr>
                                         )

@@ -56,6 +56,26 @@ export class Form extends React.Component<FormProps, FormState> {
             case 'date':
                 ele = <input className="form-control" type="date" value={this.props.value} onChange={this.handleChange.bind(this)}/>;
                 break;
+            case 'radio':
+                ele = (
+                    <div>
+                        {
+                            this.props.field['enum'].map(radio => {
+                                return (
+                                    <label className="radio-inline" key={radio}>
+                                        <input type="radio"
+                                               name={this.props.field['field']}
+                                               value={radio} checked={this.props.value == radio}
+                                               onChange={this.handleChange.bind(this)}
+                                        />
+                                        {radio}
+                                    </label>
+                                )
+                            })
+                        }
+                    </div>
+                )
+                break;
             case 'select':
                 ele = (
                     <select className="form-control" value={this.props.value} onChange={this.handleChange.bind(this)}>

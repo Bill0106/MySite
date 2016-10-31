@@ -19,6 +19,7 @@ export interface GameItemProps {
 export interface GameProps extends RouteComponentProps<{}, {}> {}
 
 export interface GameState {
+    id: string;
     image: string;
     title: string;
     name: string;

@@ -99,7 +99,7 @@ exports.create = function(req, res)
 
 exports.update = function(req, res)
 {
-    Games.findOne({ _id: req.body._id }, function(err, data)
+    Games.findOne({ _id: req.body.id }, function(err, data)
     {
         data.title       = req.body.title;
         data.name        = req.body.name;
