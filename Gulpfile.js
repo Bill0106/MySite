@@ -108,7 +108,7 @@ gulp.task('scripts:react-build', function()
 gulp.task('watch', function() {
     gulp.watch('./resources/sass/*/*.scss', ['style']);
     gulp.watch(['./angular_2/**/*.ts', './resources/views/**/*.html'], ['scripts:angular']);
-    gulp.watch('./react/**/*.tsx', ['scripts:react']);
+    gulp.watch(['./react/**/*.tsx', './react/**/*.ts'], ['scripts:react']);
 });
 
 gulp.task('default', ['style', 'scripts:angular-build', 'scripts:react-build']);

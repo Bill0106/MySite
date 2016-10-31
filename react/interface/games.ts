@@ -13,4 +13,22 @@ export interface GameItemProps {
     name: string;
     platform: number;
     genre: number;
+    url: string;
+}
+
+export interface GameProps extends RouteComponentProps<{}, {}> {}
+
+export interface GameState {
+    image: string;
+    title: string;
+    name: string;
+    developer: string;
+    publisher: string;
+    release_at: string;
+    buy_at: string;
+    rate: number;
+    url: string;
+    platform: number;
+    genre: number;
+    description: string;
 }

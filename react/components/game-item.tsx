@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router';
 
 import { gamePlatforms } from '../config/game-playforms';
 import { gameGenres } from '../config/game-genres';
@@ -16,7 +17,7 @@ export class GameItem extends React.Component<GameItemProps, {}> {
                 <td>{gameGenres.find(genre => genre.value == this.props.genre).name}</td>
                 <td>
                     <div className="btn-group">
-                        <a href="#" className="btn btn-default">Edit</a>
+                        <Link to={'/admin/games/'+this.props.url} className="btn btn-default">Edit</Link>
                         <a href="#" className="btn btn-default">Trophy</a>
                     </div>
                 </td>

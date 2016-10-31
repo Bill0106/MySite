@@ -72,7 +72,7 @@ export class Games extends React.Component<GamesProps, GamesState> {
                                 {
                                     this.state.list.map((item, key) => {
                                         return <GameItem key={key} id={item._id} title={item.title} name={item.name}
-                                                         platform={item.platform} genre={item.genre} />
+                                                         platform={item.platform} genre={item.genre} url={item.url} />
                                     })
                                 }
                             </tbody>

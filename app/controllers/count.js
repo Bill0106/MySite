@@ -80,7 +80,6 @@ exports.get = function (req, res) {
         if (error)
             throw error;
 
-        console.log(result);
         res.json(result);
     })
 };
