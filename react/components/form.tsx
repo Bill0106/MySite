@@ -14,7 +14,6 @@ export class Form extends React.Component<FormProps, FormState> {
         if (props.field['type'] == 'image') {
             this.state = {
                 image: '',
-                image_obj: ''
             }
         }
     }
@@ -29,9 +28,14 @@ export class Form extends React.Component<FormProps, FormState> {
             .then(response => {
                 this.setState({
                     image: response.data.url,
-                    image_obj: JSON.stringify(response.data)
-                })
+                });
+
+                this.props.func(this.props.field['field'], JSON.stringify(response.data));
             })
+    }
+
+    handleChange(e) {
+        this.props.func(this.props.field['field'], e.target.value);
     }
 
     render() {
@@ -41,23 +45,20 @@ export class Form extends React.Component<FormProps, FormState> {
                 let image = this.props.value ? getImageData(this.props.value) : this.props.field['placeholder'];
                 ele = (
                     <div className="admin-image-upload">
-                        <div className="image-uploader">
-                            <img src={this.state.image ? this.state.image : image} />
-                            <input type="file" onChange={this.handleUpload.bind(this)} />
-                        </div>
-                        <input type="text" className="form-control" value={this.state.image_obj} onChange={this.props.func}/>
+                        <img src={this.state.image ? this.state.image : image} />
+                        <input type="file" onChange={this.handleUpload.bind(this)} />
                     </div>
                 );
                 break;
             case 'text':
-                ele = <textarea value={this.props.value} className="form-control" rows={20} onChange={this.props.func}/>;
+                ele = <textarea value={this.props.value} className="form-control" rows={20} onChange={this.handleChange.bind(this)}/>;
                 break;
             case 'date':
-                ele = <input className="form-control" type="date" value={this.props.value} onChange={this.props.func}/>;
+                ele = <input className="form-control" type="date" value={this.props.value} onChange={this.handleChange.bind(this)}/>;
                 break;
             case 'select':
                 ele = (
-                    <select className="form-control" value={this.props.value} onChange={this.props.func}>
+                    <select className="form-control" value={this.props.value} onChange={this.handleChange.bind(this)}>
                         {
                             this.props.field['enum'].map(option => {
                                 return <option value={option.value} key={option.value}>{option.name}</option>;
@@ -67,7 +68,7 @@ export class Form extends React.Component<FormProps, FormState> {
                 );
                 break;
             default:
-                ele = <input type="text" className="form-control" onChange={this.props.func} value={this.props.value}/>;
+                ele = <input type="text" className="form-control" onChange={this.handleChange.bind(this)} value={this.props.value}/>;
                 break;
         }
 

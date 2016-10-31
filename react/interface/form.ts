@@ -6,5 +6,4 @@ export interface FormProps {
 
 export interface FormState {
     image: string;
-    image_obj: string;
 }

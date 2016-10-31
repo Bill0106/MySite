@@ -58,10 +58,9 @@ export class Game extends React.Component<GameProps, GameState> {
         console.log(this.state);
     }
 
-    handleChange(name, e) {
+    handleChange(name, value) {
         let change = this.state;
-        change[name] = e.target.value;
-        console.log(change);
+        change[name] = value;
         this.setState(change);
     }
 
@@ -87,7 +86,7 @@ export class Game extends React.Component<GameProps, GameState> {
                                                 <td>{field.field.toUpperCase()}</td>
                                                 <td>
                                                     <Form field={field}
-                                                          func={this.handleChange.bind(this, field.field)}
+                                                          func={this.handleChange.bind(this)}
                                                           value={this.state[field.field]}
                                                     />
                                                 </td>
