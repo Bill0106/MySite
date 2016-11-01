@@ -3,4 +3,4 @@ const AJAX_AUTH_KEYS = {
     post: 'HNoHW7HUKEYxW5DFxaVj'
 };
 
-export let authKeys = AJAX_AUTH_KEYS;
+export let AuthKeys = AJAX_AUTH_KEYS;

@@ -33,4 +33,4 @@ const GAME_GENRES = [
     }
 ];
 
-export let gameGenres = GAME_GENRES;
+export let GameGenres = GAME_GENRES;

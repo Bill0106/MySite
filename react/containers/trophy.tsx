@@ -2,7 +2,7 @@ import * as React from 'react';
 import { browserHistory } from 'react-router';
 import axios from 'axios';
 
-import { authKeys } from '../config/auth-keys';
+import { AuthKeys } from '../config/auth-keys';
 
 import { TrophyProps, TrophyState } from '../interface/trophy';
 
@@ -26,7 +26,7 @@ export class Trophy extends React.Component<TrophyProps, TrophyState> {
 
     fetchTrophyApi(id) {
         axios.get('/api/games/trophy/' + id, {
-            headers: { 'auth': authKeys.get }
+            headers: { 'auth': AuthKeys.get }
         })
             .then(response => {
                 if (response.status === 200 && response.data) {
@@ -66,7 +66,7 @@ export class Trophy extends React.Component<TrophyProps, TrophyState> {
         e.preventDefault();
 
         axios.post('/api/games/trophy/' + this.state.id, this.state, {
-            headers: { 'auth': authKeys.post }
+            headers: { 'auth': AuthKeys.post }
         })
             .then(response => {
                 if (response.data.success) {
@@ -78,7 +78,7 @@ export class Trophy extends React.Component<TrophyProps, TrophyState> {
     componentDidMount() {
         let url = '/api/games/' + this.props.params['url'];
         axios.get(url, {
-            headers: { 'auth': authKeys.get }
+            headers: { 'auth': AuthKeys.get }
         })
             .then(response => {
                 this.handleChange('game_id', response.data._id);

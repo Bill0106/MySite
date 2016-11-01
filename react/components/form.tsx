@@ -1,7 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
 
-import { authKeys } from '../config/auth-keys';
+import { AuthKeys } from '../config/auth-keys';
 
 import { FormProps, FormState } from '../interface/form';
 
@@ -23,7 +23,7 @@ export class Form extends React.Component<FormProps, FormState> {
         data.append('file', e.target.files[0]);
 
         axios.post('/api/images', data, {
-            headers: { 'auth': authKeys.post }
+            headers: { 'auth': AuthKeys.post }
         })
             .then(response => {
                 this.setState({
@@ -74,7 +74,7 @@ export class Form extends React.Component<FormProps, FormState> {
                             })
                         }
                     </div>
-                )
+                );
                 break;
             case 'select':
                 ele = (

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { browserHistory } from 'react-router';
 import axios from 'axios';
 
-import { authKeys } from '../config/auth-keys';
+import { AuthKeys } from '../config/auth-keys';
 import { GameFields } from '../config/game-fields';
 
 import { GameProps, GameState } from '../interface/games';
@@ -35,7 +35,7 @@ export class Game extends React.Component<GameProps, GameState> {
     componentDidMount() {
         let url = '/api/games/' + this.props.params['url'];
         axios.get(url, {
-            headers: { 'auth': authKeys.get }
+            headers: { 'auth': AuthKeys.get }
         })
             .then(response => {
                 this.setState({
@@ -60,7 +60,7 @@ export class Game extends React.Component<GameProps, GameState> {
         e.preventDefault();
 
         axios.post('/api/games/' + this.props.params['url'], this.state, {
-            headers: { 'auth': authKeys.post }
+            headers: { 'auth': AuthKeys.post }
         })
             .then(response => {
                 if (response.data.success) {

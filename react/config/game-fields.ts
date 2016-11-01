@@ -1,5 +1,5 @@
-import { gameGenres } from './game-genres';
-import { gamePlatforms } from './game-playforms';
+import { GameGenres } from './game-genres';
+import { GamePlatforms } from './game-playforms';
 
 const GAME_FIELDS = [
     {
@@ -43,12 +43,12 @@ const GAME_FIELDS = [
     {
         field: 'platform',
         type: 'select',
-        enum: gamePlatforms
+        enum: GamePlatforms
     },
     {
         field: 'genre',
         type: 'select',
-        enum: gameGenres
+        enum: GameGenres
     },
     {
         field: 'description',

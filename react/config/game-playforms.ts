@@ -13,4 +13,4 @@ const GAME_PLATFORMS = [
     }
 ];
 
-export let gamePlatforms = GAME_PLATFORMS;
+export let GamePlatforms = GAME_PLATFORMS;

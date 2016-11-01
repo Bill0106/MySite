@@ -1,7 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
 
-import { authKeys } from '../config/auth-keys';
+import { AuthKeys } from '../config/auth-keys';
 
 import { GameItem } from '../components/game-item';
 import { Pagination } from '../components/pagination';
@@ -25,7 +25,7 @@ export class Games extends React.Component<GamesProps, GamesState> {
         let url = API_URL + '?limit=' + GAME_PAGE_PER + (page ? '&page=' + page : '');
 
         axios.get(url, {
-            headers: { 'auth': authKeys.get }
+            headers: { 'auth': AuthKeys.get }
         })
             .then(response => {
                 this.setState({
