@@ -18,7 +18,7 @@ export class GameItem extends React.Component<GameItemProps, {}> {
                 <td>{gamePlatforms.find(platform => platform.value == this.props.platform).name}</td>
                 <td>{gameGenres.find(genre => genre.value == this.props.genre).name}</td>
                 <td>
-                    <a href="#" className="btn btn-default">Trophy</a>
+                    <Link to={'/admin/games/'+this.props.url+'/trophy'} className="btn btn-default">Tophy</Link>
                 </td>
             </tr>
         )

@@ -158,7 +158,7 @@ exports.update = function (req, res)
         if (error)
             throw error;
 
-        Trophies.findOne({ _id: req.body._id }, function (err, data)
+        Trophies.findOne({ _id: req.body.id }, function (err, data)
         {
             if (err)
                 throw err;
