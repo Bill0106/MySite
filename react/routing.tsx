@@ -12,10 +12,9 @@ const ROUTING_CONFIG = [
         childRoutes: [
             { path: 'games', component: Games },
             { path: 'games/:url', component: Game },
-            { path: 'games/:url/trophy', component: Trophy }
+            { path: 'games/:url/trophy', component: Trophy },
         ]
     }
 ];
-
 
 export let routing = ROUTING_CONFIG;

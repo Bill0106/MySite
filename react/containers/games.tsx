@@ -1,7 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
 
-import { AuthKeys } from '../config/auth-keys';
+import { AuthKeys } from '../../config/auth-keys';
 
 import { GameItem } from '../components/game-item';
 import { Pagination } from '../components/pagination';

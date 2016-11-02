@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Link } from 'react-router';
 
-import { GamePlatforms } from '../config/game-playforms';
-import { GameGenres } from '../config/game-genres';
+import { GamePlatforms } from '../../config/game-playforms';
+import { GameGenres } from '../../config/game-genres';
 
 import { GameItemProps } from '../interface/games';
 

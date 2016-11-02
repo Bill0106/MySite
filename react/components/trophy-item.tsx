@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { TrophyFields } from '../config/trophy-fields';
+import { TrophyFields } from '../../config/trophy-fields';
 
 import { TrophyItemProps } from '../interface/trophy';
 

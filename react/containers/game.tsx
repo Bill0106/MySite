@@ -2,8 +2,8 @@ import * as React from 'react';
 import { browserHistory } from 'react-router';
 import axios from 'axios';
 
-import { AuthKeys } from '../config/auth-keys';
-import { GameFields } from '../config/game-fields';
+import { AuthKeys } from '../../config/auth-keys';
+import { GameFields } from '../../config/game-fields';
 
 import { GameProps, GameState } from '../interface/games';
 

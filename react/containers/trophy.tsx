@@ -2,7 +2,7 @@ import * as React from 'react';
 import { browserHistory } from 'react-router';
 import axios from 'axios';
 
-import { AuthKeys } from '../config/auth-keys';
+import { AuthKeys } from '../../config/auth-keys';
 
 import { TrophyProps, TrophyState } from '../interface/trophy';
 
