@@ -1,15 +1,11 @@
 import * as React from 'react';
 import axios from 'axios';
 
-import { AuthKeys } from '../../config/auth-keys';
-
 import { GameItem } from '../components/game-item';
 import { Pagination } from '../components/pagination';
-
 import { GamesProps, GamesState } from '../interface/games';
 
 const GAME_PAGE_PER = 30;
-const API_URL = '/api/games';
 
 export class Games extends React.Component<GamesProps, GamesState> {
     constructor() {
@@ -22,11 +18,8 @@ export class Games extends React.Component<GamesProps, GamesState> {
     }
 
     fetchApi(page?): void {
-        let url = API_URL + '?limit=' + GAME_PAGE_PER + (page ? '&page=' + page : '');
-
-        axios.get(url, {
-            headers: { 'auth': AuthKeys.get }
-        })
+        let url = '/api/games?limit=' + GAME_PAGE_PER + (page ? '&page=' + page : '');
+        axios.get(url)
             .then(response => {
                 this.setState({
                     list: response.data.list,

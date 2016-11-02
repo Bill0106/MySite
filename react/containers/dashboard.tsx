@@ -1,8 +1,6 @@
 import * as React from 'react';
 import axios from 'axios';
 
-import { AuthKeys } from '../../config/auth-keys';
-
 import { DashboardState } from '../interface/dashboard';
 import { DashboardItem } from '../components/dashboard-item';
 
@@ -24,9 +22,7 @@ export class Dashboard extends React.Component<{}, DashboardState> {
     }
 
     componentDidMount() {
-        axios.get('/api/counts', {
-            headers: { 'auth': AuthKeys.get }
-        })
+        axios.get('/api/counts')
             .then(response => {
                 this.setState({
                     counts: response.data

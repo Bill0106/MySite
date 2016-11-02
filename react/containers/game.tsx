@@ -2,19 +2,14 @@ import * as React from 'react';
 import { browserHistory } from 'react-router';
 import axios from 'axios';
 
-import { AuthKeys } from '../../config/auth-keys';
 import { GameFields } from '../../config/game-fields';
-
 import { GameProps, GameState } from '../interface/games';
-
 import { Form } from '../components/form';
-
 import { time2Date } from '../helpers';
 
 export class Game extends React.Component<GameProps, GameState> {
     constructor() {
         super();
-
         this.state = {
             id: '',
             image: '',
@@ -33,10 +28,7 @@ export class Game extends React.Component<GameProps, GameState> {
     }
 
     componentDidMount() {
-        let url = '/api/games/' + this.props.params['url'];
-        axios.get(url, {
-            headers: { 'auth': AuthKeys.get }
-        })
+        axios.get('/api/games/' + this.props.params['url'])
             .then(response => {
                 this.setState({
                     id: response.data._id,
@@ -58,10 +50,7 @@ export class Game extends React.Component<GameProps, GameState> {
 
     submitContent(e) {
         e.preventDefault();
-
-        axios.post('/api/games/' + this.props.params['url'], this.state, {
-            headers: { 'auth': AuthKeys.post }
-        })
+        axios.post('/api/games/' + this.props.params['url'], this.state)
             .then(response => {
                 if (response.data.success) {
                     browserHistory.push('/admin/games');

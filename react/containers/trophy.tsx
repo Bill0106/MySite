@@ -2,13 +2,9 @@ import * as React from 'react';
 import { browserHistory } from 'react-router';
 import axios from 'axios';
 
-import { AuthKeys } from '../../config/auth-keys';
-
 import { TrophyProps, TrophyState } from '../interface/trophy';
-
 import { TrophyItem } from '../components/trophy-item';
 import { Form } from '../components/form';
-
 import { time2Date } from "../helpers";
 
 export class Trophy extends React.Component<TrophyProps, TrophyState> {
@@ -25,9 +21,7 @@ export class Trophy extends React.Component<TrophyProps, TrophyState> {
     }
 
     fetchTrophyApi(id) {
-        axios.get('/api/games/trophy/' + id, {
-            headers: { 'auth': AuthKeys.get }
-        })
+        axios.get('/api/games/trophy/' + id)
             .then(response => {
                 if (response.status === 200 && response.data) {
                     let data = {
@@ -65,9 +59,7 @@ export class Trophy extends React.Component<TrophyProps, TrophyState> {
     submitContent(e) {
         e.preventDefault();
 
-        axios.post('/api/games/trophy/' + this.state.id, this.state, {
-            headers: { 'auth': AuthKeys.post }
-        })
+        axios.post('/api/games/trophy/' + this.state.id, this.state)
             .then(response => {
                 if (response.data.success) {
                     browserHistory.push('/admin/games');
@@ -76,10 +68,7 @@ export class Trophy extends React.Component<TrophyProps, TrophyState> {
     }
 
     componentDidMount() {
-        let url = '/api/games/' + this.props.params['url'];
-        axios.get(url, {
-            headers: { 'auth': AuthKeys.get }
-        })
+        axios.get('/api/games/' + this.props.params['url'])
             .then(response => {
                 this.handleChange('game_id', response.data._id);
                 if (response.data.trophies) {

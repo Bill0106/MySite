@@ -1,10 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
 
-import { AuthKeys } from '../../config/auth-keys';
-
 import { FormProps, FormState } from '../interface/form';
-
 import { getImageData } from '../helpers';
 
 export class Form extends React.Component<FormProps, FormState> {
@@ -22,9 +19,7 @@ export class Form extends React.Component<FormProps, FormState> {
         let data = new FormData();
         data.append('file', e.target.files[0]);
 
-        axios.post('/api/images', data, {
-            headers: { 'auth': AuthKeys.post }
-        })
+        axios.post('/api/images', data)
             .then(response => {
                 this.setState({
                     image: response.data.url,
