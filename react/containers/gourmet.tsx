@@ -37,8 +37,13 @@ export class Gourmet extends React.Component<GourmetProps, GourmetState> {
         }
     }
 
-    submitContent(e) {
-        e.preventDefault();
+    handleChange(name, value) {
+        let change = this.state;
+        change[name] = value;
+        this.setState(change);
+    }
+
+    handleSubmit() {
         let url = '/api/gourmets/';
         if (this.props.params['id'] != 'add') {
             url = url + this.props.params['id'];
@@ -50,12 +55,6 @@ export class Gourmet extends React.Component<GourmetProps, GourmetState> {
                     browserHistory.push('/admin/gourmets');
                 }
             })
-    }
-
-    handleChange(name, value) {
-        let change = this.state;
-        change[name] = value;
-        this.setState(change);
     }
 
     render() {
@@ -70,29 +69,8 @@ export class Gourmet extends React.Component<GourmetProps, GourmetState> {
                 </div>
                 <div className="row">
                     <div className="col-sm-12">
-                        <form onSubmit={this.submitContent.bind(this)}>
-                            <table className="table table-bordered">
-                                <tbody>
-                                {
-                                    GourmetFields.map((field, key) => {
-                                        return (
-                                            <tr key={key}>
-                                                <td>
-                                                    <label>{field.field.toUpperCase()}</label>
-                                                </td>
-                                                <td>
-                                                    <Form field={field} func={this.handleChange.bind(this)} value={this.state[field.field]} />
-                                                </td>
-                                            </tr>
-                                        )
-                                    })
-                                }
-                                </tbody>
-                            </table>
-                            <div className="form-group">
-                                <button className="btn btn-primary" type="submit">Submit</button>
-                            </div>
-                        </form>
+                        <Form data={this.state} change={this.handleChange.bind(this)}
+                              submit={this.handleSubmit.bind(this)} fields={GourmetFields} />
                     </div>
                 </div>
             </div>

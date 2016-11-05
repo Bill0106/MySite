@@ -50,8 +50,13 @@ export class Game extends React.Component<GameProps, GameState> {
         }
     }
 
-    submitContent(e) {
-        e.preventDefault();
+    handleChange(name, value) {
+        let change = this.state;
+        change[name] = value;
+        this.setState(change);
+    }
+
+    handleSubmit() {
         let url = '/api/games/';
         if (this.props.params['url'] != 'add') {
             url = url + this.props.params['url'];
@@ -63,12 +68,6 @@ export class Game extends React.Component<GameProps, GameState> {
                     browserHistory.push('/admin/games');
                 }
             })
-    }
-
-    handleChange(name, value) {
-        let change = this.state;
-        change[name] = value;
-        this.setState(change);
     }
 
     render() {
@@ -83,29 +82,8 @@ export class Game extends React.Component<GameProps, GameState> {
                 </div>
                 <div className="row">
                     <div className="col-sm-12">
-                        <form onSubmit={this.submitContent.bind(this)}>
-                            <table className="table table-bordered">
-                                <tbody>
-                                {
-                                    GameFields.map((field, key) => {
-                                        return (
-                                            <tr key={key}>
-                                                <td>
-                                                    <label>{field.field.toUpperCase()}</label>
-                                                </td>
-                                                <td>
-                                                    <Form field={field} func={this.handleChange.bind(this)} value={this.state[field.field]} />
-                                                </td>
-                                            </tr>
-                                        )
-                                    })
-                                }
-                                </tbody>
-                            </table>
-                            <div className="form-group">
-                                <button className="btn btn-primary" type="submit">Submit</button>
-                            </div>
-                        </form>
+                        <Form data={this.state} change={this.handleChange.bind(this)}
+                              submit={this.handleSubmit.bind(this)} fields={GameFields} />
                     </div>
                 </div>
             </div>

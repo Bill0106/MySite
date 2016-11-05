@@ -1,10 +1,8 @@
 import * as React from 'react';
 
 import { TrophyFields } from '../../config/trophy-fields';
-
 import { TrophyItemProps } from '../interface/trophy';
-
-import { Form } from './form';
+import { Field } from './field';
 
 export class TrophyItem extends React.Component<TrophyItemProps, {}> {
     handleChange(field, value) {
@@ -18,7 +16,7 @@ export class TrophyItem extends React.Component<TrophyItemProps, {}> {
                     TrophyFields.map((field, key) => {
                         return (
                             <td key={key}>
-                                <Form field={field} func={this.handleChange.bind(this)} value={this.props.trophy[field.field]} />
+                                <Field field={field} func={this.handleChange.bind(this)} value={this.props.trophy[field.field]} />
                             </td>
                         )
                     })

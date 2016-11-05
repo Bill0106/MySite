@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { TrophyProps, TrophyState } from '../interface/trophy';
 import { TrophyItem } from '../components/trophy-item';
-import { Form } from '../components/form';
+import { Field } from '../components/field';
 import { time2Date } from "../helpers";
 
 export class Trophy extends React.Component<TrophyProps, TrophyState> {
@@ -56,7 +56,7 @@ export class Trophy extends React.Component<TrophyProps, TrophyState> {
         this.handleChange('trophies', change);
     }
 
-    submitContent(e) {
+    handleUpdate(e) {
         e.preventDefault();
 
         axios.post('/api/games/trophy/' + this.state.id, this.state)
@@ -90,7 +90,7 @@ export class Trophy extends React.Component<TrophyProps, TrophyState> {
                     </div>
                     <div className="row">
                         <div className="col-sm-12">
-                            <form onSubmit={this.submitContent.bind(this)}>
+                            <form onSubmit={this.handleUpdate.bind(this)}>
                                 <table className="table table-bordered">
                                     <thead>
                                     <tr>
@@ -138,7 +138,7 @@ export class Trophy extends React.Component<TrophyProps, TrophyState> {
                             <form>
                                 <div className="form-group">
                                     <label>PSN URL:</label>
-                                    <Form field={field} func={this.handleChange.bind(this)} value={this.state['url']} />
+                                    <Field field={field} func={this.handleChange.bind(this)} value={this.state['url']} />
                                 </div>
                                 <button className="btn btn-success" type="submit">Submit</button>
                             </form>

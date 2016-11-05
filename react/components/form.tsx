@@ -1,93 +1,45 @@
 import * as React from 'react';
-import axios from 'axios';
 
-import { FormProps, FormState } from '../interface/form';
-import { getImageData } from '../helpers';
+import { FormProps } from '../interface/form';
+import { Field } from './field';
 
-export class Form extends React.Component<FormProps, FormState> {
-    constructor(props) {
-        super();
+export class Form extends React.Component<FormProps, {}> {
+    handleSubmit(e) {
+        e.preventDefault();
 
-        if (props.field['type'] == 'image') {
-            this.state = {
-                image: '',
-            }
-        }
+        this.props.submit();
     }
 
-    handleUpload(e) {
-        let data = new FormData();
-        data.append('file', e.target.files[0]);
-
-        axios.post('/api/images', data)
-            .then(response => {
-                this.setState({
-                    image: response.data.url,
-                });
-
-                this.props.func(this.props.field['field'], JSON.stringify(response.data));
-            })
-    }
-
-    handleChange(e) {
-        this.props.func(this.props.field['field'], e.target.value);
+    handleChange(field, value) {
+        this.props.change(field, value);
     }
 
     render() {
-        let ele = null;
-        switch (this.props.field['type']) {
-            case 'image':
-                let image = this.props.value ? getImageData(this.props.value) : this.props.field['placeholder'];
-                ele = (
-                    <div className="admin-image-upload">
-                        <img src={this.state.image ? this.state.image : image} />
-                        <input type="file" onChange={this.handleUpload.bind(this)} />
-                    </div>
-                );
-                break;
-            case 'text':
-                ele = <textarea value={this.props.value} className="form-control" rows={20} onChange={this.handleChange.bind(this)}/>;
-                break;
-            case 'date':
-                ele = <input className="form-control" type="date" value={this.props.value} onChange={this.handleChange.bind(this)}/>;
-                break;
-            case 'radio':
-                ele = (
-                    <div>
-                        {
-                            this.props.field['enum'].map(radio => {
-                                return (
-                                    <label className="radio-inline" key={radio}>
-                                        <input type="radio"
-                                               name={this.props.field['field']}
-                                               value={radio} checked={this.props.value == radio}
-                                               onChange={this.handleChange.bind(this)}
-                                        />
-                                        {radio}
-                                    </label>
-                                )
-                            })
-                        }
-                    </div>
-                );
-                break;
-            case 'select':
-                ele = (
-                    <select className="form-control" value={this.props.value} onChange={this.handleChange.bind(this)}>
-                        {
-                            this.props.field['enum'].map(option => {
-                                return <option value={option.value} key={option.value}>{option.name}</option>;
-                            })
-                        }
-                    </select>
-                );
-                break;
-            default:
-                ele = <input type="text" className="form-control" onChange={this.handleChange.bind(this)} value={this.props.value}/>;
-                break;
-        }
-
-
-        return <div>{ele}</div>;
+        return (
+            <form onSubmit={this.handleSubmit.bind(this)}>
+                <table className="table table-bordered">
+                    <tbody>
+                    {
+                        this.props.fields.map((field, key) => {
+                            return (
+                                <tr key={key}>
+                                    <td>
+                                        <label>{field.field.toUpperCase()}</label>
+                                    </td>
+                                    <td>
+                                        <Field field={field} func={this.handleChange.bind(this)}
+                                               value={this.props.data[field.field]} />
+                                    </td>
+                                </tr>
+                            )
+                        })
+                    }
+                    </tbody>
+                </table>
+                <div className="form-group">
+                    <button className="btn btn-primary" type="submit">Submit</button>
+                </div>
+            </form>
+        );
     }
 }
