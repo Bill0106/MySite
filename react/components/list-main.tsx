@@ -1,0 +1,51 @@
+import * as React from 'react';
+import { Link } from 'react-router';
+
+import { ListMainProps } from '../interface/list';
+import { Pagination } from './pagination';
+import { GourmetItem } from './items/gourmet-item';
+
+export class ListMain extends React.Component<ListMainProps, {}> {
+    render() {
+        return (
+            <div className="row">
+                <div className="col-sm-12">
+                    <section className="page-header">
+                        <h1>
+                            {this.props.title} <small>{this.props.total}</small>
+                            <Link to={'/admin/' + this.props.title.toLowerCase() + '/add'}
+                                  className="btn btn-primary pull-right">Add</Link>
+                        </h1>
+                    </section>
+                </div>
+                <div className="col-sm-12">
+                    <table className="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            {
+                                this.props.fields.map((field, key) => {
+                                    return <th key={key}>{field.toUpperCase()}</th>;
+                                })
+                            }
+                            <th>OPERATION</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {
+                            this.props.data.map((value, key) => {
+                                return <GourmetItem data={value} key={key} />
+                            })
+                        }
+                        </tbody>
+                    </table>
+                </div>
+                <div className="col-sm-12">
+                    <Pagination link={'/' + this.props.title.toLowerCase()} total={this.props.total}
+                                per={this.props.per}
+                                current={this.props.current} />
+                </div>
+            </div>
+        )
+    }
+}

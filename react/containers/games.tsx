@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router';
 import axios from 'axios';
 
 import { GameItem } from '../components/game-item';
@@ -44,7 +45,10 @@ export class Games extends React.Component<GamesProps, GamesState> {
                 <div className="row">
                     <div className="col-sm-12">
                         <section className="page-header">
-                            <h1>Games <small>{this.state.total}</small></h1>
+                            <h1>
+                                Games <small>{this.state.total}</small>
+                                <Link to="/admin/games/add" className="btn btn-primary pull-right">Add</Link>
+                            </h1>
                         </section>
                     </div>
                 </div>

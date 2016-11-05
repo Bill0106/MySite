@@ -28,29 +28,36 @@ export class Game extends React.Component<GameProps, GameState> {
     }
 
     componentDidMount() {
-        axios.get('/api/games/' + this.props.params['url'])
-            .then(response => {
-                this.setState({
-                    id: response.data._id,
-                    image: response.data.image,
-                    title: response.data.title,
-                    name: response.data.name,
-                    developer: response.data.developer,
-                    publisher: response.data.publisher,
-                    release_at: time2Date(response.data.release_at),
-                    buy_at: time2Date(response.data.buy_at),
-                    rate: response.data.rate,
-                    url: response.data.url,
-                    platform: response.data.platform,
-                    genre: response.data.genre,
-                    description: response.data.description
-                })
-            });
+        if (this.props.params['url'] != 'add') {
+            axios.get('/api/games/' + this.props.params['url'])
+                .then(response => {
+                    this.setState({
+                        id: response.data._id,
+                        image: response.data.image,
+                        title: response.data.title,
+                        name: response.data.name,
+                        developer: response.data.developer,
+                        publisher: response.data.publisher,
+                        release_at: time2Date(response.data.release_at),
+                        buy_at: time2Date(response.data.buy_at),
+                        rate: response.data.rate,
+                        url: response.data.url,
+                        platform: response.data.platform,
+                        genre: response.data.genre,
+                        description: response.data.description
+                    })
+                });
+        }
     }
 
     submitContent(e) {
         e.preventDefault();
-        axios.post('/api/games/' + this.props.params['url'], this.state)
+        let url = '/api/games';
+        if (this.props.params['url'] != 'add') {
+            url = url + this.props.params['url'];
+        }
+
+        axios.post(url, this.state)
             .then(response => {
                 if (response.data.success) {
                     browserHistory.push('/admin/games');
