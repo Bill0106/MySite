@@ -64,7 +64,7 @@ export class HsSeason extends React.Component<SeasonProps, SeasonState> {
                 <div className="row">
                     <div className="col-sm-12">
                         <section className="page-header">
-                            <h1>{this.props.params['url'] == 'add' ? 'Add New Hearthstone Season' : this.state.title + ' - Edit'}</h1>
+                            <h1>{this.props.params['url'] == 'add' ? 'Add New Hearthstone-Season' : this.state.title + ' - Edit'}</h1>
                         </section>
                     </div>
                 </div>

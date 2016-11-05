@@ -17,7 +17,7 @@ export class List extends React.Component<ListMainProps, {}> {
             case 'gourmets':
                 ele = <GourmetItem data={data} key={key} />;
                 break;
-            case 'hearthstone seasons':
+            case 'hearthstone-seasons':
                 ele = <HsSeasonItem data={data} key={key} />;
                 break;
             default:

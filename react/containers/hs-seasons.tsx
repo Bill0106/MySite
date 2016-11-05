@@ -44,7 +44,7 @@ export class HsSeasons extends React.Component<ListProps, ListState> {
         let fields = ['title', 'month', 'rank', 'url'];
         return (
             <div className="container-fluid">
-                <List title="Hearthstone Seasons" total={this.state.total} fields={fields} data={this.state.list}
+                <List title="Hearthstone-Seasons" total={this.state.total} fields={fields} data={this.state.list}
                       per={ListPerPage} current={this.props.location.query['page']} />
             </div>
         );
