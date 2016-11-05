@@ -25,7 +25,7 @@ export interface ListItemProps {
 }
 
 export function fetchApi(url, page, callback) {
-    let apiUrl = url + '?limit=' + LIST_PER_PAGE + (page ? '&page=' + page : '');
+    let apiUrl = '/api/' + url + '?limit=' + LIST_PER_PAGE + (page ? '&page=' + page : '');
 
     axios.get(apiUrl)
         .then(response => {

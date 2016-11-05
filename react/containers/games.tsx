@@ -1,14 +1,9 @@
 import * as React from 'react';
-import { Link } from 'react-router';
-import axios from 'axios';
 
-import { GameItem } from '../components/game-item';
-import { Pagination } from '../components/pagination';
-import { GamesProps, GamesState } from '../interface/games';
+import { ListProps, ListState, ListPerPage ,fetchApi } from '../interface/list';
+import { ListMain } from '../components/list-main';
 
-const GAME_PAGE_PER = 30;
-
-export class Games extends React.Component<GamesProps, GamesState> {
+export class Games extends React.Component<ListProps, ListState> {
     constructor() {
         super();
 
@@ -18,70 +13,32 @@ export class Games extends React.Component<GamesProps, GamesState> {
         };
     }
 
-    fetchApi(page?): void {
-        let url = '/api/games?limit=' + GAME_PAGE_PER + (page ? '&page=' + page : '');
-        axios.get(url)
-            .then(response => {
-                this.setState({
-                    list: response.data.list,
-                    total: response.data.total,
-                });
+    handleFetch(page): void {
+        fetchApi('games', page, data => {
+            this.setState({
+                list: data.list,
+                total: data.total,
             })
+        })
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.location.query['page'] !== this.props.location.query['page']) {
-            this.fetchApi(nextProps.location.query['page']);
+            this.handleFetch(nextProps.location.query['page']);
         }
     }
 
     componentDidMount() {
-        this.fetchApi(this.props.location.query['page']);
+        this.handleFetch(this.props.location.query['page']);
     }
 
     render() {
+        let fields = ['title', 'name', 'platform', 'genre'];
+
         return (
             <div className="container-fluid">
-                <div className="row">
-                    <div className="col-sm-12">
-                        <section className="page-header">
-                            <h1>
-                                Games <small>{this.state.total}</small>
-                                <Link to="/admin/games/add" className="btn btn-primary pull-right">Add</Link>
-                            </h1>
-                        </section>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-sm-12">
-                        <table className="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Title</th>
-                                    <th>Name</th>
-                                    <th>Platform</th>
-                                    <th>Genre</th>
-                                    <th>Operation</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    this.state.list.map((item, key) => {
-                                        return <GameItem key={key} id={item._id} title={item.title} name={item.name}
-                                                         platform={item.platform} genre={item.genre} url={item.url} />
-                                    })
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-sm-12">
-                        <Pagination link="/games" total={this.state.total} per={GAME_PAGE_PER}
-                                    current={this.props.location.query['page']} />
-                    </div>
-                </div>
+                <ListMain title="Games" total={this.state.total} fields={fields} data={this.state.list}
+                          per={ListPerPage} current={this.props.location.query['page']} />
             </div>
         )
     }

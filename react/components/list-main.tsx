@@ -3,10 +3,28 @@ import { Link } from 'react-router';
 
 import { ListMainProps } from '../interface/list';
 import { Pagination } from './pagination';
+import { GameItem } from './items/game-item';
 import { GourmetItem } from './items/gourmet-item';
 
 export class ListMain extends React.Component<ListMainProps, {}> {
+    handleItem(data, key) {
+        let ele = null;
+        switch (this.props.title.toLowerCase()) {
+            case 'games':
+                ele = <GameItem data={data} key={key} />;
+                break;
+            case 'gourmets':
+                ele = <GourmetItem data={data} key={key} />;
+                break;
+            default:
+                break;
+        }
+
+        return ele;
+    }
+
     render() {
+
         return (
             <div className="row">
                 <div className="col-sm-12">
@@ -34,7 +52,7 @@ export class ListMain extends React.Component<ListMainProps, {}> {
                         <tbody>
                         {
                             this.props.data.map((value, key) => {
-                                return <GourmetItem data={value} key={key} />
+                                return this.handleItem(value, key);
                             })
                         }
                         </tbody>

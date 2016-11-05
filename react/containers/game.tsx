@@ -3,7 +3,7 @@ import { browserHistory } from 'react-router';
 import axios from 'axios';
 
 import { GameFields } from '../../config/game-fields';
-import { GameProps, GameState } from '../interface/games';
+import { GameProps, GameState } from '../interface/game';
 import { Form } from '../components/form';
 import { time2Date } from '../helpers';
 

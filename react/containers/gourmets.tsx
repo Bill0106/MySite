@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import { ListProps, ListState, ListPerPage ,fetchApi } from '../interface/list';
 import { ListMain } from '../components/list-main';
-import { GourmetField } from '../../config/gourmet-fields';
 
 export class Gourmets extends React.Component<ListProps, ListState> {
     constructor() {
@@ -14,33 +13,27 @@ export class Gourmets extends React.Component<ListProps, ListState> {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.location.query['page'] !== this.props.location.query['page']) {
-            fetchApi('/api/gourmets', nextProps.location.query['page'], data => {
-                this.setState({
-                    list: data.list,
-                    total: data.total,
-                })
-            });
-        }
-    }
-
-    componentDidMount() {
-        fetchApi('/api/gourmets', this.props.location.query['page'], data => {
+    handleFetch(page): void {
+        fetchApi('gourmets', page, data => {
             this.setState({
                 list: data.list,
                 total: data.total,
             })
-        });
+        })
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.location.query['page'] !== this.props.location.query['page']) {
+            this.handleFetch(nextProps.location.query['page']);
+        }
+    }
+
+    componentDidMount() {
+        this.handleFetch(this.props.location.query['page']);
     }
 
     render() {
-        let fields = [];
-        GourmetField.map(field => {
-            if (field.field != 'image') {
-                fields.push(field.field);
-            }
-        });
+        let fields = ['food', 'restaurant', 'date', 'url'];
 
         return (
             <div className="container-fluid">
