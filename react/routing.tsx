@@ -6,6 +6,7 @@ import { Trophy } from './containers/trophy';
 import { Gourmets } from './containers/gourmets';
 import { Gourmet } from './containers/gourmet';
 import { HsSeasons } from './containers/hs-seasons';
+import { HsSeason } from './containers/hs-season';
 
 const ROUTING_CONFIG = [
     {
@@ -18,7 +19,8 @@ const ROUTING_CONFIG = [
             { path: 'games/:url/trophy', component: Trophy },
             { path: 'gourmets', component: Gourmets },
             { path: 'gourmets/:id', component: Gourmet },
-            { path: 'hearthstone-seasons', component: HsSeasons }
+            { path: 'hearthstone-seasons', component: HsSeasons },
+            { path: 'hearthstone-seasons/:url', component: HsSeason },
         ]
     }
 ];

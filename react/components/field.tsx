@@ -76,7 +76,7 @@ export class Field extends React.Component<FieldProps, FieldState> {
                     <select className="form-control" value={this.props.value} onChange={this.handleChange.bind(this)}>
                         {
                             this.props.field['enum'].map(option => {
-                                return <option value={option.value} key={option.value}>{option.name}</option>;
+                                return <option value={option.value} key={option.value}>{option.value + ' - ' + option.name}</option>;
                             })
                         }
                     </select>

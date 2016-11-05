@@ -80,7 +80,7 @@ exports.update = function(req, res)
 {
     var ts = moment(req.body.month, 'YYYY-MM').set('hour', 0).valueOf();
 
-    seasons.findOne({ _id: req.body._id }, function(err, data)
+    seasons.findOne({ _id: req.body.id }, function(err, data)
     {
         data.title = req.body.title;
         data.rank = req.body.rank;
