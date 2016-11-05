@@ -6,7 +6,7 @@ import { Pagination } from './pagination';
 import { GameItem } from './items/game-item';
 import { GourmetItem } from './items/gourmet-item';
 
-export class ListMain extends React.Component<ListMainProps, {}> {
+export class List extends React.Component<ListMainProps, {}> {
     handleItem(data, key) {
         let ele = null;
         switch (this.props.title.toLowerCase()) {

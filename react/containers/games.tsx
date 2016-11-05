@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { ListProps, ListState, ListPerPage ,fetchApi } from '../interface/list';
-import { ListMain } from '../components/list-main';
+import { List } from '../components/list';
 
 export class Games extends React.Component<ListProps, ListState> {
     constructor() {
@@ -37,7 +37,7 @@ export class Games extends React.Component<ListProps, ListState> {
 
         return (
             <div className="container-fluid">
-                <ListMain title="Games" total={this.state.total} fields={fields} data={this.state.list}
+                <List title="Games" total={this.state.total} fields={fields} data={this.state.list}
                           per={ListPerPage} current={this.props.location.query['page']} />
             </div>
         )

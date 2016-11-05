@@ -3,7 +3,7 @@ import { browserHistory } from 'react-router';
 import axios from 'axios';
 
 import { TrophyProps, TrophyState } from '../interface/trophy';
-import { TrophyItem } from '../components/trophy-item';
+import { TrophyItem } from '../components/items/trophy-item';
 import { Field } from '../components/field';
 import { time2Date } from "../helpers";
 

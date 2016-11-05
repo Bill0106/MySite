@@ -2,7 +2,7 @@ import * as React from 'react';
 import axios from 'axios';
 
 import { DashboardState } from '../interface/dashboard';
-import { DashboardItem } from '../components/dashboard-item';
+import { DashboardItem } from '../components/items/dashboard-item';
 
 let sections = [
     { title: 'Games', link: '/admin/games' },

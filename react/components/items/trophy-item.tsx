@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { TrophyFields } from '../../config/trophy-fields';
-import { TrophyItemProps } from '../interface/trophy';
-import { Field } from './field';
+import { TrophyFields } from '../../../config/trophy-fields';
+import { TrophyItemProps } from '../../interface/trophy';
+import { Field } from '../field';
 
 export class TrophyItem extends React.Component<TrophyItemProps, {}> {
     handleChange(field, value) {
