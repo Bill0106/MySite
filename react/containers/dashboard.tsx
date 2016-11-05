@@ -7,9 +7,9 @@ import { DashboardItem } from '../components/items/dashboard-item';
 let sections = [
     { title: 'Games', link: '/admin/games' },
     { title: 'Gourmets', link: '/admin/gourmets' },
-    { title: 'Hearthstone Seasons', link: '/admin/hearthstone/seasons' },
-    { title: 'Hearthstone Decks', link: '/admin/hearthstone/decks' },
-    { title: 'Hearthstone Matches', link: '/admin/hearthstone/matches' },
+    { title: 'Hearthstone Seasons', link: '/admin/hearthstone-seasons' },
+    { title: 'Hearthstone Decks', link: '/admin/hearthstone-decks' },
+    { title: 'Hearthstone Matches', link: '/admin/hearthstone-matches' },
 ];
 
 export class Dashboard extends React.Component<{}, DashboardState> {

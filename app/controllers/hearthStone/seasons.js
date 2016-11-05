@@ -13,6 +13,14 @@ exports.list = function(req, res)
         query = query.where('month').in(req.query.months.split(','));
     }
 
+    if (req.query.limit) {
+        var limit  = req.query.limit;
+        var page   = req.query.page ? parseInt(req.query.page) : 1;
+        var offset = limit * (page - 1);
+
+        query = query.limit(parseInt(limit)).skip(offset);
+    }
+
     query.sort({ month: 'desc' }).exec(function(err, data)
     {
         if (err)
