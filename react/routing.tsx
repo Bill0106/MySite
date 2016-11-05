@@ -4,6 +4,7 @@ import { Games } from './containers/games';
 import { Game } from './containers/game';
 import { Trophy } from './containers/trophy';
 import { Gourmets } from './containers/gourmets';
+import { Gourmet } from './containers/gourmet';
 
 const ROUTING_CONFIG = [
     {
@@ -15,6 +16,7 @@ const ROUTING_CONFIG = [
             { path: 'games/:url', component: Game },
             { path: 'games/:url/trophy', component: Trophy },
             { path: 'gourmets', component: Gourmets },
+            { path: 'gourmets/:id', component: Gourmet },
         ]
     }
 ];

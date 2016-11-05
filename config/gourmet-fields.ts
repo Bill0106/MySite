@@ -22,4 +22,4 @@ const GOURMET_FIELDS = [
     }
 ];
 
-export let GourmetField = GOURMET_FIELDS;
+export let GourmetFields = GOURMET_FIELDS;

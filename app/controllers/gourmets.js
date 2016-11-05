@@ -88,7 +88,7 @@ exports.create = function(req, res)
 
 exports.update = function(req, res)
 {
-    Gourmets.findOne({ _id: req.body._id }, function(err, data)
+    Gourmets.findOne({ _id: req.body.id }, function(err, data)
     {
         data.food           = req.body.food;
         data.restaurant     = req.body.restaurant;
