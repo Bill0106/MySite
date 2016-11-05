@@ -5,6 +5,6 @@ import { Router, browserHistory } from 'react-router';
 import { routing } from './routing';
 
 ReactDOM.render(
-    <Router history={browserHistory} routes={routing} />,
+    <Router onUpdate={() => window.scrollTo(0, 0)} history={browserHistory} routes={routing} />,
     document.getElementById('admin')
 );
