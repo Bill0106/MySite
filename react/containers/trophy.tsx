@@ -67,6 +67,15 @@ export class Trophy extends React.Component<TrophyProps, TrophyState> {
             });
     }
 
+    handleCreate(e) {
+        e.preventDefault();
+
+        axios.post('/api/games/scrap/' + this.state.game_id, this.state)
+            .then(response => {
+                this.fetchTrophyApi(response.data);
+            })
+    }
+
     componentDidMount() {
         axios.get('/api/games/' + this.props.params['url'])
             .then(response => {
@@ -135,7 +144,7 @@ export class Trophy extends React.Component<TrophyProps, TrophyState> {
                     </div>
                     <div className="row">
                         <div className="col-sm-12">
-                            <form>
+                            <form onSubmit={this.handleCreate.bind(this)}>
                                 <div className="form-group">
                                     <label>PSN URL:</label>
                                     <Field field={field} func={this.handleChange.bind(this)} value={this.state['url']} />
