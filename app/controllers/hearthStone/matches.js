@@ -20,7 +20,7 @@ exports.list = function(req, res)
         query = query.where('deck_id').equals(req.query.deck).where('time');
     }
 
-    if (req.query.page) {
+    if (req.query.limit) {
         var page   = req.query.page;
         var limit  = 100;
         var offset = limit * (page - 1);

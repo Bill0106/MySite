@@ -1,4 +1,4 @@
-export function time2Date(timestamp) {
+export function time2Date(timestamp, displayTime = false) {
     if (!timestamp) {
         return '';
     }
@@ -17,7 +17,24 @@ export function time2Date(timestamp) {
         day = '0' + day;
     }
 
-    return [time.getFullYear(), month, day].join('-');
+    let ts = [time.getFullYear(), month, day].join('-');
+
+    if (displayTime) {
+        let hms = [time.getHours(), time.getMinutes(), time.getSeconds()];
+        let newHms = [];
+        hms.forEach(value => {
+            let t = value.toString();
+
+            if (value < 10) {
+                t = '0' + t;
+            }
+            newHms.push(t);
+        });
+
+        ts = ts + ' ' + newHms.join(':');
+    }
+
+    return ts;
 }
 
 export function getImageData(image, field = 'url') {

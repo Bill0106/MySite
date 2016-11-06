@@ -7,6 +7,7 @@ import { GameItem } from './items/game-item';
 import { GourmetItem } from './items/gourmet-item';
 import { HsSeasonItem } from './items/hs-season-item';
 import { HsDeckItem } from './items/hs-deck-item';
+import { HsMatchItem } from './items/hs-match-item';
 
 export class List extends React.Component<ListMainProps, {}> {
     handleItem(data, key) {
@@ -23,6 +24,9 @@ export class List extends React.Component<ListMainProps, {}> {
                 break;
             case 'hearthstone-decks':
                 ele = <HsDeckItem data={data} key={key} />;
+                break;
+            case 'hearthstone-matches':
+                ele = <HsMatchItem data={data} key={key} />
                 break;
             default:
                 break;
