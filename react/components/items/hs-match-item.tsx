@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router';
 
 import { HsPlayerClasses } from '../../../config/hs-player-classes';
 import { HsMatchResult } from '../../../config/hs-match-result';
@@ -11,7 +12,9 @@ export class HsMatchItem extends React.Component<ListItemProps, {}> {
             <tr>
                 <td>{this.props.data._id}</td>
                 <td>{time2Date(this.props.data.time, true)}</td>
-                <td>{this.props.data.deck_id}</td>
+                <td>
+                    <Link to={'/admin/hearthstone-decks/'+this.props.data.deck_id} className="btn btn-link">{this.props.data.deck ? this.props.data.deck.name : ''}</Link>
+                </td>
                 <td>{HsPlayerClasses.find(player => player.value == this.props.data.opponent).name}</td>
                 <td>{HsMatchResult.find(result => result.value == this.props.data.result).name}</td>
                 <td>
