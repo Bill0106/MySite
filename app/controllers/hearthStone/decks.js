@@ -27,7 +27,7 @@ exports.list = function(req, res)
         query.where('_id').in(ids.filter(clear));
     }
 
-    query.exec(function(err, data)
+    query.sort({ active: 'desc' }).exec(function(err, data)
     {
         if (err || !data)
             res.send(err);

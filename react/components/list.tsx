@@ -6,6 +6,7 @@ import { Pagination } from './pagination';
 import { GameItem } from './items/game-item';
 import { GourmetItem } from './items/gourmet-item';
 import { HsSeasonItem } from './items/hs-season-item';
+import { HsDeckItem } from './items/hs-deck-item';
 
 export class List extends React.Component<ListMainProps, {}> {
     handleItem(data, key) {
@@ -19,6 +20,9 @@ export class List extends React.Component<ListMainProps, {}> {
                 break;
             case 'hearthstone-seasons':
                 ele = <HsSeasonItem data={data} key={key} />;
+                break;
+            case 'hearthstone-decks':
+                ele = <HsDeckItem data={data} key={key} />;
                 break;
             default:
                 break;

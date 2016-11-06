@@ -19,7 +19,14 @@ export class Nav extends React.Component<{}, {}> {
                         <ul className="nav navbar-nav navbar-right">
                             <li><Link to="/admin/games" activeClassName="active">Games</Link></li>
                             <li><Link to="/admin/gourmets" activeClassName="active">Gourmets</Link></li>
-                            <li><Link to="/admin/hearthstone" activeClassName="active">Hearthstone</Link></li>
+                            <li className="dropdown">
+                                <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hearthstone <span className="caret"></span></a>
+                                <ul className="dropdown-menu">
+                                    <li><Link to="/admin/hearthstone-seasons">Seasons</Link></li>
+                                    <li><Link to="/admin/hearthstone-decks">Decks</Link></li>
+                                    <li><Link to="/admin/hearthstone-matches">Matches</Link></li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                 </div>
