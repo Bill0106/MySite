@@ -22,7 +22,7 @@ export class Dashboard extends React.Component<{}, DashboardState> {
     }
 
     componentDidMount() {
-        axios.get('/api/counts')
+        axios.get('/counts')
             .then(response => {
                 this.setState({
                     counts: response.data

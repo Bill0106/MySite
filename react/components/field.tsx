@@ -19,7 +19,7 @@ export class Field extends React.Component<FieldProps, FieldState> {
         let data = new FormData();
         data.append('file', e.target.files[0]);
 
-        axios.post('/api/images', data)
+        axios.post('/images', data)
             .then(response => {
                 this.setState({
                     image: response.data.url,

@@ -28,7 +28,7 @@ export class HsSeason extends React.Component<SeasonProps, SeasonState> {
     }
 
     handleSubmit() {
-        let url = '/api/hearth-stone/seasons/';
+        let url = '/hearth-stone/seasons/';
         if (this.props.params['url'] != 'add') {
             url = url + this.props.params['url'];
         }
@@ -43,7 +43,7 @@ export class HsSeason extends React.Component<SeasonProps, SeasonState> {
 
     componentDidMount() {
         if (this.props.params['url'] != 'add') {
-            axios.get('/api/hearth-stone/seasons/' + this.props.params['url'])
+            axios.get('/hearth-stone/seasons/' + this.props.params['url'])
                 .then(response => {
                     this.setState({
                         id: response.data._id,

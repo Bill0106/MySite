@@ -29,7 +29,7 @@ export class Game extends React.Component<GameProps, GameState> {
 
     componentDidMount() {
         if (this.props.params['url'] != 'add') {
-            axios.get('/api/games/' + this.props.params['url'])
+            axios.get('/games/' + this.props.params['url'])
                 .then(response => {
                     this.setState({
                         id: response.data._id,
@@ -57,7 +57,7 @@ export class Game extends React.Component<GameProps, GameState> {
     }
 
     handleSubmit() {
-        let url = '/api/games/';
+        let url = '/games/';
         if (this.props.params['url'] != 'add') {
             url = url + this.props.params['url'];
         }

@@ -23,7 +23,7 @@ export class Gourmet extends React.Component<GourmetProps, GourmetState> {
 
     componentDidMount() {
         if (this.props.params['url'] != 'add') {
-            axios.get('/api/gourmets/' + this.props.params['id'])
+            axios.get('/gourmets/' + this.props.params['id'])
                 .then(response => {
                     this.setState({
                         id: response.data._id,
@@ -44,7 +44,7 @@ export class Gourmet extends React.Component<GourmetProps, GourmetState> {
     }
 
     handleSubmit() {
-        let url = '/api/gourmets/';
+        let url = '/gourmets/';
         if (this.props.params['id'] != 'add') {
             url = url + this.props.params['id'];
         }

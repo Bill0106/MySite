@@ -21,7 +21,7 @@ export class Trophy extends React.Component<TrophyProps, TrophyState> {
     }
 
     fetchTrophyApi(id) {
-        axios.get('/api/games/trophy/' + id)
+        axios.get('/games/trophy/' + id)
             .then(response => {
                 if (response.status === 200 && response.data) {
                     let data = {
@@ -59,7 +59,7 @@ export class Trophy extends React.Component<TrophyProps, TrophyState> {
     handleUpdate(e) {
         e.preventDefault();
 
-        axios.post('/api/games/trophy/' + this.state.id, this.state)
+        axios.post('/games/trophy/' + this.state.id, this.state)
             .then(response => {
                 if (response.data.success) {
                     browserHistory.push('/admin/games');
@@ -70,14 +70,14 @@ export class Trophy extends React.Component<TrophyProps, TrophyState> {
     handleCreate(e) {
         e.preventDefault();
 
-        axios.post('/api/games/scrap/' + this.state.game_id, this.state)
+        axios.post('/games/scrap/' + this.state.game_id, this.state)
             .then(response => {
                 this.fetchTrophyApi(response.data);
             })
     }
 
     componentDidMount() {
-        axios.get('/api/games/' + this.props.params['url'])
+        axios.get('/games/' + this.props.params['url'])
             .then(response => {
                 this.handleChange('game_id', response.data._id);
                 if (response.data.trophies) {
