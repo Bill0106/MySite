@@ -1,16 +1,12 @@
 import { App } from './containers/app';
 import { Dashboard } from './containers/dashboard';
-import { Games } from './containers/games';
+import { List } from './containers/list';
 import { Game } from './containers/game';
 import { Trophy } from './containers/trophy';
-import { Gourmets } from './containers/gourmets';
 import { Gourmet } from './containers/gourmet';
-import { HsSeasons } from './containers/hs-seasons';
 import { HsSeason } from './containers/hs-season';
-import { HsDecks } from './containers/hs-decks';
-import { HsDeck } from './containers/hs-deck';
-import { HsMatches } from './containers/hs-matches';
-import { HsMatch } from './containers/hs-match';
+// import { HsDeck } from './containers/hs-deck';
+// import { HsMatch } from './containers/hs-match';
 
 const ROUTING_CONFIG = [
     {
@@ -18,17 +14,17 @@ const ROUTING_CONFIG = [
         component: App,
         indexRoute: { component: Dashboard },
         childRoutes: [
-            { path: 'games', component: Games },
+            { path: 'games', component: List },
             { path: 'games/:url', component: Game },
             { path: 'games/:url/trophy', component: Trophy },
-            { path: 'gourmets', component: Gourmets },
+            { path: 'gourmets', component: List },
             { path: 'gourmets/:id', component: Gourmet },
-            { path: 'hearthstone-seasons', component: HsSeasons },
+            { path: 'hearthstone-seasons', component: List },
             { path: 'hearthstone-seasons/:url', component: HsSeason },
-            { path: 'hearthstone-decks', component: HsDecks },
-            { path: 'hearthstone-decks/:id', component: HsDeck},
-            { path: 'hearthstone-matches', component: HsMatches },
-            { path: 'hearthstone-match', component: HsMatch }
+            { path: 'hearthstone-decks', component: List },
+            // { path: 'hearthstone-decks/:id', component: HsDeck},
+            { path: 'hearthstone-matches', component: List },
+            // { path: 'hearthstone-match', component: HsMatch }
         ]
     }
 ];

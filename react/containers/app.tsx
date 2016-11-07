@@ -8,6 +8,7 @@ export class App extends React.Component<{}, {}> {
     constructor() {
         super();
 
+        axios.defaults.baseURL = '/api';
         axios.defaults.headers.common['auth'] = AuthKeys.get;
         axios.defaults.headers.post['auth'] = AuthKeys.post;
     }
