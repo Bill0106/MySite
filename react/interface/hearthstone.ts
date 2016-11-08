@@ -11,3 +11,11 @@ export interface SeasonState {
     url: string;
     description: string;
 }
+
+export interface MatchState {
+    decks: any;
+    deck: string;
+    opponent: number;
+    matches: any;
+    wins: number;
+}

@@ -6,7 +6,7 @@ import { Trophy } from './containers/trophy';
 import { Gourmet } from './containers/gourmet';
 import { HsSeason } from './containers/hs-season';
 // import { HsDeck } from './containers/hs-deck';
-// import { HsMatch } from './containers/hs-match';
+import { HsMatch } from './containers/hs-match';
 
 const ROUTING_CONFIG = [
     {
@@ -24,7 +24,7 @@ const ROUTING_CONFIG = [
             { path: 'hearthstone-decks', component: List },
             // { path: 'hearthstone-decks/:id', component: HsDeck},
             { path: 'hearthstone-matches', component: List },
-            // { path: 'hearthstone-match', component: HsMatch }
+            { path: 'hearthstone-matches/add', component: HsMatch }
         ]
     }
 ];
