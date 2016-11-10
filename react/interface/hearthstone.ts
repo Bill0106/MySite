@@ -19,3 +19,12 @@ export interface MatchState {
     matches: any;
     wins: number;
 }
+
+export interface DeckProps extends RouteComponentProps<{}, {}> {}
+
+export interface DeckState {
+    deck: any;
+    cards: any;
+    neutralCards: any;
+    classCards: any;
+}
