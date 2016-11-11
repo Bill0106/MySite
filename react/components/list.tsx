@@ -74,7 +74,7 @@ export class ListTable extends React.Component<ListTableProps, {}> {
                     </table>
                 </div>
                 <div className="col-sm-12">
-                    <Pagination link={'/' + this.props.title.toLowerCase()}
+                    <Pagination link={'/' + this.props.title.replace(' ', '-').toLowerCase()}
                         total={this.props.total} per={this.props.per} current={this.props.current} />
                 </div>
             </div>
