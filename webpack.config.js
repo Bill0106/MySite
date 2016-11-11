@@ -4,7 +4,7 @@ module.exports = {
     entry: {
         'polyfills': './resources/scripts/angular-polyfills.ts',
         'vendor'   : './resources/scripts/angular-vendor.ts',
-        'app'      : './angular_2/app.ts'
+        'app'      : './angular/app.ts'
     },
     output: {
         filename: '[name].js'

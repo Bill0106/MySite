@@ -28,7 +28,7 @@ gulp.task('clean:angular', function()
 // Scripts:angular
 gulp.task('scripts:angular', ['clean:angular'], function()
 {
-    return gulp.src('./angular_2/app.ts')
+    return gulp.src('./angular/app.ts')
         .pipe(webpack({
             output: {
                 filename: 'app.js'
@@ -56,7 +56,7 @@ gulp.task('scripts:angular', ['clean:angular'], function()
 // Scripts:angular-production
 gulp.task('scripts:angular-build', function()
 {
-    return gulp.src('./angular_2/app.ts')
+    return gulp.src('./angular/app.ts')
         .pipe(webpack(require('./webpack.config.js')))
         .pipe(gulp.dest('./public/build/js'));
 });
@@ -107,7 +107,7 @@ gulp.task('scripts:react-build', function()
 // Watch
 gulp.task('watch', function() {
     gulp.watch('./resources/sass/*/*.scss', ['style']);
-    gulp.watch(['./angular_2/**/*.ts', './resources/views/**/*.html'], ['scripts:angular']);
+    gulp.watch(['./angular/**/*.ts', './resources/views/**/*.html'], ['scripts:angular']);
     gulp.watch(['./react/**/*.tsx', './react/**/*.ts'], ['scripts:react']);
 });
 
