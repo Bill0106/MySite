@@ -83,7 +83,7 @@ export class Field extends React.Component<FieldProps, FieldState> {
                 );
                 break;
             default:
-                ele = <input type="text" className="form-control" onChange={this.handleChange.bind(this)} value={this.props.value}/>;
+                ele = <input type="text" className="form-control" placeholder={'ENTER ' + this.props.field['field'].toUpperCase()} onChange={this.handleChange.bind(this)} value={this.props.value}/>;
                 break;
         }
 

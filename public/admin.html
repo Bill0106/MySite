@@ -29,12 +29,27 @@
             table.table td, table.table th {
                 vertical-align: middle !important;
             }
+            table.admin-table-list td .btn + .btn {
+                margin-left: 5px;
+            }
             @media only screen and (max-width: 768px) {
-                table.table td, table.table th {
+                table.admin-table-list thead {
                     display: none;
                 }
-                table.table td:nth-child(2), table.table th:nth-child(2) {
-                    display: table-cell;
+                table.admin-table-list tr, table.admin-table-list td {
+                    display: block !important;
+                }
+                table.admin-table-list td {
+                    padding: 5px !important;
+                }
+                table.admin-table-list tr:not(:last-child) {
+                    border-bottom: 1px solid #ddd;
+                }
+                table.admin-table-list td {
+                    border: none !important;
+                }
+                table.admin-table-form tr > td:first-child {
+                    display: none;
                 }
             }
         </style>

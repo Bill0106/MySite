@@ -17,7 +17,7 @@ export class Form extends React.Component<FormProps, {}> {
     render() {
         return (
             <form onSubmit={this.handleSubmit.bind(this)}>
-                <table className="table table-bordered">
+                <table className="table table-bordered admin-table-form">
                     <tbody>
                     {
                         this.props.fields.map((field, key) => {

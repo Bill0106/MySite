@@ -10,13 +10,12 @@ export class GameItem extends React.Component<ListItemProps, {}> {
         return (
             <tr>
                 <td>{this.props.data._id}</td>
-                <td>
-                    <Link to={'/admin/games/' + this.props.data.url} className="btn btn-link">{this.props.data.title}</Link>
-                </td>
+                <td>{this.props.data.title}</td>
                 <td>{this.props.data.name}</td>
                 <td>{GamePlatforms.find(platform => platform.value == this.props.data.platform).name}</td>
                 <td>{GameGenres.find(genre => genre.value == this.props.data.genre).name}</td>
                 <td>
+                    <Link to={'/admin/games/' + this.props.data.url} className="btn btn-primary">Edit</Link>
                     <Link to={'/admin/games/' + this.props.data.url + '/trophy'} className="btn btn-default">Tophy</Link>
                 </td>
             </tr>

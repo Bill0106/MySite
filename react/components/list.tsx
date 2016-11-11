@@ -48,7 +48,7 @@ export class ListTable extends React.Component<ListTableProps, {}> {
                     </section>
                 </div>
                 <div className="col-sm-12">
-                    <table className="table table-bordered">
+                    <table className="table table-bordered admin-table-list">
                         <thead>
                             <tr>
                                 <th>ID</th>

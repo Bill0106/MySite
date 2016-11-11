@@ -8,15 +8,13 @@ export class HsSeasonItem extends React.Component<ListItemProps, {}> {
         return (
             <tr>
                 <td>{this.props.data._id}</td>
-                <td>
-                    <Link to={'/admin/hearthstone-seasons/' + this.props.data.url}
-                        className="btn btn-link">{this.props.data.title}</Link>
-                </td>
+                <td>{this.props.data.title}</td>
                 <td>{this.props.data.month}</td>
                 <td>{this.props.data.rank}</td>
                 <td>{this.props.data.url}</td>
                 <td>
-                    <a href="#" className="btn btn-danger">Delete</a>
+                    <Link to={'/admin/hearthstone-seasons/' + this.props.data.url} className="btn btn-primary">Edit</Link>
+                    <button type="button" className="btn btn-danger">Delete</button>
                 </td>
             </tr>
         )
