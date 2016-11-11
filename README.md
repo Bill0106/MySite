@@ -21,16 +21,13 @@ Dependencies
   - mongoose
 
 ### Frontend
-- AngularJS 1.4.3
-  - angular-ui-router
-  - angular-resource
-  - angular-file-upload
-  - ngInfiniteScroll
-- AngularJS 2.0.2
+- AngularJS 2
   - angular2-infinite-scroll
   - ng2-lazyload-image
+- ReactJS
+  - react-dom
+  - react-router
 - Bootstrap
-- Fontawsome
 
 ### Gulp
 - Gulp
@@ -57,6 +54,9 @@ Installation
 
 Versions
 --------
+### v3.5
+1. Use ReactJS instead of AngularJS in admin page
+
 ### v3.0
 1. Frontend upgrade AngularJS 1.x to AngularJS 2.0
 
