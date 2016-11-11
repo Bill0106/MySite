@@ -16,8 +16,11 @@ export interface ListTableProps {
     data: any;
     per: number;
     current: number;
+    delete: any;
 }
 
 export interface ListItemProps {
     data: any;
+    delete: any;
+    func?: any;
 }

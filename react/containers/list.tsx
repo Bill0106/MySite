@@ -70,6 +70,20 @@ export class List extends React.Component<ListProps, ListState> {
             })
     }
 
+    handleDelete(id): void {
+        axios.post(this.state.page['api'] + '/' + id)
+            .then(response => {
+                if (response.data.success) {
+                    let target = this.state.list.find(item => item._id == id);
+                    let index = this.state.list.indexOf(target);
+                    let change = this.state;
+                    change['list'].splice(index, 1);
+                    change['total']--;
+                    this.setState(change);
+                }
+            })
+    }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.route.path != this.state.page.path) {
             this.state = {
@@ -95,7 +109,7 @@ export class List extends React.Component<ListProps, ListState> {
         return (
             <div className="container-fluid">
                 <ListTable title={this.state.page.table} total={this.state.total} fields={this.state.page.fields} data={this.state.list}
-                    per={this.state.page.per} current={this.props.location.query['page']} />
+                    per={this.state.page.per} current={this.props.location.query['page']} delete={this.handleDelete.bind(this)} />
             </div>
         )
     }

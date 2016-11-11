@@ -14,25 +14,29 @@ export class ListTable extends React.Component<ListTableProps, {}> {
         let ele = null;
         switch (this.props.title.toLowerCase()) {
             case 'games':
-                ele = <GameItem data={data} key={key} />;
+                ele = <GameItem data={data} key={key} delete={this.handleDelete.bind(this)} />;
                 break;
             case 'gourmets':
-                ele = <GourmetItem data={data} key={key} />;
+                ele = <GourmetItem data={data} key={key} delete={this.handleDelete.bind(this)} />;
                 break;
             case 'hearthstone seasons':
-                ele = <HsSeasonItem data={data} key={key} />;
+                ele = <HsSeasonItem data={data} key={key} delete={this.handleDelete.bind(this)} />;
                 break;
             case 'hearthstone decks':
-                ele = <HsDeckItem data={data} key={key} />;
+                ele = <HsDeckItem data={data} key={key} delete={this.handleDelete.bind(this)} />;
                 break;
             case 'hearthstone matches':
-                ele = <HsMatchItem data={data} key={key} />
+                ele = <HsMatchItem data={data} key={key} delete={this.handleDelete.bind(this)} />
                 break;
             default:
                 break;
         }
 
         return ele;
+    }
+
+    handleDelete(id): void {
+        this.props.delete(id);
     }
 
     render() {

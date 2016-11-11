@@ -7,6 +7,10 @@ import { ListItemProps } from '../../interface/list';
 import { time2Date } from '../../helpers';
 
 export class HsMatchItem extends React.Component<ListItemProps, {}> {
+    handleDelete() {
+        this.props.delete(this.props.data._id);
+    }
+
     render() {
         return (
             <tr>
@@ -18,7 +22,7 @@ export class HsMatchItem extends React.Component<ListItemProps, {}> {
                 <td>{HsPlayerClasses.find(player => player.value == this.props.data.opponent).name}</td>
                 <td>{HsMatchResult.find(result => result.value == this.props.data.result).name}</td>
                 <td>
-                    <button className="btn btn-danger" type="button">Delete</button>
+                    <button className="btn btn-danger" type="button" onClick={this.handleDelete.bind(this)}>Delete</button>
                 </td>
             </tr>
         );
