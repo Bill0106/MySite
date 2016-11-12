@@ -4,11 +4,12 @@ import { Router } from "@angular/router";
 import { HearthstoneMatchService } from '../services/hearthstone-match.service';
 import { HearthstoneDeckService } from '../services/hearthstone-deck.service';
 import { HearthstoneSeasonService } from '../services/hearthstone-season.service';
+
 import { HearthstoneSeason } from '../models/hearthstone-season';
 import { HearthstoneMatch } from '../models/hearthstone-match';
 import { HearthstoneDeck } from '../models/hearthstone-deck';
 
-const HS_PLAYER_CLASSES = ['Druid', 'Hunter', 'Mage', 'Paladin', 'Priest', 'Rogue', 'Shaman', 'Warlock', 'Warrior'];
+import { HsPlayerClasses } from '../../config/hs-player-classes';
 
 @Component({
     selector: 'my-hearthstone-matches',
@@ -23,7 +24,7 @@ export class HearthstoneMatchesComponent implements OnInit {
     matches: HearthstoneMatch[];
     decks: HearthstoneDeck[];
     seasons: HearthstoneSeason[];
-    playerClasses = HS_PLAYER_CLASSES;
+    playerClasses = HsPlayerClasses;
 
     constructor(
         private hearthstoneMatchService: HearthstoneMatchService,
@@ -119,7 +120,7 @@ export class HearthstoneMatchesComponent implements OnInit {
         }
     }
 
-    getStats(deck?: string, season?: number, opponent?: string): any {
+    getStats(deck?: string, season?: number, opponent?: number): any {
         let filteredMatches: HearthstoneMatch[] = this.matches;
 
         if (deck) {
@@ -132,7 +133,7 @@ export class HearthstoneMatchesComponent implements OnInit {
         }
 
         if (opponent) {
-            filteredMatches = filteredMatches.filter(match => match.opponent === this.playerClasses.indexOf(opponent))
+            filteredMatches = filteredMatches.filter(match => match.opponent === opponent)
         }
 
         let wins = filteredMatches.filter(match => match.result === 1).length;

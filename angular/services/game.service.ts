@@ -4,11 +4,12 @@ import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Game } from '../models/game';
+import { AuthKeys } from '../../config/auth-keys';
 
 @Injectable()
 export class GameService {
     private url = 'api/games';
-    private headers = new Headers({ 'auth': 'ljpon3UUVTMMmIhE6Kcf' });
+    private headers = new Headers({ 'auth': AuthKeys.get });
 
     constructor(private http: Http) { };
 

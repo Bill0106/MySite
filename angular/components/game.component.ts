@@ -8,10 +8,9 @@ import { GameTrophyService } from '../services/game-trophy.service';
 import { Game } from '../models/game';
 import { GameTrophy } from '../models/game-trophy';
 
-const GAME_PLATFORMS = ['PlayStation 3', 'PlayStation Vita', 'PlayStation 4'];
-const GAME_GENRES = ['Action', 'Adventure', 'Fighting', 'Racing', 'Role-Playing', 'Sports', 'Third-person shooter', 'Strategy'];
+import { GamePlatforms } from '../../config/game-platforms';
+import { GameGenres } from '../../config/game-genres';
 const RATE_TEXT = ['Terrible', 'Poor', 'Fair', 'Good', 'Great'];
-const GAME_TROPHY_RARITY = ['Bronze', 'Gold', 'Silver', 'Platinum'];
 
 @Component({
     selector: 'my-game',
@@ -26,10 +25,9 @@ export class GameComponent implements OnInit {
     game: Game;
     trophy: GameTrophy;
     trophyComplete: number;
-    platforms = GAME_PLATFORMS;
-    genres = GAME_GENRES;
+    platform: string;
+    genre: string;
     rateText = RATE_TEXT;
-    trophyRarity = GAME_TROPHY_RARITY;
 
     constructor (
         private router: Router,
@@ -49,6 +47,8 @@ export class GameComponent implements OnInit {
                         this.router.navigate(['/games']);
                     } else {
                         this.game = game;
+                        this.platform = GamePlatforms.find(platform => platform.value == this.game.platform).name;
+                        this.genre = GameGenres.find(genre => genre.value == this.game.genre).name;
                         this.titleService.setTitle(game.name + ' - Games | Bill\'s Hobby');
 
                         this.gameTrophyService.getTrophy(game.trophies)

@@ -12,7 +12,7 @@
                         <span>Buy at {{ game.buy_at | date: 'MMM dd, yyyy'}}</span>
                     </p>
                     <p class="header-text-platform">
-                        <span>{{ platforms[game.platform] }}</span>
+                        <span>{{ platform }}</span>
                         /
                         <span class="text-platform-trophy" *ngIf="trophy">
                                 {{ trophyComplete | number: '1.2-2' }}% Trophies Completed
@@ -41,7 +41,7 @@
                 <dt>Published by:</dt>
                 <dd>{{ game.publisher }}</dd>
                 <dt>Genre:</dt>
-                <dd>{{ genres[game.genre] }}</dd>
+                <dd>{{ genre }}</dd>
             </dl>
         </div>
     </div>
@@ -51,7 +51,7 @@
                 <li *ngFor="let item of trophy.trophies">
                     <div class="game-trophy-item" [ngClass]="item.date ? '' : 'not-earned'">
                         <div class="trophy-item-main clearfix">
-                            <img src="{{ item.image }}" alt="{{ item.title }}" title="{{ trophyRarity[item.rarity] }}"/>
+                            <img src="{{ item.image }}" alt="{{ item.title }}" title="{{ item.title }}"/>
                             <div class="item-main-text">
                                 <p>{{ item.title }}</p>
                                 <span class="description">{{ item.description }}</span>
