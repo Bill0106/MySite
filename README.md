@@ -54,6 +54,9 @@ Installation
 
 Versions
 --------
+### v3.6
+1. Git ignore API Keys
+
 ### v3.5
 1. Use ReactJS instead of AngularJS in admin page
 
