@@ -5,7 +5,7 @@ import axios from 'axios';
 import { HsSeasonFields } from '../../config/hs-season-fields';
 import { SeasonProps, SeasonState } from '../interface/hearthstone';
 import { Form } from '../components/form';
-import { time2Date } from "../helpers";
+import { time2Date, setPageTitle } from "../helpers";
 
 export class HsSeason extends React.Component<SeasonProps, SeasonState> {
     constructor() {
@@ -45,6 +45,7 @@ export class HsSeason extends React.Component<SeasonProps, SeasonState> {
         if (this.props.params['url'] != 'add') {
             axios.get('/hearth-stone/seasons/' + this.props.params['url'])
                 .then(response => {
+                    setPageTitle(response.data.title);
                     this.setState({
                         id: response.data._id,
                         image: response.data.image,
@@ -55,6 +56,8 @@ export class HsSeason extends React.Component<SeasonProps, SeasonState> {
                         description: response.data.description
                     })
                 });
+        } else {
+            setPageTitle('Add New Hearthstone Season');
         }
     }
 

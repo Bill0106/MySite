@@ -5,7 +5,7 @@ import axios from 'axios';
 import { GourmetFields } from '../../config/gourmet-fields';
 import { GourmetProps, GourmetState } from '../interface/gourmet';
 import { Form } from '../components/form';
-import { time2Date } from "../helpers";
+import { time2Date, setPageTitle } from "../helpers";
 
 export class Gourmet extends React.Component<GourmetProps, GourmetState> {
     constructor() {
@@ -25,6 +25,7 @@ export class Gourmet extends React.Component<GourmetProps, GourmetState> {
         if (this.props.params['url'] != 'add') {
             axios.get('/gourmets/' + this.props.params['id'])
                 .then(response => {
+                    setPageTitle(response.data.food)
                     this.setState({
                         id: response.data._id,
                         image: response.data.image,
@@ -34,6 +35,8 @@ export class Gourmet extends React.Component<GourmetProps, GourmetState> {
                         url: response.data.url,
                     })
                 });
+        } else {
+            setPageTitle('Add New Gourmet');
         }
     }
 

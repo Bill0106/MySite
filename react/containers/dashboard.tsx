@@ -4,6 +4,8 @@ import axios from 'axios';
 import { DashboardState } from '../interface/dashboard';
 import { DashboardItem } from '../components/items/dashboard-item';
 
+import { setPageTitle } from '../helpers';
+
 let sections = [
     { title: 'Games', link: '/admin/games' },
     { title: 'Gourmets', link: '/admin/gourmets' },
@@ -22,6 +24,7 @@ export class Dashboard extends React.Component<{}, DashboardState> {
     }
 
     componentDidMount() {
+        setPageTitle('Admin Dashboard', true);
         axios.get('/counts')
             .then(response => {
                 this.setState({

@@ -5,7 +5,7 @@ import axios from 'axios';
 import { TrophyProps, TrophyState } from '../interface/trophy';
 import { TrophyItem } from '../components/items/trophy-item';
 import { Field } from '../components/field';
-import { time2Date } from "../helpers";
+import { time2Date, setPageTitle } from "../helpers";
 
 export class Trophy extends React.Component<TrophyProps, TrophyState> {
     constructor() {
@@ -79,6 +79,7 @@ export class Trophy extends React.Component<TrophyProps, TrophyState> {
     componentDidMount() {
         axios.get('/games/' + this.props.params['url'])
             .then(response => {
+                setPageTitle(response.data.name + ' Trophies');
                 this.handleChange('game_id', response.data._id);
                 if (response.data.trophies) {
                     this.fetchTrophyApi(response.data.trophies);

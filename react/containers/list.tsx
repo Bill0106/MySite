@@ -5,6 +5,8 @@ import { AdminListPage } from '../../config/admin-list-page';
 import { ListProps, ListState } from '../interface/list';
 import { ListTable } from '../components/list';
 
+import { setPageTitle } from '../helpers';
+
 export class List extends React.Component<ListProps, ListState> {
     constructor(props) {
         super(props);
@@ -33,7 +35,7 @@ export class List extends React.Component<ListProps, ListState> {
     handleTotal(list): void {
         let state = this.state;
         state['list'] = list;
-
+        
         axios.get('/counts')
             .then(response => {
                 state['total'] = response.data.find(value => value.table == this.state.page.table).count;
@@ -102,6 +104,7 @@ export class List extends React.Component<ListProps, ListState> {
 
 
     componentDidMount() {
+        setPageTitle(this.state.page['table']);
         this.handleFetch(this.props.location.query['page']);
     }
 

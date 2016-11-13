@@ -5,7 +5,7 @@ import axios from 'axios';
 import { GameFields } from '../../config/game-fields';
 import { GameProps, GameState } from '../interface/game';
 import { Form } from '../components/form';
-import { time2Date } from '../helpers';
+import { time2Date, setPageTitle } from '../helpers';
 
 export class Game extends React.Component<GameProps, GameState> {
     constructor() {
@@ -27,29 +27,6 @@ export class Game extends React.Component<GameProps, GameState> {
         }
     }
 
-    componentDidMount() {
-        if (this.props.params['url'] != 'add') {
-            axios.get('/games/' + this.props.params['url'])
-                .then(response => {
-                    this.setState({
-                        id: response.data._id,
-                        image: response.data.image,
-                        title: response.data.title,
-                        name: response.data.name,
-                        developer: response.data.developer,
-                        publisher: response.data.publisher,
-                        release_at: time2Date(response.data.release_at),
-                        buy_at: time2Date(response.data.buy_at),
-                        rate: response.data.rate,
-                        url: response.data.url,
-                        platform: response.data.platform,
-                        genre: response.data.genre,
-                        description: response.data.description
-                    })
-                });
-        }
-    }
-
     handleChange(name, value) {
         let change = this.state;
         change[name] = value;
@@ -68,6 +45,32 @@ export class Game extends React.Component<GameProps, GameState> {
                     browserHistory.push('/admin/games');
                 }
             })
+    }
+
+    componentDidMount() {
+        if (this.props.params['url'] != 'add') {
+            axios.get('/games/' + this.props.params['url'])
+                .then(response => {
+                    setPageTitle(response.data.name);
+                    this.setState({
+                        id: response.data._id,
+                        image: response.data.image,
+                        title: response.data.title,
+                        name: response.data.name,
+                        developer: response.data.developer,
+                        publisher: response.data.publisher,
+                        release_at: time2Date(response.data.release_at),
+                        buy_at: time2Date(response.data.buy_at),
+                        rate: response.data.rate,
+                        url: response.data.url,
+                        platform: response.data.platform,
+                        genre: response.data.genre,
+                        description: response.data.description
+                    })
+                });
+        } else {
+            setPageTitle('Add New Game');
+        }
     }
 
     render() {

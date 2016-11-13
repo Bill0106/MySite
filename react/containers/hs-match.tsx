@@ -5,6 +5,8 @@ import { HsPlayerClasses } from '../../config/hs-player-classes';
 import { HsMatchResult } from '../../config/hs-match-result';
 import { MatchState } from '../interface/hearthstone';
 
+import { setPageTitle } from '../helpers';
+
 export class HsMatch extends React.Component<{}, MatchState> {
     constructor(props) {
         super(props);
@@ -47,6 +49,7 @@ export class HsMatch extends React.Component<{}, MatchState> {
     }
 
     componentDidMount() {
+        setPageTitle('Add New Hearthstone Match');
         axios.get('hearth-stone/decks?active=1')
             .then(response => {
                 this.setState({

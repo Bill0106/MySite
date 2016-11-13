@@ -52,3 +52,14 @@ export function getImageData(image, field = 'url') {
 
     return result;
 }
+
+export function setPageTitle(title, index = false) {
+    let suffix = ' | Bill\'s Hobby';
+
+    let pageTitle = title + suffix;
+    if (!index) {
+        pageTitle = title + ' - Admin' + suffix;
+    }
+
+    document.title = pageTitle;
+}

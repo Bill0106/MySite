@@ -1,5 +1,4 @@
 import { RouteComponentProps } from 'react-router';
-import axios from 'axios';
 
 export interface ListProps extends RouteComponentProps<{}, {}> {}
 

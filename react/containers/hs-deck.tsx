@@ -6,6 +6,8 @@ import { HsPlayerClasses } from '../../config/hs-player-classes';
 import { HsCardRarity } from '../../config/hs-card-rarity';
 import { DeckProps, DeckState } from '../interface/hearthstone';
 
+import { setPageTitle } from '../helpers';
+
 export class HsDeck extends React.Component<DeckProps, DeckState> {
     constructor(props) {
         super(props);
@@ -123,6 +125,7 @@ export class HsDeck extends React.Component<DeckProps, DeckState> {
         if (this.props.params['id'] != 'add') {
             axios.get('/hearth-stone/decks/' + this.props.params['id'])
                 .then(response => {
+                    setPageTitle(response.data.name);
                     let change = this.state;
                     change['deck'] = response.data;
                     response.data.cards.map(card => {
@@ -144,6 +147,7 @@ export class HsDeck extends React.Component<DeckProps, DeckState> {
                     this.handleCardsFetch(response.data.playerClass);
                 })
         } else {
+            setPageTitle('Add New Hearthstone Deck');
             this.handleCardsFetch(this.state.deck.playerClass);
         }
 
