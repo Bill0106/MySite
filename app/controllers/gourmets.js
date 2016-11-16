@@ -20,7 +20,19 @@ exports.list = function(req, res)
                 if (error) {
                     callback(error);
                 } else {
-                    callback(null, data);
+                    async.each(data, function (item, eachCallback)
+                    {
+                        item.food = new Buffer(item.food, 'base64').toString();
+                        item.restaurant = new Buffer(item.restaurant, 'base64').toString();
+                        eachCallback();
+                    }, function(err)
+                    {
+                        if (err) {
+                            callback(err);
+                        } else {
+                            callback(null, data);
+                        }
+                    });
                 }
             });
         },
@@ -54,6 +66,9 @@ exports.find = function(req, res)
         if (err)
             res.send(err);
 
+        data.food = new Buffer(data.food, 'base64').toString();
+        data.restaurant = new Buffer(data.restaurant, 'base64').toString();
+
         res.json(data);
     });
 };
@@ -62,8 +77,8 @@ exports.create = function(req, res)
 {
     var gourmet = new Gourmets();
 
-    gourmet.food           = req.body.food;
-    gourmet.restaurant     = req.body.restaurant;
+    gourmet.food           = new Buffer(req.body.food).toString('base64');
+    gourmet.restaurant     = new Buffer(req.body.restaurant).toString('base64');
     gourmet.image          = req.body.image;
     gourmet.url            = req.body.url;
     gourmet.date           = moment(req.body.date, 'YYYY-MM-DD').valueOf();
@@ -90,8 +105,8 @@ exports.update = function(req, res)
 {
     Gourmets.findOne({ _id: req.body.id }, function(err, data)
     {
-        data.food           = req.body.food;
-        data.restaurant     = req.body.restaurant;
+        data.food           = new Buffer(req.body.food).toString('base64');
+        data.restaurant     = new Buffer(req.body.restaurant).toString('base64');
         data.image          = req.body.image;
         data.url            = req.body.url;
         data.date           = moment(req.body.date, 'YYYY-MM-DD').valueOf();

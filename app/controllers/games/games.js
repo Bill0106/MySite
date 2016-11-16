@@ -20,7 +20,18 @@ exports.list = function (req, res)
                 if (error) {
                     callback(error);
                 } else {
-                    callback(null, data);
+                    async.each(data, function (item, eachCallback)
+                    {
+                        item.title = new Buffer(item.title, 'base64').toString();
+                        eachCallback();
+                    }, function(err)
+                    {
+                        if (err) {
+                            callback(err);
+                        } else {
+                            callback(null, data);
+                        }
+                    });
                 }
             });
         },
@@ -54,6 +65,8 @@ exports.find = function(req, res)
         if (err)
             res.send(err);
 
+        data.title = new Buffer(data.title, 'base64').toString();
+
         res.json(data);
     });
 };
@@ -62,7 +75,7 @@ exports.create = function(req, res)
 {
     var game = new Games();
 
-    game.title       = req.body.title;
+    game.title       = new Buffer(req.body.title).toString('base64');
     game.name        = req.body.name;
     game.publisher   = req.body.publisher;
     game.developer   = req.body.developer;
@@ -101,7 +114,7 @@ exports.update = function(req, res)
 {
     Games.findOne({ _id: req.body.id }, function(err, data)
     {
-        data.title       = req.body.title;
+        data.title       = new Buffer(req.body.title).toString('base64');
         data.name        = req.body.name;
         data.publisher   = req.body.publisher;
         data.developer   = req.body.developer;
