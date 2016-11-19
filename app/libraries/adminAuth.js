@@ -4,8 +4,6 @@
 
 var basicAuth = require('basic-auth');
 var auth = require('../config/admin');
-var username = new Buffer(auth.user, 'base64');
-var password = new Buffer(auth.password, 'base64');
 
 function adminAuth(req, res, next)
 {
@@ -25,7 +23,7 @@ function adminAuth(req, res, next)
         return unauthorized(res);
     }
 
-    if (user.name === username.toString() && user.pass === password.toString()) {
+    if (user.name === auth.user && user.pass === auth.password) {
         return next();
     } else {
         return unauthorized(res);
