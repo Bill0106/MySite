@@ -13,20 +13,16 @@
     "typings": "typings"
   },
   "dependencies": {
-    "async": "^1.5.2",
     "basic-auth": "^1.0.3",
-    "body-parser": "~1.*",
     "cheerio": "~0.*",
-    "connect-multiparty": "~2.*",
-    "cookie-parser": "~1.*",
-    "express": "~4.*",
-    "method-override": "~2.*",
+    "koa": "^2.0.0-alpha.7",
+    "koa-bodyparser": "^3.2.0",
+    "koa-router": "^7.0.1",
+    "koa-static": "^3.0.0",
     "moment": "~2.*",
     "mongoose": "~4.*",
-    "morgan": "~1.*",
     "qiniu": "^6.1.10",
-    "request": "~2.*",
-    "serve-favicon": "~2.*"
+    "request": "~2.*"
   },
   "devDependencies": {
     "@angular/common": "~2.0.1",
@@ -39,17 +35,14 @@
     "angular2-infinite-scroll": "^0.2.4",
     "angular2-template-loader": "^0.4.0",
     "ng2-lazyload-image": "^2.2.2",
-
     "core-js": "^2.4.1",
     "zone.js": "^0.6.25",
     "reflect-metadata": "^0.1.8",
     "rxjs": "5.0.0-beta.12",
     "axios": "^0.15.2",
-
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-router": "^3.0",
-
     "awesome-typescript-loader": "^2.2.4",
     "gulp": "^3.9.1",
     "gulp-clean": "~0.3.*",
