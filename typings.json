@@ -7,6 +7,7 @@
     "koa": "registry:dt/koa#2.0.0+20161025101853",
     "koa-bodyparser": "registry:dt/koa-bodyparser#3.0.0+20160928122441",
     "koa-router": "registry:dt/koa-router#7.0.0+20160907102352",
+    "koa-send": "registry:dt/koa-send#3.0.0+20161008174501",
     "koa-static": "registry:dt/koa-static#2.0.0+20160807195632",
     "mongoose": "registry:dt/mongoose#4.5.9+20161010180758",
     "node": "registry:dt/node#6.0.0+20160909174046",
