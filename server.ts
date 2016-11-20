@@ -1,9 +1,9 @@
 import * as Koa from 'koa';
 import * as mongoose from 'mongoose';
 import * as server from 'koa-static';
-import * as send from 'koa-send';
+import * as bodyParser from 'koa-bodyparser';
 
-import api from './koa/routes';
+import router from './koa/routes';
 
 (<any>mongoose).Promise = global.Promise;
 mongoose.connect('mongodb://localhost/database');
@@ -19,17 +19,10 @@ app.use(async (ctx, next) => {
     console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
 });
 
-app
+app.use(bodyParser())
     .use(server(__dirname + '/public'))
-    .use(api.routes())
-    .use(api.allowedMethods())
-    .use(async (ctx, next) => {
-        if (ctx.path.indexOf('/admin') === 0) {
-            await send(ctx, 'admin.html', { root: __dirname + '/public' });
-        } else {
-            await send(ctx, 'index.html', { root: __dirname + '/public' });
-        }
-    })
+    .use(router.routes())
+    .use(router.allowedMethods())
 
 app.listen(8888);
 
