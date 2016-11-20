@@ -29,4 +29,4 @@ typings/
 app/config/apiKey.js
 app/config/admin.js
 app/config/qiNiu.js
-config/auth-keys.ts
+config/api-keys.ts
