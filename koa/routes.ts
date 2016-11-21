@@ -4,6 +4,7 @@ import * as send from 'koa-send';
 
 import { ApiKeys } from '../config/api-keys';
 
+import countController from './controllers/count.controller';
 import gameController from './controllers/game.controller';
 import gourmetController from './controllers/gourmet.controller';
 
@@ -35,7 +36,8 @@ api.use(async (ctx, next) => {
   }
 })
 
-api.use('/games', game.routes(), game.allowedMethods())
+api.get('/counts', countController.list)
+  .use('/games', game.routes(), game.allowedMethods())
   .use('/gourmets', gourmet.routes(), gourmet.allowedMethods());
 
 router.use('/api', api.routes(), api.allowedMethods())
