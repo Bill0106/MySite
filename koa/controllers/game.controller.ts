@@ -90,6 +90,10 @@ const update = async (ctx) => {
 const remove = async (ctx) => {
     try {
         await Game.repositry.findByIdAndRemove(ctx.request.body.id);
+
+        ctx.body = {
+            success: true,
+        }
     } catch (error) {
         ctx.status = error.status || 500;
         ctx.body = {

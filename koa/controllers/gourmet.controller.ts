@@ -1,19 +1,22 @@
+import * as moment from 'moment';
+
 import * as Gourmet from '../models/gourmet.model';
 
-const list = async (ctx, next) => {
-    let limit = parseInt(ctx.query.limit) || 20;
-    let page = parseInt(ctx.query.page) || 1;
-    let skip = limit * (page - 1);
-
+const list = async (ctx) => {
     try {
-        let result = await Promise.all([
-            Gourmet.repositry.find().limit(limit).skip(skip).sort({ buy_at: 'desc' }).sort({ release_at: 'desc' }),
-            Gourmet.repositry.count({})
-        ]);
+        let limit = parseInt(ctx.query.limit) || 20;
+        let page = parseInt(ctx.query.page) || 1;
+        let skip = limit * (page - 1);
+
+        let gourmets = await Gourmet.repositry.find().limit(limit).skip(skip).sort({ buy_at: 'desc' }).sort({ release_at: 'desc' });
+        for (let i = 0; i < gourmets.length; i++) {
+            gourmets[i].food = new Buffer(gourmets[i].food, 'base64').toString();
+            gourmets[i].restaurant = new Buffer(gourmets[i].restaurant, 'base64').toString();
+        }
 
         ctx.body = {
-            list: result[0],
-            total: result[1],
+            list: gourmets,
+            total: await Gourmet.repositry.count({})
         };
     } catch (error) {
         ctx.body = error.message;
@@ -21,9 +24,9 @@ const list = async (ctx, next) => {
     }
 }
 
-const find = async (ctx, next) => {
+const find = async (ctx) => {
     try {
-        let gourmet = await Gourmet.repositry.findById(ctx.params.id); 
+        let gourmet = await Gourmet.repositry.findById(ctx.params.id);
         gourmet.food = new Buffer(gourmet.food, 'base64').toString();
         gourmet.restaurant = new Buffer(gourmet.restaurant, 'base64').toString();
         ctx.body = gourmet;
@@ -33,10 +36,62 @@ const find = async (ctx, next) => {
     }
 }
 
-const create = async (ctx, next) => {}
+const create = async (ctx) => {
+    try {
+        let data = ctx.request.body;
 
-const update = async (ctx, next) => {}
+        data.food = new Buffer(data.food).toString('base64');
+        data.restaurant = new Buffer(data.restaurant).toString('base64');
+        data.date = moment(data.date, 'YYYY-MM-DD').valueOf();
 
-const remove = async (ctx, next) => {}
+        let gourmet = new Gourmet.repositry(data);
+        await gourmet.save();
+
+        ctx.body = {
+            success: true,
+            data: {
+                id: gourmet._id
+            }
+        }
+    } catch (error) {
+        ctx.body = error.message;
+        ctx.status = error.status || 500;
+    }
+}
+
+const update = async (ctx) => {
+    try {
+        let data = ctx.request.body;
+
+        data.food = new Buffer(data.food).toString('base64');
+        data.restaurant = new Buffer(data.restaurant).toString('base64');
+        data.date = moment(data.date, 'YYYY-MM-DD').valueOf();
+
+        await Gourmet.repositry.findByIdAndUpdate(ctx.params.id, data);
+
+        ctx.body = {
+            success: true,
+            data: {
+                id: ctx.params.id
+            }
+        }
+    } catch (error) {
+        ctx.body = error.message;
+        ctx.status = error.status || 500;
+    }
+}
+
+const remove = async (ctx) => {
+    try {
+        await Gourmet.repositry.findByIdAndRemove(ctx.params.id);
+
+        ctx.body = {
+            success: true,
+        }
+    } catch (error) {
+        ctx.body = error.message;
+        ctx.status = error.status || 500;
+    }
+}
 
 export default { list, find, create, update, remove }
