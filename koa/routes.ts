@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as Router from 'koa-router';
 import * as send from 'koa-send';
 
-import { ApiKeys } from '../config/api-keys';
+import { Keys } from '../config/keys';
 
 import countController from './controllers/count.controller';
 import gameController from './controllers/game.controller';
@@ -28,7 +28,7 @@ gourmet.get('/', gourmetController.list)
 api.use(async (ctx, next) => {
   let auth = ctx.headers.auth;
 
-  if (auth == ApiKeys[ctx.method]) {
+  if (auth == Keys.api[ctx.method]) {
     await next();
   } else {
     ctx.status = 401;
