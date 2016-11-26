@@ -34,7 +34,7 @@ const find = async (ctx) => {
     }
 }
 
-const creat = async (ctx) => {
+const create = async (ctx) => {
     try {
         let data = ctx.request.body;
 
@@ -103,4 +103,4 @@ const remove = async (ctx) => {
     }
 }
 
-export default { list, find, creat, update, remove }
+export default { list, find, create, update, remove }

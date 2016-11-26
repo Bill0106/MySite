@@ -19,8 +19,10 @@ const game = new Router();
 const gourmet = new Router();
 const hearthstoneSeason = new Router();
 
+const upload = multer({ dest: 'uploads/' });
+
 game.get('/', gameController.list)
-  .post('/', gameController.creat)
+  .post('/', gameController.create)
   .get('/:url', gameController.find)
   .post('/:url', gameController.update)
   .post('/:url/delete', gameController.remove);
@@ -49,10 +51,10 @@ api.use(async (ctx, next) => {
 })
 
 api.get('/counts', countController.list)
-  .post('/images', multer({ dest: 'uploads/' }).single('file'), imageController.create)
+  .post('/images', upload.single('file'), imageController.create)
   .use('/games', game.routes(), game.allowedMethods())
   .use('/gourmets', gourmet.routes(), gourmet.allowedMethods())
-  .use('/hearthstone-season', hearthstoneSeason.routes(), hearthstoneSeason.allowedMethods());
+  .use('/hearthstone-seasons', hearthstoneSeason.routes(), hearthstoneSeason.allowedMethods());
 
 router.use('/api', api.routes(), api.allowedMethods())
   .get('/admin*', async (ctx, next) => {
