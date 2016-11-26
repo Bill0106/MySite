@@ -2,6 +2,7 @@ import * as Game from '../models/game.model';
 import * as Gourmet from '../models/gourmet.model';
 import * as HearthstoneSeason from '../models/hearthstone-season.model';
 import * as HearthstoneDeck from '../models/hearthstone-deck.model';
+import * as HearthstoneMatch from '../models/hearthstone-match.model';
 
 const list = async (ctx, next) => {
     try {
@@ -21,6 +22,10 @@ const list = async (ctx, next) => {
             {
                 table: 'Hearthstone Decks',
                 count: await HearthstoneDeck.repositry.count({})
+            },
+            {
+                table: 'Hearthstone Matches',
+                count: await HearthstoneMatch.repositry.count({})
             }
         ]
     } catch (error) {

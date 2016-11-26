@@ -13,6 +13,7 @@ import gameController from './controllers/game.controller';
 import gourmetController from './controllers/gourmet.controller';
 import hearthstoneSeasonController from './controllers/hearthstone-season.controller';
 import hearthstoneDeckController from './controllers/hearthstone-deck.controller';
+import hearthstoneMatchController from './controllers/hearthstone-match.controller';
 import hearthstoneCardController from './controllers/hearthstone-card.controller';
 
 const router = new Router();
@@ -21,6 +22,7 @@ const game = new Router();
 const gourmet = new Router();
 const hearthstoneSeason = new Router();
 const hearthstoneDeck = new Router();
+const hearthstoneMatch = new Router();
 
 const upload = multer({ dest: 'uploads/' });
 
@@ -48,7 +50,11 @@ hearthstoneDeck.get('/', hearthstoneDeckController.list)
   .post('/:id', hearthstoneDeckController.update)
   .post('/:id/delete', hearthstoneDeckController.remove)
   .post('/:id/active', hearthstoneDeckController.active)
-  .post('/:id/inactive', hearthstoneDeckController.inactive)
+  .post('/:id/inactive', hearthstoneDeckController.inactive);
+
+hearthstoneMatch.get('/', hearthstoneMatchController.list)
+  .post('/', hearthstoneMatchController.create)
+  .post('/:id/delete', hearthstoneMatchController.remove);
 
 api.use(async (ctx, next) => {
   let auth = ctx.headers.auth;
@@ -67,6 +73,7 @@ api.get('/counts', countController.list)
   .use('/gourmets', gourmet.routes(), gourmet.allowedMethods())
   .use('/hearthstone-seasons', hearthstoneSeason.routes(), hearthstoneSeason.allowedMethods())
   .use('/hearthstone-decks', hearthstoneDeck.routes(), hearthstoneDeck.allowedMethods())
+  .use('/hearth-stone/matches', hearthstoneMatch.routes(), hearthstoneMatch.allowedMethods())
   .get('/hearthstone-cards', hearthstoneCardController.list);
 
 router.use('/api', api.routes(), api.allowedMethods())
