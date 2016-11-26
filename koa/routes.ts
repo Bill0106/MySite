@@ -66,8 +66,8 @@ api.get('/counts', countController.list)
   .use('/games', game.routes(), game.allowedMethods())
   .use('/gourmets', gourmet.routes(), gourmet.allowedMethods())
   .use('/hearthstone-seasons', hearthstoneSeason.routes(), hearthstoneSeason.allowedMethods())
-  .use('/hearth-stone/decks', hearthstoneDeck.routes(), hearthstoneDeck.allowedMethods())
-  .get('/hearth-stone/cards', hearthstoneCardController.list);
+  .use('/hearthstone-decks', hearthstoneDeck.routes(), hearthstoneDeck.allowedMethods())
+  .get('/hearthstone-cards', hearthstoneCardController.list);
 
 router.use('/api', api.routes(), api.allowedMethods())
   .get('/admin*', async (ctx, next) => {
