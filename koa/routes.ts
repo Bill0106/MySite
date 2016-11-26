@@ -12,12 +12,15 @@ import imageController from './controllers/image.controller';
 import gameController from './controllers/game.controller';
 import gourmetController from './controllers/gourmet.controller';
 import hearthstoneSeasonController from './controllers/hearthstone-season.controller';
+import hearthstoneDeckController from './controllers/hearthstone-deck.controller';
+import hearthstoneCardController from './controllers/hearthstone-card.controller';
 
 const router = new Router();
 const api = new Router();
 const game = new Router();
 const gourmet = new Router();
 const hearthstoneSeason = new Router();
+const hearthstoneDeck = new Router();
 
 const upload = multer({ dest: 'uploads/' });
 
@@ -39,6 +42,14 @@ hearthstoneSeason.get('/', hearthstoneSeasonController.list)
   .post('/:url', hearthstoneSeasonController.update)
   .post('/:url/delete', hearthstoneSeasonController.remove);
 
+hearthstoneDeck.get('/', hearthstoneDeckController.list)
+  .post('/', hearthstoneDeckController.create)
+  .get('/:id', hearthstoneDeckController.find)
+  .post('/:id', hearthstoneDeckController.update)
+  .post('/:id/delete', hearthstoneDeckController.remove)
+  .post('/:id/active', hearthstoneDeckController.active)
+  .post('/:id/inactive', hearthstoneDeckController.inactive)
+
 api.use(async (ctx, next) => {
   let auth = ctx.headers.auth;
 
@@ -54,7 +65,9 @@ api.get('/counts', countController.list)
   .post('/images', upload.single('file'), imageController.create)
   .use('/games', game.routes(), game.allowedMethods())
   .use('/gourmets', gourmet.routes(), gourmet.allowedMethods())
-  .use('/hearthstone-seasons', hearthstoneSeason.routes(), hearthstoneSeason.allowedMethods());
+  .use('/hearthstone-seasons', hearthstoneSeason.routes(), hearthstoneSeason.allowedMethods())
+  .use('/hearth-stone/decks', hearthstoneDeck.routes(), hearthstoneDeck.allowedMethods())
+  .get('/hearth-stone/cards', hearthstoneCardController.list);
 
 router.use('/api', api.routes(), api.allowedMethods())
   .get('/admin*', async (ctx, next) => {
