@@ -1,5 +1,6 @@
 import * as Game from '../models/game.model';
 import * as Gourmet from '../models/gourmet.model';
+import * as HearthstoneSeason from '../models/hearthstone-season.model';
 
 const list = async (ctx, next) => {
     try {
@@ -11,6 +12,10 @@ const list = async (ctx, next) => {
             {
                 table: 'Gourmets',
                 count: await Gourmet.repositry.count({})
+            },
+            {
+                table: 'Hearthstone Seasons',
+                count: await HearthstoneSeason.repositry.count({})
             }
         ]
     } catch (error) {
