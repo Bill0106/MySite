@@ -1,9 +1,17 @@
 {
   "globalDependencies": {
     "bootstrap": "registry:dt/bootstrap#3.3.5+20160619023404",
+    "cheerio": "registry:dt/cheerio#0.17.0+20160930124405",
     "core-js": "registry:dt/core-js#0.0.0+20160725163759",
     "jasmine": "registry:dt/jasmine#2.2.0+20160621224255",
     "jquery": "registry:dt/jquery#1.10.0+20160929162922",
+    "koa": "registry:dt/koa#2.0.0+20161025101853",
+    "koa-bodyparser": "registry:dt/koa-bodyparser#3.0.0+20160928122441",
+    "koa-router": "registry:dt/koa-router#7.0.0+20160907102352",
+    "koa-send": "registry:dt/koa-send#3.0.0+20161008174501",
+    "koa-static": "registry:dt/koa-static#2.0.0+20160807195632",
+    "moment": "registry:dt/moment#2.11.1+20161010105546",
+    "mongoose": "registry:dt/mongoose#4.5.9+20161010180758",
     "node": "registry:dt/node#6.0.0+20160909174046",
     "react": "registry:dt/react#0.14.0+20161008064207",
     "react-dom": "registry:dt/react-dom#0.14.0+20160412154040",
