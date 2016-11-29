@@ -1,9 +1,9 @@
 {
   "name": "zhuhaolin.com",
-  "version": "3.6.0",
+  "version": "4.0.0",
   "author": "Bill",
   "main": "server.js",
-  "license": "MIT",
+  "license": "ISC",
   "repository": {
     "type": "git",
     "url": "git://github.com/bill0106/repository.git"
@@ -13,7 +13,6 @@
     "typings": "typings"
   },
   "dependencies": {
-    "basic-auth": "^1.0.3",
     "cheerio": "~0.*",
     "koa": "^2.0.0-alpha.7",
     "koa-basic-auth": "^2.0.0",
@@ -22,8 +21,7 @@
     "koa-static": "^3.0.0",
     "moment": "~2.*",
     "mongoose": "~4.*",
-    "qiniu": "^6.1.10",
-    "request": "~2.*"
+    "qiniu": "^6.1.10"
   },
   "devDependencies": {
     "@angular/common": "~2.0.1",

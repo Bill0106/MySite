@@ -1,24 +1,20 @@
 Mysite
 ===========
-My personal site with MongoDB, ExpressJS, AngularJS and NodeJS.
+My personal site with NodeJS, Koa, MongoDB, AngularJS and React.
 
 Dependencies
 ------------
 ### Backend
 - NodeJS
-  - connect-multiparty
-  - request
   - cheerio
   - moment
-  - async
-  - base-auth
-- Express framework
-  - morgan
-  - body-parser
-  - method-override
-  - cookie-parser
-- MongoDB
   - mongoose
+  - qiniu
+- Koa@next
+  - koa-basic-auth
+  - koa-bodyparser
+  - koa-router
+  - koa-static
 
 ### Frontend
 - AngularJS 2
@@ -28,6 +24,7 @@ Dependencies
   - react-dom
   - react-router
 - Bootstrap
+- Axios
 
 ### Gulp
 - Gulp
@@ -47,13 +44,18 @@ Dependencies
 Installation
 ------------
 1. Run `npm install` to install backend dependencies
-2. Run `node server.js`, and visit [http://localhost:8888](http://localhost:8888)
-3. For Development, run `npm install nodemon -g` to install nodemon
-4. Run `NODE_ENV=dev nodemon server.js` to start server with development enviroment
-5. Run `gulp watch` for frontend development
+2. Run `npm install ts-node -g` to install ts-node
+3. Run `ts-node server.js`, and visit [http://localhost:8888](http://localhost:8888)
+4. For Development, run `npm install pm2 -g` to install pm2
+5. Run `pm2 install typescript` for Typescript
+6. Run `NODE_ENV=dev pm2 start server.ts --watch --ignore-watch='upload'` to start server with development enviroment
+7. Run `gulp watch` for frontend development
 
 Versions
 --------
+### v4.0
+1. Use Koa@next instead of Express
+
 ### v3.6
 1. Git ignore API Keys
 
