@@ -4,6 +4,7 @@ import * as path from 'path';
 import * as Router from 'koa-router';
 import * as send from 'koa-send';
 import * as multer from 'koa-multer';
+import * as auth from 'koa-basic-auth';
 
 import { Keys } from '../config/keys';
 
@@ -81,7 +82,7 @@ api.get('/counts', countController.list)
   .post('/game-trophy', trophyController.create);
 
 router.use('/api', api.routes(), api.allowedMethods())
-  .get('/admin*', async (ctx, next) => {
+  .get('/admin*', auth({ name: Keys.admin.user, pass: Keys.admin.password }), async (ctx, next) => {
     await send(ctx, 'admin.html', { root: path.join(__dirname, '..', '/public') });
   })
   .get('*', async (ctx, next) => {
