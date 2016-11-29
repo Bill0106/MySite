@@ -13,6 +13,7 @@ export interface IGame extends mongoose.Document {
     platform    : number;
     genre       : number;
     description : number;
+    trophies    : string;
 }
 
 export let gameSchema = new mongoose.Schema({
@@ -27,7 +28,8 @@ export let gameSchema = new mongoose.Schema({
     url         : String,
     platform    : Number,
     genre       : Number,
-    description : String
+    description : String,
+    trophies    : String
 });
 
 export let repositry = mongoose.model<IGame>("Game", gameSchema);

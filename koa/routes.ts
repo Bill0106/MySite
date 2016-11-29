@@ -10,6 +10,7 @@ import { Keys } from '../config/keys';
 import countController from './controllers/count.controller';
 import imageController from './controllers/image.controller';
 import gameController from './controllers/game.controller';
+import trophyController from './controllers/trophy.controller';
 import gourmetController from './controllers/gourmet.controller';
 import hearthstoneSeasonController from './controllers/hearthstone-season.controller';
 import hearthstoneDeckController from './controllers/hearthstone-deck.controller';
@@ -30,7 +31,9 @@ game.get('/', gameController.list)
   .post('/', gameController.create)
   .get('/:url', gameController.find)
   .post('/:url', gameController.update)
-  .post('/:url/delete', gameController.remove);
+  .post('/:url/delete', gameController.remove)
+  .get('/:url/trophy', trophyController.find)
+  .post('/:url/trophy', trophyController.update);
 
 gourmet.get('/', gourmetController.list)
   .post('/', gourmetController.create)
@@ -73,8 +76,9 @@ api.get('/counts', countController.list)
   .use('/gourmets', gourmet.routes(), gourmet.allowedMethods())
   .use('/hearthstone-seasons', hearthstoneSeason.routes(), hearthstoneSeason.allowedMethods())
   .use('/hearthstone-decks', hearthstoneDeck.routes(), hearthstoneDeck.allowedMethods())
-  .use('/hearth-stone/matches', hearthstoneMatch.routes(), hearthstoneMatch.allowedMethods())
-  .get('/hearthstone-cards', hearthstoneCardController.list);
+  .use('/hearthstone-matches', hearthstoneMatch.routes(), hearthstoneMatch.allowedMethods())
+  .get('/hearthstone-cards', hearthstoneCardController.list)
+  .post('/game-trophy', trophyController.create);
 
 router.use('/api', api.routes(), api.allowedMethods())
   .get('/admin*', async (ctx, next) => {
