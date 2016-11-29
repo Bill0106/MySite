@@ -13,6 +13,7 @@ Dependencies
 - Koa@next
   - koa-basic-auth
   - koa-bodyparser
+  - koa-multer
   - koa-router
   - koa-static
 
