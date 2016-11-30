@@ -1,4 +1,6 @@
 var webpack = require('webpack');
+var path = require("path");
+var tsConfigPath = path.join(__dirname, "tsconfig.frontend.json");
 
 module.exports = {
     entry: {
@@ -15,11 +17,11 @@ module.exports = {
         loaders: [
             {
                 test: /\.ts$/,
-                loaders: ['awesome-typescript-loader']
+                loaders: ['awesome-typescript-loader?tsconfig=' + tsConfigPath]
             },
             {
                 test: /\.tsx$/,
-                loaders: ['awesome-typescript-loader']
+                loaders: ['awesome-typescript-loader?tsconfig=' + tsConfigPath]
             }
         ]
     },

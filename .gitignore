@@ -27,8 +27,4 @@ node_modules
 .idea
 typings/
 upload/
-app/config/apiKey.js
-app/config/admin.js
-app/config/qiNiu.js
-config/api-keys.ts
 config/keys.ts

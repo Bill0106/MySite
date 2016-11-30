@@ -9,6 +9,9 @@ var gulp     = require('gulp'),
     clean    = require('gulp-clean'),
     notify   = require("gulp-notify");
 
+var path = require("path");
+var tsConfigPath = path.join(__dirname, "tsconfig.frontend.json");
+
 // Style Tasks
 gulp.task('style', function()
 {
@@ -40,7 +43,7 @@ gulp.task('scripts:angular', ['clean:angular'], function()
                 loaders: [
                     {
                         test: /\.ts$/,
-                        loaders: ['awesome-typescript-loader', 'angular2-template-loader']
+                        loaders: ['awesome-typescript-loader?tsconfig=' + tsConfigPath, 'angular2-template-loader']
                     },
                     {
                         test: /\.html$/,
@@ -83,11 +86,11 @@ gulp.task('scripts:react', function()
                 loaders: [
                     {
                         test: /\.ts$/,
-                        loader: 'awesome-typescript-loader'
+                        loader: 'awesome-typescript-loader?tsconfig=' + tsConfigPath
                     },
                     {
                         test: /\.tsx$/,
-                        loader: 'awesome-typescript-loader'
+                        loader: 'awesome-typescript-loader?tsconfig=' + tsConfigPath
                     }
                 ]
             }
