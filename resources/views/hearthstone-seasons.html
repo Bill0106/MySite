@@ -1,13 +1,11 @@
 <div class="container">
-    <div class="row">
+    <div class="row" infinite-scroll [infiniteScrollDisabled]="scrollDisabled" (scrolled)="onScroll()">
         <div class="col-sm-6" *ngFor="let season of seasons">
             <section class="my-hearthstone-item">
                 <div class="hearthstone-item-header" (click)="gotoSeason(season)" [ngStyle]="{'background-color': (season.image | imageHelper:'color')}">
                     <h2>{{ season.title }}</h2>
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAAAbCAQAAAB8FaHvAAAAGUlEQVRYR+3BAQEAAACAkP6v7ggKAAAAoAEQIwABgZwLrQAAAABJRU5ErkJggg=="
-                         [lazyLoad]="(season.image | imageHelper:'url')"
-                         alt="{{ season.title }}"
-                         title="{{ season.title }}"/>
+                        [lazyLoad]="(season.image | imageHelper:'url')" alt="{{ season.title }}" title="{{ season.title }}" />
                 </div>
                 <div class="hearthstone-item-text">
                     <p>{{ season.description }}</p>
@@ -18,3 +16,6 @@
         </div>
     </div>
 </div>
+<section class="site-loading-spinner" [hidden]="!hasNextPage">
+    <img src="http://7xtddu.com1.z0.glb.clouddn.com/loading_ring.gif" alt="" />
+</section>

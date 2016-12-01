@@ -13,17 +13,46 @@ const SEASON_PER_PAGE = 12;
 })
 
 export class HearthstoneComponent implements OnInit {
+    private page = 1;
     seasons: HearthstoneSeason[];
+    hasNextPage = true;
+    scrollDisabled = false;
 
     constructor(
         private router: Router,
         private hearthstoneSeasonService: HearthstoneSeasonService
     ) { }
 
-    ngOnInit(): void {
+    getSeasons(page: number): void {
         this.hearthstoneSeasonService
-            .getSeasons()
-            .then(seasons => this.seasons = seasons);
+            .getSeasons(SEASON_PER_PAGE, page)
+            .then(seasons => {
+                if (page === 1) {
+                    this.seasons = seasons;
+                } else {
+                    for (let season of seasons) {
+                        this.seasons.push(season);
+                    }
+                }
+
+                if (seasons.length < SEASON_PER_PAGE) {
+                    this.hasNextPage = false;
+                }
+                this.page++;
+                this.scrollDisabled = false;
+            })
+    }
+
+    ngOnInit(): void {
+        this.getSeasons(this.page);
+    }
+
+    onScroll(): void {
+        this.scrollDisabled = true;
+
+        if (this.hasNextPage) {
+            this.getSeasons(this.page);
+        }
     }
 
     gotoSeason(season: HearthstoneSeason): void {

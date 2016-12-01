@@ -4,12 +4,12 @@ import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { HearthstoneDeck } from '../models/hearthstone-deck';
-import { AuthKeys } from '../../config/auth-keys';
+import { Keys } from '../../config/keys';
 
 @Injectable()
 export class HearthstoneDeckService {
-    private url = 'api/hearth-stone/decks';
-    private headers = new Headers({ 'auth': AuthKeys.get });
+    private url = 'api/hearthstone-decks';
+    private headers = new Headers({ 'auth': Keys.api.GET });
 
     constructor(private http: Http) { }
 
@@ -18,7 +18,7 @@ export class HearthstoneDeckService {
 
         return this.http.get(apiUrl, { headers: this.headers })
             .toPromise()
-            .then(response => response.json() as HearthstoneDeck[]);
+            .then(response => response.json().list as HearthstoneDeck[]);
     }
 
     getDeck(id: string): Promise<HearthstoneDeck> {

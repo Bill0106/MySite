@@ -4,12 +4,12 @@ import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Gourmet } from '../models/gourmet';
-import { AuthKeys } from '../../config/auth-keys';
+import { Keys } from '../../config/keys';
 
 @Injectable()
 export class GourmetService {
     private url = 'api/gourmets';
-    private headers = new Headers({ 'auth': AuthKeys.get });
+    private headers = new Headers({ 'auth': Keys.api.GET });
 
     constructor(private http: Http) { }
 

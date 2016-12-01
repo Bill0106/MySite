@@ -3,7 +3,6 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
 import { GameService } from '../services/game.service';
-import { GameTrophyService } from '../services/game-trophy.service';
 
 import { Game } from '../models/game';
 import { GameTrophy } from '../models/game-trophy';
@@ -15,10 +14,7 @@ const RATE_TEXT = ['Terrible', 'Poor', 'Fair', 'Good', 'Great'];
 @Component({
     selector: 'my-game',
     templateUrl: '../../resources/views/game.html',
-    providers: [
-        GameService,
-        GameTrophyService
-    ]
+    providers: [ GameService ]
 })
 
 export class GameComponent implements OnInit {
@@ -33,8 +29,7 @@ export class GameComponent implements OnInit {
         private router: Router,
         private activatedRouter: ActivatedRoute,
         private titleService: Title,
-        private gameService: GameService,
-        private gameTrophyService: GameTrophyService
+        private gameService: GameService
     ) { }
 
     ngOnInit(): void {
@@ -51,7 +46,7 @@ export class GameComponent implements OnInit {
                         this.genre = GameGenres.find(genre => genre.value == this.game.genre).name;
                         this.titleService.setTitle(game.name + ' - Games | Bill\'s Hobby');
 
-                        this.gameTrophyService.getTrophy(game.trophies)
+                        this.gameService.getGameTrophy(url)
                             .then(trophy => {
                                 this.trophy = trophy;
                                 this.trophyComplete = trophy.earned / trophy.total * 100;

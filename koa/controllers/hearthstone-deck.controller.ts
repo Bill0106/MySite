@@ -8,8 +8,17 @@ const list = async (ctx) => {
         let page = parseInt(ctx.query.page) || 1;
         let skip = limit * (page - 1);
 
+        let query = HearthstoneDeck.repositry.find();
+        if (ctx.query.ids) {
+            let ids = ctx.query.ids.split(',');
+            ids = ids.filter(id => id != '');
+            query = query.where('_id').in(ids);
+        } else {
+            query = query.limit(limit).skip(skip);
+        }
+
         ctx.body = {
-            list: await HearthstoneDeck.repositry.find().limit(limit).skip(skip).sort({ active: 'desc' }),
+            list: await query.sort({ active: 'desc' }),
             total: await HearthstoneDeck.repositry.count({}),
         };
     } catch (error) {

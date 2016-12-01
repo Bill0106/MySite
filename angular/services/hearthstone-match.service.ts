@@ -4,12 +4,12 @@ import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { HearthstoneMatch } from '../models/hearthstone-match';
-import { AuthKeys } from '../../config/auth-keys';
+import { Keys } from '../../config/keys';
 
 @Injectable()
 export class HearthstoneMatchService {
-    private url = 'api/hearth-stone/matches';
-    private headers = new Headers({ 'auth': AuthKeys.get });
+    private url = 'api/hearthstone-matches';
+    private headers = new Headers({ 'auth': Keys.api.GET });
 
     constructor(private http: Http) { }
 

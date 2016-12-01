@@ -8,8 +8,17 @@ const list = async (ctx) => {
         let page = parseInt(ctx.query.page) || 1;
         let skip = limit * (page - 1);
 
+        let query = HearthstoneSeason.repositry.find();
+        if (ctx.query.months) {
+            let months = ctx.query.months.split(',');
+            months = months.filter(month => month != '');
+            query = query.where('month').in(months);
+        } else {
+            query = query.limit(limit).skip(skip);
+        }
+
         ctx.body = {
-            list: await HearthstoneSeason.repositry.find().limit(limit).skip(skip).sort({ month: 'desc' }),
+            list: await query.sort({ month: 'desc' }),
             total: await HearthstoneSeason.repositry.count({}),
         };
     } catch (error) {
@@ -20,7 +29,9 @@ const list = async (ctx) => {
 
 const find = async (ctx) => {
     try {
-        ctx.body = await HearthstoneSeason.repositry.findOne({ url: ctx.params.url });
+        let season = await HearthstoneSeason.repositry.findOne({ url: ctx.params.url });
+        season.month = moment(season.month.toString(), 'YYYYMM').valueOf();
+        ctx.body = season;
     } catch (error) {
         ctx.body = error.message;
         ctx.status = error.status || 500;

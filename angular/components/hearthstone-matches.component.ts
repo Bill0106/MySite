@@ -64,7 +64,7 @@ export class HearthstoneMatchesComponent implements OnInit {
     private getDecks(matches: HearthstoneMatch[]): void {
         let ids = [];
 
-        matches.forEach((match) => {
+        matches.map((match) => {
             if (ids.indexOf(match.deck_id) < 0) {
                 ids.push(match.deck_id);
             }
@@ -86,11 +86,11 @@ export class HearthstoneMatchesComponent implements OnInit {
         });
 
         this.hearthstoneSeasonService
-            .getSeasons(months.join(','))
+            .getSeasonsByMonth(months.join(','))
             .then(seasons => {
                 let raw = [];
 
-                seasons.forEach((season) => {
+                seasons.map(season => {
                     let y = season.month.toString().substr(0, 4);
                     let m = season.month.toString().substr(4, 2);
 

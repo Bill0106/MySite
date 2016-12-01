@@ -10,10 +10,7 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <ul class="list-unstyled my-gourmets-list clearfix"
-                infinite-scroll
-                [infiniteScrollDisabled]="scrollDisabled"
-                (scrolled)="onScroll()">
+            <ul class="list-unstyled my-gourmets-list clearfix" infinite-scroll [infiniteScrollDisabled]="scrollDisabled" (scrolled)="onScroll()">
                 <li *ngFor="let gourmet of gourmets">
                     <a href="{{ gourmet.url }}" target="_blank" class="my-gourmets-item" [ngStyle]="{'background-color': (gourmet.image | imageHelper:'color')}">
                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGP6zwAAAgcBApocMXEAAAAASUVORK5CYII="

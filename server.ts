@@ -38,6 +38,7 @@ app.use(bodyParser())
     .use(router.routes())
     .use(router.allowedMethods())
 
+console.log('Server running on port 8888');
 app.listen(8888);
 
 export default app;

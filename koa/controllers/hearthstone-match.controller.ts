@@ -14,15 +14,20 @@ const list = async (ctx) => {
 
         let startTime = moment().startOf('month').startOf('day').valueOf();
         let endTime = moment().endOf('month').endOf('day').valueOf();
-        if (ctx.query.month) {
-            startTime = moment(ctx.query.month, 'YYYYMM').startOf('month').startOf('day').valueOf();
-            endTime = moment(ctx.query.month, 'YYYYMM').endOf('month').endOf('day').valueOf();
+        if (ctx.query.season) {
+            startTime = moment(ctx.query.season, 'x').startOf('month').startOf('day').valueOf();
+            endTime = moment(ctx.query.season, 'x').endOf('month').endOf('day').valueOf();
         } else if (ctx.query.year) {
             startTime = moment(ctx.query.year, 'YYYY').startOf('year').startOf('day').valueOf();
             endTime = moment(ctx.query.year, 'YYYY').endOf('year').endOf('day').valueOf();
         }
         
-        let query = HearthstoneMatch.repositry.find().where('time').gte(startTime).lte(endTime);
+        let query = HearthstoneMatch.repositry.find();
+        if (ctx.query.deck) {
+            query = query.where('deck_id').equals(ctx.query.deck);
+        } else {
+            query = query.where('time').gte(startTime).lte(endTime);
+        }
 
         ctx.body = {
             list: await query.sort({ time: 'desc'}).exec(),

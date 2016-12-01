@@ -4,12 +4,13 @@ import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Game } from '../models/game';
-import { AuthKeys } from '../../config/auth-keys';
+import { GameTrophy } from '../models/game-trophy';
+import { Keys } from '../../config/keys';
 
 @Injectable()
 export class GameService {
     private url = 'api/games';
-    private headers = new Headers({ 'auth': AuthKeys.get });
+    private headers = new Headers({ 'auth': Keys.api.GET });
 
     constructor(private http: Http) { };
 
@@ -27,5 +28,13 @@ export class GameService {
         return this.http.get(apiUrl, { headers: this.headers })
             .toPromise()
             .then(response => response.json() as Game);
+    }
+
+    getGameTrophy(url: string): Promise<GameTrophy> {
+        let apiUrl = this.url + '/' + url + '/trophy';
+
+        return this.http.get(apiUrl, { headers: this.headers })
+            .toPromise()
+            .then(response => response.json() as GameTrophy);
     }
 }
