@@ -13,6 +13,7 @@ import { HearthstoneComponent } from './components/hearthstone.component';
 import { HearthstoneSeasonComponent } from './components/hearthstone-season.component';
 import { HearthstoneMatchesComponent } from './components/hearthstone-matches.component';
 import { HearthstoneDeckComponent } from './components/hearthstone-deck.component';
+import { HearthstoneCardsComponent } from './components/hearthstone-cards.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -45,6 +46,7 @@ export class MyHammerConfig extends HammerGestureConfig  {
         HearthstoneSeasonComponent,
         HearthstoneDeckComponent,
         HearthstoneMatchesComponent,
+        HearthstoneCardsComponent,
         ImageHelperPipe
     ],
     bootstrap: [ AppComponent ],

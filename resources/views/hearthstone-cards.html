@@ -1,0 +1,13 @@
+<ul class="list-unstyled deck-header-cards clearfix">
+    <li class="clearfix" *ngFor="let card of cards">
+        <div class="card-item-mana">{{ card.cost }}</div>
+        <div class="card-item-name rarity-{{ card.rarity }}">
+            <span>{{ card.name }}</span>
+            <div class="item-name-image">
+                <span></span>
+                <img class="image" src="{{ card.image }}" alt="{{ card.name }}" title="{{ card.name }}" />
+            </div>
+        </div>
+        <div class="card-item-count">{{ getCount(card._id) }}</div>
+    </li>
+</ul>

@@ -3,19 +3,7 @@
         <div class="col-sm-12">
             <section class="hearthstone-deck-header">
                 <h1>{{ deck.name }}</h1>
-                <ul class="list-unstyled deck-header-cards clearfix">
-                    <li class="clearfix" *ngFor="let card of cards">
-                        <div class="card-item-mana">{{ card.card.cost }}</div>
-                        <div class="card-item-name rarity-{{ card.card.rarity }}">
-                            <span>{{ card.card.name }}</span>
-                            <div class="item-name-image">
-                                <span></span>
-                                <img class="image" src="{{ card.card.image }}" alt="{{ card.card.name }}" title="{{ card.card.name }}"/>
-                            </div>
-                        </div>
-                        <div class="card-item-count">{{ card.count }}</div>
-                    </li>
-                </ul>
+                <my-hearthstone-cards [deck]="deck"></my-hearthstone-cards>
                 <p class="deck-tips">*所有牌组均来自 <a href="http://www.hearthpwn.com/" target="_blank">hearthpwn</a> 或者 <a href="http://ls.duowan.com/" target="_blank">多玩</a>，非原创！(All decks are copied from hearhpwn or duowan, not original!)</p>
             </section>
         </div>
