@@ -19,7 +19,10 @@ export class HsDeck extends React.Component<DeckProps, DeckState> {
                 cards: [],
                 active: false
             },
-            cards: [],
+            cards: {
+                list: [],
+                total: 0
+            },
             classCards: [],
             neutralCards: [],
         }
@@ -42,7 +45,7 @@ export class HsDeck extends React.Component<DeckProps, DeckState> {
     }
 
     handleCardsFetch(playerClass, cost?): void {
-        let apiUrl = '/hearth-stone/cards?standard=true&playerClass=' + playerClass;
+        let apiUrl = '/hearthstone-cards?standard=true&playerClass=' + playerClass;
         if (cost) {
             apiUrl = apiUrl + '&cost=' + cost;
         }
@@ -60,46 +63,79 @@ export class HsDeck extends React.Component<DeckProps, DeckState> {
             })
     }
 
+    handleCardIds(cards): void {
+        let ids = [];
+        let total = 0;
+        cards.map(obj => {
+            ids.push(obj.card);
+            total += obj.count;
+        })
+
+        axios.get('hearthstone-cards?ids=' + ids.join(','))
+            .then(response => {
+                let change = this.state;
+                change.cards.list = response.data;
+                change.cards.total = total;
+                this.setState(change);
+            })
+    }
+
     handleCards(add, obj) {
         let state = this.state;
-        let displayCard = state.cards.find(value => value.id == obj._id);
-        let displayCardIndex = state.cards.indexOf(displayCard);
-        let deckCard = state.deck.cards.find(value => value._id == obj._id);
-        let deckCardIndex = state.deck.cards.indexOf(deckCard);
-        let legend = HsCardRarity.find(rarity => rarity.name == 'Legendary').value; 
+        let cardsList = state.cards;
+        let cardsListObj = cardsList.list.find(value => value._id == obj._id);
+        let cardsIndex = state.deck.cards;
+        let cardsIndexObj = cardsIndex.find(value => value.card == obj._id);
+        let legend = HsCardRarity.find(rarity => rarity.name == 'Legendary').value;
 
         if (add) {
-            if (this.state.deck.cards.length == 30) {
+            if (cardsList.total == 30) {
                 return false;
             }
 
-            if (obj.rarity == legend && deckCard) {
+            if (obj.rarity == legend && cardsIndexObj) {
                 return false;
             }
 
-            if (obj.rarity != legend && displayCard && displayCard.count == 2) {
+            if (obj.rarity != legend && cardsIndexObj && cardsIndexObj.count == 2) {
                 return false;
             }
 
-            if (displayCard && displayCard.count == 1) {
-                displayCard.count = 2;
-                state.cards[displayCardIndex] = displayCard;
+            if (cardsIndexObj) {
+                cardsIndexObj.count = 2;
             } else {
-                displayCard = {
-                    id: obj._id,
+                cardsIndexObj = {
+                    card: obj._id,
                     count: 1
                 }
-                state.cards.push(displayCard);
+                cardsIndex.push(cardsIndexObj);
+                cardsList.list.push(obj);
+
+                cardsList.list.sort((a, b) => {
+                    if (a.cost > b.cost) {
+                        return 1;
+                    }
+
+                    if (a.cost < b.cost) {
+                        return -1;
+                    }
+
+                    return 0;
+                });
             }
-            state.deck.cards.push(obj);
+
+            cardsList.total++;
         } else {
-            if (displayCard.count == 2) {
-                displayCard.count = 1;
-                state.cards[displayCardIndex] = displayCard;
+            if (cardsIndexObj.count == 2) {
+                cardsIndexObj.count = 1;
             } else {
-                state.cards.splice(displayCardIndex, 1);
+                let cardsIndexObjIndex = cardsIndex.indexOf(cardsIndexObj);
+                let cardsListObjIndex = cardsList.list.indexOf(cardsListObj);
+                cardsIndex.splice(cardsIndexObjIndex, 1);
+                cardsList.list.splice(cardsListObjIndex, 1);
             }
-            state.deck.cards.splice(deckCardIndex, 1);
+
+            cardsList.total--;
         }
 
         this.setState(state);
@@ -108,7 +144,7 @@ export class HsDeck extends React.Component<DeckProps, DeckState> {
     handleSubmit(e): void {
         e.preventDefault();
 
-        let apiUrl = '/hearth-stone/decks';
+        let apiUrl = '/hearthstone-decks';
         if (this.props.params['id'] != 'add') {
             apiUrl = apiUrl + '/' + this.props.params['id'];
         }
@@ -123,28 +159,15 @@ export class HsDeck extends React.Component<DeckProps, DeckState> {
 
     componentDidMount() {
         if (this.props.params['id'] != 'add') {
-            axios.get('/hearth-stone/decks/' + this.props.params['id'])
+            axios.get('/hearthstone-decks/' + this.props.params['id'])
                 .then(response => {
                     setPageTitle(response.data.name);
                     let change = this.state;
                     change['deck'] = response.data;
-                    response.data.cards.map(card => {
-                        let obj = change.cards.find(value => value.id == card._id);
-                        if (!obj) {
-                            obj = {
-                                id: card._id,
-                                count: 1
-                            }
-                            change.cards.push(obj);
-                        } else {
-                            let index = change.cards.indexOf(obj);
-                            obj['count'] = 2;
-                            change.cards[index] = obj;
-                        }
-                    })
 
                     this.setState(change);
                     this.handleCardsFetch(response.data.playerClass);
+                    this.handleCardIds(response.data.cards);
                 })
         } else {
             setPageTitle('Add New Hearthstone Deck');
@@ -204,19 +227,18 @@ export class HsDeck extends React.Component<DeckProps, DeckState> {
                     <div className="col-sm-12">
                         <div className="panel panel-default">
                             <div className="panel-heading">
-                                <h3 className="panel-title">Deck Cards <small>{this.state.deck.cards.length}</small></h3>
+                                <h3 className="panel-title">Deck Cards <small>{this.state.cards.total}</small></h3>
                             </div>
                             <div className="panel-body">
                                 <div className="row">
                                     {
-                                        this.state.cards.map((value, key) => {
-                                            let card = this.state.deck.cards.find(v => v._id == value.id);
+                                        this.state.cards.list.map((card, key) => {
                                             return (
                                                 <div className="col-sm-2" key={key}>
                                                     <button className="btn btn-link btn-block" type="button"
                                                         onClick={this.handleCards.bind(this, 0, card)}>
                                                         <span className="pull-left">{card.name}</span>
-                                                        <span className="pull-right">{value.count}</span>
+                                                        <span className="pull-right">{this.state.deck.cards.find(obj => obj.card == card._id).count}</span>
                                                     </button>
                                                 </div>
                                             )

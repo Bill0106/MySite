@@ -41,7 +41,7 @@ const find = async (ctx) => {
 const create = async (ctx) => {
     try {
         let data = ctx.request.body;
-        data.month = moment(data.month, 'YYYY-MM-DD').startOf('month').startOf('day').valueOf();
+        data.month = moment(data.month, 'YYYY-MM-DD').startOf('month').startOf('day').format('YYYYMM');
         data.url = data.url || data.title.toLowerCase().replace(/ /g, '-').replace(/:/g, '');
         
         let season = new HearthstoneSeason.repositry(data);
@@ -61,7 +61,7 @@ const create = async (ctx) => {
 const update = async (ctx) => {
     try {
         let data = ctx.request.body;
-        data.month = moment(data.month, 'YYYY-MM-DD').startOf('month').startOf('day').valueOf();
+        data.month = moment(data.month, 'YYYY-MM-DD').startOf('month').startOf('day').format('YYYYMM');
         data.url = data.url || data.title.toLowerCase().replace(/ /g, '-').replace(/:/g, '');
 
         await HearthstoneSeason.repositry.findByIdAndUpdate(data.id, data);

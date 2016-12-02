@@ -43,8 +43,6 @@ const create = async (ctx) => {
         if (!HsPlayerClasses.find(item => item.value == data.playerClass)) {
             throw "Invalide Class";
         }
-
-        data.cards = formatCards(data.cards);
         
         let deck = new HearthstoneDeck.repositry(data);
         await deck.save();
@@ -69,7 +67,6 @@ const update = async (ctx) => {
             throw "Invalide Class";
         }
 
-        data.cards = formatCards(data.cards);
         await HearthstoneDeck.repositry.findByIdAndUpdate(ctx.params.id, data);
 
         ctx.body = {
@@ -141,29 +138,6 @@ const inactive = async (ctx) => {
         ctx.body = error.message;
         ctx.status = error.status || 500;
     }
-}
-
-function formatCards(cards: any): any {
-    let tmp = [];
-    for (let card of cards) {
-        if (tmp[card._id]) {
-            tmp[card._id] = 2;
-        } else {
-            tmp[card._id] = 1;
-        }
-    }
-
-    let data = [];
-    for (let card in tmp) {
-        let item = {
-            card: card,
-            count: tmp[card],
-        }
-
-        data.push(item);
-    }
-    
-    return data;
 }
 
 export default { list, find, create, update, remove, active, inactive }
