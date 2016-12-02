@@ -5,6 +5,10 @@ import { HsPlayerClasses } from '../../../config/hs-player-classes';
 import { ListItemProps } from '../../interface/list';
 
 export class HsDeckItem extends React.Component<ListItemProps, {}> {
+    handleDelete() {
+        this.props.delete(this.props.data);
+    }
+
     render() {
         return (
             <tr>
@@ -14,7 +18,7 @@ export class HsDeckItem extends React.Component<ListItemProps, {}> {
                 <td>{this.props.data.active ? 'Active' : 'Inactive'}</td>
                 <td>
                     <Link to={'/admin/hearthstone-decks/' + this.props.data._id} className="btn btn-primary">Edit</Link>
-                    <button className="btn btn-danger" type="button">Delete</button>
+                    <button className="btn btn-danger" type="button" onClick={this.handleDelete.bind(this)}>Delete</button>
                     <button className="btn btn-success" type="button">{this.props.data.active ? 'Inactive' : 'Active'}</button>
                 </td>
             </tr>

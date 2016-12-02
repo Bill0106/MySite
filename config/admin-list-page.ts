@@ -17,21 +17,21 @@ const ADMIN_LIST_PAGE = [
     },
     {
         path: 'hearthstone-seasons',
-        api: '/hearth-stone/seasons',
+        api: '/hearthstone-seasons',
         fields: ['title', 'month', 'rank', 'url'],
         per: ITEMS_PER_PAGE,
         table: 'Hearthstone Seasons'
     },
     {
         path: 'hearthstone-decks',
-        api: '/hearth-stone/decks',
+        api: '/hearthstone-decks',
         fields: ['name', 'class', 'active'],
         per: ITEMS_PER_PAGE,
         table: 'Hearthstone Decks'
     },
     {
         path: 'hearthstone-matches',
-        api: '/hearth-stone/matches',
+        api: '/hearthstone-matches',
         fields: ['time', 'deck', 'opponent', 'result'],
         per: 100,
         table: 'Hearthstone Matches'

@@ -8,7 +8,7 @@ import { time2Date } from '../../helpers';
 
 export class HsMatchItem extends React.Component<ListItemProps, {}> {
     handleDelete() {
-        this.props.delete(this.props.data._id);
+        this.props.delete(this.props.data);
     }
 
     render() {

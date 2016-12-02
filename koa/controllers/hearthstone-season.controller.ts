@@ -79,7 +79,9 @@ const update = async (ctx) => {
 
 const remove = async (ctx) => {
     try {
-        await HearthstoneSeason.repositry.findByIdAndRemove(ctx.request.body.id);
+        let season = await HearthstoneSeason.repositry.findOne({ url: ctx.params.url });
+
+        await season.remove();
 
         ctx.body = {
             success: true,

@@ -19,33 +19,19 @@ export class List extends React.Component<ListProps, ListState> {
     }
 
     handleFetch(page): void {
+        let state = this.state;
         let apiUrl = this.state.page.api + '?limit=' + this.state.page.per + (page ? '&page=' + page : '');
 
         axios.get(apiUrl)
             .then(response => {
-                let list = response.data.list;
-                if (!list) {
-                    list = response.data;
-                }
-
-                this.handleTotal(list);
-            })
-    }
-
-    handleTotal(list): void {
-        let state = this.state;
-        state['list'] = list;
-        
-        axios.get('/counts')
-            .then(response => {
-                state['total'] = response.data.find(value => value.table == this.state.page.table).count;
+                state['list'] = response.data.list
+                state['total'] = response.data.total;
+                this.setState(state);
 
                 if (this.state.page.path == 'hearthstone-matches') {
                     this.handleDecks(state);
-                } else {
-                    this.setState(state);
                 }
-            });
+            })
     }
 
     handleDecks(state): void {
@@ -57,11 +43,11 @@ export class List extends React.Component<ListProps, ListState> {
             }
         });
 
-        axios.get('/hearth-stone/decks?ids=' + decks.join(','))
+        axios.get('/hearthstone-decks?ids=' + decks.join(','))
             .then(response => {
                 state.list.map(match => {
                     if (match.deck_id) {
-                        let deck = response.data.find(value => value._id == match.deck_id);
+                        let deck = response.data.list.find(value => value._id == match.deck_id);
                         if (deck) {
                             match['deck'] = deck;
                         }
@@ -72,16 +58,22 @@ export class List extends React.Component<ListProps, ListState> {
             })
     }
 
-    handleDelete(id): void {
-        axios.post(this.state.page['api'] + '/' + id)
+    handleDelete(obj): void {
+        let url = this.state.page.api + '/' + obj._id + '/delete';
+        if (this.state.page.path == 'games' || this.state.page.path == 'hearthstone-seasons') {
+            url = this.state.page.api + '/' + obj.url + '/delete';
+        }
+
+        axios.post(url)
             .then(response => {
                 if (response.data.success) {
-                    let target = this.state.list.find(item => item._id == id);
-                    let index = this.state.list.indexOf(target);
-                    let change = this.state;
-                    change['list'].splice(index, 1);
-                    change['total']--;
-                    this.setState(change);
+                    let state = this.state;
+                    let target = state.list.find(item => item._id == obj._id);
+                    let index = state.list.indexOf(target);
+
+                    state['list'].splice(index, 1);
+                    state['total']--;
+                    this.setState(state);
                 }
             })
     }

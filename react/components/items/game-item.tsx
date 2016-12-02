@@ -6,6 +6,10 @@ import { GameGenres } from '../../../config/game-genres';
 import { ListItemProps } from '../../interface/list';
 
 export class GameItem extends React.Component<ListItemProps, {}> {
+    handleDelete() {
+        this.props.delete(this.props.data);
+    }
+    
     render() {
         return (
             <tr>
@@ -17,6 +21,7 @@ export class GameItem extends React.Component<ListItemProps, {}> {
                 <td>
                     <Link to={'/admin/games/' + this.props.data.url} className="btn btn-primary">Edit</Link>
                     <Link to={'/admin/games/' + this.props.data.url + '/trophy'} className="btn btn-default">Tophy</Link>
+                    <button className="btn btn-danger" type="button" onClick={this.handleDelete.bind(this)}>Delete</button>
                 </td>
             </tr>
         )

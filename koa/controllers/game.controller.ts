@@ -1,6 +1,7 @@
 import * as moment from 'moment';
 
 import * as Game from '../models/game.model';
+import * as GameTrophy from '../models/game-trophy.model';
 
 const list = async (ctx) => {
     try {
@@ -89,7 +90,14 @@ const update = async (ctx) => {
 
 const remove = async (ctx) => {
     try {
-        await Game.repositry.findByIdAndRemove(ctx.request.body.id);
+        let game = await Game.repositry.findOne({ url: ctx.params.url });
+
+        let trophy = await GameTrophy.repositry.findOne({ game_id: game._id });
+        if (trophy) {
+            await trophy.remove();
+        }
+
+        await game.remove();
 
         ctx.body = {
             success: true,
