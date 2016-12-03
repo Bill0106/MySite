@@ -178,6 +178,14 @@ export class HsDeck extends React.Component<DeckProps, DeckState> {
     }
 
     render() {
+        const style = {
+            padding: '10px 0'
+        }
+        let indent = [];
+        for (let i = 1; i < 8; i++) {
+            indent.push(<button className="btn btn-default" type="button" onClick={this.handleCardsFetch.bind(this, -1, i)}>{i}</button>);
+        }
+
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -263,6 +271,13 @@ export class HsDeck extends React.Component<DeckProps, DeckState> {
                         </ul>
                         <div className="tab-content">
                             <div className="tab-pane active" id="neutralCards">
+                                <div className="row">
+                                    <div className="col-sm-12 text-center">
+                                        <div className="btn-group" style={style}>
+                                            {indent}
+                                        </div>
+                                    </div>
+                                </div>
                                 <div className="row">
                                     {
                                         this.state.neutralCards.map((card, key) => {
