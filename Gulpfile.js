@@ -15,7 +15,7 @@ var tsConfigPath = path.join(__dirname, "tsconfig.frontend.json");
 // Style Tasks
 gulp.task('style', function()
 {
-    return gulp.src('./resources/sass/style.scss')
+    return gulp.src('./angular/style/style.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(cleanCSS())
         .pipe(gulp.dest('./public/build/css'));
@@ -109,7 +109,7 @@ gulp.task('scripts:react-build', function()
 
 // Watch
 gulp.task('watch', function() {
-    gulp.watch('./resources/sass/*/*.scss', ['style']);
+    gulp.watch('./angular/style/*/*.scss', ['style']);
     gulp.watch(['./angular/**/*.ts', './resources/views/**/*.html'], ['scripts:angular']);
     gulp.watch(['./react/**/*.tsx', './react/**/*.ts'], ['scripts:react']);
 });

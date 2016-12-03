@@ -7,7 +7,7 @@ import { HearthstoneSeason } from '../models/hearthstone-season';
 
 @Component({
     selector: 'my-hearthstone-season',
-    templateUrl: '../../resources/views/hearthstone-season.html',
+    templateUrl: '../views/hearthstone-season.html',
     providers: [ HearthstoneSeasonService ]
 })
 

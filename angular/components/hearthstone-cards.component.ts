@@ -6,7 +6,7 @@ import { HearthstoneCardService } from '../services/hearthstone-card.service';
 
 @Component({
     selector: 'my-hearthstone-cards',
-    templateUrl: '../../resources/views/hearthstone-cards.html',
+    templateUrl: '../views/hearthstone-cards.html',
     providers: [ HearthstoneCardService ]
 })
 

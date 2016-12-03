@@ -22,7 +22,7 @@ const PAGE_MAP = [
 
 @Component({
     selector: 'my-app',
-    templateUrl: '../../resources/views/nav.html'
+    templateUrl: '../views/nav.html'
 })
 
 export class AppComponent {

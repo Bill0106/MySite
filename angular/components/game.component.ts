@@ -13,7 +13,7 @@ const RATE_TEXT = ['Terrible', 'Poor', 'Fair', 'Good', 'Great'];
 
 @Component({
     selector: 'my-game',
-    templateUrl: '../../resources/views/game.html',
+    templateUrl: '../views/game.html',
     providers: [ GameService ]
 })
 

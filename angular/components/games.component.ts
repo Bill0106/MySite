@@ -8,7 +8,7 @@ const GAME_PER_PAGE = 20;
 
 @Component({
     selector: 'my-games',
-    templateUrl: '../../resources/views/games.html',
+    templateUrl: '../views/games.html',
     providers: [ GameService ]
 })
 

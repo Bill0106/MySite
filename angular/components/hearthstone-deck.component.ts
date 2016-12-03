@@ -7,7 +7,7 @@ import { HearthstoneDeck } from '../models/hearthstone-deck';
 
 @Component({
     selector: 'my-hearthstone-deck',
-    templateUrl: '../../resources/views/hearthstone-deck.html',
+    templateUrl: '../views/hearthstone-deck.html',
     providers: [ HearthstoneDeckService ]
 })
 

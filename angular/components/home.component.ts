@@ -28,7 +28,7 @@ const SECTIONS: Section[] = [
 
 @Component({
     selector: 'my-home',
-    templateUrl: '../../resources/views/home.html'
+    templateUrl: '../views/home.html'
 })
 
 export class HomeComponent {

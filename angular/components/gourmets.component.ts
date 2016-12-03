@@ -7,7 +7,7 @@ const GOURMETS_PER_PAGE = 24;
 
 @Component({
     selector: 'my-gourmets',
-    templateUrl: '../../resources/views/gourmets.html',
+    templateUrl: '../views/gourmets.html',
     providers: [ GourmetService ]
 })
 

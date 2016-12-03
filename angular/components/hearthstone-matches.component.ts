@@ -13,7 +13,7 @@ import { HsPlayerClasses } from '../../config/hs-player-classes';
 
 @Component({
     selector: 'my-hearthstone-matches',
-    templateUrl: '../../resources/views/hearthstone-matches.html',
+    templateUrl: '../views/hearthstone-matches.html',
     providers: [ HearthstoneMatchService, HearthstoneDeckService, HearthstoneSeasonService ]
 })
 

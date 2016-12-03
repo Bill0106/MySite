@@ -4,7 +4,7 @@ var tsConfigPath = path.join(__dirname, "tsconfig.frontend.json");
 
 module.exports = {
     entry: {
-        'react': './resources/scripts/react-vendor.ts',
+        'react': './react/vendor.ts',
         'admin': './react/app.tsx'
     },
     output: {

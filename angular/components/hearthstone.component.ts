@@ -8,7 +8,7 @@ const SEASON_PER_PAGE = 12;
 
 @Component({
     selector: 'my-hearthstone',
-    templateUrl: '../../resources/views/hearthstone-seasons.html',
+    templateUrl: '../views/hearthstone-seasons.html',
     providers: [ HearthstoneSeasonService ]
 })
 

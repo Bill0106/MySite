@@ -4,8 +4,8 @@ var tsConfigPath = path.join(__dirname, "tsconfig.frontend.json");
 
 module.exports = {
     entry: {
-        'polyfills': './resources/scripts/angular-polyfills.ts',
-        'vendor'   : './resources/scripts/angular-vendor.ts',
+        'polyfills': './angular/vendor/polyfills.ts',
+        'vendor'   : './angular/vendor/vendor.ts',
         'app'      : './angular/app.ts'
     },
     output: {
