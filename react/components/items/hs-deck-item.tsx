@@ -9,6 +9,10 @@ export class HsDeckItem extends React.Component<ListItemProps, {}> {
         this.props.delete(this.props.data);
     }
 
+    handleActive() {
+        this.props.func(this.props.data._id);
+    }
+
     render() {
         return (
             <tr>
@@ -19,7 +23,7 @@ export class HsDeckItem extends React.Component<ListItemProps, {}> {
                 <td>
                     <Link to={'/admin/hearthstone-decks/' + this.props.data._id} className="btn btn-primary">Edit</Link>
                     <button className="btn btn-danger" type="button" onClick={this.handleDelete.bind(this)}>Delete</button>
-                    <button className="btn btn-success" type="button">{this.props.data.active ? 'Inactive' : 'Active'}</button>
+                    <button className="btn btn-success" type="button" onClick={this.handleActive.bind(this)}>{this.props.data.active ? 'Inactive' : 'Active'}</button>
                 </td>
             </tr>
         )

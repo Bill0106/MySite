@@ -16,6 +16,7 @@ export interface ListTableProps {
     per: number;
     current: number;
     delete: any;
+    active: any;
 }
 
 export interface ListItemProps {

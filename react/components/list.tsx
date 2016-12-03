@@ -23,7 +23,7 @@ export class ListTable extends React.Component<ListTableProps, {}> {
                 ele = <HsSeasonItem data={data} key={key} delete={this.handleDelete.bind(this)} />;
                 break;
             case 'hearthstone decks':
-                ele = <HsDeckItem data={data} key={key} delete={this.handleDelete.bind(this)} />;
+                ele = <HsDeckItem data={data} key={key} delete={this.handleDelete.bind(this)} func={this.handleActive.bind(this)} />;
                 break;
             case 'hearthstone matches':
                 ele = <HsMatchItem data={data} key={key} delete={this.handleDelete.bind(this)} />
@@ -35,8 +35,12 @@ export class ListTable extends React.Component<ListTableProps, {}> {
         return ele;
     }
 
-    handleDelete(id): void {
-        this.props.delete(id);
+    handleDelete(obj): void {
+        this.props.delete(obj);
+    }
+
+    handleActive(id): void {
+        this.props.active(id);
     }
 
     render() {

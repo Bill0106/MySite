@@ -78,6 +78,30 @@ export class List extends React.Component<ListProps, ListState> {
             })
     }
 
+    handleActive(id): void {
+        let state = this.state;
+        let deck = state.list.find(value => value._id == id);
+        let url = 'hearthstone-decks/' + id;
+        if (deck.active) {
+            url = url + '/inactive';
+        } else {
+            url = url + '/active';
+        }
+
+        axios.post(url)
+            .then(response => {
+                if (response.data.success) {
+                    if (deck.active) {
+                        deck.active = false;
+                    } else {
+                        deck.active = true;
+                    }
+
+                    this.setState(state);
+                }
+            })
+    }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.route.path != this.state.page.path) {
             this.state = {
@@ -104,7 +128,8 @@ export class List extends React.Component<ListProps, ListState> {
         return (
             <div className="container-fluid">
                 <ListTable title={this.state.page.table} total={this.state.total} fields={this.state.page.fields} data={this.state.list}
-                    per={this.state.page.per} current={this.props.location.query['page']} delete={this.handleDelete.bind(this)} />
+                    per={this.state.page.per} current={this.props.location.query['page']}
+                    delete={this.handleDelete.bind(this)} active={this.handleActive.bind(this)} />
             </div>
         )
     }
