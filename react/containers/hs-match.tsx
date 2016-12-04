@@ -52,9 +52,10 @@ export class HsMatch extends React.Component<{}, MatchState> {
         setPageTitle('Add New Hearthstone Match');
         axios.get('hearthstone-decks?active=1')
             .then(response => {
+                let decks = response.data.list;
                 this.setState({
-                    decks: response.data,
-                    deck: response.data[0]._id,
+                    decks: decks,
+                    deck: decks[0]._id,
                     opponent: 0,
                     matches: [],
                     wins: 0

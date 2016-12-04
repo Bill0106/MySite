@@ -13,6 +13,8 @@ const list = async (ctx) => {
             let ids = ctx.query.ids.split(',');
             ids = ids.filter(id => id != '');
             query = query.where('_id').in(ids);
+        } else if (ctx.query.active) {
+            query = query.where('active').equals(ctx.query.active);
         } else {
             query = query.limit(limit).skip(skip);
         }
