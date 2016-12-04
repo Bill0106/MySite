@@ -8,7 +8,7 @@ const list = async (ctx) => {
         let page = parseInt(ctx.query.page) || 1;
         let skip = limit * (page - 1);
 
-        let gourmets = await Gourmet.repositry.find().limit(limit).skip(skip).sort({ buy_at: 'desc' }).sort({ release_at: 'desc' });
+        let gourmets = await Gourmet.repositry.find().limit(limit).skip(skip).sort({ date: 'desc' });
         for (let i = 0; i < gourmets.length; i++) {
             gourmets[i].food = new Buffer(gourmets[i].food, 'base64').toString();
             gourmets[i].restaurant = new Buffer(gourmets[i].restaurant, 'base64').toString();
