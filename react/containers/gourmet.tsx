@@ -22,7 +22,7 @@ export class Gourmet extends React.Component<GourmetProps, GourmetState> {
     }
 
     componentDidMount() {
-        if (this.props.params['url'] != 'add') {
+        if (this.props.params['id'] != 'add') {
             axios.get('/gourmets/' + this.props.params['id'])
                 .then(response => {
                     setPageTitle(response.data.food)

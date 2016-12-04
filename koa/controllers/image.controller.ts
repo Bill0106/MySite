@@ -29,7 +29,7 @@ const create = async (ctx) => {
             .then(response => {
                 ctx.body = {
                     url: image,
-                    color: JSON.parse(response.data).RGB
+                    color: response.data.RGB
                 }
             })
     } catch (error) {
