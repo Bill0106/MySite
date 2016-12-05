@@ -8,6 +8,7 @@ import { GourmetItem } from './items/gourmet-item';
 import { HsSeasonItem } from './items/hs-season-item';
 import { HsDeckItem } from './items/hs-deck-item';
 import { HsMatchItem } from './items/hs-match-item';
+import { BlogItem } from './items/blog-item';
 
 export class ListTable extends React.Component<ListTableProps, {}> {
     handleItem(data, key) {
@@ -28,6 +29,9 @@ export class ListTable extends React.Component<ListTableProps, {}> {
             case 'hearthstone-matches':
                 ele = <HsMatchItem data={data} key={key} delete={this.handleDelete.bind(this)} />
                 break;
+            case 'blogs':
+                ele = <BlogItem data={data} key={key} delete={this.handleDelete.bind(this)} func={this.handleActive.bind(this)} />
+                break;
             default:
                 break;
         }
@@ -39,8 +43,8 @@ export class ListTable extends React.Component<ListTableProps, {}> {
         this.props.delete(obj);
     }
 
-    handleActive(id): void {
-        this.props.active(id);
+    handleActive(url, id): void {
+        this.props.active(url, id);
     }
 
     render() {

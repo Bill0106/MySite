@@ -30,6 +30,8 @@ export class List extends React.Component<ListProps, ListState> {
 
                 if (this.state.page.path.toLowerCase() == 'hearthstone-matches') {
                     this.handleDecks(state);
+                } else if (this.state.page.path.toLowerCase() == 'blogs') {
+                    this.handleGames(state);
                 }
             })
     }
@@ -58,9 +60,33 @@ export class List extends React.Component<ListProps, ListState> {
             })
     }
 
+    handleGames(state): void {
+        let ids = [];
+        state.list.map(blog => {
+            let id = blog.game_id;
+            if (id && ids.indexOf(id) < 0) {
+                ids.push(id);
+            }
+        });
+
+        axios.get('/games?ids=' + ids.join(','))
+            .then(response => {
+                state.list.map(blog => {
+                    if (blog.game_id) {
+                        let game = response.data.list.find(game => game._id == blog.game_id);
+                        if (game) {
+                            blog.game = game;
+                        }
+                    }
+                });
+
+                this.setState(state);
+            })
+    }
+
     handleDelete(obj): void {
         let url = this.state.page.path.toLowerCase() + '/' + obj._id + '/delete';
-        if (this.state.page.path.toLowerCase() == 'games' || this.state.page.path.toLowerCase() == 'hearthstone-seasons') {
+        if (['games', 'hearthstone-seasons', 'blogs'].indexOf(this.state.page.path.toLowerCase()) >= 0) {
             url = this.state.page.path.toLowerCase() + '/' + obj.url + '/delete';
         }
 
@@ -78,23 +104,17 @@ export class List extends React.Component<ListProps, ListState> {
             })
     }
 
-    handleActive(id): void {
+    handleActive(url, id): void {
         let state = this.state;
-        let deck = state.list.find(value => value._id == id);
-        let url = 'hearthstone-decks/' + id;
-        if (deck.active) {
-            url = url + '/inactive';
-        } else {
-            url = url + '/active';
-        }
+        let obj = state.list.find(value => value._id == id);
 
         axios.post(url)
             .then(response => {
                 if (response.data.success) {
-                    if (deck.active) {
-                        deck.active = false;
-                    } else {
-                        deck.active = true;
+                    if (this.state.page.path.toLowerCase() == 'hearthstone-decks') {
+                        obj.active = !obj.active;
+                    } else if (this.state.page.path.toLowerCase() == 'blogs') {
+                        obj.published = !obj.published;
                     }
 
                     this.setState(state);

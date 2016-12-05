@@ -9,10 +9,20 @@ const list = async (ctx) => {
         let page = parseInt(ctx.query.page) || 1;
         let skip = limit * (page - 1);
 
-        let games = await Game.repositry.find().limit(limit).skip(skip).sort({ buy_at: 'desc' }).sort({ release_at: 'desc' });
-        for (let i = 0; i < games.length; i++) {
-            games[i].title = new Buffer(games[i].title, 'base64').toString();
+        let query = Game.repositry.find();
+
+        if (ctx.query.ids) {
+            let ids = ctx.query.ids.split(',');
+            ids = ids.filter(id => id != '');
+            query = query.where('_id').in(ids);
+        } else {
+            query = query.limit(limit).skip(skip).sort({ buy_at: 'desc' }).sort({ release_at: 'desc' });
         }
+
+        let games = await query.exec();
+        await games.map(game => {
+            game.title = new Buffer(game.title, 'base64').toString();
+        });
 
         ctx.body = {
             list: games,

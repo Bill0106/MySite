@@ -1,6 +1,6 @@
 import * as HearthstoneDeck from '../models/hearthstone-deck.model';
 
-import { HsPlayerClasses } from '../../config/hs-player-classes';
+import { HearthstonePlayerClasses } from '../../config/hearthstone-player-classes';
 
 const list = async (ctx) => {
     try {
@@ -42,7 +42,7 @@ const create = async (ctx) => {
     try {
         let data = ctx.request.body;
 
-        if (!HsPlayerClasses.find(item => item.value == data.playerClass)) {
+        if (!HearthstonePlayerClasses.find(item => item.value == data.playerClass)) {
             throw "Invalide Class";
         }
         
@@ -65,7 +65,7 @@ const update = async (ctx) => {
     try {
         let data = ctx.request.body;
 
-        if (!HsPlayerClasses.find(item => item.value == data.playerClass)) {
+        if (!HearthstonePlayerClasses.find(item => item.value == data.playerClass)) {
             throw "Invalide Class";
         }
 

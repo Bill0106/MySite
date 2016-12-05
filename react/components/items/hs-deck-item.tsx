@@ -10,7 +10,14 @@ export class HsDeckItem extends React.Component<ListItemProps, {}> {
     }
 
     handleActive() {
-        this.props.func(this.props.data._id);
+        let url = 'hearthstone-decks/' + this.props.data._id;
+        if (this.props.data.active) {
+            url = url + '/inactive';
+        } else {
+            url = url + '/active';
+        }
+
+        this.props.func(url, this.props.data._id);
     }
 
     render() {

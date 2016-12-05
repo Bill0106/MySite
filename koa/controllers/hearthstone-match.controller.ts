@@ -3,8 +3,8 @@ import * as moment from 'moment';
 import * as HearthstoneDeck from '../models/hearthstone-deck.model';
 import * as HearthstoneMatch from '../models/hearthstone-match.model';
 
-import { HsPlayerClasses } from '../../config/hs-player-classes';
-import { HsMatchResult } from '../../config/hs-match-result';
+import { HearthstonePlayerClasses } from '../../config/hearthstone-player-classes';
+import { HearthstoneMatchResult } from '../../config/hearthstone-match-result';
 
 const list = async (ctx) => {
     try {
@@ -49,11 +49,11 @@ const create = async (ctx) => {
             throw "Deck Not Found";
         }
 
-        if (!HsPlayerClasses.find(item => item.value == data.opponent)) {
+        if (!HearthstonePlayerClasses.find(item => item.value == data.opponent)) {
             throw "Invalid Opponent";
         }
 
-        if (!HsMatchResult.find(item => item.value == data.result)) {
+        if (!HearthstoneMatchResult.find(item => item.value == data.result)) {
             throw "Invalid Result";
         }
 

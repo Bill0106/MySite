@@ -28,7 +28,7 @@ const ADMIN_LIST_PAGE = [
     },
     {
         path: 'Blogs',
-        fields: ['time', 'deck', 'opponent', 'result'],
+        fields: ['title', 'game', 'published', 'updated_at', 'created_at'],
         per: ITEMS_PER_PAGE,
     }
 ];

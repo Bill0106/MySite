@@ -64,9 +64,12 @@ hearthstoneMatch.get('/', hearthstoneMatchController.list)
 
 blog.get('/', blogController.list)
   .post('/', blogController.create)
+  .post('/upload', upload.single('file'), blogController.upload)
   .get('/:url', blogController.find)
   .post('/:url', blogController.update)
-  .post('/:/url/delete', blogController.remove);
+  .post('/:url/delete', blogController.remove)
+  .post('/:url/publish', blogController.publish)
+  .post('/:url/unpublish', blogController.unpublish);
 
 api.use(async (ctx, next) => {
   let auth = ctx.headers.auth;

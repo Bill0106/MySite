@@ -21,6 +21,7 @@
     "@types/koa-static": "^2.0.21",
     "@types/moment": "^2.13.0",
     "@types/mongoose": "^4.6.2",
+    "@types/showdown": "^1.4.31",
     "axios": "^0.15.3",
     "cheerio": "~0.*",
     "koa": "^2.0.0-alpha.7",
@@ -31,7 +32,8 @@
     "koa-static": "^3.0.0",
     "moment": "~2.*",
     "mongoose": "~4.*",
-    "qiniu": "^6.1.10"
+    "qiniu": "^6.1.10",
+    "showdown": "^1.5.1"
   },
   "devDependencies": {
     "@angular/common": "~2.0.1",

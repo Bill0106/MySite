@@ -7,6 +7,7 @@ import { Gourmet } from './containers/gourmet';
 import { HearthstoneSeason } from './containers/hearthstone-season';
 import { HearthstoneDeck } from './containers/hearthstone-deck';
 import { HearthstoneMatch } from './containers/hearthstone-match';
+import { Blog } from './containers/blog';
 
 const ROUTING_CONFIG = [
     {
@@ -24,7 +25,9 @@ const ROUTING_CONFIG = [
             { path: 'hearthstone-decks', component: List },
             { path: 'hearthstone-decks/:id', component: HearthstoneDeck},
             { path: 'hearthstone-matches', component: List },
-            { path: 'hearthstone-matches/add', component: HearthstoneMatch }
+            { path: 'hearthstone-matches/add', component: HearthstoneMatch },
+            { path: 'blogs', component: List },
+            { path: 'blogs/:url', component: Blog }
         ]
     }
 ];
