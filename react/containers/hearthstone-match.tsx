@@ -7,7 +7,7 @@ import { MatchState } from '../interface/hearthstone';
 
 import { setPageTitle } from '../helpers';
 
-export class HsMatch extends React.Component<{}, MatchState> {
+export class HearthstoneMatch extends React.Component<{}, MatchState> {
     constructor(props) {
         super(props);
 

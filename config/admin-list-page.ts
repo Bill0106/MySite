@@ -25,6 +25,11 @@ const ADMIN_LIST_PAGE = [
         path: 'Hearthstone-Matches',
         fields: ['time', 'deck', 'opponent', 'result'],
         per: 100,
+    },
+    {
+        path: 'Blogs',
+        fields: ['time', 'deck', 'opponent', 'result'],
+        per: ITEMS_PER_PAGE,
     }
 ];
 

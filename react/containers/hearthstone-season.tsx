@@ -7,7 +7,7 @@ import { SeasonProps, SeasonState } from '../interface/hearthstone';
 import { Form } from '../components/form';
 import { time2Date, setPageTitle } from "../helpers";
 
-export class HsSeason extends React.Component<SeasonProps, SeasonState> {
+export class HearthstoneSeason extends React.Component<SeasonProps, SeasonState> {
     constructor() {
         super();
         this.state = {

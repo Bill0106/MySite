@@ -4,9 +4,9 @@ import { List } from './containers/list';
 import { Game } from './containers/game';
 import { Trophy } from './containers/trophy';
 import { Gourmet } from './containers/gourmet';
-import { HsSeason } from './containers/hs-season';
-import { HsDeck } from './containers/hs-deck';
-import { HsMatch } from './containers/hs-match';
+import { HearthstoneSeason } from './containers/hearthstone-season';
+import { HearthstoneDeck } from './containers/hearthstone-deck';
+import { HearthstoneMatch } from './containers/hearthstone-match';
 
 const ROUTING_CONFIG = [
     {
@@ -20,11 +20,11 @@ const ROUTING_CONFIG = [
             { path: 'gourmets', component: List },
             { path: 'gourmets/:id', component: Gourmet },
             { path: 'hearthstone-seasons', component: List },
-            { path: 'hearthstone-seasons/:url', component: HsSeason },
+            { path: 'hearthstone-seasons/:url', component: HearthstoneSeason },
             { path: 'hearthstone-decks', component: List },
-            { path: 'hearthstone-decks/:id', component: HsDeck},
+            { path: 'hearthstone-decks/:id', component: HearthstoneDeck},
             { path: 'hearthstone-matches', component: List },
-            { path: 'hearthstone-matches/add', component: HsMatch }
+            { path: 'hearthstone-matches/add', component: HearthstoneMatch }
         ]
     }
 ];

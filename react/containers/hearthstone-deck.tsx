@@ -8,7 +8,7 @@ import { DeckProps, DeckState } from '../interface/hearthstone';
 
 import { setPageTitle } from '../helpers';
 
-export class HsDeck extends React.Component<DeckProps, DeckState> {
+export class HearthstoneDeck extends React.Component<DeckProps, DeckState> {
     constructor(props) {
         super(props);
 
