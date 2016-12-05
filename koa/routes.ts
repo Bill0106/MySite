@@ -17,6 +17,7 @@ import hearthstoneSeasonController from './controllers/hearthstone-season.contro
 import hearthstoneDeckController from './controllers/hearthstone-deck.controller';
 import hearthstoneMatchController from './controllers/hearthstone-match.controller';
 import hearthstoneCardController from './controllers/hearthstone-card.controller';
+import blogController from './controllers/blog.controller';
 
 const router = new Router();
 const api = new Router();
@@ -25,6 +26,7 @@ const gourmet = new Router();
 const hearthstoneSeason = new Router();
 const hearthstoneDeck = new Router();
 const hearthstoneMatch = new Router();
+const blog = new Router();
 
 const upload = multer({ dest: 'uploads/' });
 
@@ -60,6 +62,12 @@ hearthstoneMatch.get('/', hearthstoneMatchController.list)
   .post('/', hearthstoneMatchController.create)
   .post('/:id/delete', hearthstoneMatchController.remove);
 
+blog.get('/', blogController.list)
+  .post('/', blogController.create)
+  .get('/:url', blogController.find)
+  .post('/:url', blogController.update)
+  .post('/:/url/delete', blogController.remove);
+
 api.use(async (ctx, next) => {
   let auth = ctx.headers.auth;
 
@@ -79,7 +87,8 @@ api.get('/counts', countController.list)
   .use('/hearthstone-decks', hearthstoneDeck.routes(), hearthstoneDeck.allowedMethods())
   .use('/hearthstone-matches', hearthstoneMatch.routes(), hearthstoneMatch.allowedMethods())
   .get('/hearthstone-cards', hearthstoneCardController.list)
-  .post('/game-trophy', trophyController.create);
+  .post('/game-trophy', trophyController.create)
+  .use('/blogs', blog.routes(), blog.allowedMethods());
 
 router.use('/api', api.routes(), api.allowedMethods())
   .get('/admin*', auth({ name: Keys.admin.user, pass: Keys.admin.password }), async (ctx, next) => {
