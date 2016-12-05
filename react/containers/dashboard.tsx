@@ -1,6 +1,8 @@
 import * as React from 'react';
 import axios from 'axios';
 
+import { AdminListPage } from '../../config/admin-list-page';
+
 import { DashboardState } from '../interface/dashboard';
 import { DashboardItem } from '../components/items/dashboard-item';
 
@@ -47,14 +49,14 @@ export class Dashboard extends React.Component<{}, DashboardState> {
                     <div className="col-sm-6 col-sm-offset-3">
                         <div className="list-group">
                             {
-                                sections.map((section, key) => {
+                                AdminListPage.map((section, key) => {
                                     let count = 0;
-                                    let table = this.state.counts.find(count => count.table == section.title);
+                                    let table = this.state.counts.find(count => count.table == section.path.toLowerCase());
                                     if (table) {
                                         count = table.count;
                                     }
 
-                                    return <DashboardItem title={section.title} link={section.link} count={count} key={key} />
+                                    return <DashboardItem title={section.path} link={'/admin/' + section.path.toLowerCase()} count={count} key={key} />
                                 })
                             }
                         </div>

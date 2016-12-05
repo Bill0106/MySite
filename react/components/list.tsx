@@ -19,13 +19,13 @@ export class ListTable extends React.Component<ListTableProps, {}> {
             case 'gourmets':
                 ele = <GourmetItem data={data} key={key} delete={this.handleDelete.bind(this)} />;
                 break;
-            case 'hearthstone seasons':
+            case 'hearthstone-seasons':
                 ele = <HsSeasonItem data={data} key={key} delete={this.handleDelete.bind(this)} />;
                 break;
-            case 'hearthstone decks':
+            case 'hearthstone-decks':
                 ele = <HsDeckItem data={data} key={key} delete={this.handleDelete.bind(this)} func={this.handleActive.bind(this)} />;
                 break;
-            case 'hearthstone matches':
+            case 'hearthstone-matches':
                 ele = <HsMatchItem data={data} key={key} delete={this.handleDelete.bind(this)} />
                 break;
             default:

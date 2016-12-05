@@ -14,13 +14,13 @@ export class List extends React.Component<ListProps, ListState> {
         this.state = {
             list: [],
             total: 0,
-            page: AdminListPage.find(page => page.path == props.route.path)
+            page: AdminListPage.find(page => page.path.toLowerCase() == props.route.path)
         }
     }
 
     handleFetch(page): void {
         let state = this.state;
-        let apiUrl = this.state.page.api + '?limit=' + this.state.page.per + (page ? '&page=' + page : '');
+        let apiUrl = '/' + this.state.page.path.toLowerCase() + '?limit=' + this.state.page.per + (page ? '&page=' + page : '');
 
         axios.get(apiUrl)
             .then(response => {
@@ -28,7 +28,7 @@ export class List extends React.Component<ListProps, ListState> {
                 state['total'] = response.data.total;
                 this.setState(state);
 
-                if (this.state.page.path == 'hearthstone-matches') {
+                if (this.state.page.path.toLowerCase() == 'hearthstone-matches') {
                     this.handleDecks(state);
                 }
             })
@@ -59,9 +59,9 @@ export class List extends React.Component<ListProps, ListState> {
     }
 
     handleDelete(obj): void {
-        let url = this.state.page.api + '/' + obj._id + '/delete';
-        if (this.state.page.path == 'games' || this.state.page.path == 'hearthstone-seasons') {
-            url = this.state.page.api + '/' + obj.url + '/delete';
+        let url = this.state.page.path.toLowerCase() + '/' + obj._id + '/delete';
+        if (this.state.page.path.toLowerCase() == 'games' || this.state.page.path.toLowerCase() == 'hearthstone-seasons') {
+            url = this.state.page.path.toLowerCase() + '/' + obj.url + '/delete';
         }
 
         axios.post(url)
@@ -103,11 +103,11 @@ export class List extends React.Component<ListProps, ListState> {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.route.path != this.state.page.path) {
+        if (nextProps.route.path != this.state.page.path.toLowerCase()) {
             this.state = {
                 list: [],
                 total: 0,
-                page: AdminListPage.find(page => page.path == nextProps.route.path)
+                page: AdminListPage.find(page => page.path.toLowerCase() == nextProps.route.path)
             }
 
             this.handleFetch(nextProps.location.query['page']);
@@ -120,14 +120,14 @@ export class List extends React.Component<ListProps, ListState> {
 
 
     componentDidMount() {
-        setPageTitle(this.state.page['table']);
+        setPageTitle(this.state.page.path.toLowerCase());
         this.handleFetch(this.props.location.query['page']);
     }
 
     render() {
         return (
             <div className="container-fluid">
-                <ListTable title={this.state.page.table} total={this.state.total} fields={this.state.page.fields} data={this.state.list}
+                <ListTable title={this.state.page.path} total={this.state.total} fields={this.state.page.fields} data={this.state.list}
                     per={this.state.page.per} current={this.props.location.query['page']}
                     delete={this.handleDelete.bind(this)} active={this.handleActive.bind(this)} />
             </div>
