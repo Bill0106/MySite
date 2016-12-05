@@ -2,8 +2,8 @@ import * as React from 'react';
 import axios from 'axios';
 import { browserHistory } from 'react-router';
 
-import { HsPlayerClasses } from '../../config/hs-player-classes';
-import { HsCardRarity } from '../../config/hs-card-rarity';
+import { HearthstonePlayerClasses } from '../../config/hearthstone-player-classes';
+import { HearthstoneCardRarity } from '../../config/hearthstone-card-rarity';
 import { DeckProps, DeckState } from '../interface/hearthstone';
 
 import { setPageTitle } from '../helpers';
@@ -86,7 +86,7 @@ export class HsDeck extends React.Component<DeckProps, DeckState> {
         let cardsListObj = cardsList.list.find(value => value._id == obj._id);
         let cardsIndex = state.deck.cards;
         let cardsIndexObj = cardsIndex.find(value => value.card == obj._id);
-        let legend = HsCardRarity.find(rarity => rarity.name == 'Legendary').value;
+        let legend = HearthstoneCardRarity.find(rarity => rarity.name == 'Legendary').value;
 
         if (add) {
             if (cardsList.total == 30) {
@@ -201,7 +201,7 @@ export class HsDeck extends React.Component<DeckProps, DeckState> {
                                     <label htmlFor="playerClass">Player Class:</label>
                                 </div>
                                 {
-                                    HsPlayerClasses.map(player => {
+                                    HearthstonePlayerClasses.map(player => {
                                         return (
                                             <label className="radio-inline" key={player.value}>
                                                 <input type="radio" checked={this.state.deck.playerClass == player.value}
@@ -265,7 +265,7 @@ export class HsDeck extends React.Component<DeckProps, DeckState> {
                             </li>
                             <li role="presentation">
                                 <a href="#classCards" aria-controls="classCards" role="tab" data-toggle="tab">
-                                    {HsPlayerClasses.find(player => player.value == this.state.deck.playerClass).name}
+                                    {HearthstonePlayerClasses.find(player => player.value == this.state.deck.playerClass).name}
                                 </a>
                             </li>
                         </ul>

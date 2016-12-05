@@ -1,4 +1,4 @@
-const HS_SEASON_RANKED = [
+const HEARTHSTONE_SEASON_RANKED = [
     {
         value: 0,
         name: 'Legend'
@@ -105,4 +105,4 @@ const HS_SEASON_RANKED = [
     },
 ];
 
-export let HsSeasonRanked = HS_SEASON_RANKED;
+export let HearthstoneSeasonRanked = HEARTHSTONE_SEASON_RANKED;

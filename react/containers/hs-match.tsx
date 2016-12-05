@@ -1,8 +1,8 @@
 import * as React from 'react';
 import axios from 'axios';
 
-import { HsPlayerClasses } from '../../config/hs-player-classes';
-import { HsMatchResult } from '../../config/hs-match-result';
+import { HearthstonePlayerClasses } from '../../config/hearthstone-player-classes';
+import { HearthstoneMatchResult } from '../../config/hearthstone-match-result';
 import { MatchState } from '../interface/hearthstone';
 
 import { setPageTitle } from '../helpers';
@@ -84,7 +84,7 @@ export class HsMatch extends React.Component<{}, MatchState> {
                             <select className="form-control" name="opponent" id="opponent" value={this.state.opponent.toString()}
                                 onChange={this.handleSelect.bind(this)}>
                                 {
-                                    HsPlayerClasses.map(opponent => {
+                                    HearthstonePlayerClasses.map(opponent => {
                                         return <option value={opponent.value.toString()} key={opponent.value}>{opponent.name}</option>
                                     })
                                 }
@@ -94,7 +94,7 @@ export class HsMatch extends React.Component<{}, MatchState> {
                             <label>Result:</label>
                             <div className="btn-group btn-group-justified">
                                 {
-                                    HsMatchResult.map(result => {
+                                    HearthstoneMatchResult.map(result => {
                                         return (
                                             <div className="btn-group" key={result.value}>
                                                 <button type="button" className="btn btn-default btn-lg"
@@ -125,8 +125,8 @@ export class HsMatch extends React.Component<{}, MatchState> {
                                         return (
                                             <tr key={key}>
                                                 <td>{this.state.decks.find(deck => deck._id == match.deck).name}</td>
-                                                <td>{HsPlayerClasses.find(player => player.value == match.opponent).name}</td>
-                                                <td>{HsMatchResult.find(result => result.value == match.result).name}</td>
+                                                <td>{HearthstonePlayerClasses.find(player => player.value == match.opponent).name}</td>
+                                                <td>{HearthstoneMatchResult.find(result => result.value == match.result).name}</td>
                                             </tr>
                                         )
                                     })

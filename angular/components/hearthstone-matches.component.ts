@@ -9,7 +9,7 @@ import { HearthstoneSeason } from '../models/hearthstone-season';
 import { HearthstoneMatch } from '../models/hearthstone-match';
 import { HearthstoneDeck } from '../models/hearthstone-deck';
 
-import { HsPlayerClasses } from '../../config/hs-player-classes';
+import { HearthstonePlayerClasses } from '../../config/hearthstone-player-classes';
 
 @Component({
     selector: 'my-hearthstone-matches',
@@ -24,7 +24,7 @@ export class HearthstoneMatchesComponent implements OnInit {
     matches: HearthstoneMatch[];
     decks: HearthstoneDeck[];
     seasons: HearthstoneSeason[];
-    playerClasses = HsPlayerClasses;
+    playerClasses = HearthstonePlayerClasses;
 
     constructor(
         private hearthstoneMatchService: HearthstoneMatchService,

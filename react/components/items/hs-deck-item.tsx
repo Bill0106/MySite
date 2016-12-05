@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link } from 'react-router';
 
-import { HsPlayerClasses } from '../../../config/hs-player-classes';
+import { HearthstonePlayerClasses } from '../../../config/hearthstone-player-classes';
 import { ListItemProps } from '../../interface/list';
 
 export class HsDeckItem extends React.Component<ListItemProps, {}> {
@@ -18,7 +18,7 @@ export class HsDeckItem extends React.Component<ListItemProps, {}> {
             <tr>
                 <td>{this.props.data._id}</td>
                 <td>{this.props.data.name}</td>
-                <td>{HsPlayerClasses.find(player => player.value == this.props.data.playerClass).name}</td>
+                <td>{HearthstonePlayerClasses.find(player => player.value == this.props.data.playerClass).name}</td>
                 <td>{this.props.data.active ? 'Active' : 'Inactive'}</td>
                 <td>
                     <Link to={'/admin/hearthstone-decks/' + this.props.data._id} className="btn btn-primary">Edit</Link>

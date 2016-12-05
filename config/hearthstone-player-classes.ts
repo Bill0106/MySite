@@ -1,4 +1,4 @@
-const HS_PLAYER_CLASSES = [
+const HEARTHSTONE_PLAYER_CLASSES = [
     {
         value: 0,
         name: "Druid"
@@ -37,4 +37,4 @@ const HS_PLAYER_CLASSES = [
     }
 ];
 
-export let HsPlayerClasses = HS_PLAYER_CLASSES;
+export let HearthstonePlayerClasses = HEARTHSTONE_PLAYER_CLASSES;

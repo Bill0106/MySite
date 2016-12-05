@@ -1,6 +1,6 @@
-import { TrophyRarity } from './trophy-rarity';
+import { TrophyRarity } from '../trophy-rarity';
 
-const TROPHY_FIELDS = [
+const GAME_TROPHY_FIELDS = [
     {
         field: 'title',
         type: 'input',
@@ -24,4 +24,4 @@ const TROPHY_FIELDS = [
     }
 ];
 
-export let TrophyFields = TROPHY_FIELDS;
+export let GameTrophyFields = GAME_TROPHY_FIELDS;

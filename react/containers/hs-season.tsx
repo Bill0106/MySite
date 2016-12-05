@@ -2,7 +2,7 @@ import * as React from 'react';
 import { browserHistory } from 'react-router';
 import axios from 'axios';
 
-import { HsSeasonFields } from '../../config/hs-season-fields';
+import { HearthstoneSeasonFields } from '../../config/fields/hearthstone-season';
 import { SeasonProps, SeasonState } from '../interface/hearthstone';
 import { Form } from '../components/form';
 import { time2Date, setPageTitle } from "../helpers";
@@ -74,7 +74,7 @@ export class HsSeason extends React.Component<SeasonProps, SeasonState> {
                 <div className="row">
                     <div className="col-sm-12">
                         <Form data={this.state} change={this.handleChange.bind(this)}
-                              submit={this.handleSubmit.bind(this)} fields={HsSeasonFields} />
+                              submit={this.handleSubmit.bind(this)} fields={HearthstoneSeasonFields} />
                     </div>
                 </div>
             </div>

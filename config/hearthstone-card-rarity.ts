@@ -1,4 +1,4 @@
-const HS_CARD_RARITY = [
+const HEARTHSTONE_CARD_RARITY = [
     {
         value: 0,
         name: "Free"
@@ -21,4 +21,4 @@ const HS_CARD_RARITY = [
     }
 ];
 
-export let HsCardRarity = HS_CARD_RARITY;
+export let HearthstoneCardRarity = HEARTHSTONE_CARD_RARITY;

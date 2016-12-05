@@ -1,6 +1,6 @@
-import { HsSeasonRanked } from '../config/hs-season-ranked';
+import { HearthstoneSeasonRanked } from '../hearthstone-season-ranked';
 
-const HS_SEASON_FIELDS = [
+const HEARTHSTONE_SEASON_FIELDS = [
     {
         field: 'image',
         type: 'image',
@@ -17,7 +17,7 @@ const HS_SEASON_FIELDS = [
     {
         field: 'rank',
         type: 'select',
-        enum: HsSeasonRanked
+        enum: HearthstoneSeasonRanked
     },
     {
         field: 'url',
@@ -29,4 +29,4 @@ const HS_SEASON_FIELDS = [
     }
 ];
 
-export let HsSeasonFields = HS_SEASON_FIELDS;
+export let HearthstoneSeasonFields = HEARTHSTONE_SEASON_FIELDS;

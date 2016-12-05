@@ -1,4 +1,4 @@
-const HS_MATCH_RESULT = [
+const HEARTHSTONE_MATCH_RESULT = [
     {
         value: 1,
         name: 'Win'
@@ -13,4 +13,4 @@ const HS_MATCH_RESULT = [
     }
 ];
 
-export let HsMatchResult = HS_MATCH_RESULT;
+export let HearthstoneMatchResult = HEARTHSTONE_MATCH_RESULT;

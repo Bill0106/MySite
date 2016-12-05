@@ -2,7 +2,7 @@ import * as React from 'react';
 import { browserHistory } from 'react-router';
 import axios from 'axios';
 
-import { GourmetFields } from '../../config/gourmet-fields';
+import { GourmetFields } from '../../config/fields/gourmet';
 import { GourmetProps, GourmetState } from '../interface/gourmet';
 import { Form } from '../components/form';
 import { time2Date, setPageTitle } from "../helpers";
