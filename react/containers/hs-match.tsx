@@ -33,7 +33,7 @@ export class HsMatch extends React.Component<{}, MatchState> {
             result: result
         }
 
-        axios.post('/hearth-stone/matches', data)
+        axios.post('/hearthstone-matches', data)
             .then(response => {
                 if (response.data.success) {
                     let change = this.state;
