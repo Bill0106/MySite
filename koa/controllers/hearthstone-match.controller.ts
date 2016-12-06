@@ -57,6 +57,7 @@ const create = async (ctx) => {
             throw "Invalid Result";
         }
 
+        data.deck_id = deck._id;
         data.time = moment().valueOf();
         let match = new HearthstoneMatch.repositry(data);
         await match.save();
