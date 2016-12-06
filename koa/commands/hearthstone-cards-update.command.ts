@@ -34,7 +34,7 @@ const handle = async () => {
                 name: item.name,
                 image: item.img,
                 cost: item.cost,
-                playerClass: (item.playerClass >= 0) ? HsPlayerClasses.find(player => player.name == item.playerClass).value : -1,
+                playerClass: item.playerClass == 'Neutral' ? -1 : HsPlayerClasses.find(player => player.name == item.playerClass).value,
                 rarity: HsCardRarity.find(rarity => rarity.name == item.rarity).value,
                 standard: CARD_SET.indexOf(item.cardSet) >= 0 ? false : true
             }
