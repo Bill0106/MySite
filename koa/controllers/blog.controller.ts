@@ -43,6 +43,11 @@ const upload = async (ctx) => {
     try {
         const { path, originalname } = ctx.req.file;
         let name = originalname.split('.');
+        let blog = await Blog.repositry.findOne({ url: name[0] });
+        if (blog) {
+            throw { message: "Blog Existed" };
+        }
+
         let data = await getFileData(path);
         let markdown = data.toString()
         let converter = new showdown.Converter();
@@ -57,7 +62,7 @@ const upload = async (ctx) => {
             }
         }
     } catch (error) {
-        ctx.status = ctx.status || 500;
+        ctx.status = 500;
         ctx.body = error.message;
     }
 }
