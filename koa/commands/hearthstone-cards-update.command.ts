@@ -34,8 +34,9 @@ const handle = async () => {
                 name: item.name,
                 image: item.img,
                 cost: item.cost,
-                playerClass: item.playerClass ? HsPlayerClasses.find(player => player.name == item.playerClass).value : -1,
+                playerClass: (item.playerClass >= 0) ? HsPlayerClasses.find(player => player.name == item.playerClass).value : -1,
                 rarity: HsCardRarity.find(rarity => rarity.name == item.rarity).value,
+                standard: CARD_SET.indexOf(item.cardSet) >= 0 ? false : true
             }
 
             let card = await Card.repositry.findOne({ cardId: newData.cardId });
@@ -54,6 +55,7 @@ const handle = async () => {
         process.exit();
     } catch (error) {
         console.log(error);
+        process.exit();
     }
 }
 
