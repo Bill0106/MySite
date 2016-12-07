@@ -37,7 +37,7 @@ export class HsMatch extends React.Component<{}, MatchState> {
             .then(response => {
                 if (response.data.success) {
                     let change = this.state;
-                    change['matches'].push(data);
+                    change['matches'].unshift(data);
 
                     if (result == 1) {
                         change['wins']++;
