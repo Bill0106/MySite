@@ -120,7 +120,7 @@ export class HearthstoneMatchesComponent implements OnInit {
         }
     }
 
-    getStats(deck?: string, season?: number, opponent?: number): any {
+    getStats(deck?: string, season?: number, opponent?: string): any {
         let filteredMatches: HearthstoneMatch[] = this.matches;
 
         if (deck) {
@@ -133,7 +133,8 @@ export class HearthstoneMatchesComponent implements OnInit {
         }
 
         if (opponent) {
-            filteredMatches = filteredMatches.filter(match => match.opponent === opponent)
+            let value = HsPlayerClasses.find(player => player.name == opponent).value;
+            filteredMatches = filteredMatches.filter(match => match.opponent === value);
         }
 
         let wins = filteredMatches.filter(match => match.result === 1).length;
@@ -141,7 +142,7 @@ export class HearthstoneMatchesComponent implements OnInit {
 
         return {
             string: wins + ' - ' + loses,
-            pct: wins / (wins + loses)
+            pct: wins / filteredMatches.length
         };
     }
 }

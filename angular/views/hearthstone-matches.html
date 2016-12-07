@@ -10,13 +10,13 @@
     <tbody *ngIf="tableType == 'deck' && decks">
         <tr *ngFor="let deck of decks">
             <td><a [routerLink]="['/hearthstone/deck', deck._id]">{{ deck.name }}</a></td>
-            <td *ngFor="let class of playerClasses">{{ getStats(deck._id, null, class.value).string }}</td>
+            <td *ngFor="let class of playerClasses">{{ getStats(deck._id, null, class.name).string }}</td>
             <td>{{ getStats(deck._id).string }}</td>
             <td>{{ getStats(deck._id).pct | percent: '1.2-2' }}</td>
         </tr>
         <tr>
             <td>Total</td>
-            <td *ngFor="let class of playerClasses">{{ getStats(null, season.month, class.value).string }}</td>
+            <td *ngFor="let class of playerClasses">{{ getStats(null, season.month, class.name).string }}</td>
             <td>{{ getStats(null, season.month).string }}</td>
             <td>{{ getStats(null, season.month).pct | percent: '1.2-2' }}</td>
         </tr>
@@ -24,13 +24,13 @@
     <tbody *ngIf="tableType == 'season' && seasons">
         <tr *ngFor="let season of seasons">
             <td><a [routerLink]="['/hearthstone/seasons', season.url]">{{ season.title }}</a></td>
-            <td *ngFor="let class of playerClasses">{{ getStats(null, season.month, class.value).string }}</td>
+            <td *ngFor="let class of playerClasses">{{ getStats(null, season.month, class.name).string }}</td>
             <td>{{ getStats(null, season.month).string }}</td>
             <td>{{ getStats(null, season.month).pct | percent: '1.2-2' }}</td>
         </tr>
         <tr>
             <td>Total</td>
-            <td *ngFor="let class of playerClasses">{{ getStats(deck._id, null, class.value).string }}</td>
+            <td *ngFor="let class of playerClasses">{{ getStats(deck._id, null, class.name).string }}</td>
             <td>{{ getStats(deck._id).string }}</td>
             <td>{{ getStats(deck._id).pct | percent: '1.2-2' }}</td>
         </tr>
