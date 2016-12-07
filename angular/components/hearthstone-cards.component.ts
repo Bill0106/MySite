@@ -17,8 +17,7 @@ export class HearthstoneCardsComponent implements OnInit {
     constructor(private hearthstoneCardService: HearthstoneCardService) { }
 
     ngOnInit(): void {
-        let ids = [];
-        this.deck.cards.map(card => ids.push(card.card));
+        let ids = this.deck.cards.map(card => card.card);
         this.hearthstoneCardService.getDecks(ids.join(','))
             .then(cards => this.cards = cards);
     }

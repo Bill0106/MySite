@@ -3,7 +3,7 @@
         <div class="col-sm-12">
             <section class="hearthstone-deck-header">
                 <h1>{{ deck.name }}</h1>
-                <my-hearthstone-cards [deck]="deck"></my-hearthstone-cards>
+                <my-hearthstone-cards [deck]="deck" *ngIf="deck.cards.length"></my-hearthstone-cards>
                 <p class="deck-tips">*所有牌组均来自 <a href="http://www.hearthpwn.com/" target="_blank">hearthpwn</a> 或者 <a href="http://ls.duowan.com/" target="_blank">多玩</a>，非原创！(All decks are copied from hearhpwn or duowan, not original!)</p>
             </section>
         </div>
