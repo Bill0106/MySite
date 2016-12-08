@@ -69,7 +69,7 @@ export class HearthstoneDeck extends React.Component<DeckProps, DeckState> {
         cards.map(obj => {
             ids.push(obj.card);
             total += obj.count;
-        })
+        });
 
         axios.get('hearthstone-cards?ids=' + ids.join(','))
             .then(response => {
@@ -165,9 +165,13 @@ export class HearthstoneDeck extends React.Component<DeckProps, DeckState> {
                     let change = this.state;
                     change['deck'] = response.data;
 
+                    this.handleCardsFetch(change.deck.playerClass);
+
+                    if (change.deck.cards.length) {
+                        this.handleCardIds(change.deck.cards);
+                    }
+
                     this.setState(change);
-                    this.handleCardsFetch(response.data.playerClass);
-                    this.handleCardIds(response.data.cards);
                 })
         } else {
             setPageTitle('Add New Hearthstone Deck');
@@ -183,7 +187,7 @@ export class HearthstoneDeck extends React.Component<DeckProps, DeckState> {
         }
         let indent = [];
         for (let i = 1; i < 8; i++) {
-            indent.push(<button className="btn btn-default" type="button" onClick={this.handleCardsFetch.bind(this, -1, i)}>{i}</button>);
+            indent.push(<button key={i} className="btn btn-default" type="button" onClick={this.handleCardsFetch.bind(this, -1, i)}>{i}</button>);
         }
 
         return (
