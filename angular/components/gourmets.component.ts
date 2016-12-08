@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { GourmetService } from '../services/gourmet.service';
 import { Gourmet } from '../models/gourmet';
 
-const GOURMETS_PER_PAGE = 24;
+const GOURMETS_PER_PAGE = 30;
 
 @Component({
     selector: 'my-gourmets',
