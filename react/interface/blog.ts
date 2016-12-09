@@ -7,6 +7,7 @@ export interface BlogState {
     file              : any;
     title             : string;
     image             : string;
+    summary           : string;
     markdown_contents : string;
     html_contents     : string;
     url               : string;

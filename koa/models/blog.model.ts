@@ -3,6 +3,7 @@ import * as mongoose from 'mongoose';
 export interface IBlog extends mongoose.Document {
     title             : string;
     image             : string;
+    summary           : string;
     markdown_contents : string;
     html_contents     : string;
     url               : string;
@@ -15,6 +16,7 @@ export interface IBlog extends mongoose.Document {
 export let blogSchema = new mongoose.Schema({
     title             : String,
     image             : String,
+    summary           : String,
     markdown_contents : String,
     html_contents     : String,
     url               : String,

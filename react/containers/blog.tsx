@@ -6,7 +6,7 @@ import axios from 'axios';
 import { BlogProps, BlogState } from '../interface/blog';
 
 export class Blog extends React.Component<BlogProps, BlogState> {
-    constructor(props) {
+    constructor(props) {        
         super(props);
 
         this.state = {
@@ -14,6 +14,7 @@ export class Blog extends React.Component<BlogProps, BlogState> {
             file: '',
             title: '',
             image: '',
+            summary: '',
             markdown_contents: '',
             html_contents: '',
             url: '',
@@ -82,13 +83,18 @@ export class Blog extends React.Component<BlogProps, BlogState> {
             axios.get('/blogs/' + this.props.params['url'])
                 .then(response => {
                     let data = response.data;
+                    let pattern = /\<p\>(.*)\<\/p\>/;
+                    let html = response.data.html_contents;
+                    let matches = pattern.exec(html);
+                    
                     this.setState({
                         id: data._id,
                         file: '',
                         title: data.title,
                         image: data.image,
+                        summary: data.summary ? data.summary : matches[1],
                         markdown_contents: data.markdown_contents,
-                        html_contents: data.html_contents,
+                        html_contents: html,
                         url: data.url,
                         game_id: data.game_id,
                         published: data.published,
@@ -131,6 +137,14 @@ export class Blog extends React.Component<BlogProps, BlogState> {
                                 <label htmlFor="game_id">Game:</label>
                                 <div className="form-group">
                                     <input type="text" value={this.state.game_id} name="game_id" id="game_id" onChange={this.handleChange.bind(this)} className="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-sm-12">
+                                <label htmlFor="summary">Summary:</label>
+                                <div className="form-group">
+                                    <textarea name="summary" id="summary" rows={10} className="form-control" value={this.state.summary} onChange={this.handleChange.bind(this)}></textarea>
                                 </div>
                             </div>
                         </div>

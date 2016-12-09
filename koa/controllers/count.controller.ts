@@ -3,6 +3,7 @@ import * as Gourmet from '../models/gourmet.model';
 import * as HearthstoneSeason from '../models/hearthstone-season.model';
 import * as HearthstoneDeck from '../models/hearthstone-deck.model';
 import * as HearthstoneMatch from '../models/hearthstone-match.model';
+import * as Blog from '../models/blog.model';
 
 const list = async (ctx, next) => {
     try {
@@ -26,6 +27,10 @@ const list = async (ctx, next) => {
             {
                 table: 'hearthstone-matches',
                 count: await HearthstoneMatch.repositry.count({})
+            },
+            {
+                table: 'blogs',
+                count: await Blog.repositry.count({})
             }
         ]
     } catch (error) {
