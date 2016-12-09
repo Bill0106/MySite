@@ -54,19 +54,24 @@ Installation
 
 Versions
 --------
-### v4.0
+### v4.1.0
+1. Optimize hearthstone file name
+2. Add blog database
+3. Set up blog admin
+
+### v4.0.0
 1. Use Koa@next instead of Express
 
-### v3.6
+### v3.6.0
 1. Git ignore API Keys
 
-### v3.5
+### v3.5.0
 1. Use ReactJS instead of AngularJS in admin page
 
-### v3.0
+### v3.0.0
 1. Frontend upgrade AngularJS 1.x to AngularJS 2.0
 
-### v2.7
+### v2.7.0
 1. Use Sass instead of Less
 2. Optimize style
 
@@ -80,7 +85,7 @@ Versions
 2. HearthStone card database add 'standard' field
 3. HearthStone deck admin request only standard cards
 
-### v2.6
+### v2.6.0
 1. Use Basic Auth to access admin
 2. Optimize admin image upload
 3. Optimize admin pages
@@ -94,31 +99,31 @@ Versions
 2. HearthStone matches display like: 'win - lose'
 3. HearthStone pages optimize
 
-### v2.5
+### v2.5.0
 1. Use nodemon instead of Gulp-nodemon
 2. Remove sourcemap
 3. Set Up HearthStone matches admin
 4. Add HearthStone matches Commands
 5. Use HearthStone matches instead of win rates
 
-### v2.4
+### v2.4.0
 1. Delete bower.json
 
-### v2.3
+### v2.3.0
 1. Game trophy admin can add new trophy
 2. Game trophy admin style optimize
 
-### v2.2
+### v2.2.0
 1. Update Gulp to 4.0
 
-### v2.1
+### v2.1.0
 1. Use Gulp instead of Grunt for development
 2. Change the Less file directory
 3. Change CSS and compressed JS file directory
 
-### v2.0
-1. Optimaze AngularJS code directory structure
+### v2.0.0
+1. Optimize AngularJS code directory structure
 2. Recode Frontend code
 
-### v1.0
+### v1.0.0
 1. Set up website with AngularJS & NodeJS
