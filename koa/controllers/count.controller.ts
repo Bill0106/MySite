@@ -9,27 +9,27 @@ const list = async (ctx, next) => {
     try {
         ctx.body = [
             {
-                table: 'games',
+                title: 'Games',
                 count: await Game.repositry.count({})
             },
             {
-                table: 'gourmets',
+                title: 'Gourmets',
                 count: await Gourmet.repositry.count({})
             },
             {
-                table: 'hearthstone-seasons',
+                title: 'Hearthstone-Seasons',
                 count: await HearthstoneSeason.repositry.count({})
             },
             {
-                table: 'hearthstone-decks',
+                title: 'Hearthstone-Decks',
                 count: await HearthstoneDeck.repositry.count({})
             },
             {
-                table: 'hearthstone-matches',
+                title: 'Hearthstone-Matches',
                 count: await HearthstoneMatch.repositry.count({})
             },
             {
-                table: 'blogs',
+                title: 'Blogs',
                 count: await Blog.repositry.count({})
             }
         ]

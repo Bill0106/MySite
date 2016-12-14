@@ -1,41 +1,33 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios';
 
-import { AdminListPage } from '../../config/admin-list-page';
-
-import { DashboardState } from '../interface/dashboard';
+import { DashboardProps } from '../interface/dashboard';
+import { fetchCounts } from '../actions/countsActions';
 import { DashboardItem } from '../components/items/dashboard-item';
 
 import { setPageTitle } from '../helpers';
 
-let sections = [
-    { title: 'Games', link: '/admin/games' },
-    { title: 'Gourmets', link: '/admin/gourmets' },
-    { title: 'Hearthstone Seasons', link: '/admin/hearthstone-seasons' },
-    { title: 'Hearthstone Decks', link: '/admin/hearthstone-decks' },
-    { title: 'Hearthstone Matches', link: '/admin/hearthstone-matches' },
-];
-
-export class Dashboard extends React.Component<{}, DashboardState> {
-    constructor() {
-        super();
-
-        this.state = {
-            counts: []
-        };
+const mapStateToProps = state => {
+    return {
+        counts: state.counts
     }
+}
 
-    componentDidMount() {
-        setPageTitle('Admin Dashboard', true);
-        axios.get('/counts')
-            .then(response => {
-                this.setState({
-                    counts: response.data
-                })
-            })
+const mapDispatchToProps = dispatch => {
+    return {
+        getCounts: () => dispatch(fetchCounts())
+    }
+}
+
+class Dashboard extends React.Component<DashboardProps, void> {
+    componentWillMount() {
+        this.props.getCounts();
     }
 
     render() {
+        const { counts } = this.props;
+
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -48,17 +40,11 @@ export class Dashboard extends React.Component<{}, DashboardState> {
                 <div className="row">
                     <div className="col-sm-6 col-sm-offset-3">
                         <div className="list-group">
-                            {
-                                AdminListPage.map((section, key) => {
-                                    let count = 0;
-                                    let table = this.state.counts.find(count => count.table == section.path.toLowerCase());
-                                    if (table) {
-                                        count = table.count;
-                                    }
-
-                                    return <DashboardItem title={section.path} link={'/admin/' + section.path.toLowerCase()} count={count} key={key} />
-                                })
-                            }
+                        {
+                            counts.items.map((item, key) => {
+                                return <DashboardItem key={key} title={item.title} count={item.count} />;
+                            })
+                        }
                         </div>
                     </div>
                 </div>
@@ -66,3 +52,5 @@ export class Dashboard extends React.Component<{}, DashboardState> {
         );
     }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

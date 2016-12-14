@@ -1,5 +1,5 @@
 import { App } from './containers/app';
-import { Dashboard } from './containers/dashboard';
+import Dashboard from './containers/dashboard';
 import { List } from './containers/list';
 import { Game } from './containers/game';
 import { Trophy } from './containers/trophy';
