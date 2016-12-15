@@ -85,9 +85,10 @@ const update = async (ctx) => {
         let data = ctx.request.body;
         let trophies = [];
         await data.trophies.map(value => {
+            let ts = moment(value.date, 'YYYY-MM-DD').valueOf();
             value.title = new Buffer(value.title).toString('base64');
             value.description = new Buffer(value.description).toString('base64');
-            value.date = moment(value.date, 'YYYY-MM-DD').valueOf();
+            value.date = ts > 0 ? ts : null;
             trophies.push(value);
         })
         data.trophies = trophies;
