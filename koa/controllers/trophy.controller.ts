@@ -30,21 +30,21 @@ const find = async (ctx) => {
     }
 }
 
-const create = async (ctx) => {
+const scrap = async (ctx) => {
     try {
         let data = ctx.request.body;
         let html = await requestPage(data.url);
         let $ = cheerio.load(html);
-        let items = $("div.element div.box table.zebra tr");
+        let items = $("div.col-xs div.box table.zebra tr");
 
         let array = [];
         let earned = 0;
-        await items.each((i, element) => {
-            let titleElement = $("a.bold", $(element));
+        items.each((i, element) => {
+            let titleElement = $("a.title", $(element));
             let title = titleElement.text().trim();
             let titleLength = title.length;
             let text = titleElement.parent().text().trim();
-            let rarity = $("center.gradient-separator img", $(element)).attr('title');
+            let rarity = $("span.separator img", $(element)).attr('title');
 
             let date: number = 0;
             if ($("span.typo-top-date", $(element)).length > 0) {
@@ -53,9 +53,9 @@ const create = async (ctx) => {
             }
 
             let item = {
-                title: new Buffer(title).toString('base64'),
-                description: new Buffer(text.substr(titleLength)).toString('base64'),
-                image: $("img.trophy_image", $(element)).attr('src'),
+                title: title,
+                description: text.substr(titleLength),
+                image: $("picture.trophy img", $(element)).attr('src'),
                 rarity: TrophyRarity.find(value => value.name == rarity).value,
                 date: date
             };
@@ -70,14 +70,9 @@ const create = async (ctx) => {
             trophies: array
         }
 
-        let trophy = new GameTrophy.repositry(newData);
-        await trophy.save();
-
         ctx.body = {
             success: true,
-            data: {
-                id: trophy._id
-            }
+            data: newData
         }
     } catch (error) {
         ctx.status = ctx.status || 500;
@@ -97,11 +92,19 @@ const update = async (ctx) => {
         })
         data.trophies = trophies;
 
-        await GameTrophy.repositry.findByIdAndUpdate(data.id, data);
+        let id = data.id;
+        if (id) {
+            let trophy = await GameTrophy.repositry.findByIdAndUpdate(id, data);
+        } else {
+            let trophy = new GameTrophy.repositry(data);
+            await trophy.save();
+            id = trophy._id;
+        }
+
         ctx.body = {
             success: true,
             data: {
-                id: data.id
+                id: id
             }
         }
     } catch (error) {
@@ -122,4 +125,4 @@ function requestPage(url): any {
     })
 }
 
-export default { find, create, update }
+export default { find, update, scrap }

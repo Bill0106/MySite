@@ -90,7 +90,7 @@ api.get('/counts', countController.list)
   .use('/hearthstone-decks', hearthstoneDeck.routes(), hearthstoneDeck.allowedMethods())
   .use('/hearthstone-matches', hearthstoneMatch.routes(), hearthstoneMatch.allowedMethods())
   .get('/hearthstone-cards', hearthstoneCardController.list)
-  .post('/game-trophy', trophyController.create)
+  .post('/game-trophy', trophyController.scrap)
   .use('/blogs', blog.routes(), blog.allowedMethods());
 
 router.use('/api', api.routes(), api.allowedMethods())

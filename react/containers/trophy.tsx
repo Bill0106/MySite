@@ -20,30 +20,6 @@ export class Trophy extends React.Component<TrophyProps, TrophyState> {
         };
     }
 
-    fetchTrophyApi(id) {
-        axios.get('/games/trophy/' + id)
-            .then(response => {
-                if (response.status === 200 && response.data) {
-                    let data = {
-                        id: response.data._id,
-                        total: response.data.total,
-                        earned: response.data.earned,
-                        trophies: response.data.trophies,
-                    };
-
-                    data.trophies.map(trophy => {
-                        if (trophy.date) {
-                            trophy.date = time2Date(trophy.date);
-                        }
-                    });
-
-                    Object.keys(data).map(value => {
-                        this.handleChange(value, data[value]);
-                    });
-                }
-            })
-    }
-
     handleChange(name, value) {
         let change = this.state;
         change[name] = value;
@@ -59,7 +35,7 @@ export class Trophy extends React.Component<TrophyProps, TrophyState> {
     handleUpdate(e) {
         e.preventDefault();
 
-        axios.post('/games/trophy/' + this.state.id, this.state)
+        axios.post('/games/' + this.props.params['url'] + '/trophy', this.state)
             .then(response => {
                 if (response.data.success) {
                     browserHistory.push('/admin/games');
@@ -70,9 +46,23 @@ export class Trophy extends React.Component<TrophyProps, TrophyState> {
     handleCreate(e) {
         e.preventDefault();
 
-        axios.post('/games/scrap/' + this.state.game_id, this.state)
+        axios.post('/game-trophy', this.state)
             .then(response => {
-                this.fetchTrophyApi(response.data);
+                if (response.data.success) {
+                    const data = response.data.data;
+                    let state = this.state;
+
+                    data.trophies.map(trophy => {
+                        if (trophy.date) {
+                            trophy.date = time2Date(trophy.date);
+                        }
+                    });
+
+                    Object.keys(data).map(item => {
+                        state[item] = data[item]
+                    });
+                    this.setState(state);
+                }
             })
     }
 
@@ -81,9 +71,26 @@ export class Trophy extends React.Component<TrophyProps, TrophyState> {
             .then(response => {
                 setPageTitle(response.data.name + ' Trophies');
                 this.handleChange('game_id', response.data._id);
-                if (response.data.trophies) {
-                    this.fetchTrophyApi(response.data.trophies);
-                }
+            });
+
+        axios.get('/games/' + this.props.params['url'] + '/trophy')
+            .then(response => {
+                let data = {
+                    id: response.data._id,
+                    total: response.data.total,
+                    earned: response.data.earned,
+                    trophies: response.data.trophies,
+                };
+
+                data.trophies.map(trophy => {
+                    if (trophy.date) {
+                        trophy.date = time2Date(trophy.date);
+                    }
+                });
+
+                Object.keys(data).map(value => {
+                    this.handleChange(value, data[value]);
+                });
             });
     }
 
@@ -103,21 +110,21 @@ export class Trophy extends React.Component<TrophyProps, TrophyState> {
                             <form onSubmit={this.handleUpdate.bind(this)}>
                                 <table className="table table-bordered">
                                     <thead>
-                                    <tr>
-                                        <th>Title</th>
-                                        <th>Description</th>
-                                        <th>Image</th>
-                                        <th>Date</th>
-                                        <th>Rarity</th>
-                                        <th>Tool</th>
-                                    </tr>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Description</th>
+                                            <th>Image</th>
+                                            <th>Date</th>
+                                            <th>Rarity</th>
+                                            <th>Tool</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    {
-                                        this.state.trophies.map((trophy, key) => {
-                                            return <TrophyItem index={key} key={key} func={this.handleTrophies.bind(this)} trophy={trophy} />
-                                        })
-                                    }
+                                        {
+                                            this.state.trophies.map((trophy, key) => {
+                                                return <TrophyItem index={key} key={key} func={this.handleTrophies.bind(this)} trophy={trophy} />
+                                            })
+                                        }
                                     </tbody>
                                 </table>
                                 <div className="form-group">
