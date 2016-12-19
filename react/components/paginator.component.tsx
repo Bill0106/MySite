@@ -1,7 +1,12 @@
 import * as React from 'react';
 import { Link } from 'react-router';
 
-import { PaginatorProps } from '../interface/page.interface';
+interface PaginatorProps extends React.Props<any> {
+    total: number;
+    per: number;
+    current: number;
+    path: string;
+}
 
 class Pagination extends React.Component<PaginatorProps, {}> {
     render() {

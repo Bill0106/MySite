@@ -1,8 +1,12 @@
 import * as React from 'react';
 
-import { DashboardListProps } from '../interface/dashboard.interface';
 import DashboardItem from './dashboard-item.component';
 import Error from './error.component';
+
+interface DashboardListProps extends React.Props<any> {
+    counts: any;
+    getCounts: any;
+}
 
 class DashboardList extends React.Component<DashboardListProps, void> {
     componentWillMount() {

@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { Link } from 'react-router';
 
-import { PageHeaderProps } from '../interface/page.interface';
+interface PageHeaderProps extends React.Props<any> {
+    title: string;
+    total?: number;
+    button?: boolean;
+}
 
 class PageHeader extends React.Component<PageHeaderProps, void> {
     render() {

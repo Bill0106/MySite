@@ -30284,12 +30284,12 @@
 	var game_page_component_1 = __webpack_require__(305);
 	var mapStateToProps = function (state) {
 	    return {
-	        item: state.game
+	        game: state.game
 	    };
 	};
 	var mapDispatchToProps = function (dispatch) {
 	    return {
-	        getItem: function (url) { return dispatch(games_action_1.fetchGame(url)); }
+	        getGame: function (url) { return dispatch(games_action_1.fetchGame(url)); }
 	    };
 	};
 	var Game = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(game_page_component_1.default);

@@ -1,6 +1,9 @@
 import * as React from 'react';
 
-import { ErrorProps } from '../interface/error.interface';
+interface ErrorProps extends React.Props<any> {
+    status: number;
+    text: string;
+}
 
 class Error extends React.Component<ErrorProps, void> {
     render() {

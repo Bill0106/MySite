@@ -1,10 +1,17 @@
 import * as React from 'react';
+import { RouteComponentProps } from 'react-router';
 
-import { ListProps } from '../interface/list.interface';
 import Error from './error.component';
 import PageHeader from './page-header.component';
 import Paginator from './paginator.component';
 import GamesItem from './games-item.component';
+
+interface ListProps extends RouteComponentProps<void, void> {
+    type: string;
+    list: any;
+    getList: any;
+    postDelete: any;
+}
 
 class List extends React.Component<ListProps, void> {
     componentDidMount() {

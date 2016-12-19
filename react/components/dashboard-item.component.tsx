@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { Link } from 'react-router';
 
-import { DashboardItemProps } from '../interface/dashboard.interface';
+interface DashboardItemProps extends React.Props<any> {
+    title: string;
+    count
+}
 
 class DashboardItem extends React.Component<DashboardItemProps, void> {
     render() {

@@ -4,13 +4,13 @@ import GamePage from '../components/game-page.component';
 
 const mapStateToProps = (state) => {
     return {
-        item: state.game
+        game: state.game
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getItem: (url) => dispatch(fetchGame(url))
+        getGame: (url) => dispatch(fetchGame(url))
     }
 }
 

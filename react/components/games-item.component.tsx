@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Link } from 'react-router';
 
-import { ListItemProps } from '../interface/list.interface';
+import { ItemProps } from '../interface/item.interface';
 import { GamePlatforms } from '../../config/game-platforms';
 import { GameGenres } from '../../config/game-genres';
 
-class GamesItem extends React.Component<ListItemProps, void> {
+class GamesItem extends React.Component<ItemProps, void> {
     render() {
         const { data } = this.props;
         return (
