@@ -38,7 +38,7 @@ class DashboardList extends React.Component<DashboardListProps, void> {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-sm-6 col-sm-offset-3">{indent}</div>
+                    <div className="col-sm-6 col-sm-offset-3">{content}</div>
                 </div>
             </div>
         );

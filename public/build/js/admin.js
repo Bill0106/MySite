@@ -52,7 +52,7 @@
 	var axios_1 = __webpack_require__(263);
 	var keys_1 = __webpack_require__(288);
 	var routing_1 = __webpack_require__(289);
-	var store_1 = __webpack_require__(296);
+	var store_1 = __webpack_require__(304);
 	axios_1.default.defaults.baseURL = '/api';
 	axios_1.default.defaults.headers.common['auth'] = keys_1.Keys.api.GET;
 	axios_1.default.defaults.headers.post['auth'] = keys_1.Keys.api.POST;
@@ -29705,11 +29705,15 @@
 	"use strict";
 	var app_component_1 = __webpack_require__(290);
 	var dashboard_container_1 = __webpack_require__(291);
+	var games_container_1 = __webpack_require__(296);
 	var ROUTING_CONFIG = [
 	    {
 	        path: '/admin',
 	        component: app_component_1.default,
 	        indexRoute: { component: dashboard_container_1.default },
+	        childRoutes: [
+	            { path: 'games', component: games_container_1.default },
+	        ]
 	    }
 	];
 	exports.routing = ROUTING_CONFIG;
@@ -29843,16 +29847,16 @@
 	    };
 	    DashboardList.prototype.render = function () {
 	        var counts = this.props.counts;
-	        var indent = null;
+	        var content = null;
 	        if (counts.error) {
-	            indent = React.createElement(error_component_1.default, {status: counts.error.status, text: counts.error.data});
+	            content = React.createElement(error_component_1.default, {status: counts.error.status, text: counts.error.data});
 	        }
 	        else {
 	            var items_1 = [];
 	            counts.items.map(function (item, key) {
 	                items_1.push(React.createElement(dashboard_item_component_1.default, {key: key, title: item.title, count: item.count}));
 	            });
-	            indent = React.createElement("div", {className: "list-group"}, items_1);
+	            content = React.createElement("div", {className: "list-group"}, items_1);
 	        }
 	        return (React.createElement("div", {className: "container-fluid"}, 
 	            React.createElement("div", {className: "row"}, 
@@ -29863,7 +29867,7 @@
 	                )
 	            ), 
 	            React.createElement("div", {className: "row"}, 
-	                React.createElement("div", {className: "col-sm-6 col-sm-offset-3"}, indent)
+	                React.createElement("div", {className: "col-sm-6 col-sm-offset-3"}, content)
 	            )));
 	    };
 	    return DashboardList;
@@ -29937,18 +29941,352 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	var react_redux_1 = __webpack_require__(179);
+	var games_action_1 = __webpack_require__(297);
+	var list_component_1 = __webpack_require__(298);
+	var mapStateToProps = function (state) {
+	    return {
+	        list: state.games,
+	        type: 'Games'
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        getList: function (page) {
+	            if (page === void 0) { page = null; }
+	            return dispatch(games_action_1.fetchGames(page));
+	        },
+	        postDelete: function (url) { return dispatch(games_action_1.deleteGame(url)); }
+	    };
+	};
+	var Games = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(list_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Games;
+
+
+/***/ },
+/* 297 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var axios_1 = __webpack_require__(263);
+	function fetchGames(page) {
+	    if (page === void 0) { page = null; }
+	    var url = '/games?limit=20';
+	    if (page) {
+	        url = url + '&page=' + page;
+	    }
+	    return {
+	        type: 'FETCH_GAMES',
+	        payload: axios_1.default.get(url)
+	    };
+	}
+	exports.fetchGames = fetchGames;
+	function deleteGame(url) {
+	    return {
+	        type: 'DELETE_GAME',
+	        payload: axios_1.default.post('/games/' + url + '/delete')
+	    };
+	}
+	exports.deleteGame = deleteGame;
+
+
+/***/ },
+/* 298 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var error_component_1 = __webpack_require__(295);
+	var page_header_component_1 = __webpack_require__(299);
+	var paginator_component_1 = __webpack_require__(300);
+	var games_item_component_1 = __webpack_require__(301);
+	var List = (function (_super) {
+	    __extends(List, _super);
+	    function List() {
+	        _super.apply(this, arguments);
+	    }
+	    List.prototype.componentDidMount = function () {
+	        var _a = this.props, getList = _a.getList, location = _a.location, type = _a.type;
+	        document.title = type + ' - ' + document.title;
+	        getList(location.query['page']);
+	    };
+	    List.prototype.componentWillReceiveProps = function (nextProps) {
+	        var location = nextProps.location;
+	        var getList = this.props.getList;
+	        if (this.props.location.query['page'] != location.query['page']) {
+	            getList(location.query['page']);
+	        }
+	    };
+	    List.prototype.handleItems = function (item, key) {
+	        var type = this.props.type;
+	        var element = null;
+	        switch (type) {
+	            case 'Games':
+	                element = React.createElement(games_item_component_1.default, {key: key, data: item, delete: this.handleDelete.bind(this)});
+	                break;
+	            default:
+	                break;
+	        }
+	        return element;
+	    };
+	    List.prototype.handleContent = function (list) {
+	        var _this = this;
+	        if (list.error) {
+	            return React.createElement(error_component_1.default, {status: list.error.status, text: list.error.data});
+	        }
+	        else if (list.fetched) {
+	            var indent_1 = [];
+	            list.items.list.map(function (item, key) {
+	                indent_1.push(_this.handleItems(item, key));
+	            });
+	            return (React.createElement("div", {className: "row"}, 
+	                React.createElement("div", {className: "col-sm-12"}, 
+	                    React.createElement("table", {className: "table table-bordered admin-table-list"}, 
+	                        React.createElement("tbody", null, indent_1)
+	                    )
+	                )
+	            ));
+	        }
+	        else {
+	            return 'Loading';
+	        }
+	    };
+	    List.prototype.handleDelete = function (params) {
+	        var postDelete = this.props.postDelete;
+	        postDelete(params);
+	        console.log(this.props.list);
+	    };
+	    List.prototype.render = function () {
+	        var _a = this.props, list = _a.list, type = _a.type, location = _a.location;
+	        var currentPage = location.query['page'];
+	        return (React.createElement("div", {className: "container-fluid"}, 
+	            React.createElement(page_header_component_1.default, {title: type, button: true, total: list.items.total}), 
+	            this.handleContent(list), 
+	            React.createElement(paginator_component_1.default, {total: list.items.total, path: location.pathname, current: location.query['page'], per: type == 'Hearthstonr-Matches' ? 100 : 30})));
+	    };
+	    return List;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = List;
+
+
+/***/ },
+/* 299 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var react_router_1 = __webpack_require__(209);
+	var PageHeader = (function (_super) {
+	    __extends(PageHeader, _super);
+	    function PageHeader() {
+	        _super.apply(this, arguments);
+	    }
+	    PageHeader.prototype.render = function () {
+	        var _a = this.props, title = _a.title, total = _a.total, button = _a.button;
+	        var addButton = null;
+	        if (button) {
+	            addButton = React.createElement(react_router_1.Link, {to: '/admin/' + title.toLowerCase() + '/add', className: "btn btn-primary pull-right"}, "Add");
+	        }
+	        return (React.createElement("div", {className: "row"}, 
+	            React.createElement("div", {className: "col-sm-12"}, 
+	                React.createElement("section", {className: "page-header"}, 
+	                    React.createElement("h1", null, 
+	                        title, 
+	                        " ", 
+	                        React.createElement("small", null, total ? total : ''), 
+	                        addButton ? addButton : null)
+	                )
+	            )
+	        ));
+	    };
+	    return PageHeader;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = PageHeader;
+
+
+/***/ },
+/* 300 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var react_router_1 = __webpack_require__(209);
+	var Pagination = (function (_super) {
+	    __extends(Pagination, _super);
+	    function Pagination() {
+	        _super.apply(this, arguments);
+	    }
+	    Pagination.prototype.render = function () {
+	        var _a = this.props, total = _a.total, per = _a.per, current = _a.current, path = _a.path;
+	        var pages = Math.ceil(total / per);
+	        var indent = [];
+	        for (var i = 0; i < pages; i++) {
+	            var active = false;
+	            var url = path;
+	            if (i > 0) {
+	                url = path + '?page=' + (i + 1);
+	            }
+	            if ((!current && i === 0) || (current && current == i + 1)) {
+	                active = true;
+	            }
+	            indent.push(React.createElement("li", {key: i, className: active ? 'active' : ''}, 
+	                React.createElement(react_router_1.Link, {to: url}, i + 1)
+	            ));
+	        }
+	        return (React.createElement("div", {className: "row"}, 
+	            React.createElement("div", {className: "col-sm-12"}, 
+	                React.createElement("ul", {className: "pagination"}, indent)
+	            )
+	        ));
+	    };
+	    return Pagination;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Pagination;
+
+
+/***/ },
+/* 301 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var react_router_1 = __webpack_require__(209);
+	var game_platforms_1 = __webpack_require__(302);
+	var game_genres_1 = __webpack_require__(303);
+	var GamesItem = (function (_super) {
+	    __extends(GamesItem, _super);
+	    function GamesItem() {
+	        _super.apply(this, arguments);
+	    }
+	    GamesItem.prototype.handleDelete = function () {
+	        var data = this.props.data;
+	        this.props.delete(data.url);
+	    };
+	    GamesItem.prototype.render = function () {
+	        var data = this.props.data;
+	        return (React.createElement("tr", null, 
+	            React.createElement("td", null, data._id), 
+	            React.createElement("td", null, 
+	                React.createElement(react_router_1.Link, {to: '/admin/games/' + data.url}, data.title)
+	            ), 
+	            React.createElement("td", null, data.name), 
+	            React.createElement("td", null, game_platforms_1.GamePlatforms.find(function (platfrom) { return platfrom.value == data.platform; }).name), 
+	            React.createElement("td", null, game_genres_1.GameGenres.find(function (genre) { return genre.value == data.genre; }).name), 
+	            React.createElement("td", null, 
+	                React.createElement(react_router_1.Link, {to: '/admin/games/' + data.url + '/trophy', className: "btn btn-primary"}, "Tophy"), 
+	                React.createElement("button", {className: "btn btn-danger", type: "button", onClick: this.handleDelete.bind(this)}, "×"))));
+	    };
+	    return GamesItem;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = GamesItem;
+
+
+/***/ },
+/* 302 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var GAME_PLATFORMS = [
+	    {
+	        value: 0,
+	        name: 'PlayStation 3'
+	    },
+	    {
+	        value: 1,
+	        name: 'PlayStation Vita'
+	    },
+	    {
+	        value: 2,
+	        name: 'PlayStation 4'
+	    }
+	];
+	exports.GamePlatforms = GAME_PLATFORMS;
+
+
+/***/ },
+/* 303 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var GAME_GENRES = [
+	    {
+	        value: 0,
+	        name: 'Action'
+	    },
+	    {
+	        value: 1,
+	        name: 'Adventure'
+	    },
+	    {
+	        value: 2,
+	        name: 'Fighting'
+	    },
+	    {
+	        value: 3,
+	        name: 'Racing'
+	    },
+	    {
+	        value: 4,
+	        name: 'Role-Playing'
+	    },
+	    {
+	        value: 5,
+	        name: 'Sports'
+	    },
+	    {
+	        value: 6,
+	        name: 'Third-person shooter'
+	    },
+	    {
+	        value: 7,
+	        name: 'Strategy'
+	    }
+	];
+	exports.GameGenres = GAME_GENRES;
+
+
+/***/ },
+/* 304 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
 	var redux_1 = __webpack_require__(186);
-	var logger = __webpack_require__(297);
-	var redux_promise_middleware_1 = __webpack_require__(303);
-	var redux_thunk_1 = __webpack_require__(305);
-	var reducers_1 = __webpack_require__(306);
+	var logger = __webpack_require__(305);
+	var redux_promise_middleware_1 = __webpack_require__(311);
+	var redux_thunk_1 = __webpack_require__(313);
+	var reducers_1 = __webpack_require__(314);
 	var middleware = redux_1.applyMiddleware(logger(), redux_thunk_1.default, redux_promise_middleware_1.default());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = redux_1.createStore(reducers_1.default, middleware);
 
 
 /***/ },
-/* 297 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29959,11 +30297,11 @@
 	  value: true
 	});
 
-	var _core = __webpack_require__(298);
+	var _core = __webpack_require__(306);
 
-	var _helpers = __webpack_require__(299);
+	var _helpers = __webpack_require__(307);
 
-	var _defaults = __webpack_require__(302);
+	var _defaults = __webpack_require__(310);
 
 	var _defaults2 = _interopRequireDefault(_defaults);
 
@@ -30066,7 +30404,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 298 */
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30076,9 +30414,9 @@
 	});
 	exports.printBuffer = printBuffer;
 
-	var _helpers = __webpack_require__(299);
+	var _helpers = __webpack_require__(307);
 
-	var _diff = __webpack_require__(300);
+	var _diff = __webpack_require__(308);
 
 	var _diff2 = _interopRequireDefault(_diff);
 
@@ -30207,7 +30545,7 @@
 	}
 
 /***/ },
-/* 299 */
+/* 307 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -30231,7 +30569,7 @@
 	var timer = exports.timer = typeof performance !== "undefined" && performance !== null && typeof performance.now === "function" ? performance : Date;
 
 /***/ },
-/* 300 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30241,7 +30579,7 @@
 	});
 	exports.default = diffLogger;
 
-	var _deepDiff = __webpack_require__(301);
+	var _deepDiff = __webpack_require__(309);
 
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 
@@ -30327,7 +30665,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 301 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global) {/*!
@@ -30756,7 +31094,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 302 */
+/* 310 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -30807,7 +31145,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 303 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30824,7 +31162,7 @@
 
 	exports.default = promiseMiddleware;
 
-	var _isPromise = __webpack_require__(304);
+	var _isPromise = __webpack_require__(312);
 
 	var _isPromise2 = _interopRequireDefault(_isPromise);
 
@@ -30981,7 +31319,7 @@
 	}
 
 /***/ },
-/* 304 */
+/* 312 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31002,7 +31340,7 @@
 	}
 
 /***/ },
-/* 305 */
+/* 313 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31030,18 +31368,19 @@
 	exports['default'] = thunk;
 
 /***/ },
-/* 306 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var redux_1 = __webpack_require__(186);
-	var counts_reducer_1 = __webpack_require__(307);
+	var counts_reducer_1 = __webpack_require__(315);
+	var games_reducer_1 = __webpack_require__(316);
 	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = redux_1.combineReducers({ counts: counts_reducer_1.default });
+	exports.default = redux_1.combineReducers({ counts: counts_reducer_1.default, games: games_reducer_1.default });
 
 
 /***/ },
-/* 307 */
+/* 315 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31092,6 +31431,68 @@
 	            var response = action.payload.response;
 	            var data = response.data, status = response.status;
 	            return Object.assign({}, state, { isFetching: false, error: { data: data, status: status } });
+	        default:
+	            return state;
+	    }
+	}
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = reducer;
+
+
+/***/ },
+/* 316 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var initialState = {
+	    isFetching: false,
+	    fetched: false,
+	    items: [],
+	    error: null,
+	};
+	function reducer(state, action) {
+	    if (state === void 0) { state = initialState; }
+	    var type = action.type, payload = action.payload;
+	    switch (type) {
+	        case "FETCH_GAMES_PENDING":
+	            return Object.assign({}, state, { isFetching: true, error: null });
+	        case "FETCH_GAMES_FULFILLED":
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                fetched: true,
+	                items: payload.data
+	            });
+	        case "FETCH_GAMES_REJECTED":
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                fetched: false,
+	                error: {
+	                    statue: payload.response.status,
+	                    data: payload.response.data
+	                }
+	            });
+	        case "DELETE_GAME_PENDING":
+	            return Object.assign({}, state, { isFetching: true, error: null });
+	        case "DELETE_GAME_FULFILLED":
+	            var id_1 = payload.data.data.id;
+	            var list = state.items['list'];
+	            var item = list.find(function (v) { return v._id == id_1; });
+	            var index = list.indexOf(item);
+	            state.items['list'].splice(index, 1);
+	            state.items['total']--;
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                fetched: true,
+	            });
+	        case "DELETE_GAME_REJECTED":
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                fetched: false,
+	                error: {
+	                    statue: payload.response.status,
+	                    data: payload.response.data
+	                }
+	            });
 	        default:
 	            return state;
 	    }
