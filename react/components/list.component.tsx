@@ -23,11 +23,11 @@ class List extends React.Component<ListProps, void> {
     }
 
     handleItems(item, key): any {
-        const { type } = this.props;
+        const { type, postDelete } = this.props;
         let element = null;
         switch (type) {
             case 'Games':
-                element = <GamesItem key={key} data={item} delete={this.handleDelete.bind(this)} />
+                element = <GamesItem key={key} data={item} delete={() => postDelete(item.url)} />
                 break;
             default:
                 break;
@@ -56,12 +56,6 @@ class List extends React.Component<ListProps, void> {
         } else {
             return 'Loading';
         }
-    }
-
-    handleDelete(params) {
-        const { postDelete } = this.props;
-        postDelete(params);
-        console.log(this.props.list);
     }
 
     render() {

@@ -6,11 +6,6 @@ import { GamePlatforms } from '../../config/game-platforms';
 import { GameGenres } from '../../config/game-genres';
 
 class GamesItem extends React.Component<ListItemProps, void> {
-    handleDelete() {
-        const { data } = this.props;
-        this.props.delete(data.url);
-    }
-
     render() {
         const { data } = this.props;
         return (
@@ -24,7 +19,7 @@ class GamesItem extends React.Component<ListItemProps, void> {
                 <td>{GameGenres.find(genre => genre.value == data.genre).name}</td>
                 <td>
                     <Link to={'/admin/games/' + data.url + '/trophy'} className="btn btn-primary">Tophy</Link>
-                    <button className="btn btn-danger" type="button" onClick={this.handleDelete.bind(this)}>&times;</button>
+                    <button className="btn btn-danger" type="button" onClick={this.props.delete}>&times;</button>
                 </td>
             </tr>
         );

@@ -52,7 +52,7 @@
 	var axios_1 = __webpack_require__(263);
 	var keys_1 = __webpack_require__(288);
 	var routing_1 = __webpack_require__(289);
-	var store_1 = __webpack_require__(304);
+	var store_1 = __webpack_require__(306);
 	axios_1.default.defaults.baseURL = '/api';
 	axios_1.default.defaults.headers.common['auth'] = keys_1.Keys.api.GET;
 	axios_1.default.defaults.headers.post['auth'] = keys_1.Keys.api.POST;
@@ -29706,6 +29706,7 @@
 	var app_component_1 = __webpack_require__(290);
 	var dashboard_container_1 = __webpack_require__(291);
 	var games_container_1 = __webpack_require__(296);
+	var game_container_1 = __webpack_require__(304);
 	var ROUTING_CONFIG = [
 	    {
 	        path: '/admin',
@@ -29713,6 +29714,7 @@
 	        indexRoute: { component: dashboard_container_1.default },
 	        childRoutes: [
 	            { path: 'games', component: games_container_1.default },
+	            { path: 'games/:url', component: game_container_1.default },
 	        ]
 	    }
 	];
@@ -29982,6 +29984,17 @@
 	    };
 	}
 	exports.fetchGames = fetchGames;
+	function fetchGame(url) {
+	    // const state = store.getState();
+	    // const games = state['games'].items;
+	    // const game = state['game'].item;
+	    // console.log(games);
+	    return {
+	        type: 'FETCH_GAME',
+	        payload: axios_1.default.get('/games/' + url)
+	    };
+	}
+	exports.fetchGame = fetchGame;
 	function deleteGame(url) {
 	    return {
 	        type: 'DELETE_GAME',
@@ -30024,11 +30037,11 @@
 	        }
 	    };
 	    List.prototype.handleItems = function (item, key) {
-	        var type = this.props.type;
+	        var _a = this.props, type = _a.type, postDelete = _a.postDelete;
 	        var element = null;
 	        switch (type) {
 	            case 'Games':
-	                element = React.createElement(games_item_component_1.default, {key: key, data: item, delete: this.handleDelete.bind(this)});
+	                element = React.createElement(games_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item.url); }});
 	                break;
 	            default:
 	                break;
@@ -30056,11 +30069,6 @@
 	        else {
 	            return 'Loading';
 	        }
-	    };
-	    List.prototype.handleDelete = function (params) {
-	        var postDelete = this.props.postDelete;
-	        postDelete(params);
-	        console.log(this.props.list);
 	    };
 	    List.prototype.render = function () {
 	        var _a = this.props, list = _a.list, type = _a.type, location = _a.location;
@@ -30182,10 +30190,6 @@
 	    function GamesItem() {
 	        _super.apply(this, arguments);
 	    }
-	    GamesItem.prototype.handleDelete = function () {
-	        var data = this.props.data;
-	        this.props.delete(data.url);
-	    };
 	    GamesItem.prototype.render = function () {
 	        var data = this.props.data;
 	        return (React.createElement("tr", null, 
@@ -30198,7 +30202,7 @@
 	            React.createElement("td", null, game_genres_1.GameGenres.find(function (genre) { return genre.value == data.genre; }).name), 
 	            React.createElement("td", null, 
 	                React.createElement(react_router_1.Link, {to: '/admin/games/' + data.url + '/trophy', className: "btn btn-primary"}, "Tophy"), 
-	                React.createElement("button", {className: "btn btn-danger", type: "button", onClick: this.handleDelete.bind(this)}, "×"))));
+	                React.createElement("button", {className: "btn btn-danger", type: "button", onClick: this.props.delete}, "×"))));
 	    };
 	    return GamesItem;
 	}(React.Component));
@@ -30275,18 +30279,70 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	var react_redux_1 = __webpack_require__(179);
+	var games_action_1 = __webpack_require__(297);
+	var game_page_component_1 = __webpack_require__(305);
+	var mapStateToProps = function (state) {
+	    return {
+	        item: state.game
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        getItem: function (url) { return dispatch(games_action_1.fetchGame(url)); }
+	    };
+	};
+	var Game = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(game_page_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Game;
+
+
+/***/ },
+/* 305 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var GamePage = (function (_super) {
+	    __extends(GamePage, _super);
+	    function GamePage() {
+	        _super.apply(this, arguments);
+	    }
+	    GamePage.prototype.componentDidMount = function () {
+	        var location = this.props.location;
+	        console.log(location);
+	    };
+	    GamePage.prototype.render = function () {
+	        return (React.createElement("div", null, "Game"));
+	    };
+	    return GamePage;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = GamePage;
+
+
+/***/ },
+/* 306 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
 	var redux_1 = __webpack_require__(186);
-	var logger = __webpack_require__(305);
-	var redux_promise_middleware_1 = __webpack_require__(311);
-	var redux_thunk_1 = __webpack_require__(313);
-	var reducers_1 = __webpack_require__(314);
+	var logger = __webpack_require__(307);
+	var redux_promise_middleware_1 = __webpack_require__(313);
+	var redux_thunk_1 = __webpack_require__(315);
+	var reducers_1 = __webpack_require__(316);
 	var middleware = redux_1.applyMiddleware(logger(), redux_thunk_1.default, redux_promise_middleware_1.default());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = redux_1.createStore(reducers_1.default, middleware);
 
 
 /***/ },
-/* 305 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30297,11 +30353,11 @@
 	  value: true
 	});
 
-	var _core = __webpack_require__(306);
+	var _core = __webpack_require__(308);
 
-	var _helpers = __webpack_require__(307);
+	var _helpers = __webpack_require__(309);
 
-	var _defaults = __webpack_require__(310);
+	var _defaults = __webpack_require__(312);
 
 	var _defaults2 = _interopRequireDefault(_defaults);
 
@@ -30404,7 +30460,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 306 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30414,9 +30470,9 @@
 	});
 	exports.printBuffer = printBuffer;
 
-	var _helpers = __webpack_require__(307);
+	var _helpers = __webpack_require__(309);
 
-	var _diff = __webpack_require__(308);
+	var _diff = __webpack_require__(310);
 
 	var _diff2 = _interopRequireDefault(_diff);
 
@@ -30545,7 +30601,7 @@
 	}
 
 /***/ },
-/* 307 */
+/* 309 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -30569,7 +30625,7 @@
 	var timer = exports.timer = typeof performance !== "undefined" && performance !== null && typeof performance.now === "function" ? performance : Date;
 
 /***/ },
-/* 308 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30579,7 +30635,7 @@
 	});
 	exports.default = diffLogger;
 
-	var _deepDiff = __webpack_require__(309);
+	var _deepDiff = __webpack_require__(311);
 
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 
@@ -30665,7 +30721,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 309 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global) {/*!
@@ -31094,7 +31150,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 310 */
+/* 312 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31145,7 +31201,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 311 */
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31162,7 +31218,7 @@
 
 	exports.default = promiseMiddleware;
 
-	var _isPromise = __webpack_require__(312);
+	var _isPromise = __webpack_require__(314);
 
 	var _isPromise2 = _interopRequireDefault(_isPromise);
 
@@ -31319,7 +31375,7 @@
 	}
 
 /***/ },
-/* 312 */
+/* 314 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31340,7 +31396,7 @@
 	}
 
 /***/ },
-/* 313 */
+/* 315 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31368,19 +31424,19 @@
 	exports['default'] = thunk;
 
 /***/ },
-/* 314 */
+/* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var redux_1 = __webpack_require__(186);
-	var counts_reducer_1 = __webpack_require__(315);
-	var games_reducer_1 = __webpack_require__(316);
+	var counts_reducer_1 = __webpack_require__(317);
+	var games_reducer_1 = __webpack_require__(318);
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = redux_1.combineReducers({ counts: counts_reducer_1.default, games: games_reducer_1.default });
 
 
 /***/ },
-/* 315 */
+/* 317 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31440,7 +31496,7 @@
 
 
 /***/ },
-/* 316 */
+/* 318 */
 /***/ function(module, exports) {
 
 	"use strict";
