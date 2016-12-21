@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 
-import Error from './error.component';
+import Alert from './alert.component';
 import PageHeader from './page-header.component';
 import Paginator from './paginator.component';
 import GamesItem from './games-item.component';
@@ -14,9 +14,13 @@ interface ListProps extends RouteComponentProps<void, void> {
 }
 
 class List extends React.Component<ListProps, void> {
+    componentWillMount() {
+        const { type } = this.props;
+        document.title = type + ' | Admin';
+    }
+
     componentDidMount() {
         const { getList, location, type } = this.props;
-        document.title = type + ' - ' + document.title;
         getList(location.query['page']);
     }
 
@@ -42,15 +46,14 @@ class List extends React.Component<ListProps, void> {
 
         return element
     }
-    
-    handleContent(list): any {
-        if (list.error) {
-            return <Error status={list.error.status} text={list.error.data} />;
-        } else if (list.fetched) {
+
+    handleContent(items): any {
+        if (items.list) {
             let indent = [];
-            list.items.list.map((item, key) => {
+            items.list.map((item, key) => {
                 indent.push(this.handleItems(item, key));
             });
+
             return (
                 <div className="row">
                     <div className="col-sm-12">
@@ -60,19 +63,17 @@ class List extends React.Component<ListProps, void> {
                     </div>
                 </div>
             );
-        } else {
-            return 'Loading';
         }
     }
 
     render() {
         const { list, type, location } = this.props;
-        const currentPage = location.query['page'];
-        
+
         return (
             <div className="container-fluid">
                 <PageHeader title={type} button={true} total={list.items.total} />
-                {this.handleContent(list)}
+                <Alert fetch={list} />
+                {this.handleContent(list.items)}
                 <Paginator total={list.items.total} path={location.pathname} current={location.query['page']} per={type == 'Hearthstonr-Matches' ? 100 : 30} />
             </div>
         );

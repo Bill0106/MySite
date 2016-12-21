@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import DashboardItem from './dashboard-item.component';
-import Error from './error.component';
+import Alert from './alert.component';
 
 interface DashboardListProps extends React.Props<any> {
     counts: any;
@@ -22,9 +22,7 @@ class DashboardList extends React.Component<DashboardListProps, void> {
         const { counts } = this.props;
         let content = null;
 
-        if (counts.error) {
-            content = <Error status={counts.error.status} text={counts.error.data} />
-        } else {
+        if (counts.items){
             let items = [];
             counts.items.map((item, key) => {
                 items.push(<DashboardItem key={key} title={item.title} count={item.count} />)
@@ -39,6 +37,11 @@ class DashboardList extends React.Component<DashboardListProps, void> {
                         <section className="page-header text-center">
                             <h1>Welcome back, My Master !</h1>
                         </section>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-sm-12">
+                        <Alert fetch={counts} />
                     </div>
                 </div>
                 <div className="row">

@@ -117,10 +117,7 @@ const remove = async (ctx) => {
         }
     } catch (error) {
         ctx.status = error.status || 500;
-        ctx.body = {
-            success: false,
-            error: error.message,
-        }
+        ctx.body = error.message;
     }
 }
 
