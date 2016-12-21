@@ -21,7 +21,7 @@ export default function reducer(state = initialState, action) {
                 isFetching: false,
                 fetched: false,
                 error: {
-                    statue: payload.response.status,
+                    status: payload.response.status,
                     data: payload.response.data
                 } 
             });
@@ -45,7 +45,7 @@ export default function reducer(state = initialState, action) {
                 isFetching: false,
                 fetched: false,
                 error: {
-                    statue: payload.response.status,
+                    status: payload.response.status,
                     data: payload.response.data
                 } 
             });

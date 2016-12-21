@@ -52,7 +52,7 @@
 	var axios_1 = __webpack_require__(263);
 	var keys_1 = __webpack_require__(288);
 	var routing_1 = __webpack_require__(289);
-	var store_1 = __webpack_require__(306);
+	var store_1 = __webpack_require__(310);
 	axios_1.default.defaults.baseURL = '/api';
 	axios_1.default.defaults.headers.common['auth'] = keys_1.Keys.api.GET;
 	axios_1.default.defaults.headers.post['auth'] = keys_1.Keys.api.POST;
@@ -29834,7 +29834,7 @@
 	};
 	var React = __webpack_require__(1);
 	var dashboard_item_component_1 = __webpack_require__(294);
-	var error_component_1 = __webpack_require__(295);
+	var alert_component_1 = __webpack_require__(295);
 	var DashboardList = (function (_super) {
 	    __extends(DashboardList, _super);
 	    function DashboardList() {
@@ -29850,10 +29850,7 @@
 	    DashboardList.prototype.render = function () {
 	        var counts = this.props.counts;
 	        var content = null;
-	        if (counts.error) {
-	            content = React.createElement(error_component_1.default, {status: counts.error.status, text: counts.error.data});
-	        }
-	        else {
+	        if (counts.items) {
 	            var items_1 = [];
 	            counts.items.map(function (item, key) {
 	                items_1.push(React.createElement(dashboard_item_component_1.default, {key: key, title: item.title, count: item.count}));
@@ -29866,6 +29863,11 @@
 	                    React.createElement("section", {className: "page-header text-center"}, 
 	                        React.createElement("h1", null, "Welcome back, My Master !")
 	                    )
+	                )
+	            ), 
+	            React.createElement("div", {className: "row"}, 
+	                React.createElement("div", {className: "col-sm-12"}, 
+	                    React.createElement(alert_component_1.default, {fetch: counts})
 	                )
 	            ), 
 	            React.createElement("div", {className: "row"}, 
@@ -29919,23 +29921,33 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var Error = (function (_super) {
-	    __extends(Error, _super);
-	    function Error() {
+	var Alert = (function (_super) {
+	    __extends(Alert, _super);
+	    function Alert() {
 	        _super.apply(this, arguments);
 	    }
-	    Error.prototype.render = function () {
-	        return (React.createElement("div", {className: "alert alert-danger", role: "alert"}, 
-	            React.createElement("strong", null, 
-	                this.props.status, 
-	                " !"), 
-	            " ", 
-	            this.props.text));
+	    Alert.prototype.render = function () {
+	        var fetch = this.props.fetch;
+	        var alert = null;
+	        if (fetch.isFetching) {
+	            alert = React.createElement("div", {className: "alert alert-info", role: "alert"}, "Loading...");
+	        }
+	        else if (fetch.error) {
+	            alert = (React.createElement("div", {className: "alert alert-danger", role: "alert"}, 
+	                React.createElement("strong", null, 
+	                    fetch.error.status, 
+	                    " !"), 
+	                " ", 
+	                fetch.error.data));
+	        }
+	        return (React.createElement("div", {className: "row"}, 
+	            React.createElement("div", {className: "col-sm-12"}, alert)
+	        ));
 	    };
-	    return Error;
+	    return Alert;
 	}(React.Component));
 	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = Error;
+	exports.default = Alert;
 
 
 /***/ },
@@ -29985,10 +29997,6 @@
 	}
 	exports.fetchGames = fetchGames;
 	function fetchGame(url) {
-	    // const state = store.getState();
-	    // const games = state['games'].items;
-	    // const game = state['game'].item;
-	    // console.log(games);
 	    return {
 	        type: 'FETCH_GAME',
 	        payload: axios_1.default.get('/games/' + url)
@@ -30002,6 +30010,13 @@
 	    };
 	}
 	exports.deleteGame = deleteGame;
+	function changField(field, value) {
+	    return {
+	        type: 'CHANGE_FIELD',
+	        payload: { field: field, value: value }
+	    };
+	}
+	exports.changField = changField;
 
 
 /***/ },
@@ -30015,7 +30030,7 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var error_component_1 = __webpack_require__(295);
+	var alert_component_1 = __webpack_require__(295);
 	var page_header_component_1 = __webpack_require__(299);
 	var paginator_component_1 = __webpack_require__(300);
 	var games_item_component_1 = __webpack_require__(301);
@@ -30024,9 +30039,12 @@
 	    function List() {
 	        _super.apply(this, arguments);
 	    }
+	    List.prototype.componentWillMount = function () {
+	        var type = this.props.type;
+	        document.title = type + ' | Admin';
+	    };
 	    List.prototype.componentDidMount = function () {
 	        var _a = this.props, getList = _a.getList, location = _a.location, type = _a.type;
-	        document.title = type + ' - ' + document.title;
 	        getList(location.query['page']);
 	    };
 	    List.prototype.componentWillReceiveProps = function (nextProps) {
@@ -30048,14 +30066,11 @@
 	        }
 	        return element;
 	    };
-	    List.prototype.handleContent = function (list) {
+	    List.prototype.handleContent = function (items) {
 	        var _this = this;
-	        if (list.error) {
-	            return React.createElement(error_component_1.default, {status: list.error.status, text: list.error.data});
-	        }
-	        else if (list.fetched) {
+	        if (items.list) {
 	            var indent_1 = [];
-	            list.items.list.map(function (item, key) {
+	            items.list.map(function (item, key) {
 	                indent_1.push(_this.handleItems(item, key));
 	            });
 	            return (React.createElement("div", {className: "row"}, 
@@ -30066,16 +30081,13 @@
 	                )
 	            ));
 	        }
-	        else {
-	            return 'Loading';
-	        }
 	    };
 	    List.prototype.render = function () {
 	        var _a = this.props, list = _a.list, type = _a.type, location = _a.location;
-	        var currentPage = location.query['page'];
 	        return (React.createElement("div", {className: "container-fluid"}, 
 	            React.createElement(page_header_component_1.default, {title: type, button: true, total: list.items.total}), 
-	            this.handleContent(list), 
+	            React.createElement(alert_component_1.default, {fetch: list}), 
+	            this.handleContent(list.items), 
 	            React.createElement(paginator_component_1.default, {total: list.items.total, path: location.pathname, current: location.query['page'], per: type == 'Hearthstonr-Matches' ? 100 : 30})));
 	    };
 	    return List;
@@ -30289,7 +30301,8 @@
 	};
 	var mapDispatchToProps = function (dispatch) {
 	    return {
-	        getGame: function (url) { return dispatch(games_action_1.fetchGame(url)); }
+	        getGame: function (url) { return dispatch(games_action_1.fetchGame(url)); },
+	        changeField: function (field, value) { return dispatch(games_action_1.changField(field, value)); }
 	    };
 	};
 	var Game = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(game_page_component_1.default);
@@ -30308,17 +30321,26 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
+	var game_1 = __webpack_require__(306);
+	var page_header_component_1 = __webpack_require__(299);
+	var form_component_1 = __webpack_require__(307);
 	var GamePage = (function (_super) {
 	    __extends(GamePage, _super);
 	    function GamePage() {
 	        _super.apply(this, arguments);
 	    }
 	    GamePage.prototype.componentDidMount = function () {
-	        var location = this.props.location;
-	        console.log(location);
+	        var _a = this.props, params = _a.params, getGame = _a.getGame;
+	        getGame(params['url']);
 	    };
 	    GamePage.prototype.render = function () {
-	        return (React.createElement("div", null, "Game"));
+	        var _a = this.props, game = _a.game, params = _a.params, changeField = _a.changeField;
+	        if (game.fetched) {
+	            document.title = game.item.name + ' - Games | Admin';
+	        }
+	        return (React.createElement("div", {className: "container-fluid"}, 
+	            React.createElement(page_header_component_1.default, {title: game.item ? game.item.name : ''}), 
+	            React.createElement(form_component_1.default, {fields: game_1.GameFields, data: params['url'] == 'add' ? '' : game.item, change: function (f, v) { return changeField(f, v); }})));
 	    };
 	    return GamePage;
 	}(React.Component));
@@ -30331,18 +30353,201 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	var game_genres_1 = __webpack_require__(303);
+	var game_platforms_1 = __webpack_require__(302);
+	var GAME_FIELDS = [
+	    {
+	        name: 'image',
+	        type: 'image',
+	        placeholder: 'https://placeholdit.imgix.net/~text?txtsize=30&txt=570%C3%97570&w=150&h=150',
+	    },
+	    {
+	        name: 'title',
+	        type: 'input',
+	    },
+	    {
+	        name: 'name',
+	        type: 'input',
+	    },
+	    {
+	        name: 'developer',
+	        type: 'input',
+	    },
+	    {
+	        name: 'publisher',
+	        type: 'input',
+	    },
+	    {
+	        name: 'release_at',
+	        type: 'date',
+	    },
+	    {
+	        name: 'buy_at',
+	        type: 'date',
+	    },
+	    {
+	        name: 'rate',
+	        type: 'radio',
+	        enum: ['1', '2', '3', '4', '5']
+	    },
+	    {
+	        name: 'url',
+	        type: 'input',
+	    },
+	    {
+	        name: 'platform',
+	        type: 'select',
+	        enum: game_platforms_1.GamePlatforms
+	    },
+	    {
+	        name: 'genre',
+	        type: 'select',
+	        enum: game_genres_1.GameGenres
+	    },
+	    {
+	        name: 'description',
+	        type: 'text',
+	    }
+	];
+	exports.GameFields = GAME_FIELDS;
+
+
+/***/ },
+/* 307 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var field_component_1 = __webpack_require__(308);
+	var Form = (function (_super) {
+	    __extends(Form, _super);
+	    function Form() {
+	        _super.apply(this, arguments);
+	    }
+	    Form.prototype.render = function () {
+	        var _a = this.props, fields = _a.fields, data = _a.data, change = _a.change;
+	        return (React.createElement("form", null, 
+	            React.createElement("table", {className: "table table-bordered"}, 
+	                React.createElement("tbody", null, fields.map(function (field, key) {
+	                    return React.createElement(field_component_1.default, {field: field, key: key, data: data ? data[field.name] : '', change: function (f, v) { return change(f, v); }});
+	                }))
+	            )
+	        ));
+	    };
+	    return Form;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Form;
+
+
+/***/ },
+/* 308 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var helpers_1 = __webpack_require__(309);
+	var Field = (function (_super) {
+	    __extends(Field, _super);
+	    function Field() {
+	        _super.apply(this, arguments);
+	    }
+	    Field.prototype.handleField = function (field, data) {
+	        var _this = this;
+	        switch (field.type) {
+	            case 'text':
+	                return React.createElement("textarea", {value: data, className: "form-control", rows: 20, onChange: this.handleChange.bind(this)});
+	            case 'select':
+	                return (React.createElement("select", {className: "form-control", value: data, onChange: this.handleChange.bind(this)}, field.enum.map(function (option) {
+	                    return React.createElement("option", {value: option.value, key: option.value}, option.value + ' - ' + option.name);
+	                })));
+	            case 'date':
+	                return React.createElement("input", {className: "form-control", type: "date", value: helpers_1.time2Date(data), onChange: this.handleChange.bind(this)});
+	            case 'radio':
+	                return (React.createElement("div", null, field.enum.map(function (radio) {
+	                    return (React.createElement("label", {className: "radio-inline", key: radio}, 
+	                        React.createElement("input", {type: "radio", name: field.name, value: radio, checked: data == radio, onChange: _this.handleChange.bind(_this)}), 
+	                        radio));
+	                })));
+	            default:
+	                return React.createElement("input", {type: "text", className: "form-control", onChange: this.handleChange.bind(this), placeholder: 'ENTER ' + field.name.toUpperCase(), value: data});
+	        }
+	    };
+	    Field.prototype.handleChange = function (e) {
+	        var _a = this.props, change = _a.change, field = _a.field;
+	        change(field.name, e.target.value);
+	    };
+	    Field.prototype.render = function () {
+	        var _a = this.props, field = _a.field, data = _a.data;
+	        return (React.createElement("tr", null, 
+	            React.createElement("td", null, 
+	                React.createElement("label", null, field.name.toUpperCase())
+	            ), 
+	            React.createElement("td", null, this.handleField(field, data))));
+	    };
+	    return Field;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Field;
+
+
+/***/ },
+/* 309 */
+/***/ function(module, exports) {
+
+	"use strict";
+	function time2Date(timestamp, displayTime) {
+	    if (displayTime === void 0) { displayTime = false; }
+	    if (!timestamp) {
+	        return '';
+	    }
+	    var time = new Date(timestamp);
+	    var year = time.getFullYear();
+	    var month = (time.getMonth() + 1);
+	    var day = time.getDate();
+	    var hour = time.getHours();
+	    var minute = time.getMinutes();
+	    var second = time.getSeconds();
+	    var arr = [month, day, hour, minute, second];
+	    var newArr = arr.map(function (t) { return ('0' + t).slice(-2); });
+	    var dateArray = [year.toString()].concat(newArr.slice(0, 2));
+	    var timeArray = newArr.slice(2);
+	    var ts = dateArray.join('-');
+	    if (displayTime) {
+	        ts = ts + ' ' + timeArray.join(':');
+	    }
+	    return ts;
+	}
+	exports.time2Date = time2Date;
+
+
+/***/ },
+/* 310 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
 	var redux_1 = __webpack_require__(186);
-	var logger = __webpack_require__(307);
-	var redux_promise_middleware_1 = __webpack_require__(313);
-	var redux_thunk_1 = __webpack_require__(315);
-	var reducers_1 = __webpack_require__(316);
+	var logger = __webpack_require__(311);
+	var redux_promise_middleware_1 = __webpack_require__(317);
+	var redux_thunk_1 = __webpack_require__(319);
+	var reducers_1 = __webpack_require__(320);
 	var middleware = redux_1.applyMiddleware(logger(), redux_thunk_1.default, redux_promise_middleware_1.default());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = redux_1.createStore(reducers_1.default, middleware);
 
 
 /***/ },
-/* 307 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30353,11 +30558,11 @@
 	  value: true
 	});
 
-	var _core = __webpack_require__(308);
+	var _core = __webpack_require__(312);
 
-	var _helpers = __webpack_require__(309);
+	var _helpers = __webpack_require__(313);
 
-	var _defaults = __webpack_require__(312);
+	var _defaults = __webpack_require__(316);
 
 	var _defaults2 = _interopRequireDefault(_defaults);
 
@@ -30460,7 +30665,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 308 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30470,9 +30675,9 @@
 	});
 	exports.printBuffer = printBuffer;
 
-	var _helpers = __webpack_require__(309);
+	var _helpers = __webpack_require__(313);
 
-	var _diff = __webpack_require__(310);
+	var _diff = __webpack_require__(314);
 
 	var _diff2 = _interopRequireDefault(_diff);
 
@@ -30601,7 +30806,7 @@
 	}
 
 /***/ },
-/* 309 */
+/* 313 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -30625,7 +30830,7 @@
 	var timer = exports.timer = typeof performance !== "undefined" && performance !== null && typeof performance.now === "function" ? performance : Date;
 
 /***/ },
-/* 310 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30635,7 +30840,7 @@
 	});
 	exports.default = diffLogger;
 
-	var _deepDiff = __webpack_require__(311);
+	var _deepDiff = __webpack_require__(315);
 
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 
@@ -30721,7 +30926,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 311 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global) {/*!
@@ -31150,7 +31355,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 312 */
+/* 316 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31201,7 +31406,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 313 */
+/* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31218,7 +31423,7 @@
 
 	exports.default = promiseMiddleware;
 
-	var _isPromise = __webpack_require__(314);
+	var _isPromise = __webpack_require__(318);
 
 	var _isPromise2 = _interopRequireDefault(_isPromise);
 
@@ -31375,7 +31580,7 @@
 	}
 
 /***/ },
-/* 314 */
+/* 318 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31396,7 +31601,7 @@
 	}
 
 /***/ },
-/* 315 */
+/* 319 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31424,19 +31629,20 @@
 	exports['default'] = thunk;
 
 /***/ },
-/* 316 */
+/* 320 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var redux_1 = __webpack_require__(186);
-	var counts_reducer_1 = __webpack_require__(317);
-	var games_reducer_1 = __webpack_require__(318);
+	var counts_reducer_1 = __webpack_require__(321);
+	var games_reducer_1 = __webpack_require__(322);
+	var game_reducer_1 = __webpack_require__(323);
 	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = redux_1.combineReducers({ counts: counts_reducer_1.default, games: games_reducer_1.default });
+	exports.default = redux_1.combineReducers({ counts: counts_reducer_1.default, games: games_reducer_1.default, game: game_reducer_1.default });
 
 
 /***/ },
-/* 317 */
+/* 321 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31496,7 +31702,7 @@
 
 
 /***/ },
-/* 318 */
+/* 322 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31523,7 +31729,7 @@
 	                isFetching: false,
 	                fetched: false,
 	                error: {
-	                    statue: payload.response.status,
+	                    status: payload.response.status,
 	                    data: payload.response.data
 	                }
 	            });
@@ -31545,10 +31751,55 @@
 	                isFetching: false,
 	                fetched: false,
 	                error: {
+	                    status: payload.response.status,
+	                    data: payload.response.data
+	                }
+	            });
+	        default:
+	            return state;
+	    }
+	}
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = reducer;
+
+
+/***/ },
+/* 323 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var initialState = {
+	    isFetching: false,
+	    fetched: false,
+	    item: null,
+	    error: null,
+	};
+	function reducer(state, action) {
+	    if (state === void 0) { state = initialState; }
+	    var type = action.type, payload = action.payload;
+	    switch (type) {
+	        case "FETCH_GAME_PENDING":
+	            return Object.assign({}, state, { isFetching: true, error: null });
+	        case "FETCH_GAME_FULFILLED":
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                fetched: true,
+	                item: payload.data
+	            });
+	        case "FETCH_GAME_REJECTED":
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                fetched: false,
+	                error: {
 	                    statue: payload.response.status,
 	                    data: payload.response.data
 	                }
 	            });
+	        case "CHANGE_FIELD":
+	            var field = payload.field, value = payload.value;
+	            var item = state.item;
+	            item[field] = value;
+	            return Object.assign({}, state, { item: item });
 	        default:
 	            return state;
 	    }

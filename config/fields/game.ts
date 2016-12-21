@@ -3,57 +3,57 @@ import { GamePlatforms } from '../game-platforms';
 
 const GAME_FIELDS = [
     {
-        field: 'image',
+        name: 'image',
         type: 'image',
         placeholder: 'https://placeholdit.imgix.net/~text?txtsize=30&txt=570%C3%97570&w=150&h=150',
     },
     {
-        field: 'title',
+        name: 'title',
         type: 'input',
     },
     {
-        field: 'name',
+        name: 'name',
         type: 'input',
     },
     {
-        field: 'developer',
+        name: 'developer',
         type: 'input',
     },
     {
-        field: 'publisher',
+        name: 'publisher',
         type: 'input',
     },
     {
-        field: 'release_at',
+        name: 'release_at',
         type: 'date',
     },
     {
-        field: 'buy_at',
+        name: 'buy_at',
         type: 'date',
     },
     {
-        field: 'rate',
+        name: 'rate',
         type: 'radio',
         enum: ['1', '2', '3', '4', '5']
     },
     {
-        field: 'url',
+        name: 'url',
         type: 'input',
     },
     {
-        field: 'platform',
+        name: 'platform',
         type: 'select',
         enum: GamePlatforms
     },
     {
-        field: 'genre',
+        name: 'genre',
         type: 'select',
         enum: GameGenres
     },
     {
-        field: 'description',
+        name: 'description',
         type: 'text',
     }
 ];
 
-export let GameFields = GAME_FIELDS;
+export const GameFields = GAME_FIELDS;
