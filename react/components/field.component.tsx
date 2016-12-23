@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { time2Date } from '../helpers';
+import Image from '../containers/image.container';
 
 interface FieldProps extends React.Props<any> {
     field: any;
@@ -9,8 +10,15 @@ interface FieldProps extends React.Props<any> {
 }
 
 class Field extends React.Component<FieldProps, void> {
+    handleChange(e) {
+        const { change, field } = this.props;
+        change(field.name, e.target.value);
+    }
+
     handleField(field, data) {
         switch (field.type) {
+            case 'image':
+                return <Image image={data ? JSON.parse(data).url : field.placeholder} change={(f, v) => this.props.change(f, v)} />
             case 'text':
                 return <textarea value={data} className="form-control" rows={20} onChange={this.handleChange.bind(this)} />;
             case 'select':
@@ -43,12 +51,6 @@ class Field extends React.Component<FieldProps, void> {
             default:
                 return <input type="text" className="form-control" onChange={this.handleChange.bind(this)} placeholder={'ENTER ' + field.name.toUpperCase()} value={data} />;
         }
-    }
-
-
-    handleChange(e) {
-        const { change, field } = this.props;
-        change(field.name, e.target.value);
     }
 
     render() {

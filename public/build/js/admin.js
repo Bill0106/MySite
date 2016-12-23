@@ -52,7 +52,7 @@
 	var axios_1 = __webpack_require__(263);
 	var keys_1 = __webpack_require__(288);
 	var routing_1 = __webpack_require__(289);
-	var store_1 = __webpack_require__(310);
+	var store_1 = __webpack_require__(313);
 	axios_1.default.defaults.baseURL = '/api';
 	axios_1.default.defaults.headers.common['auth'] = keys_1.Keys.api.GET;
 	axios_1.default.defaults.headers.post['auth'] = keys_1.Keys.api.POST;
@@ -30457,14 +30457,21 @@
 	};
 	var React = __webpack_require__(1);
 	var helpers_1 = __webpack_require__(309);
+	var image_container_1 = __webpack_require__(310);
 	var Field = (function (_super) {
 	    __extends(Field, _super);
 	    function Field() {
 	        _super.apply(this, arguments);
 	    }
+	    Field.prototype.handleChange = function (e) {
+	        var _a = this.props, change = _a.change, field = _a.field;
+	        change(field.name, e.target.value);
+	    };
 	    Field.prototype.handleField = function (field, data) {
 	        var _this = this;
 	        switch (field.type) {
+	            case 'image':
+	                return React.createElement(image_container_1.default, {image: data ? JSON.parse(data).url : field.placeholder, change: function (f, v) { return _this.props.change(f, v); }});
 	            case 'text':
 	                return React.createElement("textarea", {value: data, className: "form-control", rows: 20, onChange: this.handleChange.bind(this)});
 	            case 'select':
@@ -30482,10 +30489,6 @@
 	            default:
 	                return React.createElement("input", {type: "text", className: "form-control", onChange: this.handleChange.bind(this), placeholder: 'ENTER ' + field.name.toUpperCase(), value: data});
 	        }
-	    };
-	    Field.prototype.handleChange = function (e) {
-	        var _a = this.props, change = _a.change, field = _a.field;
-	        change(field.name, e.target.value);
 	    };
 	    Field.prototype.render = function () {
 	        var _a = this.props, field = _a.field, data = _a.data;
@@ -30536,18 +30539,121 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	var react_redux_1 = __webpack_require__(179);
+	var image_action_1 = __webpack_require__(311);
+	var image_upload_component_1 = __webpack_require__(312);
+	var mapStateToProps = function (state, ownProps) {
+	    return {
+	        image: state.image,
+	        imageUrl: ownProps.image,
+	        change: ownProps.change
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        upload: function (file) { return dispatch(image_action_1.uploadImage(file)); },
+	        init: function () { return dispatch(image_action_1.initImage()); }
+	    };
+	};
+	var Image = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(image_upload_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Image;
+
+
+/***/ },
+/* 311 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var axios_1 = __webpack_require__(263);
+	function uploadImage(file) {
+	    return {
+	        type: 'UPLOAD_IMAGE',
+	        payload: axios_1.default.post('/images', file)
+	    };
+	}
+	exports.uploadImage = uploadImage;
+	function initImage() {
+	    return {
+	        type: 'INIT_IMAGE'
+	    };
+	}
+	exports.initImage = initImage;
+
+
+/***/ },
+/* 312 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var ImageUpload = (function (_super) {
+	    __extends(ImageUpload, _super);
+	    function ImageUpload() {
+	        _super.apply(this, arguments);
+	    }
+	    ImageUpload.prototype.componentWillMount = function () {
+	        var init = this.props.init;
+	        init();
+	    };
+	    ImageUpload.prototype.componentWillUpdate = function (nextProps, nextState) {
+	        var change = this.props.change;
+	        var image = nextProps.image;
+	        if (!this.props.image.fetched && image.fetched) {
+	            change('image', JSON.stringify(image.image));
+	        }
+	    };
+	    ImageUpload.prototype.handleUpload = function (e) {
+	        var upload = this.props.upload;
+	        var data = new FormData();
+	        data.append('file', e.target.files[0]);
+	        upload(data);
+	    };
+	    ImageUpload.prototype.handleStatus = function (image) {
+	        var isFetching = image.isFetching, error = image.error;
+	        if (isFetching) {
+	            return React.createElement("div", {className: "alert alert-info"}, "Upload...");
+	        }
+	        else if (error) {
+	            return React.createElement("div", {className: "alert alert-danger"}, error.data);
+	        }
+	    };
+	    ImageUpload.prototype.render = function () {
+	        var _a = this.props, image = _a.image, imageUrl = _a.imageUrl, change = _a.change;
+	        return (React.createElement("div", {className: "clearfix"}, 
+	            React.createElement("div", {className: "admin-image-upload"}, 
+	                React.createElement("img", {src: imageUrl, alt: ""}), 
+	                React.createElement("input", {type: "file", onChange: this.handleUpload.bind(this)})), 
+	            this.handleStatus(image)));
+	    };
+	    return ImageUpload;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = ImageUpload;
+
+
+/***/ },
+/* 313 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
 	var redux_1 = __webpack_require__(186);
-	var logger = __webpack_require__(311);
-	var redux_promise_middleware_1 = __webpack_require__(317);
-	var redux_thunk_1 = __webpack_require__(319);
-	var reducers_1 = __webpack_require__(320);
+	var logger = __webpack_require__(314);
+	var redux_promise_middleware_1 = __webpack_require__(320);
+	var redux_thunk_1 = __webpack_require__(322);
+	var reducers_1 = __webpack_require__(323);
 	var middleware = redux_1.applyMiddleware(logger(), redux_thunk_1.default, redux_promise_middleware_1.default());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = redux_1.createStore(reducers_1.default, middleware);
 
 
 /***/ },
-/* 311 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30558,11 +30664,11 @@
 	  value: true
 	});
 
-	var _core = __webpack_require__(312);
+	var _core = __webpack_require__(315);
 
-	var _helpers = __webpack_require__(313);
+	var _helpers = __webpack_require__(316);
 
-	var _defaults = __webpack_require__(316);
+	var _defaults = __webpack_require__(319);
 
 	var _defaults2 = _interopRequireDefault(_defaults);
 
@@ -30665,7 +30771,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 312 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30675,9 +30781,9 @@
 	});
 	exports.printBuffer = printBuffer;
 
-	var _helpers = __webpack_require__(313);
+	var _helpers = __webpack_require__(316);
 
-	var _diff = __webpack_require__(314);
+	var _diff = __webpack_require__(317);
 
 	var _diff2 = _interopRequireDefault(_diff);
 
@@ -30806,7 +30912,7 @@
 	}
 
 /***/ },
-/* 313 */
+/* 316 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -30830,7 +30936,7 @@
 	var timer = exports.timer = typeof performance !== "undefined" && performance !== null && typeof performance.now === "function" ? performance : Date;
 
 /***/ },
-/* 314 */
+/* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30840,7 +30946,7 @@
 	});
 	exports.default = diffLogger;
 
-	var _deepDiff = __webpack_require__(315);
+	var _deepDiff = __webpack_require__(318);
 
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 
@@ -30926,7 +31032,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 315 */
+/* 318 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global) {/*!
@@ -31355,7 +31461,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 316 */
+/* 319 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31406,7 +31512,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 317 */
+/* 320 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31423,7 +31529,7 @@
 
 	exports.default = promiseMiddleware;
 
-	var _isPromise = __webpack_require__(318);
+	var _isPromise = __webpack_require__(321);
 
 	var _isPromise2 = _interopRequireDefault(_isPromise);
 
@@ -31580,7 +31686,7 @@
 	}
 
 /***/ },
-/* 318 */
+/* 321 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31601,7 +31707,7 @@
 	}
 
 /***/ },
-/* 319 */
+/* 322 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31629,20 +31735,21 @@
 	exports['default'] = thunk;
 
 /***/ },
-/* 320 */
+/* 323 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var redux_1 = __webpack_require__(186);
-	var counts_reducer_1 = __webpack_require__(321);
-	var games_reducer_1 = __webpack_require__(322);
-	var game_reducer_1 = __webpack_require__(323);
+	var counts_reducer_1 = __webpack_require__(324);
+	var games_reducer_1 = __webpack_require__(325);
+	var game_reducer_1 = __webpack_require__(326);
+	var image_reducer_1 = __webpack_require__(327);
 	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = redux_1.combineReducers({ counts: counts_reducer_1.default, games: games_reducer_1.default, game: game_reducer_1.default });
+	exports.default = redux_1.combineReducers({ counts: counts_reducer_1.default, games: games_reducer_1.default, game: game_reducer_1.default, image: image_reducer_1.default });
 
 
 /***/ },
-/* 321 */
+/* 324 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31702,7 +31809,7 @@
 
 
 /***/ },
-/* 322 */
+/* 325 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31764,7 +31871,7 @@
 
 
 /***/ },
-/* 323 */
+/* 326 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31800,6 +31907,49 @@
 	            var item = state.item;
 	            item[field] = value;
 	            return Object.assign({}, state, { item: item });
+	        default:
+	            return state;
+	    }
+	}
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = reducer;
+
+
+/***/ },
+/* 327 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var initialState = {
+	    isFetching: false,
+	    fetched: false,
+	    image: null,
+	    error: null,
+	};
+	function reducer(state, action) {
+	    if (state === void 0) { state = initialState; }
+	    var type = action.type, payload = action.payload;
+	    switch (type) {
+	        case 'INIT_IMAGE':
+	            return Object.assign({}, state, initialState);
+	        case 'UPLOAD_IMAGE_PENDING':
+	            return Object.assign({}, state, { isFetching: true, error: null });
+	        case 'UPLOAD_IMAGE_FULFILLED':
+	            var _a = payload.data, url = _a.url, color = _a.color;
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                fetched: true,
+	                image: { url: url, color: color }
+	            });
+	        case 'UPLOAD_IMAGE_REJECTED':
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                fetched: false,
+	                error: {
+	                    statue: payload.response.status,
+	                    data: payload.response.data
+	                }
+	            });
 	        default:
 	            return state;
 	    }

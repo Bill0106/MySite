@@ -26,7 +26,7 @@ export function deleteGame(url: string) {
     }
 }
 
-export function changField(field, value) {
+export function changField(field: string, value: any) {
     return {
         type: 'CHANGE_FIELD',
         payload: { field, value }
