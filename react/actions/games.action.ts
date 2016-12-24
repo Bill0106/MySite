@@ -19,6 +19,13 @@ export function fetchGame(url: string) {
     }
 }
 
+export function updateGame(game: any) {
+    return {
+        type: 'UPLOAD_GAME',
+        payload: axios.post('/games/' + game.url, game)
+    }
+}
+
 export function deleteGame(url: string) {
     return {
         type: 'DELETE_GAME',

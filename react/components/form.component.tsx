@@ -6,14 +6,21 @@ interface FormProps extends React.Props<any> {
     fields: any;
     data: any;
     change: any;
-    submit?: any;
+    submit: any;
 }
 
 class Form extends React.Component<FormProps, void> {
+    handleSubmit(e) {
+        const { submit } = this.props;
+        e.preventDefault();
+
+        submit();
+    }
+
     render() {
         const { fields, data, change } = this.props;
         return (
-            <form>
+            <form onSubmit={this.handleSubmit.bind(this)}>
                 <table className="table table-bordered">
                     <tbody>
                     {
@@ -23,6 +30,9 @@ class Form extends React.Component<FormProps, void> {
                     }
                     </tbody>
                 </table>
+                <div className="form-group">
+                    <button className="btn btn-success" type="submit">Submit</button>
+                </div>
             </form>
         );  
     }

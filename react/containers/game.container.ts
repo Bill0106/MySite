@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { fetchGame, changField } from '../actions/games.action';
+import { fetchGame, changField, updateGame } from '../actions/games.action';
 import GamePage from '../components/game-page.component';
 
 const mapStateToProps = (state) => {
@@ -11,7 +11,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getGame: (url) => dispatch(fetchGame(url)),
-        changeField: (field, value) => dispatch(changField(field, value))
+        changeField: (field, value) => dispatch(changField(field, value)),
+        updateGame: (game) => dispatch(updateGame(game)),
     }
 }
 

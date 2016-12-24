@@ -29940,6 +29940,9 @@
 	                " ", 
 	                fetch.error.data));
 	        }
+	        else if (fetch.posted) {
+	            alert = (React.createElement("div", {className: "alert alert-success", role: "alert"}, "Success!"));
+	        }
 	        return (React.createElement("div", {className: "row"}, 
 	            React.createElement("div", {className: "col-sm-12"}, alert)
 	        ));
@@ -30003,6 +30006,13 @@
 	    };
 	}
 	exports.fetchGame = fetchGame;
+	function updateGame(game) {
+	    return {
+	        type: 'UPLOAD_GAME',
+	        payload: axios_1.default.post('/games/' + game.url, game)
+	    };
+	}
+	exports.updateGame = updateGame;
 	function deleteGame(url) {
 	    return {
 	        type: 'DELETE_GAME',
@@ -30302,7 +30312,8 @@
 	var mapDispatchToProps = function (dispatch) {
 	    return {
 	        getGame: function (url) { return dispatch(games_action_1.fetchGame(url)); },
-	        changeField: function (field, value) { return dispatch(games_action_1.changField(field, value)); }
+	        changeField: function (field, value) { return dispatch(games_action_1.changField(field, value)); },
+	        updateGame: function (game) { return dispatch(games_action_1.updateGame(game)); },
 	    };
 	};
 	var Game = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(game_page_component_1.default);
@@ -30323,6 +30334,7 @@
 	var React = __webpack_require__(1);
 	var game_1 = __webpack_require__(306);
 	var page_header_component_1 = __webpack_require__(299);
+	var alert_component_1 = __webpack_require__(295);
 	var form_component_1 = __webpack_require__(307);
 	var GamePage = (function (_super) {
 	    __extends(GamePage, _super);
@@ -30333,6 +30345,11 @@
 	        var _a = this.props, params = _a.params, getGame = _a.getGame;
 	        getGame(params['url']);
 	    };
+	    GamePage.prototype.handlePost = function () {
+	        var _a = this.props, updateGame = _a.updateGame, game = _a.game;
+	        updateGame(game.item);
+	        window.scrollTo(0, 0);
+	    };
 	    GamePage.prototype.render = function () {
 	        var _a = this.props, game = _a.game, params = _a.params, changeField = _a.changeField;
 	        if (game.fetched) {
@@ -30340,7 +30357,8 @@
 	        }
 	        return (React.createElement("div", {className: "container-fluid"}, 
 	            React.createElement(page_header_component_1.default, {title: game.item ? game.item.name : ''}), 
-	            React.createElement(form_component_1.default, {fields: game_1.GameFields, data: params['url'] == 'add' ? '' : game.item, change: function (f, v) { return changeField(f, v); }})));
+	            React.createElement(alert_component_1.default, {fetch: game}), 
+	            React.createElement(form_component_1.default, {fields: game_1.GameFields, data: params['url'] == 'add' ? '' : game.item, change: function (f, v) { return changeField(f, v); }, submit: this.handlePost.bind(this)})));
 	    };
 	    return GamePage;
 	}(React.Component));
@@ -30429,15 +30447,22 @@
 	    function Form() {
 	        _super.apply(this, arguments);
 	    }
+	    Form.prototype.handleSubmit = function (e) {
+	        var submit = this.props.submit;
+	        e.preventDefault();
+	        submit();
+	    };
 	    Form.prototype.render = function () {
 	        var _a = this.props, fields = _a.fields, data = _a.data, change = _a.change;
-	        return (React.createElement("form", null, 
+	        return (React.createElement("form", {onSubmit: this.handleSubmit.bind(this)}, 
 	            React.createElement("table", {className: "table table-bordered"}, 
 	                React.createElement("tbody", null, fields.map(function (field, key) {
 	                    return React.createElement(field_component_1.default, {field: field, key: key, data: data ? data[field.name] : '', change: function (f, v) { return change(f, v); }});
 	                }))
-	            )
-	        ));
+	            ), 
+	            React.createElement("div", {className: "form-group"}, 
+	                React.createElement("button", {className: "btn btn-success", type: "submit"}, "Submit")
+	            )));
 	    };
 	    return Form;
 	}(React.Component));
@@ -31878,6 +31903,7 @@
 	var initialState = {
 	    isFetching: false,
 	    fetched: false,
+	    posted: false,
 	    item: null,
 	    error: null,
 	};
@@ -31886,7 +31912,7 @@
 	    var type = action.type, payload = action.payload;
 	    switch (type) {
 	        case "FETCH_GAME_PENDING":
-	            return Object.assign({}, state, { isFetching: true, error: null });
+	            return Object.assign({}, state, { isFetching: true, error: null, posted: false });
 	        case "FETCH_GAME_FULFILLED":
 	            return Object.assign({}, state, {
 	                isFetching: false,
@@ -31897,6 +31923,18 @@
 	            return Object.assign({}, state, {
 	                isFetching: false,
 	                fetched: false,
+	                error: {
+	                    statue: payload.response.status,
+	                    data: payload.response.data
+	                }
+	            });
+	        case "UPLOAD_GAME_PENDING":
+	            return Object.assign({}, state, { isFetching: true });
+	        case "UPLOAD_GAME_FULFILLED":
+	            return Object.assign({}, state, { isFetching: false, posted: true });
+	        case "UPLOAD_GAME_REJECTED":
+	            return Object.assign({}, state, {
+	                isFetching: false,
 	                error: {
 	                    statue: payload.response.status,
 	                    data: payload.response.data

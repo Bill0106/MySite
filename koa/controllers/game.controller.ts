@@ -56,13 +56,8 @@ const create = async (ctx) => {
 
         let game = new Game.repositry(data);
         await game.save();
-        
-        ctx.body = {
-            success: true,
-            data: {
-                id: game._id
-            }
-        }
+
+        ctx.body = game._id;
     } catch (error) {
         ctx.status = error.status || 500;
         ctx.body = {
@@ -77,24 +72,24 @@ const update = async (ctx) => {
         let data = ctx.request.body;
 
         data.title = new Buffer(data.title).toString('base64');
-        data.release_at = moment(data.release_at, 'YYYY-MM-DD').valueOf();
-        data.buy_at = moment(data.buy_at, 'YYYY-MM-DD').valueOf();
+        delete data._id;
+
+        if (!Number.isInteger(data.release_at)) {
+            data.release_at = moment(data.release_at, 'YYYY-MM-DD').valueOf();
+        }
+        if (!Number.isInteger(data.buy_at)) {
+            data.buy_at = moment(data.buy_at, 'YYYY-MM-DD').valueOf();
+        }
+        
         data.url = data.url || data.name.toLowerCase().replace(/ /g, '-').replace(/:/g, '');
 
-        await Game.repositry.findByIdAndUpdate(data.id, data);
-        
-        ctx.body = {
-            success: true,
-            data: {
-                id: data.id
-            }
-        }
+        let game = await Game.repositry.findOne({ url: ctx.params.url });
+        await game.update(data);
+
+        ctx.body = game._id;
     } catch (error) {
         ctx.status = error.status || 500;
-        ctx.body = {
-            success: false,
-            error: error.message,
-        }
+        ctx.body = error.message;
     }
 }
 

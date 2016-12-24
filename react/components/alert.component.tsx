@@ -17,6 +17,10 @@ class Alert extends React.Component<AlertProps, void> {
                     <strong>{fetch.error.status} !</strong> {fetch.error.data}
                 </div>
             );
+        } else if (fetch.posted) {
+            alert = (
+                <div className="alert alert-success" role="alert">Success!</div>
+            );
         }
 
         return (
