@@ -2,7 +2,7 @@ const initialState = {
     isFetching: false,
     fetched: false,
     posted: false,
-    item: null,
+    item: {},
     error: null,
 }
 
@@ -10,8 +10,14 @@ export default function reducer(state = initialState, action) {
     const { type, payload } = action;
 
     switch (type) {
+        case "INIT_GAME_CREATE":
+            return Object.assign({}, state, initialState);
         case "FETCH_GAME_PENDING":
-            return Object.assign({}, state, { isFetching: true, error: null, posted: false });
+            return Object.assign({}, state, {
+                isFetching: true,
+                error: null,
+                posted: false
+            });
         case "FETCH_GAME_FULFILLED":
             return Object.assign({}, state, {
                 isFetching: false,
@@ -27,11 +33,11 @@ export default function reducer(state = initialState, action) {
                     data: payload.response.data
                 }
             });
-        case "UPLOAD_GAME_PENDING":
+        case "POST_GAME_PENDING":
             return Object.assign({}, state, { isFetching: true });
-        case "UPLOAD_GAME_FULFILLED":
+        case "POST_GAME_FULFILLED":
             return Object.assign({}, state, { isFetching: false, posted: true });
-        case "UPLOAD_GAME_REJECTED":
+        case "POST_GAME_REJECTED":
             return Object.assign({}, state, {
                 isFetching: false,
                 error: {

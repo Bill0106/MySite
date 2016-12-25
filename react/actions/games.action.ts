@@ -19,9 +19,22 @@ export function fetchGame(url: string) {
     }
 }
 
+export function initGameCreate() {
+    return {
+        type: 'INIT_GAME_CREATE'
+    }
+}
+
+export function createGame(game: any) {
+    return {
+        type: 'POST_GAME',
+        payload: axios.post('/games/', game)
+    }
+}
+
 export function updateGame(game: any) {
     return {
-        type: 'UPLOAD_GAME',
+        type: 'POST_GAME',
         payload: axios.post('/games/' + game.url, game)
     }
 }

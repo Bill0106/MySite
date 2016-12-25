@@ -60,10 +60,7 @@ const create = async (ctx) => {
         ctx.body = game._id;
     } catch (error) {
         ctx.status = error.status || 500;
-        ctx.body = {
-            success: false,
-            error: error.message,
-        }
+        ctx.body = error.message;
     }
 }
 

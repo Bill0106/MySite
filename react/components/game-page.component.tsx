@@ -9,19 +9,32 @@ import Form from './form.component';
 interface GamePageProps extends RouteComponentProps<void, void> {
     game: any;
     getGame: any;
-    changeField: any;
+    createGame: any;
     updateGame: any;
+    changeField: any;
+    initGameCreate: any;
 }
 
 class GamePage extends React.Component<GamePageProps, void> {
-    componentDidMount() {
-        const { params, getGame } = this.props;
-        getGame(params['url']);
+    componentDidMount(nextProps, nextState) {
+        const { initGameCreate, params, getGame } = this.props;
+
+        if (params['url'] == 'add') {
+            initGameCreate();
+        } else {
+            getGame(params['url']);
+        }
     }
 
     handlePost() {
-        const { updateGame, game } = this.props;
-        updateGame(game.item);
+        const { createGame, updateGame, game, params } = this.props;
+
+        if (params['url'] == 'add') {
+            createGame(game.item);
+        } else {
+            updateGame(game.item);
+        }
+
         window.scrollTo(0, 0);
     }
 
@@ -29,14 +42,16 @@ class GamePage extends React.Component<GamePageProps, void> {
         const { game, params, changeField } = this.props;
 
         if (game.fetched) {
-            document.title = game.item.name + ' - Games | Admin'
+            document.title = game.item.name + ' - Games | Admin';
+        } else {
+            document.title = 'Add - Games | Admin';
         }
-        
+
         return (
             <div className="container-fluid">
-                <PageHeader title={game.item ? game.item.name : ''} />
+                <PageHeader title={params['url'] == 'add' ? 'Add Game' : game.item.name } />
                 <Alert fetch={game} />
-                <Form fields={GameFields} data={params['url'] == 'add' ? '' : game.item} change={(f, v) => changeField(f, v)} submit={this.handlePost.bind(this)} />
+                <Form fields={GameFields} data={game.item} change={(f, v) => changeField(f, v)} submit={this.handlePost.bind(this)} />
             </div>
         );
     }
