@@ -33,18 +33,19 @@ const initialState = {
 }
 
 export default function reducer(state = initialState, action) {
-    switch (action.type) {
+    const { type, payload } = action;
+    
+    switch (type) {
         case "FETCH_COUNTS_PENDING":
             return Object.assign({}, state, { isFetching: true });
         case "FETCH_COUNTS_FULFILLED":
             return Object.assign({}, state, {
                 isFetching: false,
                 fetched: true,
-                items: action.payload.data
+                items: Array.isArray(payload) ? payload : payload.data
             });
         case "FETCH_COUNTS_REJECTED":
-            const { response } = action.payload;
-            const { data, status } = response;
+            const { data, status } = payload.response;
 
             return Object.assign({}, state, { isFetching: false, error: { data, status } });
         default:
