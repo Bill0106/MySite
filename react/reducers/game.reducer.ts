@@ -19,10 +19,11 @@ export default function reducer(state = initialState, action) {
                 posted: false
             });
         case "FETCH_GAME_FULFILLED":
+            console.log();
             return Object.assign({}, state, {
                 isFetching: false,
                 fetched: true,
-                item: payload.data
+                item: payload.hasOwnProperty('_id') ? payload : payload.data
             });
         case "FETCH_GAME_REJECTED":
             return Object.assign({}, state, {

@@ -18,7 +18,7 @@ class Field extends React.Component<FieldProps, void> {
     handleField(field, data) {
         switch (field.type) {
             case 'image':
-                return <Image image={data ? JSON.parse(data).url : field.placeholder} change={(f, v) => this.props.change(f, v)} />
+                return <Image image={data ? JSON.parse(data).url : field.placeholder} change={(f, v) => this.props.change(f, v)} />;
             case 'text':
                 return <textarea value={data} className="form-control" rows={20} onChange={this.handleChange.bind(this)} />;
             case 'select':
@@ -40,7 +40,7 @@ class Field extends React.Component<FieldProps, void> {
                             field.enum.map(radio => {
                                 return (
                                     <label className="radio-inline" key={radio}>
-                                        <input type="radio" name={field.name} value={radio} checked={data == radio} onChange={this.handleChange.bind(this)} />
+                                        <input type="radio" value={radio} checked={data == radio} onChange={this.handleChange.bind(this)} />
                                         {radio}
                                     </label>
                                 );
@@ -49,7 +49,7 @@ class Field extends React.Component<FieldProps, void> {
                     </div>
                 );
             default:
-                return <input type="text" className="form-control" onChange={this.handleChange.bind(this)} placeholder={'ENTER ' + field.name.toUpperCase()} value={data} />;
+                return <input type="text" className="form-control" onChange={this.handleChange.bind(this)} placeholder={'ENTER ' + field.name.toUpperCase()} value={data || ''} />;
         }
     }
 

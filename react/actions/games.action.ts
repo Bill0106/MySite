@@ -1,4 +1,5 @@
 import axios from 'axios';
+import store from '../store';
 
 export function fetchGames(page: number = null) {
     let url = '/games?limit=30';
@@ -13,6 +14,27 @@ export function fetchGames(page: number = null) {
 }
 
 export function fetchGame(url: string) {
+    const state = store.getState();
+    const games = state['games'];
+    const game = state['game'];
+
+    if (game.fetched && game.item.url == url) {
+        return {
+            type: 'FETCH_GAME_FULFILLED',
+            payload: game.item
+        }
+    }
+
+    if (games.fetched && games.items.length) {
+        const item = games.items.find(v => v.url == url);
+        if (item) {
+            return {
+                type: 'FETCH_GAME_FULFILLED',
+                payload: item
+            }
+        }
+    }
+
     return {
         type: 'FETCH_GAME',
         payload: axios.get('/games/' + url)

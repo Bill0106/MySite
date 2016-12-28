@@ -31119,10 +31119,11 @@
 	                posted: false
 	            });
 	        case "FETCH_GAME_FULFILLED":
+	            console.log();
 	            return Object.assign({}, state, {
 	                isFetching: false,
 	                fetched: true,
-	                item: payload.data
+	                item: payload.hasOwnProperty('_id') ? payload : payload.data
 	            });
 	        case "FETCH_GAME_REJECTED":
 	            return Object.assign({}, state, {
@@ -31366,6 +31367,7 @@
 
 	"use strict";
 	var axios_1 = __webpack_require__(263);
+	var store_1 = __webpack_require__(293);
 	function fetchGames(page) {
 	    if (page === void 0) { page = null; }
 	    var url = '/games?limit=30';
@@ -31379,6 +31381,24 @@
 	}
 	exports.fetchGames = fetchGames;
 	function fetchGame(url) {
+	    var state = store_1.default.getState();
+	    var games = state['games'];
+	    var game = state['game'];
+	    if (game.fetched && game.item.url == url) {
+	        return {
+	            type: 'FETCH_GAME_FULFILLED',
+	            payload: game.item
+	        };
+	    }
+	    if (games.fetched && games.items.length) {
+	        var item = games.items.find(function (v) { return v.url == url; });
+	        if (item) {
+	            return {
+	                type: 'FETCH_GAME_FULFILLED',
+	                payload: item
+	            };
+	        }
+	    }
 	    return {
 	        type: 'FETCH_GAME',
 	        payload: axios_1.default.get('/games/' + url)
@@ -31928,11 +31948,11 @@
 	            case 'radio':
 	                return (React.createElement("div", null, field.enum.map(function (radio) {
 	                    return (React.createElement("label", {className: "radio-inline", key: radio}, 
-	                        React.createElement("input", {type: "radio", name: field.name, value: radio, checked: data == radio, onChange: _this.handleChange.bind(_this)}), 
+	                        React.createElement("input", {type: "radio", value: radio, checked: data == radio, onChange: _this.handleChange.bind(_this)}), 
 	                        radio));
 	                })));
 	            default:
-	                return React.createElement("input", {type: "text", className: "form-control", onChange: this.handleChange.bind(this), placeholder: 'ENTER ' + field.name.toUpperCase(), value: data});
+	                return React.createElement("input", {type: "text", className: "form-control", onChange: this.handleChange.bind(this), placeholder: 'ENTER ' + field.name.toUpperCase(), value: data || ''});
 	        }
 	    };
 	    Field.prototype.render = function () {
