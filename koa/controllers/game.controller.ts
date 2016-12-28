@@ -101,12 +101,7 @@ const remove = async (ctx) => {
 
         await game.remove();
 
-        ctx.body = {
-            success: true,
-            data: {
-                id: game._id
-            }
-        }
+        ctx.body = game._id;
     } catch (error) {
         ctx.status = error.status || 500;
         ctx.body = error.message;

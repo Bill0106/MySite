@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export function fetchGames(page: number = null) {
-    let url = '/games?limit=20';
+    let url = '/games?limit=30';
     if (page) {
         url = url + '&page=' + page;
     }

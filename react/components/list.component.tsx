@@ -20,15 +20,20 @@ class List extends React.Component<ListProps, void> {
     }
 
     componentDidMount() {
-        const { getList, location, type } = this.props;
-        getList(location.query['page']);
+        const { getList, location, list } = this.props;
+        const page = location.query['page'] ? parseInt(location.query['page']) : 1;
+
+        if (list.fetchedPages.indexOf(page) < 0) {
+            getList(location.query['page']);
+        }
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillUpdate(nextProps) {
         const { location } = nextProps;
-        const { getList } = this.props;
+        const { getList, list } = this.props;
+        const page = location.query['page'] ? parseInt(location.query['page']) : 1;
 
-        if (this.props.location.query['page'] != location.query['page']) {
+        if (this.props.location.query['page'] != location.query['page'] && list.fetchedPages.indexOf(page) < 0) {
             getList(location.query['page']);
         }
     }
@@ -47,23 +52,34 @@ class List extends React.Component<ListProps, void> {
         return element
     }
 
-    handleContent(items): any {
-        if (items.list) {
-            let indent = [];
-            items.list.map((item, key) => {
-                indent.push(this.handleItems(item, key));
-            });
-
-            return (
-                <div className="row">
-                    <div className="col-sm-12">
-                        <table className="table table-bordered admin-table-list">
-                            <tbody>{indent}</tbody>
-                        </table>
-                    </div>
-                </div>
-            );
+    handleContent(list, type, page): any {
+        if (list.isFetching || list.error) {
+            return '';
         }
+
+        const _page = page ? parseInt(page) : 1;
+        const per = (type == 'Hearthstonr-Matches') ? 100 : 30;
+        const index = list.fetchedPages.indexOf(_page);
+        if (index < 0) {
+            return '';
+        }
+
+        const start = per * index;
+        const items = list.items.slice(start, start + per);
+        let indent = [];
+        items.map((item, key) => {
+            indent.push(this.handleItems(item, key));
+        });
+
+        return (
+            <div className="row">
+                <div className="col-sm-12">
+                    <table className="table table-bordered admin-table-list">
+                        <tbody>{indent}</tbody>
+                    </table>
+                </div>
+            </div>
+        );
     }
 
     render() {
@@ -71,10 +87,10 @@ class List extends React.Component<ListProps, void> {
 
         return (
             <div className="container-fluid">
-                <PageHeader title={type} button={true} total={list.items.total} />
+                <PageHeader title={type} button={true} total={list.total} />
                 <Alert fetch={list} />
-                {this.handleContent(list.items)}
-                <Paginator total={list.items.total} path={location.pathname} current={location.query['page']} per={type == 'Hearthstonr-Matches' ? 100 : 30} />
+                {this.handleContent(list, type, location.query['page'])}
+                <Paginator total={list.total} path={location.pathname} current={location.query['page']} per={type == 'Hearthstonr-Matches' ? 100 : 30} />
             </div>
         );
     }

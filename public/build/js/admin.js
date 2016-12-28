@@ -31013,6 +31013,8 @@
 	    isFetching: false,
 	    fetched: false,
 	    items: [],
+	    total: 0,
+	    fetchedPages: [],
 	    error: null,
 	};
 	function reducer(state, action) {
@@ -31022,10 +31024,36 @@
 	        case "FETCH_GAMES_PENDING":
 	            return Object.assign({}, state, { isFetching: true, error: null });
 	        case "FETCH_GAMES_FULFILLED":
+	            var items = state.items.concat(payload.data.list);
+	            items.sort(function (a, b) {
+	                if (a.buy_at > b.buy_at)
+	                    return -1;
+	                if (a.buy_at < b.buy_at)
+	                    return 1;
+	                if (a.release_at > b.release_at)
+	                    return -1;
+	                if (a.release_at < b.release_at)
+	                    return 1;
+	                return 0;
+	            });
+	            var url = payload.request.responseURL;
+	            var match = url.match(/page=(\d)/i);
+	            var page = match ? parseInt(match[1]) : 1;
+	            var pages = state.fetchedPages;
+	            pages.push(page);
+	            pages.sort(function (a, b) {
+	                if (a > b)
+	                    return 1;
+	                if (a < b)
+	                    return -1;
+	                return 0;
+	            });
 	            return Object.assign({}, state, {
 	                isFetching: false,
 	                fetched: true,
-	                items: payload.data
+	                items: items,
+	                total: state.total ? state.total : payload.data.total,
+	                fetchedPages: pages,
 	            });
 	        case "FETCH_GAMES_REJECTED":
 	            return Object.assign({}, state, {
@@ -31340,7 +31368,7 @@
 	var axios_1 = __webpack_require__(263);
 	function fetchGames(page) {
 	    if (page === void 0) { page = null; }
-	    var url = '/games?limit=20';
+	    var url = '/games?limit=30';
 	    if (page) {
 	        url = url + '&page=' + page;
 	    }
@@ -31418,13 +31446,17 @@
 	        document.title = type + ' | Admin';
 	    };
 	    List.prototype.componentDidMount = function () {
-	        var _a = this.props, getList = _a.getList, location = _a.location, type = _a.type;
-	        getList(location.query['page']);
+	        var _a = this.props, getList = _a.getList, location = _a.location, list = _a.list;
+	        var page = location.query['page'] ? parseInt(location.query['page']) : 1;
+	        if (list.fetchedPages.indexOf(page) < 0) {
+	            getList(location.query['page']);
+	        }
 	    };
-	    List.prototype.componentWillReceiveProps = function (nextProps) {
+	    List.prototype.componentWillUpdate = function (nextProps) {
 	        var location = nextProps.location;
-	        var getList = this.props.getList;
-	        if (this.props.location.query['page'] != location.query['page']) {
+	        var _a = this.props, getList = _a.getList, list = _a.list;
+	        var page = location.query['page'] ? parseInt(location.query['page']) : 1;
+	        if (this.props.location.query['page'] != location.query['page'] && list.fetchedPages.indexOf(page) < 0) {
 	            getList(location.query['page']);
 	        }
 	    };
@@ -31440,29 +31472,38 @@
 	        }
 	        return element;
 	    };
-	    List.prototype.handleContent = function (items) {
+	    List.prototype.handleContent = function (list, type, page) {
 	        var _this = this;
-	        if (items.list) {
-	            var indent_1 = [];
-	            items.list.map(function (item, key) {
-	                indent_1.push(_this.handleItems(item, key));
-	            });
-	            return (React.createElement("div", {className: "row"}, 
-	                React.createElement("div", {className: "col-sm-12"}, 
-	                    React.createElement("table", {className: "table table-bordered admin-table-list"}, 
-	                        React.createElement("tbody", null, indent_1)
-	                    )
-	                )
-	            ));
+	        if (list.isFetching || list.error) {
+	            return '';
 	        }
+	        var _page = page ? parseInt(page) : 1;
+	        var per = (type == 'Hearthstonr-Matches') ? 100 : 30;
+	        var index = list.fetchedPages.indexOf(_page);
+	        if (index < 0) {
+	            return '';
+	        }
+	        var start = per * index;
+	        var items = list.items.slice(start, start + per);
+	        var indent = [];
+	        items.map(function (item, key) {
+	            indent.push(_this.handleItems(item, key));
+	        });
+	        return (React.createElement("div", {className: "row"}, 
+	            React.createElement("div", {className: "col-sm-12"}, 
+	                React.createElement("table", {className: "table table-bordered admin-table-list"}, 
+	                    React.createElement("tbody", null, indent)
+	                )
+	            )
+	        ));
 	    };
 	    List.prototype.render = function () {
 	        var _a = this.props, list = _a.list, type = _a.type, location = _a.location;
 	        return (React.createElement("div", {className: "container-fluid"}, 
-	            React.createElement(page_header_component_1.default, {title: type, button: true, total: list.items.total}), 
+	            React.createElement(page_header_component_1.default, {title: type, button: true, total: list.total}), 
 	            React.createElement(alert_component_1.default, {fetch: list}), 
-	            this.handleContent(list.items), 
-	            React.createElement(paginator_component_1.default, {total: list.items.total, path: location.pathname, current: location.query['page'], per: type == 'Hearthstonr-Matches' ? 100 : 30})));
+	            this.handleContent(list, type, location.query['page']), 
+	            React.createElement(paginator_component_1.default, {total: list.total, path: location.pathname, current: location.query['page'], per: type == 'Hearthstonr-Matches' ? 100 : 30})));
 	    };
 	    return List;
 	}(React.Component));
