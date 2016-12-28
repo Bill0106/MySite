@@ -10,21 +10,21 @@ export default function reducer(state = initialState, action) {
     const { type, payload } = action;
 
     switch (type) {
-        case "INIT_GAME_CREATE":
+        case "INIT_GOURMET_CREATE":
             return Object.assign({}, state, initialState);
-        case "FETCH_GAME_PENDING":
+        case "FETCH_GOURMET_PENDING":
             return Object.assign({}, state, {
                 isFetching: true,
                 error: null,
                 posted: false
             });
-        case "FETCH_GAME_FULFILLED":
+        case "FETCH_GOURMET_FULFILLED":
             return Object.assign({}, state, {
                 isFetching: false,
                 fetched: true,
                 item: payload.hasOwnProperty('_id') ? payload : payload.data
             });
-        case "FETCH_GAME_REJECTED":
+        case "FETCH_GOURMET_REJECTED":
             return Object.assign({}, state, {
                 isFetching: false,
                 fetched: false,
@@ -33,11 +33,11 @@ export default function reducer(state = initialState, action) {
                     data: payload.response.data
                 }
             });
-        case "POST_GAME_PENDING":
+        case "POST_GOURMET_PENDING":
             return Object.assign({}, state, { isFetching: true });
-        case "POST_GAME_FULFILLED":
+        case "POST_GOURMET_FULFILLED":
             return Object.assign({}, state, { isFetching: false, posted: true });
-        case "POST_GAME_REJECTED":
+        case "POST_GOURMET_REJECTED":
             return Object.assign({}, state, {
                 isFetching: false,
                 error: {

@@ -1,23 +1,23 @@
 const GOURMET_FIELDS = [
     {
-        field: 'image',
+        name: 'image',
         type: 'image',
         placeholder: 'https://placeholdit.imgix.net/~text?txtsize=30&txt=300%C3%97300&w=150&h=150',
     },
     {
-        field: 'food',
+        name: 'food',
         type: 'input',
     },
     {
-        field: 'restaurant',
+        name: 'restaurant',
         type: 'input',
     },
     {
-        field: 'date',
+        name: 'date',
         type: 'date',
     },
     {
-        field: 'url',
+        name: 'url',
         type: 'input',
     }
 ];

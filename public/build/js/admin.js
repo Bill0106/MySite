@@ -29705,9 +29705,10 @@
 	"use strict";
 	var app_component_1 = __webpack_require__(290);
 	var dashboard_container_1 = __webpack_require__(291);
-	var games_container_1 = __webpack_require__(312);
-	var game_container_1 = __webpack_require__(322);
-	var gourmets_container_1 = __webpack_require__(330);
+	var games_container_1 = __webpack_require__(313);
+	var game_container_1 = __webpack_require__(323);
+	var gourmets_container_1 = __webpack_require__(331);
+	var gourmet_container_1 = __webpack_require__(333);
 	var ROUTING_CONFIG = [
 	    {
 	        path: '/admin',
@@ -29716,7 +29717,8 @@
 	        childRoutes: [
 	            { path: 'games', component: games_container_1.default },
 	            { path: 'games/:url', component: game_container_1.default },
-	            { path: 'gourmets', component: gourmets_container_1.default }
+	            { path: 'gourmets', component: gourmets_container_1.default },
+	            { path: 'gourmets/:id', component: gourmet_container_1.default }
 	        ]
 	    }
 	];
@@ -29793,7 +29795,7 @@
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
 	var counts_action_1 = __webpack_require__(292);
-	var dashboard_list_component_1 = __webpack_require__(309);
+	var dashboard_list_component_1 = __webpack_require__(310);
 	var mapStateToProps = function (state) {
 	    return {
 	        counts: state.counts
@@ -30943,8 +30945,9 @@
 	var games_reducer_1 = __webpack_require__(306);
 	var game_reducer_1 = __webpack_require__(307);
 	var gourmets_reducer_1 = __webpack_require__(308);
+	var gourmet_reducer_1 = __webpack_require__(309);
 	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = redux_1.combineReducers({ counts: counts_reducer_1.default, image: image_reducer_1.default, games: games_reducer_1.default, game: game_reducer_1.default, gourmets: gourmets_reducer_1.default });
+	exports.default = redux_1.combineReducers({ counts: counts_reducer_1.default, image: image_reducer_1.default, games: games_reducer_1.default, game: game_reducer_1.default, gourmets: gourmets_reducer_1.default, gourmet: gourmet_reducer_1.default });
 
 
 /***/ },
@@ -31165,7 +31168,6 @@
 	                posted: false
 	            });
 	        case "FETCH_GAME_FULFILLED":
-	            console.log();
 	            return Object.assign({}, state, {
 	                isFetching: false,
 	                fetched: true,
@@ -31293,6 +31295,70 @@
 
 /***/ },
 /* 309 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var initialState = {
+	    isFetching: false,
+	    fetched: false,
+	    posted: false,
+	    item: {},
+	    error: null,
+	};
+	function reducer(state, action) {
+	    if (state === void 0) { state = initialState; }
+	    var type = action.type, payload = action.payload;
+	    switch (type) {
+	        case "INIT_GOURMET_CREATE":
+	            return Object.assign({}, state, initialState);
+	        case "FETCH_GOURMET_PENDING":
+	            return Object.assign({}, state, {
+	                isFetching: true,
+	                error: null,
+	                posted: false
+	            });
+	        case "FETCH_GOURMET_FULFILLED":
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                fetched: true,
+	                item: payload.hasOwnProperty('_id') ? payload : payload.data
+	            });
+	        case "FETCH_GOURMET_REJECTED":
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                fetched: false,
+	                error: {
+	                    statue: payload.response.status,
+	                    data: payload.response.data
+	                }
+	            });
+	        case "POST_GOURMET_PENDING":
+	            return Object.assign({}, state, { isFetching: true });
+	        case "POST_GOURMET_FULFILLED":
+	            return Object.assign({}, state, { isFetching: false, posted: true });
+	        case "POST_GOURMET_REJECTED":
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                error: {
+	                    statue: payload.response.status,
+	                    data: payload.response.data
+	                }
+	            });
+	        case "CHANGE_FIELD":
+	            var field = payload.field, value = payload.value;
+	            var item = state.item;
+	            item[field] = value;
+	            return Object.assign({}, state, { item: item });
+	        default:
+	            return state;
+	    }
+	}
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = reducer;
+
+
+/***/ },
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31302,8 +31368,8 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var dashboard_item_component_1 = __webpack_require__(310);
-	var alert_component_1 = __webpack_require__(311);
+	var dashboard_item_component_1 = __webpack_require__(311);
+	var alert_component_1 = __webpack_require__(312);
 	var DashboardList = (function (_super) {
 	    __extends(DashboardList, _super);
 	    function DashboardList() {
@@ -31350,7 +31416,7 @@
 
 
 /***/ },
-/* 310 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31380,7 +31446,7 @@
 
 
 /***/ },
-/* 311 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31423,13 +31489,13 @@
 
 
 /***/ },
-/* 312 */
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var games_action_1 = __webpack_require__(313);
-	var list_component_1 = __webpack_require__(314);
+	var games_action_1 = __webpack_require__(314);
+	var list_component_1 = __webpack_require__(315);
 	var mapStateToProps = function (state) {
 	    return {
 	        list: state.games,
@@ -31451,7 +31517,7 @@
 
 
 /***/ },
-/* 313 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31531,7 +31597,7 @@
 
 
 /***/ },
-/* 314 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31541,11 +31607,11 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var alert_component_1 = __webpack_require__(311);
-	var page_header_component_1 = __webpack_require__(315);
-	var paginator_component_1 = __webpack_require__(316);
-	var games_item_component_1 = __webpack_require__(317);
-	var gourmets_item_component_1 = __webpack_require__(320);
+	var alert_component_1 = __webpack_require__(312);
+	var page_header_component_1 = __webpack_require__(316);
+	var paginator_component_1 = __webpack_require__(317);
+	var games_item_component_1 = __webpack_require__(318);
+	var gourmets_item_component_1 = __webpack_require__(321);
 	var List = (function (_super) {
 	    __extends(List, _super);
 	    function List() {
@@ -31625,7 +31691,7 @@
 
 
 /***/ },
-/* 315 */
+/* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31666,7 +31732,7 @@
 
 
 /***/ },
-/* 316 */
+/* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31712,7 +31778,7 @@
 
 
 /***/ },
-/* 317 */
+/* 318 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31723,8 +31789,8 @@
 	};
 	var React = __webpack_require__(1);
 	var react_router_1 = __webpack_require__(209);
-	var game_platforms_1 = __webpack_require__(318);
-	var game_genres_1 = __webpack_require__(319);
+	var game_platforms_1 = __webpack_require__(319);
+	var game_genres_1 = __webpack_require__(320);
 	var GamesItem = (function (_super) {
 	    __extends(GamesItem, _super);
 	    function GamesItem() {
@@ -31751,7 +31817,7 @@
 
 
 /***/ },
-/* 318 */
+/* 319 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31773,7 +31839,7 @@
 
 
 /***/ },
-/* 319 */
+/* 320 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31815,7 +31881,7 @@
 
 
 /***/ },
-/* 320 */
+/* 321 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31826,7 +31892,7 @@
 	};
 	var React = __webpack_require__(1);
 	var react_router_1 = __webpack_require__(209);
-	var helpers_1 = __webpack_require__(321);
+	var helpers_1 = __webpack_require__(322);
 	var GourmetsItem = (function (_super) {
 	    __extends(GourmetsItem, _super);
 	    function GourmetsItem() {
@@ -31855,7 +31921,7 @@
 
 
 /***/ },
-/* 321 */
+/* 322 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31885,13 +31951,13 @@
 
 
 /***/ },
-/* 322 */
+/* 323 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var games_action_1 = __webpack_require__(313);
-	var game_page_component_1 = __webpack_require__(323);
+	var games_action_1 = __webpack_require__(314);
+	var game_page_component_1 = __webpack_require__(324);
 	var mapStateToProps = function (state) {
 	    return {
 	        game: state.game
@@ -31912,7 +31978,7 @@
 
 
 /***/ },
-/* 323 */
+/* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31922,10 +31988,10 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var game_1 = __webpack_require__(324);
-	var page_header_component_1 = __webpack_require__(315);
-	var alert_component_1 = __webpack_require__(311);
-	var form_component_1 = __webpack_require__(325);
+	var game_1 = __webpack_require__(325);
+	var page_header_component_1 = __webpack_require__(316);
+	var alert_component_1 = __webpack_require__(312);
+	var form_component_1 = __webpack_require__(326);
 	var GamePage = (function (_super) {
 	    __extends(GamePage, _super);
 	    function GamePage() {
@@ -31970,12 +32036,12 @@
 
 
 /***/ },
-/* 324 */
+/* 325 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var game_genres_1 = __webpack_require__(319);
-	var game_platforms_1 = __webpack_require__(318);
+	var game_genres_1 = __webpack_require__(320);
+	var game_platforms_1 = __webpack_require__(319);
 	var GAME_FIELDS = [
 	    {
 	        name: 'image',
@@ -32034,7 +32100,7 @@
 
 
 /***/ },
-/* 325 */
+/* 326 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32044,7 +32110,7 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var field_component_1 = __webpack_require__(326);
+	var field_component_1 = __webpack_require__(327);
 	var Form = (function (_super) {
 	    __extends(Form, _super);
 	    function Form() {
@@ -32074,7 +32140,7 @@
 
 
 /***/ },
-/* 326 */
+/* 327 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32084,8 +32150,8 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var helpers_1 = __webpack_require__(321);
-	var image_container_1 = __webpack_require__(327);
+	var helpers_1 = __webpack_require__(322);
+	var image_container_1 = __webpack_require__(328);
 	var Field = (function (_super) {
 	    __extends(Field, _super);
 	    function Field() {
@@ -32133,13 +32199,13 @@
 
 
 /***/ },
-/* 327 */
+/* 328 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var image_action_1 = __webpack_require__(328);
-	var image_upload_component_1 = __webpack_require__(329);
+	var image_action_1 = __webpack_require__(329);
+	var image_upload_component_1 = __webpack_require__(330);
 	var mapStateToProps = function (state, ownProps) {
 	    return {
 	        image: state.image,
@@ -32159,7 +32225,7 @@
 
 
 /***/ },
-/* 328 */
+/* 329 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32180,7 +32246,7 @@
 
 
 /***/ },
-/* 329 */
+/* 330 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32236,13 +32302,13 @@
 
 
 /***/ },
-/* 330 */
+/* 331 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var gourmets_action_1 = __webpack_require__(331);
-	var list_component_1 = __webpack_require__(314);
+	var gourmets_action_1 = __webpack_require__(332);
+	var list_component_1 = __webpack_require__(315);
 	var mapStateToProps = function (state) {
 	    return {
 	        list: state.gourmets,
@@ -32264,11 +32330,12 @@
 
 
 /***/ },
-/* 331 */
+/* 332 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var axios_1 = __webpack_require__(263);
+	var store_1 = __webpack_require__(293);
 	function fetchGourmets(page) {
 	    var url = '/gourmets?limit=30';
 	    if (page) {
@@ -32280,6 +32347,51 @@
 	    };
 	}
 	exports.fetchGourmets = fetchGourmets;
+	function fetchGourmet(id) {
+	    var state = store_1.default.getState();
+	    var gourmets = state['gourmets'];
+	    var gourmet = state['gourmet'];
+	    if (gourmet.fetched && gourmet.item._id == id) {
+	        return {
+	            type: 'FETCH_GOURMET_FULFILLED',
+	            payload: gourmet.item
+	        };
+	    }
+	    if (gourmets.fetched && gourmets.items.length) {
+	        var item = gourmets.items.find(function (v) { return v._id == id; });
+	        if (item) {
+	            return {
+	                type: 'FETCH_GOURMET_FULFILLED',
+	                payload: item
+	            };
+	        }
+	    }
+	    return {
+	        type: 'FETCH_GOURMET',
+	        payload: axios_1.default.get('/gourmets/' + id)
+	    };
+	}
+	exports.fetchGourmet = fetchGourmet;
+	function initGourmetCreate() {
+	    return {
+	        type: 'INIT_GOURMET_CREATE'
+	    };
+	}
+	exports.initGourmetCreate = initGourmetCreate;
+	function createGourmet(gourmet) {
+	    return {
+	        type: 'POST_GOURMET',
+	        payload: axios_1.default.post('/gourmets/', gourmet)
+	    };
+	}
+	exports.createGourmet = createGourmet;
+	function updateGourmet(gourmet) {
+	    return {
+	        type: 'POST_GOURMET',
+	        payload: axios_1.default.post('/gourmets/' + gourmet._id, gourmet)
+	    };
+	}
+	exports.updateGourmet = updateGourmet;
 	function deleteGourmet(id) {
 	    return {
 	        type: 'DELETE_GOURMET',
@@ -32287,6 +32399,129 @@
 	    };
 	}
 	exports.deleteGourmet = deleteGourmet;
+	function changField(field, value) {
+	    return {
+	        type: 'CHANGE_FIELD',
+	        payload: { field: field, value: value }
+	    };
+	}
+	exports.changField = changField;
+
+
+/***/ },
+/* 333 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var react_redux_1 = __webpack_require__(179);
+	var gourmets_action_1 = __webpack_require__(332);
+	var gourmet_page_component_1 = __webpack_require__(334);
+	var mapStateToProps = function (state) {
+	    return {
+	        gourmet: state.gourmet
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        getGourmet: function (url) { return dispatch(gourmets_action_1.fetchGourmet(url)); },
+	        createGourmet: function (gourmet) { return dispatch(gourmets_action_1.createGourmet(gourmet)); },
+	        updateGourmet: function (gourmet) { return dispatch(gourmets_action_1.updateGourmet(gourmet)); },
+	        changeField: function (field, value) { return dispatch(gourmets_action_1.changField(field, value)); },
+	        initGourmetCreate: function () { return dispatch(gourmets_action_1.initGourmetCreate()); }
+	    };
+	};
+	var Gourmet = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(gourmet_page_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Gourmet;
+
+
+/***/ },
+/* 334 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var gourmet_1 = __webpack_require__(335);
+	var page_header_component_1 = __webpack_require__(316);
+	var alert_component_1 = __webpack_require__(312);
+	var form_component_1 = __webpack_require__(326);
+	var GourmetPage = (function (_super) {
+	    __extends(GourmetPage, _super);
+	    function GourmetPage() {
+	        _super.apply(this, arguments);
+	    }
+	    GourmetPage.prototype.componentDidMount = function (nextProps, nextState) {
+	        var _a = this.props, initGourmetCreate = _a.initGourmetCreate, params = _a.params, getGourmet = _a.getGourmet;
+	        if (params['id'] == 'add') {
+	            initGourmetCreate();
+	        }
+	        else {
+	            getGourmet(params['id']);
+	        }
+	    };
+	    GourmetPage.prototype.handlePost = function () {
+	        var _a = this.props, createGourmet = _a.createGourmet, updateGourmet = _a.updateGourmet, gourmet = _a.gourmet, params = _a.params;
+	        if (params['id'] == 'add') {
+	            createGourmet(gourmet.item);
+	        }
+	        else {
+	            createGourmet(gourmet.item);
+	        }
+	        window.scrollTo(0, 0);
+	    };
+	    GourmetPage.prototype.render = function () {
+	        var _a = this.props, gourmet = _a.gourmet, params = _a.params, changeField = _a.changeField;
+	        if (gourmet.fetched) {
+	            document.title = gourmet.item.food + ' - Gourmet | Admin';
+	        }
+	        else {
+	            document.title = 'Add - Gourmet | Admin';
+	        }
+	        return (React.createElement("div", {className: "container-fluid"}, 
+	            React.createElement(page_header_component_1.default, {title: params['id'] == 'add' ? 'Add Gourmet' : gourmet.item.food}), 
+	            React.createElement(alert_component_1.default, {fetch: gourmet}), 
+	            React.createElement(form_component_1.default, {fields: gourmet_1.GourmetFields, data: gourmet.item, change: function (f, v) { return changeField(f, v); }, submit: this.handlePost.bind(this)})));
+	    };
+	    return GourmetPage;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = GourmetPage;
+
+
+/***/ },
+/* 335 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var GOURMET_FIELDS = [
+	    {
+	        name: 'image',
+	        type: 'image',
+	        placeholder: 'https://placeholdit.imgix.net/~text?txtsize=30&txt=300%C3%97300&w=150&h=150',
+	    },
+	    {
+	        name: 'food',
+	        type: 'input',
+	    },
+	    {
+	        name: 'restaurant',
+	        type: 'input',
+	    },
+	    {
+	        name: 'date',
+	        type: 'date',
+	    },
+	    {
+	        name: 'url',
+	        type: 'input',
+	    }
+	];
+	exports.GourmetFields = GOURMET_FIELDS;
 
 
 /***/ }
