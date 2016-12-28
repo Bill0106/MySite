@@ -4,7 +4,7 @@ import store from '../store';
 export function fetchGames(page: number = null) {
     let url = '/games?limit=30';
     if (page) {
-        url = url + '&page=' + page;
+        url = `${url}&page=${page}`;
     }
 
     return {

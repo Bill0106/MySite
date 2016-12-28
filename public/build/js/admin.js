@@ -29705,8 +29705,9 @@
 	"use strict";
 	var app_component_1 = __webpack_require__(290);
 	var dashboard_container_1 = __webpack_require__(291);
-	var games_container_1 = __webpack_require__(311);
-	var game_container_1 = __webpack_require__(319);
+	var games_container_1 = __webpack_require__(312);
+	var game_container_1 = __webpack_require__(322);
+	var gourmets_container_1 = __webpack_require__(330);
 	var ROUTING_CONFIG = [
 	    {
 	        path: '/admin',
@@ -29715,6 +29716,7 @@
 	        childRoutes: [
 	            { path: 'games', component: games_container_1.default },
 	            { path: 'games/:url', component: game_container_1.default },
+	            { path: 'gourmets', component: gourmets_container_1.default }
 	        ]
 	    }
 	];
@@ -29791,7 +29793,7 @@
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
 	var counts_action_1 = __webpack_require__(292);
-	var dashboard_list_component_1 = __webpack_require__(308);
+	var dashboard_list_component_1 = __webpack_require__(309);
 	var mapStateToProps = function (state) {
 	    return {
 	        counts: state.counts
@@ -30937,11 +30939,12 @@
 	"use strict";
 	var redux_1 = __webpack_require__(186);
 	var counts_reducer_1 = __webpack_require__(304);
-	var games_reducer_1 = __webpack_require__(305);
-	var game_reducer_1 = __webpack_require__(306);
-	var image_reducer_1 = __webpack_require__(307);
+	var image_reducer_1 = __webpack_require__(305);
+	var games_reducer_1 = __webpack_require__(306);
+	var game_reducer_1 = __webpack_require__(307);
+	var gourmets_reducer_1 = __webpack_require__(308);
 	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = redux_1.combineReducers({ counts: counts_reducer_1.default, games: games_reducer_1.default, game: game_reducer_1.default, image: image_reducer_1.default });
+	exports.default = redux_1.combineReducers({ counts: counts_reducer_1.default, image: image_reducer_1.default, games: games_reducer_1.default, game: game_reducer_1.default, gourmets: gourmets_reducer_1.default });
 
 
 /***/ },
@@ -31012,6 +31015,49 @@
 	var initialState = {
 	    isFetching: false,
 	    fetched: false,
+	    image: null,
+	    error: null,
+	};
+	function reducer(state, action) {
+	    if (state === void 0) { state = initialState; }
+	    var type = action.type, payload = action.payload;
+	    switch (type) {
+	        case 'INIT_IMAGE':
+	            return Object.assign({}, state, initialState);
+	        case 'UPLOAD_IMAGE_PENDING':
+	            return Object.assign({}, state, { isFetching: true, error: null });
+	        case 'UPLOAD_IMAGE_FULFILLED':
+	            var _a = payload.data, url = _a.url, color = _a.color;
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                fetched: true,
+	                image: { url: url, color: color }
+	            });
+	        case 'UPLOAD_IMAGE_REJECTED':
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                fetched: false,
+	                error: {
+	                    statue: payload.response.status,
+	                    data: payload.response.data
+	                }
+	            });
+	        default:
+	            return state;
+	    }
+	}
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = reducer;
+
+
+/***/ },
+/* 306 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var initialState = {
+	    isFetching: false,
+	    fetched: false,
 	    items: [],
 	    total: 0,
 	    fetchedPages: [],
@@ -31067,15 +31113,15 @@
 	        case "DELETE_GAME_PENDING":
 	            return Object.assign({}, state, { isFetching: true, error: null });
 	        case "DELETE_GAME_FULFILLED":
-	            var id_1 = payload.data.data.id;
-	            var list = state.items['list'];
-	            var item = list.find(function (v) { return v._id == id_1; });
+	            var list = state.items;
+	            var item = list.find(function (v) { return v._id == payload.data; });
 	            var index = list.indexOf(item);
-	            state.items['list'].splice(index, 1);
-	            state.items['total']--;
+	            list.splice(index, 1);
+	            state.total--;
 	            return Object.assign({}, state, {
 	                isFetching: false,
 	                fetched: true,
+	                items: list,
 	            });
 	        case "DELETE_GAME_REJECTED":
 	            return Object.assign({}, state, {
@@ -31095,7 +31141,7 @@
 
 
 /***/ },
-/* 306 */
+/* 307 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31160,37 +31206,80 @@
 
 
 /***/ },
-/* 307 */
+/* 308 */
 /***/ function(module, exports) {
 
 	"use strict";
 	var initialState = {
 	    isFetching: false,
 	    fetched: false,
-	    image: null,
+	    items: [],
+	    total: 0,
+	    fetchedPages: [],
 	    error: null,
 	};
 	function reducer(state, action) {
 	    if (state === void 0) { state = initialState; }
 	    var type = action.type, payload = action.payload;
 	    switch (type) {
-	        case 'INIT_IMAGE':
-	            return Object.assign({}, state, initialState);
-	        case 'UPLOAD_IMAGE_PENDING':
+	        case "FETCH_GOURMETS_PENDING":
 	            return Object.assign({}, state, { isFetching: true, error: null });
-	        case 'UPLOAD_IMAGE_FULFILLED':
-	            var _a = payload.data, url = _a.url, color = _a.color;
+	        case "FETCH_GOURMETS_FULFILLED":
+	            var items = state.items.concat(payload.data.list);
+	            items.sort(function (a, b) {
+	                if (a.date > b.date)
+	                    return -1;
+	                if (a.date < b.date)
+	                    return 1;
+	                return 0;
+	            });
+	            var url = payload.request.responseURL;
+	            var match = url.match(/page=(\d)/i);
+	            var page = match ? parseInt(match[1]) : 1;
+	            var pages = state.fetchedPages;
+	            pages.push(page);
+	            pages.sort(function (a, b) {
+	                if (a > b)
+	                    return 1;
+	                if (a < b)
+	                    return -1;
+	                return 0;
+	            });
 	            return Object.assign({}, state, {
 	                isFetching: false,
 	                fetched: true,
-	                image: { url: url, color: color }
+	                items: items,
+	                total: state.total ? state.total : payload.data.total,
+	                fetchedPages: pages,
 	            });
-	        case 'UPLOAD_IMAGE_REJECTED':
+	        case "FETCH_GOURMETS_REJECTED":
 	            return Object.assign({}, state, {
 	                isFetching: false,
 	                fetched: false,
 	                error: {
-	                    statue: payload.response.status,
+	                    status: payload.response.status,
+	                    data: payload.response.data
+	                }
+	            });
+	        case "DELETE_GOURMET_PENDING":
+	            return Object.assign({}, state, { isFetching: true, error: null });
+	        case "DELETE_GOURMET_FULFILLED":
+	            var list = state.items;
+	            var item = list.find(function (v) { return v._id == payload.data; });
+	            var index = list.indexOf(item);
+	            list.splice(index, 1);
+	            state.total--;
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                fetched: true,
+	                items: list,
+	            });
+	        case "DELETE_GOURMET_REJECTED":
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                fetched: false,
+	                error: {
+	                    status: payload.response.status,
 	                    data: payload.response.data
 	                }
 	            });
@@ -31203,7 +31292,7 @@
 
 
 /***/ },
-/* 308 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31213,8 +31302,8 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var dashboard_item_component_1 = __webpack_require__(309);
-	var alert_component_1 = __webpack_require__(310);
+	var dashboard_item_component_1 = __webpack_require__(310);
+	var alert_component_1 = __webpack_require__(311);
 	var DashboardList = (function (_super) {
 	    __extends(DashboardList, _super);
 	    function DashboardList() {
@@ -31261,7 +31350,7 @@
 
 
 /***/ },
-/* 309 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31291,7 +31380,7 @@
 
 
 /***/ },
-/* 310 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31334,13 +31423,13 @@
 
 
 /***/ },
-/* 311 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var games_action_1 = __webpack_require__(312);
-	var list_component_1 = __webpack_require__(313);
+	var games_action_1 = __webpack_require__(313);
+	var list_component_1 = __webpack_require__(314);
 	var mapStateToProps = function (state) {
 	    return {
 	        list: state.games,
@@ -31362,7 +31451,7 @@
 
 
 /***/ },
-/* 312 */
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31372,7 +31461,7 @@
 	    if (page === void 0) { page = null; }
 	    var url = '/games?limit=30';
 	    if (page) {
-	        url = url + '&page=' + page;
+	        url = url + "&page=" + page;
 	    }
 	    return {
 	        type: 'FETCH_GAMES',
@@ -31442,7 +31531,7 @@
 
 
 /***/ },
-/* 313 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31452,10 +31541,11 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var alert_component_1 = __webpack_require__(310);
-	var page_header_component_1 = __webpack_require__(314);
-	var paginator_component_1 = __webpack_require__(315);
-	var games_item_component_1 = __webpack_require__(316);
+	var alert_component_1 = __webpack_require__(311);
+	var page_header_component_1 = __webpack_require__(315);
+	var paginator_component_1 = __webpack_require__(316);
+	var games_item_component_1 = __webpack_require__(317);
+	var gourmets_item_component_1 = __webpack_require__(320);
 	var List = (function (_super) {
 	    __extends(List, _super);
 	    function List() {
@@ -31487,6 +31577,9 @@
 	            case 'Games':
 	                element = React.createElement(games_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item.url); }});
 	                break;
+	            case 'Gourmets':
+	                element = React.createElement(gourmets_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item._id); }});
+	                break;
 	            default:
 	                break;
 	        }
@@ -31494,7 +31587,7 @@
 	    };
 	    List.prototype.handleContent = function (list, type, page) {
 	        var _this = this;
-	        if (list.isFetching || list.error) {
+	        if (!list.items.length) {
 	            return '';
 	        }
 	        var _page = page ? parseInt(page) : 1;
@@ -31532,7 +31625,7 @@
 
 
 /***/ },
-/* 314 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31573,7 +31666,7 @@
 
 
 /***/ },
-/* 315 */
+/* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31619,7 +31712,7 @@
 
 
 /***/ },
-/* 316 */
+/* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31630,8 +31723,8 @@
 	};
 	var React = __webpack_require__(1);
 	var react_router_1 = __webpack_require__(209);
-	var game_platforms_1 = __webpack_require__(317);
-	var game_genres_1 = __webpack_require__(318);
+	var game_platforms_1 = __webpack_require__(318);
+	var game_genres_1 = __webpack_require__(319);
 	var GamesItem = (function (_super) {
 	    __extends(GamesItem, _super);
 	    function GamesItem() {
@@ -31658,7 +31751,7 @@
 
 
 /***/ },
-/* 317 */
+/* 318 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31680,7 +31773,7 @@
 
 
 /***/ },
-/* 318 */
+/* 319 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31722,13 +31815,83 @@
 
 
 /***/ },
-/* 319 */
+/* 320 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var react_router_1 = __webpack_require__(209);
+	var helpers_1 = __webpack_require__(321);
+	var GourmetsItem = (function (_super) {
+	    __extends(GourmetsItem, _super);
+	    function GourmetsItem() {
+	        _super.apply(this, arguments);
+	    }
+	    GourmetsItem.prototype.render = function () {
+	        var data = this.props.data;
+	        return (React.createElement("tr", null, 
+	            React.createElement("td", null, data._id), 
+	            React.createElement("td", null, 
+	                React.createElement(react_router_1.Link, {to: '/admin/gourmets/' + data._id}, data.food)
+	            ), 
+	            React.createElement("td", null, data.restaurant), 
+	            React.createElement("td", null, helpers_1.time2Date(data.date)), 
+	            React.createElement("td", null, 
+	                React.createElement("a", {href: data.url, target: "_blank"}, data.url)
+	            ), 
+	            React.createElement("td", null, 
+	                React.createElement("button", {className: "btn btn-danger", type: "button", onClick: this.props.delete}, "×")
+	            )));
+	    };
+	    return GourmetsItem;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = GourmetsItem;
+
+
+/***/ },
+/* 321 */
+/***/ function(module, exports) {
+
+	"use strict";
+	function time2Date(timestamp, displayTime) {
+	    if (displayTime === void 0) { displayTime = false; }
+	    if (!timestamp) {
+	        return '';
+	    }
+	    var time = new Date(timestamp);
+	    var year = time.getFullYear();
+	    var month = (time.getMonth() + 1);
+	    var day = time.getDate();
+	    var hour = time.getHours();
+	    var minute = time.getMinutes();
+	    var second = time.getSeconds();
+	    var arr = [month, day, hour, minute, second];
+	    var newArr = arr.map(function (t) { return ('0' + t).slice(-2); });
+	    var dateArray = [year.toString()].concat(newArr.slice(0, 2));
+	    var timeArray = newArr.slice(2);
+	    var ts = dateArray.join('-');
+	    if (displayTime) {
+	        ts = ts + ' ' + timeArray.join(':');
+	    }
+	    return ts;
+	}
+	exports.time2Date = time2Date;
+
+
+/***/ },
+/* 322 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var games_action_1 = __webpack_require__(312);
-	var game_page_component_1 = __webpack_require__(320);
+	var games_action_1 = __webpack_require__(313);
+	var game_page_component_1 = __webpack_require__(323);
 	var mapStateToProps = function (state) {
 	    return {
 	        game: state.game
@@ -31749,7 +31912,7 @@
 
 
 /***/ },
-/* 320 */
+/* 323 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31759,10 +31922,10 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var game_1 = __webpack_require__(321);
-	var page_header_component_1 = __webpack_require__(314);
-	var alert_component_1 = __webpack_require__(310);
-	var form_component_1 = __webpack_require__(322);
+	var game_1 = __webpack_require__(324);
+	var page_header_component_1 = __webpack_require__(315);
+	var alert_component_1 = __webpack_require__(311);
+	var form_component_1 = __webpack_require__(325);
 	var GamePage = (function (_super) {
 	    __extends(GamePage, _super);
 	    function GamePage() {
@@ -31807,12 +31970,12 @@
 
 
 /***/ },
-/* 321 */
+/* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var game_genres_1 = __webpack_require__(318);
-	var game_platforms_1 = __webpack_require__(317);
+	var game_genres_1 = __webpack_require__(319);
+	var game_platforms_1 = __webpack_require__(318);
 	var GAME_FIELDS = [
 	    {
 	        name: 'image',
@@ -31871,7 +32034,7 @@
 
 
 /***/ },
-/* 322 */
+/* 325 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31881,7 +32044,7 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var field_component_1 = __webpack_require__(323);
+	var field_component_1 = __webpack_require__(326);
 	var Form = (function (_super) {
 	    __extends(Form, _super);
 	    function Form() {
@@ -31911,7 +32074,7 @@
 
 
 /***/ },
-/* 323 */
+/* 326 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31921,8 +32084,8 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var helpers_1 = __webpack_require__(324);
-	var image_container_1 = __webpack_require__(325);
+	var helpers_1 = __webpack_require__(321);
+	var image_container_1 = __webpack_require__(327);
 	var Field = (function (_super) {
 	    __extends(Field, _super);
 	    function Field() {
@@ -31970,43 +32133,13 @@
 
 
 /***/ },
-/* 324 */
-/***/ function(module, exports) {
-
-	"use strict";
-	function time2Date(timestamp, displayTime) {
-	    if (displayTime === void 0) { displayTime = false; }
-	    if (!timestamp) {
-	        return '';
-	    }
-	    var time = new Date(timestamp);
-	    var year = time.getFullYear();
-	    var month = (time.getMonth() + 1);
-	    var day = time.getDate();
-	    var hour = time.getHours();
-	    var minute = time.getMinutes();
-	    var second = time.getSeconds();
-	    var arr = [month, day, hour, minute, second];
-	    var newArr = arr.map(function (t) { return ('0' + t).slice(-2); });
-	    var dateArray = [year.toString()].concat(newArr.slice(0, 2));
-	    var timeArray = newArr.slice(2);
-	    var ts = dateArray.join('-');
-	    if (displayTime) {
-	        ts = ts + ' ' + timeArray.join(':');
-	    }
-	    return ts;
-	}
-	exports.time2Date = time2Date;
-
-
-/***/ },
-/* 325 */
+/* 327 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var image_action_1 = __webpack_require__(326);
-	var image_upload_component_1 = __webpack_require__(327);
+	var image_action_1 = __webpack_require__(328);
+	var image_upload_component_1 = __webpack_require__(329);
 	var mapStateToProps = function (state, ownProps) {
 	    return {
 	        image: state.image,
@@ -32026,7 +32159,7 @@
 
 
 /***/ },
-/* 326 */
+/* 328 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32047,7 +32180,7 @@
 
 
 /***/ },
-/* 327 */
+/* 329 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32100,6 +32233,60 @@
 	}(React.Component));
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = ImageUpload;
+
+
+/***/ },
+/* 330 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var react_redux_1 = __webpack_require__(179);
+	var gourmets_action_1 = __webpack_require__(331);
+	var list_component_1 = __webpack_require__(314);
+	var mapStateToProps = function (state) {
+	    return {
+	        list: state.gourmets,
+	        type: 'Gourmets'
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        getList: function (page) {
+	            if (page === void 0) { page = null; }
+	            return dispatch(gourmets_action_1.fetchGourmets(page));
+	        },
+	        postDelete: function (url) { return dispatch(gourmets_action_1.deleteGourmet(url)); }
+	    };
+	};
+	var Gourmets = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(list_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Gourmets;
+
+
+/***/ },
+/* 331 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var axios_1 = __webpack_require__(263);
+	function fetchGourmets(page) {
+	    var url = '/gourmets?limit=30';
+	    if (page) {
+	        url = url + "&page=" + page;
+	    }
+	    return {
+	        type: 'FETCH_GOURMETS',
+	        payload: axios_1.default.get(url)
+	    };
+	}
+	exports.fetchGourmets = fetchGourmets;
+	function deleteGourmet(id) {
+	    return {
+	        type: 'DELETE_GOURMET',
+	        payload: axios_1.default.post('/gourmets/' + id + '/delete')
+	    };
+	}
+	exports.deleteGourmet = deleteGourmet;
 
 
 /***/ }

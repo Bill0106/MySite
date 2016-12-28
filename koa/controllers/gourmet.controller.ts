@@ -83,11 +83,10 @@ const update = async (ctx) => {
 
 const remove = async (ctx) => {
     try {
-        await Gourmet.repositry.findByIdAndRemove(ctx.params.id);
+        let gourmet = await Gourmet.repositry.findById(ctx.params.id);
+        await gourmet.remove();
 
-        ctx.body = {
-            success: true,
-        }
+        ctx.body = gourmet._id;
     } catch (error) {
         ctx.body = error.message;
         ctx.status = error.status || 500;

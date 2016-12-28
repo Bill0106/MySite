@@ -1,8 +1,9 @@
 import { combineReducers } from 'redux';
 
 import counts from './counts.reducer';
+import image from './image.reducer';
 import games from './games.reducer';
 import game from './game.reducer';
-import image from './image.reducer';
+import gourmets from './gourmets.reducer';
 
-export default combineReducers({ counts, games, game, image })
+export default combineReducers({ counts, image, games, game, gourmets  })

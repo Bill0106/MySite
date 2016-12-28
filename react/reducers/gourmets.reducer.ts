@@ -10,15 +10,13 @@ const initialState = {
 export default function reducer(state = initialState, action) {
     const { type, payload } = action;
     switch (type) {
-        case "FETCH_GAMES_PENDING":
+        case "FETCH_GOURMETS_PENDING":
             return Object.assign({}, state, { isFetching: true, error: null });
-        case "FETCH_GAMES_FULFILLED":
+        case "FETCH_GOURMETS_FULFILLED":
             let items = state.items.concat(payload.data.list);
             items.sort((a, b) => {
-                if (a.buy_at > b.buy_at) return -1;
-                if (a.buy_at < b.buy_at) return 1;
-                if (a.release_at > b.release_at) return -1;
-                if (a.release_at < b.release_at) return 1;
+                if (a.date > b.date) return -1;
+                if (a.date < b.date) return 1;
                 return 0;
             });
 
@@ -40,7 +38,7 @@ export default function reducer(state = initialState, action) {
                 total: state.total ? state.total : payload.data.total,
                 fetchedPages: pages,
             });
-        case "FETCH_GAMES_REJECTED":
+        case "FETCH_GOURMETS_REJECTED":
             return Object.assign({}, state, {
                 isFetching: false,
                 fetched: false,
@@ -49,9 +47,9 @@ export default function reducer(state = initialState, action) {
                     data: payload.response.data
                 } 
             });
-        case "DELETE_GAME_PENDING":
+        case "DELETE_GOURMET_PENDING":
             return Object.assign({}, state, { isFetching: true, error: null });
-        case "DELETE_GAME_FULFILLED":
+        case "DELETE_GOURMET_FULFILLED":
             let list = state.items;
             let item = list.find(v => v._id == payload.data);
             let index = list.indexOf(item);
@@ -64,7 +62,7 @@ export default function reducer(state = initialState, action) {
                 fetched: true,
                 items: list,
             });
-        case "DELETE_GAME_REJECTED":
+        case "DELETE_GOURMET_REJECTED":
             return Object.assign({}, state, {
                 isFetching: false,
                 fetched: false,

@@ -5,6 +5,7 @@ import Alert from './alert.component';
 import PageHeader from './page-header.component';
 import Paginator from './paginator.component';
 import GamesItem from './games-item.component';
+import GourmetsItem from './gourmets-item.component';
 
 interface ListProps extends RouteComponentProps<void, void> {
     type: string;
@@ -45,6 +46,9 @@ class List extends React.Component<ListProps, void> {
             case 'Games':
                 element = <GamesItem key={key} data={item} delete={() => postDelete(item.url)} />
                 break;
+            case 'Gourmets':
+                element = <GourmetsItem key={key} data={item} delete={() => postDelete(item._id)} />
+                break;
             default:
                 break;
         }
@@ -53,7 +57,7 @@ class List extends React.Component<ListProps, void> {
     }
 
     handleContent(list, type, page): any {
-        if (list.isFetching || list.error) {
+        if (!list.items.length) {
             return '';
         }
 
