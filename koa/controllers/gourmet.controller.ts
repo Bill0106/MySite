@@ -47,12 +47,7 @@ const create = async (ctx) => {
         let gourmet = new Gourmet.repositry(data);
         await gourmet.save();
 
-        ctx.body = {
-            success: true,
-            data: {
-                id: gourmet._id
-            }
-        }
+        ctx.body = gourmet._id
     } catch (error) {
         ctx.body = error.message;
         ctx.status = error.status || 500;
@@ -67,14 +62,10 @@ const update = async (ctx) => {
         data.restaurant = new Buffer(data.restaurant).toString('base64');
         data.date = moment(data.date, 'YYYY-MM-DD').valueOf();
 
-        await Gourmet.repositry.findByIdAndUpdate(ctx.params.id, data);
+        let gourmet = await Gourmet.repositry.findById(ctx.params.id);
+        await gourmet.update(data);
 
-        ctx.body = {
-            success: true,
-            data: {
-                id: ctx.params.id
-            }
-        }
+        ctx.body = gourmet._id;
     } catch (error) {
         ctx.body = error.message;
         ctx.status = error.status || 500;
