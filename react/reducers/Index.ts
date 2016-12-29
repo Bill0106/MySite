@@ -7,5 +7,6 @@ import game from './game.reducer';
 import gourmets from './gourmets.reducer';
 import gourmet from './gourmet.reducer';
 import hearthstoneSeasons from './hearthstone-seasons.reducer';
+import hearthstoneSeason from './hearthstone-season.reducer';
 
-export default combineReducers({ counts, image, games, game, gourmets, gourmet, hearthstoneSeasons });
+export default combineReducers({ counts, image, games, game, gourmets, gourmet, hearthstoneSeasons, hearthstoneSeason });

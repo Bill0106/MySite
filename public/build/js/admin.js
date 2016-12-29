@@ -29705,11 +29705,12 @@
 	"use strict";
 	var app_component_1 = __webpack_require__(290);
 	var dashboard_container_1 = __webpack_require__(291);
-	var games_container_1 = __webpack_require__(314);
-	var game_container_1 = __webpack_require__(325);
-	var gourmets_container_1 = __webpack_require__(333);
-	var gourmet_container_1 = __webpack_require__(335);
-	var hearthstone_seasons_container_1 = __webpack_require__(338);
+	var games_container_1 = __webpack_require__(315);
+	var game_container_1 = __webpack_require__(326);
+	var gourmets_container_1 = __webpack_require__(334);
+	var gourmet_container_1 = __webpack_require__(336);
+	var hearthstone_seasons_container_1 = __webpack_require__(339);
+	var hearthstone_season_container_1 = __webpack_require__(341);
 	var ROUTING_CONFIG = [
 	    {
 	        path: '/admin',
@@ -29721,6 +29722,7 @@
 	            { path: 'gourmets', component: gourmets_container_1.default },
 	            { path: 'gourmets/:id', component: gourmet_container_1.default },
 	            { path: 'hearthstone-seasons', component: hearthstone_seasons_container_1.default },
+	            { path: 'hearthstone-seasons/:url', component: hearthstone_season_container_1.default },
 	        ]
 	    }
 	];
@@ -29797,7 +29799,7 @@
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
 	var counts_action_1 = __webpack_require__(292);
-	var dashboard_list_component_1 = __webpack_require__(311);
+	var dashboard_list_component_1 = __webpack_require__(312);
 	var mapStateToProps = function (state) {
 	    return {
 	        counts: state.counts
@@ -30949,8 +30951,9 @@
 	var gourmets_reducer_1 = __webpack_require__(308);
 	var gourmet_reducer_1 = __webpack_require__(309);
 	var hearthstone_seasons_reducer_1 = __webpack_require__(310);
+	var hearthstone_season_reducer_1 = __webpack_require__(311);
 	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = redux_1.combineReducers({ counts: counts_reducer_1.default, image: image_reducer_1.default, games: games_reducer_1.default, game: game_reducer_1.default, gourmets: gourmets_reducer_1.default, gourmet: gourmet_reducer_1.default, hearthstoneSeasons: hearthstone_seasons_reducer_1.default });
+	exports.default = redux_1.combineReducers({ counts: counts_reducer_1.default, image: image_reducer_1.default, games: games_reducer_1.default, game: game_reducer_1.default, gourmets: gourmets_reducer_1.default, gourmet: gourmet_reducer_1.default, hearthstoneSeasons: hearthstone_seasons_reducer_1.default, hearthstoneSeason: hearthstone_season_reducer_1.default });
 
 
 /***/ },
@@ -31448,6 +31451,66 @@
 
 /***/ },
 /* 311 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var initialState = {
+	    isFetching: false,
+	    fetched: false,
+	    posted: false,
+	    item: {},
+	    error: null,
+	};
+	function reducer(state, action) {
+	    if (state === void 0) { state = initialState; }
+	    var payload = action.payload, type = action.type;
+	    switch (type) {
+	        case "INIT_HEARTHSTONE_SEASON_CREATE":
+	            return Object.assign({}, state, initialState);
+	        case "FETCH_HEARTHSTONE_SEASON_PENDING":
+	            return Object.assign({}, state, initialState, { isFetching: true });
+	        case "FETCH_HEARTHSTONE_SEASON_FULFILLED":
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                fetched: true,
+	                item: payload.data
+	            });
+	        case "FETCH_HEARTHSTONE_SEASON_REJECTED":
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                fetched: false,
+	                error: {
+	                    statue: payload.response.status,
+	                    data: payload.response.data
+	                }
+	            });
+	        case "POST_HEARTHSTONE_SEASON_PENDING":
+	            return Object.assign({}, state, { isFetching: true });
+	        case "POST_HEARTHSTONE_SEASON_FULFILLED":
+	            return Object.assign({}, state, { isFetching: false, posted: true });
+	        case "POST_HEARTHSTONE_SEASON_REJECTED":
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                error: {
+	                    statue: payload.response.status,
+	                    data: payload.response.data
+	                }
+	            });
+	        case "CHANGE_FIELD":
+	            var field = payload.field, value = payload.value;
+	            var item = state.item;
+	            item[field] = value;
+	            return Object.assign({}, state, { item: item });
+	        default:
+	            return state;
+	    }
+	}
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = reducer;
+
+
+/***/ },
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31457,8 +31520,8 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var dashboard_item_component_1 = __webpack_require__(312);
-	var alert_component_1 = __webpack_require__(313);
+	var dashboard_item_component_1 = __webpack_require__(313);
+	var alert_component_1 = __webpack_require__(314);
 	var DashboardList = (function (_super) {
 	    __extends(DashboardList, _super);
 	    function DashboardList() {
@@ -31505,7 +31568,7 @@
 
 
 /***/ },
-/* 312 */
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31535,7 +31598,7 @@
 
 
 /***/ },
-/* 313 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31578,13 +31641,13 @@
 
 
 /***/ },
-/* 314 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var games_action_1 = __webpack_require__(315);
-	var list_component_1 = __webpack_require__(316);
+	var games_action_1 = __webpack_require__(316);
+	var list_component_1 = __webpack_require__(317);
 	var mapStateToProps = function (state) {
 	    return {
 	        list: state.games,
@@ -31606,7 +31669,7 @@
 
 
 /***/ },
-/* 315 */
+/* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31686,7 +31749,7 @@
 
 
 /***/ },
-/* 316 */
+/* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31696,12 +31759,12 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var alert_component_1 = __webpack_require__(313);
-	var page_header_component_1 = __webpack_require__(317);
-	var paginator_component_1 = __webpack_require__(318);
-	var games_item_component_1 = __webpack_require__(319);
-	var gourmets_item_component_1 = __webpack_require__(322);
-	var hearthstone_seasons_item_component_1 = __webpack_require__(324);
+	var alert_component_1 = __webpack_require__(314);
+	var page_header_component_1 = __webpack_require__(318);
+	var paginator_component_1 = __webpack_require__(319);
+	var games_item_component_1 = __webpack_require__(320);
+	var gourmets_item_component_1 = __webpack_require__(323);
+	var hearthstone_seasons_item_component_1 = __webpack_require__(325);
 	var List = (function (_super) {
 	    __extends(List, _super);
 	    function List() {
@@ -31784,7 +31847,7 @@
 
 
 /***/ },
-/* 317 */
+/* 318 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31825,7 +31888,7 @@
 
 
 /***/ },
-/* 318 */
+/* 319 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31871,7 +31934,7 @@
 
 
 /***/ },
-/* 319 */
+/* 320 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31882,8 +31945,8 @@
 	};
 	var React = __webpack_require__(1);
 	var react_router_1 = __webpack_require__(209);
-	var game_platforms_1 = __webpack_require__(320);
-	var game_genres_1 = __webpack_require__(321);
+	var game_platforms_1 = __webpack_require__(321);
+	var game_genres_1 = __webpack_require__(322);
 	var GamesItem = (function (_super) {
 	    __extends(GamesItem, _super);
 	    function GamesItem() {
@@ -31910,7 +31973,7 @@
 
 
 /***/ },
-/* 320 */
+/* 321 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31932,7 +31995,7 @@
 
 
 /***/ },
-/* 321 */
+/* 322 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31974,7 +32037,7 @@
 
 
 /***/ },
-/* 322 */
+/* 323 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31985,7 +32048,7 @@
 	};
 	var React = __webpack_require__(1);
 	var react_router_1 = __webpack_require__(209);
-	var helpers_1 = __webpack_require__(323);
+	var helpers_1 = __webpack_require__(324);
 	var GourmetsItem = (function (_super) {
 	    __extends(GourmetsItem, _super);
 	    function GourmetsItem() {
@@ -32014,7 +32077,7 @@
 
 
 /***/ },
-/* 323 */
+/* 324 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -32044,7 +32107,7 @@
 
 
 /***/ },
-/* 324 */
+/* 325 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32081,13 +32144,13 @@
 
 
 /***/ },
-/* 325 */
+/* 326 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var games_action_1 = __webpack_require__(315);
-	var game_page_component_1 = __webpack_require__(326);
+	var games_action_1 = __webpack_require__(316);
+	var game_page_component_1 = __webpack_require__(327);
 	var mapStateToProps = function (state) {
 	    return {
 	        game: state.game
@@ -32108,7 +32171,7 @@
 
 
 /***/ },
-/* 326 */
+/* 327 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32118,10 +32181,10 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var game_1 = __webpack_require__(327);
-	var page_header_component_1 = __webpack_require__(317);
-	var alert_component_1 = __webpack_require__(313);
-	var form_component_1 = __webpack_require__(328);
+	var game_1 = __webpack_require__(328);
+	var page_header_component_1 = __webpack_require__(318);
+	var alert_component_1 = __webpack_require__(314);
+	var form_component_1 = __webpack_require__(329);
 	var GamePage = (function (_super) {
 	    __extends(GamePage, _super);
 	    function GamePage() {
@@ -32166,12 +32229,12 @@
 
 
 /***/ },
-/* 327 */
+/* 328 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var game_genres_1 = __webpack_require__(321);
-	var game_platforms_1 = __webpack_require__(320);
+	var game_genres_1 = __webpack_require__(322);
+	var game_platforms_1 = __webpack_require__(321);
 	var GAME_FIELDS = [
 	    {
 	        name: 'image',
@@ -32230,7 +32293,7 @@
 
 
 /***/ },
-/* 328 */
+/* 329 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32240,7 +32303,7 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var field_component_1 = __webpack_require__(329);
+	var field_component_1 = __webpack_require__(330);
 	var Form = (function (_super) {
 	    __extends(Form, _super);
 	    function Form() {
@@ -32270,7 +32333,7 @@
 
 
 /***/ },
-/* 329 */
+/* 330 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32280,8 +32343,8 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var helpers_1 = __webpack_require__(323);
-	var image_container_1 = __webpack_require__(330);
+	var helpers_1 = __webpack_require__(324);
+	var image_container_1 = __webpack_require__(331);
 	var Field = (function (_super) {
 	    __extends(Field, _super);
 	    function Field() {
@@ -32329,13 +32392,13 @@
 
 
 /***/ },
-/* 330 */
+/* 331 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var image_action_1 = __webpack_require__(331);
-	var image_upload_component_1 = __webpack_require__(332);
+	var image_action_1 = __webpack_require__(332);
+	var image_upload_component_1 = __webpack_require__(333);
 	var mapStateToProps = function (state, ownProps) {
 	    return {
 	        image: state.image,
@@ -32355,7 +32418,7 @@
 
 
 /***/ },
-/* 331 */
+/* 332 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32376,7 +32439,7 @@
 
 
 /***/ },
-/* 332 */
+/* 333 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32432,13 +32495,13 @@
 
 
 /***/ },
-/* 333 */
+/* 334 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var gourmets_action_1 = __webpack_require__(334);
-	var list_component_1 = __webpack_require__(316);
+	var gourmets_action_1 = __webpack_require__(335);
+	var list_component_1 = __webpack_require__(317);
 	var mapStateToProps = function (state) {
 	    return {
 	        list: state.gourmets,
@@ -32460,7 +32523,7 @@
 
 
 /***/ },
-/* 334 */
+/* 335 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32539,13 +32602,13 @@
 
 
 /***/ },
-/* 335 */
+/* 336 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var gourmets_action_1 = __webpack_require__(334);
-	var gourmet_page_component_1 = __webpack_require__(336);
+	var gourmets_action_1 = __webpack_require__(335);
+	var gourmet_page_component_1 = __webpack_require__(337);
 	var mapStateToProps = function (state) {
 	    return {
 	        gourmet: state.gourmet
@@ -32566,7 +32629,7 @@
 
 
 /***/ },
-/* 336 */
+/* 337 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32576,10 +32639,10 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var gourmet_1 = __webpack_require__(337);
-	var page_header_component_1 = __webpack_require__(317);
-	var alert_component_1 = __webpack_require__(313);
-	var form_component_1 = __webpack_require__(328);
+	var gourmet_1 = __webpack_require__(338);
+	var page_header_component_1 = __webpack_require__(318);
+	var alert_component_1 = __webpack_require__(314);
+	var form_component_1 = __webpack_require__(329);
 	var GourmetPage = (function (_super) {
 	    __extends(GourmetPage, _super);
 	    function GourmetPage() {
@@ -32624,7 +32687,7 @@
 
 
 /***/ },
-/* 337 */
+/* 338 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -32655,13 +32718,13 @@
 
 
 /***/ },
-/* 338 */
+/* 339 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var hearthstone_seasons_action_1 = __webpack_require__(339);
-	var list_component_1 = __webpack_require__(316);
+	var hearthstone_seasons_action_1 = __webpack_require__(340);
+	var list_component_1 = __webpack_require__(317);
 	var mapStateToProps = function (state) {
 	    return {
 	        list: state.hearthstoneSeasons,
@@ -32683,7 +32746,7 @@
 
 
 /***/ },
-/* 339 */
+/* 340 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32700,6 +32763,33 @@
 	    };
 	}
 	exports.fetchSeasons = fetchSeasons;
+	function fetchSeason(url) {
+	    return {
+	        type: 'FETCH_HEARTHSTONE_SEASON',
+	        payload: axios_1.default.get('/hearthstone-seasons/' + url)
+	    };
+	}
+	exports.fetchSeason = fetchSeason;
+	function initSeasonCreate() {
+	    return {
+	        type: 'INIT_HEARTHSTONE_CREATE'
+	    };
+	}
+	exports.initSeasonCreate = initSeasonCreate;
+	function createSeason(season) {
+	    return {
+	        type: 'POST_HEARTHSTONE_SEASON',
+	        payload: axios_1.default.post('/hearthstone-seasons/', season)
+	    };
+	}
+	exports.createSeason = createSeason;
+	function updateSeason(season) {
+	    return {
+	        type: 'POST_HEARTHSTONE_SEASON',
+	        payload: axios_1.default.post('/hearthstone-seasons/' + season.url, season)
+	    };
+	}
+	exports.updateSeason = updateSeason;
 	function deleteSeason(url) {
 	    return {
 	        type: 'DELETE_HEARTHSTONE_SEASON',
@@ -32707,6 +32797,244 @@
 	    };
 	}
 	exports.deleteSeason = deleteSeason;
+	function changField(field, value) {
+	    return {
+	        type: 'CHANGE_FIELD',
+	        payload: { field: field, value: value }
+	    };
+	}
+	exports.changField = changField;
+
+
+/***/ },
+/* 341 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var react_redux_1 = __webpack_require__(179);
+	var hearthstone_seasons_action_1 = __webpack_require__(340);
+	var hearthstone_season_page_component_1 = __webpack_require__(342);
+	var mapStateToProps = function (state) {
+	    return {
+	        season: state.hearthstoneSeason
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        getSeason: function (url) { return dispatch(hearthstone_seasons_action_1.fetchSeason(url)); },
+	        initSeasonCreate: function () { return dispatch(hearthstone_seasons_action_1.initSeasonCreate()); },
+	        createSeason: function (season) { return dispatch(hearthstone_seasons_action_1.createSeason(season)); },
+	        updateSeason: function (season) { return dispatch(hearthstone_seasons_action_1.updateSeason(season)); },
+	        changeField: function (field, value) { return dispatch(hearthstone_seasons_action_1.changField(field, value)); }
+	    };
+	};
+	var HearthstoneSeason = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(hearthstone_season_page_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneSeason;
+
+
+/***/ },
+/* 342 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var hearthstone_season_1 = __webpack_require__(343);
+	var page_header_component_1 = __webpack_require__(318);
+	var alert_component_1 = __webpack_require__(314);
+	var form_component_1 = __webpack_require__(329);
+	var HearthstoneSeasonPage = (function (_super) {
+	    __extends(HearthstoneSeasonPage, _super);
+	    function HearthstoneSeasonPage() {
+	        _super.apply(this, arguments);
+	    }
+	    HearthstoneSeasonPage.prototype.componentDidMount = function () {
+	        var _a = this.props, params = _a.params, getSeason = _a.getSeason;
+	        getSeason(params['url']);
+	    };
+	    HearthstoneSeasonPage.prototype.handlePost = function () {
+	        var _a = this.props, createSeason = _a.createSeason, updateSeason = _a.updateSeason, season = _a.season, params = _a.params;
+	        if (params['url'] == 'add') {
+	            createSeason(season.item);
+	        }
+	        else {
+	            updateSeason(season.item);
+	        }
+	        window.scrollTo(0, 0);
+	    };
+	    HearthstoneSeasonPage.prototype.render = function () {
+	        var _a = this.props, season = _a.season, params = _a.params, changeField = _a.changeField;
+	        if (season.fetched) {
+	            document.title = season.item.title + ' - Hearthstone Season | Admin';
+	        }
+	        else {
+	            document.title = 'Add - Games | Admin';
+	        }
+	        return (React.createElement("div", {className: "container-fluid"}, 
+	            React.createElement(page_header_component_1.default, {title: params['url'] == 'add' ? 'Add Hearthstone Season' : season.item.title}), 
+	            React.createElement(alert_component_1.default, {fetch: season}), 
+	            React.createElement(form_component_1.default, {fields: hearthstone_season_1.HearthstoneSeasonFields, data: season.item, change: function (f, v) { return changeField(f, v); }, submit: this.handlePost.bind(this)})));
+	    };
+	    return HearthstoneSeasonPage;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneSeasonPage;
+
+
+/***/ },
+/* 343 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var hearthstone_season_ranked_1 = __webpack_require__(344);
+	var HEARTHSTONE_SEASON_FIELDS = [
+	    {
+	        name: 'image',
+	        type: 'image',
+	        placeholder: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=760%C3%97270&w=442&h=150',
+	    },
+	    {
+	        name: 'title',
+	        type: 'input',
+	    },
+	    {
+	        name: 'month',
+	        type: 'date',
+	    },
+	    {
+	        name: 'rank',
+	        type: 'select',
+	        enum: hearthstone_season_ranked_1.HearthstoneSeasonRanked
+	    },
+	    {
+	        name: 'url',
+	        type: 'input',
+	    },
+	    {
+	        name: 'description',
+	        type: 'text',
+	    }
+	];
+	exports.HearthstoneSeasonFields = HEARTHSTONE_SEASON_FIELDS;
+
+
+/***/ },
+/* 344 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var HEARTHSTONE_SEASON_RANKED = [
+	    {
+	        value: 0,
+	        name: 'Legend'
+	    },
+	    {
+	        value: 1,
+	        name: 'Innkeeper'
+	    },
+	    {
+	        value: 2,
+	        name: 'The Black Knight'
+	    },
+	    {
+	        value: 3,
+	        name: 'Molten Giant'
+	    },
+	    {
+	        value: 4,
+	        name: '	Mountain Giant'
+	    },
+	    {
+	        value: 5,
+	        name: 'Sea Giant'
+	    },
+	    {
+	        value: 6,
+	        name: 'Ancient of War'
+	    },
+	    {
+	        value: 7,
+	        name: 'Sunwalker'
+	    },
+	    {
+	        value: 8,
+	        name: 'Frostwolf Warlord'
+	    },
+	    {
+	        value: 9,
+	        name: 'Silver Hand Knight'
+	    },
+	    {
+	        value: 10,
+	        name: 'Ogre Magi'
+	    },
+	    {
+	        value: 11,
+	        name: 'Big Game Hunter'
+	    },
+	    {
+	        value: 12,
+	        name: 'Warsong Commander'
+	    },
+	    {
+	        value: 13,
+	        name: '	Dread Corsair'
+	    },
+	    {
+	        value: 14,
+	        name: '	Raid Leader'
+	    },
+	    {
+	        value: 15,
+	        name: 'Silvermoon Guardian'
+	    },
+	    {
+	        value: 16,
+	        name: '	Questing Adventurer'
+	    },
+	    {
+	        value: 17,
+	        name: 'Tauren Warrior'
+	    },
+	    {
+	        value: 18,
+	        name: 'Sorcerer\'s Apprentice'
+	    },
+	    {
+	        value: 19,
+	        name: 'Novice Engineer'
+	    },
+	    {
+	        value: 20,
+	        name: '	Shieldbearer'
+	    },
+	    {
+	        value: 21,
+	        name: '	Southsea Deckhand'
+	    },
+	    {
+	        value: 22,
+	        name: 'Murloc Raider'
+	    },
+	    {
+	        value: 23,
+	        name: 'Argent Squire'
+	    },
+	    {
+	        value: 24,
+	        name: 'Leper Gnome'
+	    },
+	    {
+	        value: 25,
+	        name: '	Angry Chicken'
+	    },
+	];
+	exports.HearthstoneSeasonRanked = HEARTHSTONE_SEASON_RANKED;
 
 
 /***/ }

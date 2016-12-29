@@ -43,15 +43,11 @@ const create = async (ctx) => {
         let data = ctx.request.body;
         data.month = moment(data.month, 'YYYY-MM-DD').startOf('month').startOf('day').format('YYYYMM');
         data.url = data.url || data.title.toLowerCase().replace(/ /g, '-').replace(/:/g, '');
-        
+
         let season = new HearthstoneSeason.repositry(data);
         await season.save();
-        ctx.body = {
-            success: true,
-            data: {
-                id: season._id
-            }
-        }
+
+        ctx.body = season._id
     } catch (error) {
         ctx.body = error.message;
         ctx.status = error.status || 500;
@@ -61,16 +57,16 @@ const create = async (ctx) => {
 const update = async (ctx) => {
     try {
         let data = ctx.request.body;
-        data.month = moment(data.month, 'YYYY-MM-DD').startOf('month').startOf('day').format('YYYYMM');
+
+        if (!Number.isInteger(data.month)) {
+            data.month = moment(data.month, 'YYYY-MM-DD').startOf('month').startOf('day').format('YYYYMM');
+        }
         data.url = data.url || data.title.toLowerCase().replace(/ /g, '-').replace(/:/g, '');
 
-        await HearthstoneSeason.repositry.findByIdAndUpdate(data.id, data);
-        ctx.body = {
-            success: true,
-            data: {
-                id: data.id
-            }
-        }
+        let season = await HearthstoneSeason.repositry.findOne({ url: ctx.params.url });
+        await season.update(data);
+
+        ctx.body = season._id
     } catch (error) {
         ctx.body = error.message;
         ctx.status = error.status || 500;
@@ -83,9 +79,7 @@ const remove = async (ctx) => {
 
         await season.remove();
 
-        ctx.body = {
-            success: true,
-        }
+        ctx.body = season._id;
     } catch (error) {
         ctx.body = error.message;
         ctx.status = error.status || 500;
