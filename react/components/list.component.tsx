@@ -7,6 +7,7 @@ import Paginator from './paginator.component';
 import GamesItem from './games-item.component';
 import GourmetsItem from './gourmets-item.component';
 import HearthstoneSeasonsItem from './hearthstone-seasons-item.component';
+import HearthstoneDecksItem from './hearthstone-decks-item.component';
 
 interface ListProps extends RouteComponentProps<void, void> {
     type: string;
@@ -51,7 +52,10 @@ class List extends React.Component<ListProps, void> {
                 element = <GourmetsItem key={key} data={item} delete={() => postDelete(item._id)} />
                 break;
             case 'Hearthsonte-Seasons':
-                element = <HearthstoneSeasonsItem key={key} data={item} delete={() => postDelete(item._id)} />
+                element = <HearthstoneSeasonsItem key={key} data={item} delete={() => postDelete(item.url)} />
+                break;
+            case 'Hearthsonte-Decks':
+                element = <HearthstoneDecksItem key={key} data={item} delete={() => postDelete(item._id)} />
                 break;
             default:
                 break;

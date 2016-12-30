@@ -29705,12 +29705,13 @@
 	"use strict";
 	var app_component_1 = __webpack_require__(290);
 	var dashboard_container_1 = __webpack_require__(291);
-	var games_container_1 = __webpack_require__(315);
-	var game_container_1 = __webpack_require__(326);
-	var gourmets_container_1 = __webpack_require__(334);
-	var gourmet_container_1 = __webpack_require__(336);
-	var hearthstone_seasons_container_1 = __webpack_require__(339);
-	var hearthstone_season_container_1 = __webpack_require__(341);
+	var games_container_1 = __webpack_require__(316);
+	var game_container_1 = __webpack_require__(329);
+	var gourmets_container_1 = __webpack_require__(337);
+	var gourmet_container_1 = __webpack_require__(339);
+	var hearthstone_seasons_container_1 = __webpack_require__(342);
+	var hearthstone_season_container_1 = __webpack_require__(344);
+	var hearthstone_decks_container_1 = __webpack_require__(348);
 	var ROUTING_CONFIG = [
 	    {
 	        path: '/admin',
@@ -29723,6 +29724,7 @@
 	            { path: 'gourmets/:id', component: gourmet_container_1.default },
 	            { path: 'hearthstone-seasons', component: hearthstone_seasons_container_1.default },
 	            { path: 'hearthstone-seasons/:url', component: hearthstone_season_container_1.default },
+	            { path: 'hearthstone-decks', component: hearthstone_decks_container_1.default },
 	        ]
 	    }
 	];
@@ -29799,7 +29801,7 @@
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
 	var counts_action_1 = __webpack_require__(292);
-	var dashboard_list_component_1 = __webpack_require__(312);
+	var dashboard_list_component_1 = __webpack_require__(313);
 	var mapStateToProps = function (state) {
 	    return {
 	        counts: state.counts
@@ -30952,8 +30954,11 @@
 	var gourmet_reducer_1 = __webpack_require__(309);
 	var hearthstone_seasons_reducer_1 = __webpack_require__(310);
 	var hearthstone_season_reducer_1 = __webpack_require__(311);
+	var hearthstone_decks_reducer_1 = __webpack_require__(312);
 	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = redux_1.combineReducers({ counts: counts_reducer_1.default, image: image_reducer_1.default, games: games_reducer_1.default, game: game_reducer_1.default, gourmets: gourmets_reducer_1.default, gourmet: gourmet_reducer_1.default, hearthstoneSeasons: hearthstone_seasons_reducer_1.default, hearthstoneSeason: hearthstone_season_reducer_1.default });
+	exports.default = redux_1.combineReducers({
+	    counts: counts_reducer_1.default, image: image_reducer_1.default, games: games_reducer_1.default, game: game_reducer_1.default, gourmets: gourmets_reducer_1.default, gourmet: gourmet_reducer_1.default, hearthstoneSeasons: hearthstone_seasons_reducer_1.default, hearthstoneSeason: hearthstone_season_reducer_1.default, hearthstoneDecks: hearthstone_decks_reducer_1.default
+	});
 
 
 /***/ },
@@ -31511,6 +31516,92 @@
 
 /***/ },
 /* 312 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var initialState = {
+	    isFetching: false,
+	    fetched: false,
+	    items: [],
+	    total: 0,
+	    fetchedPages: [],
+	    error: null,
+	};
+	function reducer(state, action) {
+	    if (state === void 0) { state = initialState; }
+	    var type = action.type, payload = action.payload;
+	    switch (type) {
+	        case "FETCH_HEARTHSTONE_DECKS_PENDING":
+	            return Object.assign({}, state, { isFetching: true, error: null });
+	        case "FETCH_HEARTHSTONE_DECKS_FULFILLED":
+	            var items = state.items.concat(payload.data.list);
+	            items.sort(function (a, b) {
+	                if (a.active > b.active)
+	                    return -1;
+	                if (a.active < b.active)
+	                    return 1;
+	                return 0;
+	            });
+	            var url = payload.request.responseURL;
+	            var match = url.match(/page=(\d)/i);
+	            var page = match ? parseInt(match[1]) : 1;
+	            var pages = state.fetchedPages;
+	            pages.push(page);
+	            pages.sort(function (a, b) {
+	                if (a > b)
+	                    return 1;
+	                if (a < b)
+	                    return -1;
+	                return 0;
+	            });
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                fetched: true,
+	                items: items,
+	                total: state.total ? state.total : payload.data.total,
+	                fetchedPages: pages,
+	            });
+	        case "FETCH_HEARTHSTONE_DECKS_REJECTED":
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                fetched: false,
+	                error: {
+	                    status: payload.response.status,
+	                    data: payload.response.data
+	                }
+	            });
+	        case "DELETE_HEARTHSTONE_DECK_PENDING":
+	            return Object.assign({}, state, { isFetching: true, error: null });
+	        case "DELETE_HEARTHSTONE_DECK_FULFILLED":
+	            var list = state.items;
+	            var item = list.find(function (v) { return v._id == payload.data; });
+	            var index = list.indexOf(item);
+	            list.splice(index, 1);
+	            state.total--;
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                fetched: true,
+	                items: list,
+	            });
+	        case "DELETE_HEARTHSTONE_DECK_REJECTED":
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                fetched: false,
+	                error: {
+	                    status: payload.response.status,
+	                    data: payload.response.data
+	                }
+	            });
+	        default:
+	            return state;
+	    }
+	}
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = reducer;
+
+
+/***/ },
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31520,8 +31611,8 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var dashboard_item_component_1 = __webpack_require__(313);
-	var alert_component_1 = __webpack_require__(314);
+	var dashboard_item_component_1 = __webpack_require__(314);
+	var alert_component_1 = __webpack_require__(315);
 	var DashboardList = (function (_super) {
 	    __extends(DashboardList, _super);
 	    function DashboardList() {
@@ -31568,7 +31659,7 @@
 
 
 /***/ },
-/* 313 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31598,7 +31689,7 @@
 
 
 /***/ },
-/* 314 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31641,13 +31732,13 @@
 
 
 /***/ },
-/* 315 */
+/* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var games_action_1 = __webpack_require__(316);
-	var list_component_1 = __webpack_require__(317);
+	var games_action_1 = __webpack_require__(317);
+	var list_component_1 = __webpack_require__(318);
 	var mapStateToProps = function (state) {
 	    return {
 	        list: state.games,
@@ -31669,7 +31760,7 @@
 
 
 /***/ },
-/* 316 */
+/* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31749,7 +31840,7 @@
 
 
 /***/ },
-/* 317 */
+/* 318 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31759,12 +31850,13 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var alert_component_1 = __webpack_require__(314);
-	var page_header_component_1 = __webpack_require__(318);
-	var paginator_component_1 = __webpack_require__(319);
-	var games_item_component_1 = __webpack_require__(320);
-	var gourmets_item_component_1 = __webpack_require__(323);
-	var hearthstone_seasons_item_component_1 = __webpack_require__(325);
+	var alert_component_1 = __webpack_require__(315);
+	var page_header_component_1 = __webpack_require__(319);
+	var paginator_component_1 = __webpack_require__(320);
+	var games_item_component_1 = __webpack_require__(321);
+	var gourmets_item_component_1 = __webpack_require__(324);
+	var hearthstone_seasons_item_component_1 = __webpack_require__(326);
+	var hearthstone_decks_item_component_1 = __webpack_require__(327);
 	var List = (function (_super) {
 	    __extends(List, _super);
 	    function List() {
@@ -31800,7 +31892,10 @@
 	                element = React.createElement(gourmets_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item._id); }});
 	                break;
 	            case 'Hearthsonte-Seasons':
-	                element = React.createElement(hearthstone_seasons_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item._id); }});
+	                element = React.createElement(hearthstone_seasons_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item.url); }});
+	                break;
+	            case 'Hearthsonte-Decks':
+	                element = React.createElement(hearthstone_decks_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item._id); }});
 	                break;
 	            default:
 	                break;
@@ -31847,7 +31942,7 @@
 
 
 /***/ },
-/* 318 */
+/* 319 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31888,7 +31983,7 @@
 
 
 /***/ },
-/* 319 */
+/* 320 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31934,7 +32029,7 @@
 
 
 /***/ },
-/* 320 */
+/* 321 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31945,8 +32040,8 @@
 	};
 	var React = __webpack_require__(1);
 	var react_router_1 = __webpack_require__(209);
-	var game_platforms_1 = __webpack_require__(321);
-	var game_genres_1 = __webpack_require__(322);
+	var game_platforms_1 = __webpack_require__(322);
+	var game_genres_1 = __webpack_require__(323);
 	var GamesItem = (function (_super) {
 	    __extends(GamesItem, _super);
 	    function GamesItem() {
@@ -31973,7 +32068,7 @@
 
 
 /***/ },
-/* 321 */
+/* 322 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31995,7 +32090,7 @@
 
 
 /***/ },
-/* 322 */
+/* 323 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -32037,7 +32132,7 @@
 
 
 /***/ },
-/* 323 */
+/* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32048,7 +32143,7 @@
 	};
 	var React = __webpack_require__(1);
 	var react_router_1 = __webpack_require__(209);
-	var helpers_1 = __webpack_require__(324);
+	var helpers_1 = __webpack_require__(325);
 	var GourmetsItem = (function (_super) {
 	    __extends(GourmetsItem, _super);
 	    function GourmetsItem() {
@@ -32077,7 +32172,7 @@
 
 
 /***/ },
-/* 324 */
+/* 325 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -32107,7 +32202,7 @@
 
 
 /***/ },
-/* 325 */
+/* 326 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32144,13 +32239,96 @@
 
 
 /***/ },
-/* 326 */
+/* 327 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var react_router_1 = __webpack_require__(209);
+	var hearthstone_player_classes_1 = __webpack_require__(328);
+	var HearthstoneDecksItem = (function (_super) {
+	    __extends(HearthstoneDecksItem, _super);
+	    function HearthstoneDecksItem() {
+	        _super.apply(this, arguments);
+	    }
+	    HearthstoneDecksItem.prototype.render = function () {
+	        var data = this.props.data;
+	        return (React.createElement("tr", null, 
+	            React.createElement("td", null, data._id), 
+	            React.createElement("td", null, 
+	                React.createElement(react_router_1.Link, {to: '/admin/hearthstone-decks/' + data._id}, data.name)
+	            ), 
+	            React.createElement("td", null, hearthstone_player_classes_1.HearthstonePlayerClasses.find(function (player) { return player.value == data.playerClass; }).name), 
+	            React.createElement("td", null, data.active ? 'Active' : 'Inactive'), 
+	            React.createElement("td", null, 
+	                React.createElement("button", {className: "btn btn-danger", type: "button", onClick: this.props.delete}, "×")
+	            )));
+	    };
+	    return HearthstoneDecksItem;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneDecksItem;
+
+
+/***/ },
+/* 328 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var HEARTHSTONE_PLAYER_CLASSES = [
+	    {
+	        value: 0,
+	        name: "Druid"
+	    },
+	    {
+	        value: 1,
+	        name: "Hunter"
+	    },
+	    {
+	        value: 2,
+	        name: "Mage"
+	    },
+	    {
+	        value: 3,
+	        name: "Paladin"
+	    },
+	    {
+	        value: 4,
+	        name: "Priest"
+	    },
+	    {
+	        value: 5,
+	        name: "Rogue"
+	    },
+	    {
+	        value: 6,
+	        name: "Shaman"
+	    },
+	    {
+	        value: 7,
+	        name: "Warlock"
+	    },
+	    {
+	        value: 8,
+	        name: "Warrior"
+	    }
+	];
+	exports.HearthstonePlayerClasses = HEARTHSTONE_PLAYER_CLASSES;
+
+
+/***/ },
+/* 329 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var games_action_1 = __webpack_require__(316);
-	var game_page_component_1 = __webpack_require__(327);
+	var games_action_1 = __webpack_require__(317);
+	var game_page_component_1 = __webpack_require__(330);
 	var mapStateToProps = function (state) {
 	    return {
 	        game: state.game
@@ -32171,7 +32349,7 @@
 
 
 /***/ },
-/* 327 */
+/* 330 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32181,10 +32359,10 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var game_1 = __webpack_require__(328);
-	var page_header_component_1 = __webpack_require__(318);
-	var alert_component_1 = __webpack_require__(314);
-	var form_component_1 = __webpack_require__(329);
+	var game_1 = __webpack_require__(331);
+	var page_header_component_1 = __webpack_require__(319);
+	var alert_component_1 = __webpack_require__(315);
+	var form_component_1 = __webpack_require__(332);
 	var GamePage = (function (_super) {
 	    __extends(GamePage, _super);
 	    function GamePage() {
@@ -32229,12 +32407,12 @@
 
 
 /***/ },
-/* 328 */
+/* 331 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var game_genres_1 = __webpack_require__(322);
-	var game_platforms_1 = __webpack_require__(321);
+	var game_genres_1 = __webpack_require__(323);
+	var game_platforms_1 = __webpack_require__(322);
 	var GAME_FIELDS = [
 	    {
 	        name: 'image',
@@ -32293,7 +32471,7 @@
 
 
 /***/ },
-/* 329 */
+/* 332 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32303,7 +32481,7 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var field_component_1 = __webpack_require__(330);
+	var field_component_1 = __webpack_require__(333);
 	var Form = (function (_super) {
 	    __extends(Form, _super);
 	    function Form() {
@@ -32333,7 +32511,7 @@
 
 
 /***/ },
-/* 330 */
+/* 333 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32343,8 +32521,8 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var helpers_1 = __webpack_require__(324);
-	var image_container_1 = __webpack_require__(331);
+	var helpers_1 = __webpack_require__(325);
+	var image_container_1 = __webpack_require__(334);
 	var Field = (function (_super) {
 	    __extends(Field, _super);
 	    function Field() {
@@ -32392,13 +32570,13 @@
 
 
 /***/ },
-/* 331 */
+/* 334 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var image_action_1 = __webpack_require__(332);
-	var image_upload_component_1 = __webpack_require__(333);
+	var image_action_1 = __webpack_require__(335);
+	var image_upload_component_1 = __webpack_require__(336);
 	var mapStateToProps = function (state, ownProps) {
 	    return {
 	        image: state.image,
@@ -32418,7 +32596,7 @@
 
 
 /***/ },
-/* 332 */
+/* 335 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32439,7 +32617,7 @@
 
 
 /***/ },
-/* 333 */
+/* 336 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32495,13 +32673,13 @@
 
 
 /***/ },
-/* 334 */
+/* 337 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var gourmets_action_1 = __webpack_require__(335);
-	var list_component_1 = __webpack_require__(317);
+	var gourmets_action_1 = __webpack_require__(338);
+	var list_component_1 = __webpack_require__(318);
 	var mapStateToProps = function (state) {
 	    return {
 	        list: state.gourmets,
@@ -32523,7 +32701,7 @@
 
 
 /***/ },
-/* 335 */
+/* 338 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32602,13 +32780,13 @@
 
 
 /***/ },
-/* 336 */
+/* 339 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var gourmets_action_1 = __webpack_require__(335);
-	var gourmet_page_component_1 = __webpack_require__(337);
+	var gourmets_action_1 = __webpack_require__(338);
+	var gourmet_page_component_1 = __webpack_require__(340);
 	var mapStateToProps = function (state) {
 	    return {
 	        gourmet: state.gourmet
@@ -32629,7 +32807,7 @@
 
 
 /***/ },
-/* 337 */
+/* 340 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32639,10 +32817,10 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var gourmet_1 = __webpack_require__(338);
-	var page_header_component_1 = __webpack_require__(318);
-	var alert_component_1 = __webpack_require__(314);
-	var form_component_1 = __webpack_require__(329);
+	var gourmet_1 = __webpack_require__(341);
+	var page_header_component_1 = __webpack_require__(319);
+	var alert_component_1 = __webpack_require__(315);
+	var form_component_1 = __webpack_require__(332);
 	var GourmetPage = (function (_super) {
 	    __extends(GourmetPage, _super);
 	    function GourmetPage() {
@@ -32687,7 +32865,7 @@
 
 
 /***/ },
-/* 338 */
+/* 341 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -32718,13 +32896,13 @@
 
 
 /***/ },
-/* 339 */
+/* 342 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var hearthstone_seasons_action_1 = __webpack_require__(340);
-	var list_component_1 = __webpack_require__(317);
+	var hearthstone_seasons_action_1 = __webpack_require__(343);
+	var list_component_1 = __webpack_require__(318);
 	var mapStateToProps = function (state) {
 	    return {
 	        list: state.hearthstoneSeasons,
@@ -32746,7 +32924,7 @@
 
 
 /***/ },
-/* 340 */
+/* 343 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32807,13 +32985,13 @@
 
 
 /***/ },
-/* 341 */
+/* 344 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var hearthstone_seasons_action_1 = __webpack_require__(340);
-	var hearthstone_season_page_component_1 = __webpack_require__(342);
+	var hearthstone_seasons_action_1 = __webpack_require__(343);
+	var hearthstone_season_page_component_1 = __webpack_require__(345);
 	var mapStateToProps = function (state) {
 	    return {
 	        season: state.hearthstoneSeason
@@ -32834,7 +33012,7 @@
 
 
 /***/ },
-/* 342 */
+/* 345 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -32844,10 +33022,10 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var hearthstone_season_1 = __webpack_require__(343);
-	var page_header_component_1 = __webpack_require__(318);
-	var alert_component_1 = __webpack_require__(314);
-	var form_component_1 = __webpack_require__(329);
+	var hearthstone_season_1 = __webpack_require__(346);
+	var page_header_component_1 = __webpack_require__(319);
+	var alert_component_1 = __webpack_require__(315);
+	var form_component_1 = __webpack_require__(332);
 	var HearthstoneSeasonPage = (function (_super) {
 	    __extends(HearthstoneSeasonPage, _super);
 	    function HearthstoneSeasonPage() {
@@ -32887,11 +33065,11 @@
 
 
 /***/ },
-/* 343 */
+/* 346 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var hearthstone_season_ranked_1 = __webpack_require__(344);
+	var hearthstone_season_ranked_1 = __webpack_require__(347);
 	var HEARTHSTONE_SEASON_FIELDS = [
 	    {
 	        name: 'image',
@@ -32924,7 +33102,7 @@
 
 
 /***/ },
-/* 344 */
+/* 347 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -33035,6 +33213,69 @@
 	    },
 	];
 	exports.HearthstoneSeasonRanked = HEARTHSTONE_SEASON_RANKED;
+
+
+/***/ },
+/* 348 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var react_redux_1 = __webpack_require__(179);
+	var hearthstone_decks_action_1 = __webpack_require__(349);
+	var list_component_1 = __webpack_require__(318);
+	var mapStateToProps = function (state) {
+	    return {
+	        list: state.hearthstoneDecks,
+	        type: 'Hearthsonte-Decks'
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        getList: function (page) {
+	            if (page === void 0) { page = null; }
+	            return dispatch(hearthstone_decks_action_1.fetchDecks(page));
+	        },
+	        postDelete: function (id) { return dispatch(hearthstone_decks_action_1.deleteDeck(id)); }
+	    };
+	};
+	var HearthstoneDecks = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(list_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneDecks;
+
+
+/***/ },
+/* 349 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var axios_1 = __webpack_require__(263);
+	function fetchDecks(page, options) {
+	    if (page === void 0) { page = null; }
+	    if (options === void 0) { options = {}; }
+	    var url = '/hearthstone-decks';
+	    if (options.hasOwnProperty('ids') && Array.isArray(options.ids)) {
+	        var ids = options.ids.join(',');
+	        url = url + "?ids=" + ids;
+	    }
+	    else if (options.hasOwnProperty('active')) {
+	        url = url + "?active=" + options.active;
+	    }
+	    else {
+	        url = page ? url + "?limit=30&page" + page : url + "?limit=30";
+	    }
+	    return {
+	        type: 'FETCH_HEARTHSTONE_DECKS',
+	        payload: axios_1.default.get(url)
+	    };
+	}
+	exports.fetchDecks = fetchDecks;
+	function deleteDeck(id) {
+	    return {
+	        type: 'DELETE_HEARTHSTONE_DECK',
+	        payload: axios_1.default.post('/hearthstone-decks/' + id + '/delete')
+	    };
+	}
+	exports.deleteDeck = deleteDeck;
 
 
 /***/ }

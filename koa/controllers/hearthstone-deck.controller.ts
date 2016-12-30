@@ -20,7 +20,7 @@ const list = async (ctx) => {
         }
 
         ctx.body = {
-            list: await query.sort({ active: 'desc' }),
+            list: await query.sort({ active: 'desc' }).sort({ playerClass: 'desc' }),
             total: await HearthstoneDeck.repositry.count({}),
         };
     } catch (error) {
@@ -43,18 +43,13 @@ const create = async (ctx) => {
         let data = ctx.request.body;
 
         if (!HearthstonePlayerClasses.find(item => item.value == data.playerClass)) {
-            throw "Invalide Class";
+            throw {message: "Invalide Class"};
         }
         
         let deck = new HearthstoneDeck.repositry(data);
         await deck.save();
 
-        ctx.body = {
-            success: true,
-            data: {
-                id: deck._id
-            }
-        }
+        ctx.body = deck._id
     } catch (error) {
         ctx.body = error.message;
         ctx.status = error.status || 500;
@@ -66,17 +61,13 @@ const update = async (ctx) => {
         let data = ctx.request.body;
 
         if (!HearthstonePlayerClasses.find(item => item.value == data.playerClass)) {
-            throw "Invalide Class";
+            throw {message: "Invalide Class"};
         }
 
-        await HearthstoneDeck.repositry.findByIdAndUpdate(ctx.params.id, data);
+        let deck = await HearthstoneDeck.repositry.findById(ctx.params.id);
+        deck.update(data);
 
-        ctx.body = {
-            success: true,
-            data: {
-                id: data.id
-            }
-        }
+        ctx.body = deck._id
     } catch (error) {
         ctx.body = error.message;
         ctx.status = error.status || 500;
@@ -85,11 +76,10 @@ const update = async (ctx) => {
 
 const remove = async (ctx) => {
     try {
-        await HearthstoneDeck.repositry.findByIdAndRemove(ctx.params.id);
+        let deck = await HearthstoneDeck.repositry.findById(ctx.params.id);
+        deck.remove();
 
-        ctx.body = {
-            success: true
-        }
+        ctx.body = deck._id;
     } catch (error) {
         ctx.body = error.message;
         ctx.status = error.status || 500;
@@ -100,19 +90,17 @@ const active = async (ctx) => {
     try {
         let deck = await HearthstoneDeck.repositry.findById(ctx.params.id);
         if (!deck) {
-            throw "Deck Not Found"
+            throw {message: "Deck Not Found"};
         }
 
         if (deck.active) {
-            throw "Deck Has Actived"
+            throw {message: "Deck Has Actived"};
         }
 
         deck.active = true;
         await deck.update(deck);
 
-        ctx.body = {
-            success: true
-        }
+        ctx.body = deck._id;
     } catch (error) {
         ctx.body = error.message;
         ctx.status = error.status || 500;
@@ -123,19 +111,17 @@ const inactive = async (ctx) => {
     try {
         let deck = await HearthstoneDeck.repositry.findById(ctx.params.id);
         if (!deck) {
-            throw "Deck Not Found"
+            throw {message: "Deck Not Found"};
         }
 
         if (!deck.active) {
-            throw "Deck Has Inactived"
+            throw {message: "Deck Has Inactived"};
         }
 
         deck.active = false;
         await deck.update(deck);
 
-        ctx.body = {
-            success: true
-        }
+        ctx.body = deck._id;
     } catch (error) {
         ctx.body = error.message;
         ctx.status = error.status || 500;
