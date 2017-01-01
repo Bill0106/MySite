@@ -12,10 +12,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     const type = actionTypeGenerator('counts', 'fetch');
-    const fetchCounts = createAction(type(), () => axios.get('/counts'));
+    const getCounts = createAction(type(), () => axios.get('/counts'));
 
     return {
-        getCounts: () => dispatch(fetchCounts())
+        getCounts: () => dispatch(getCounts())
     }
 }
 

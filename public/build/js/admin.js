@@ -29816,9 +29816,9 @@
 	};
 	var mapDispatchToProps = function (dispatch) {
 	    var type = helpers_1.actionTypeGenerator('counts', 'fetch');
-	    var fetchCounts = redux_actions_1.createAction(type(), function () { return axios_1.default.get('/counts'); });
+	    var getCounts = redux_actions_1.createAction(type(), function () { return axios_1.default.get('/counts'); });
 	    return {
-	        getCounts: function () { return dispatch(fetchCounts()); }
+	        getCounts: function () { return dispatch(getCounts()); }
 	    };
 	};
 	var Dashboard = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(dashboard_list_component_1.default);
