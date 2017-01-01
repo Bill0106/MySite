@@ -14,21 +14,15 @@ class DashboardList extends React.Component<DashboardListProps, void> {
     }
 
     componentDidMount() {
-        const { getCounts } = this.props;
-        getCounts();
+        const { getCounts, counts } = this.props;
+
+        if (!counts.fetched) {
+            getCounts();
+        }
     }
 
     render() {
         const { counts } = this.props;
-        let content = null;
-
-        if (counts.items){
-            let items = [];
-            counts.items.map((item, key) => {
-                items.push(<DashboardItem key={key} title={item.title} count={item.count} />)
-            })
-            content = <div className="list-group">{items}</div>;
-        }
 
         return (
             <div className="container-fluid">
@@ -45,7 +39,14 @@ class DashboardList extends React.Component<DashboardListProps, void> {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-sm-6 col-sm-offset-3">{content}</div>
+                    <div className="col-sm-6 col-sm-offset-3">
+                    {
+
+                        counts.items.map((item, key) => {
+                            return <DashboardItem key={key} title={item.title} count={item.count} />;
+                        })
+                    }
+                    </div>
                 </div>
             </div>
         );

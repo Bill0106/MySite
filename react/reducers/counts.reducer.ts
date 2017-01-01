@@ -1,50 +1,26 @@
-const initialItems = [
-    {
-        title: 'Games',
-        count: 0
-    },
-    {
-        title: 'Gourmets',
-        count: 0
-    },
-    {
-        title: 'Hearthstone-Seasons',
-        count: 0
-    },
-    {
-        title: 'Hearthstone-Decks',
-        count: 0
-    },
-    {
-        title: 'Hearthstone-Matches',
-        count: 0
-    },
-    {
-        title: 'Blogs',
-        count: 0
-    }
-]
+import { actionTypeGenerator } from '../helpers';
 
 const initialState = {
     isFetching: false,
     fetched: false,
-    items: initialItems,
+    items: [],
     error: null,
 }
 
 export default function reducer(state = initialState, action) {
+    const types = actionTypeGenerator('counts', 'fetch');
     const { type, payload } = action;
     
     switch (type) {
-        case "FETCH_COUNTS_PENDING":
-            return Object.assign({}, state, { isFetching: true });
-        case "FETCH_COUNTS_FULFILLED":
+        case types('pending'):
+            return Object.assign({}, state, { isFetching: true, error: null });
+        case types('success'):
             return Object.assign({}, state, {
                 isFetching: false,
                 fetched: true,
                 items: Array.isArray(payload) ? payload : payload.data
             });
-        case "FETCH_COUNTS_REJECTED":
+        case types('error'):
             const { data, status } = payload.response;
 
             return Object.assign({}, state, { isFetching: false, error: { data, status } });
