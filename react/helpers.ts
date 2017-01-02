@@ -47,7 +47,7 @@ const fetchedPages = function (pages: any, url: string) {
     return pages;
 }
 
-const time2Date = function(timestamp: number, displayTime = false) {
+const time2Date = function(timestamp: number, displayTime: boolean = false) {
     if (!timestamp) {
         return '';
     }

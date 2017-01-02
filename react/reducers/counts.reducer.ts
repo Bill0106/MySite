@@ -1,4 +1,4 @@
-import helpers from '../redux-helpers';
+import helpers from '../helpers';
 
 export default function reducer(state = helpers.initialState, action) {
     const { actionTypeStatus } = helpers;

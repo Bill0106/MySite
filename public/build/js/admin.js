@@ -52,7 +52,7 @@
 	var axios_1 = __webpack_require__(263);
 	var keys_1 = __webpack_require__(288);
 	var routing_1 = __webpack_require__(289);
-	var store_1 = __webpack_require__(453);
+	var store_1 = __webpack_require__(464);
 	axios_1.default.defaults.baseURL = '/api';
 	axios_1.default.defaults.headers.common['auth'] = keys_1.Keys.api.GET;
 	axios_1.default.defaults.headers.post['auth'] = keys_1.Keys.api.POST;
@@ -29711,12 +29711,12 @@
 	var app_component_1 = __webpack_require__(290);
 	var dashboard_container_1 = __webpack_require__(291);
 	var games_container_1 = __webpack_require__(451);
-	var game_container_1 = __webpack_require__(484);
-	var gourmets_container_1 = __webpack_require__(492);
-	var gourmet_container_1 = __webpack_require__(494);
-	var hearthstone_seasons_container_1 = __webpack_require__(497);
-	var hearthstone_season_container_1 = __webpack_require__(499);
-	var hearthstone_decks_container_1 = __webpack_require__(503);
+	var game_container_1 = __webpack_require__(462);
+	var gourmets_container_1 = __webpack_require__(491);
+	var gourmet_container_1 = __webpack_require__(493);
+	var hearthstone_seasons_container_1 = __webpack_require__(496);
+	var hearthstone_season_container_1 = __webpack_require__(498);
+	var hearthstone_decks_container_1 = __webpack_require__(502);
 	var ROUTING_CONFIG = [
 	    {
 	        path: '/admin',
@@ -29807,7 +29807,7 @@
 	var axios_1 = __webpack_require__(263);
 	var react_redux_1 = __webpack_require__(179);
 	var redux_actions_1 = __webpack_require__(292);
-	var redux_helpers_1 = __webpack_require__(447);
+	var helpers_1 = __webpack_require__(447);
 	var dashboard_list_component_1 = __webpack_require__(448);
 	var mapStateToProps = function (state) {
 	    return {
@@ -29815,7 +29815,7 @@
 	    };
 	};
 	var mapDispatchToProps = function (dispatch) {
-	    var type = redux_helpers_1.default.actionTypeStatus(redux_helpers_1.default.actionTypes.counts.fetch_list, 'fetch');
+	    var type = helpers_1.default.actionTypeStatus(helpers_1.default.actionTypes.counts.fetch_list, 'fetch');
 	    var getCounts = redux_actions_1.createAction(type, function () { return axios_1.default.get('/counts'); });
 	    return {
 	        getCounts: function () { return dispatch(getCounts()); }
@@ -35279,8 +35279,30 @@
 	    });
 	    return pages;
 	};
+	var time2Date = function (timestamp, displayTime) {
+	    if (displayTime === void 0) { displayTime = false; }
+	    if (!timestamp) {
+	        return '';
+	    }
+	    var time = new Date(timestamp);
+	    var year = time.getFullYear();
+	    var month = (time.getMonth() + 1);
+	    var day = time.getDate();
+	    var hour = time.getHours();
+	    var minute = time.getMinutes();
+	    var second = time.getSeconds();
+	    var arr = [month, day, hour, minute, second];
+	    var newArr = arr.map(function (t) { return ('0' + t).slice(-2); });
+	    var dateArray = [year.toString()].concat(newArr.slice(0, 2));
+	    var timeArray = newArr.slice(2);
+	    var ts = dateArray.join('-');
+	    if (displayTime) {
+	        ts = ts + ' ' + timeArray.join(':');
+	    }
+	    return ts;
+	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = { initialState: initialState, actionTypes: actionTypes, actionTypeStatus: actionTypeStatus, fetchedPages: fetchedPages };
+	exports.default = { initialState: initialState, actionTypes: actionTypes, actionTypeStatus: actionTypeStatus, fetchedPages: fetchedPages, time2Date: time2Date };
 
 
 /***/ },
@@ -35415,9 +35437,11 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	var axios_1 = __webpack_require__(263);
 	var react_redux_1 = __webpack_require__(179);
-	var games_action_1 = __webpack_require__(452);
-	var list_component_1 = __webpack_require__(473);
+	var redux_actions_1 = __webpack_require__(292);
+	var helpers_1 = __webpack_require__(447);
+	var list_component_1 = __webpack_require__(452);
 	var mapStateToProps = function (state) {
 	    return {
 	        list: state.games,
@@ -35425,12 +35449,19 @@
 	    };
 	};
 	var mapDispatchToProps = function (dispatch) {
+	    var games = helpers_1.default.actionTypes.games;
+	    var deleteGame = redux_actions_1.createAction(games.delete, function (url) { return axios_1.default.post('/games/' + url + '/delete'); });
+	    var fetchGames = redux_actions_1.createAction(games.fetch_list, function (page) {
+	        if (page === void 0) { page = null; }
+	        var url = "/games?limit=30" + (page ? '&page=' + page : '');
+	        return axios_1.default.get(url);
+	    });
 	    return {
 	        getList: function (page) {
 	            if (page === void 0) { page = null; }
-	            return dispatch(games_action_1.fetchGames(page));
+	            return dispatch(fetchGames(page));
 	        },
-	        postDelete: function (url) { return dispatch(games_action_1.deleteGame(url)); }
+	        postDelete: function (url) { return dispatch(deleteGame(url)); }
 	    };
 	};
 	var Games = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(list_component_1.default);
@@ -35443,8 +35474,474 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var alert_component_1 = __webpack_require__(450);
+	var page_header_component_1 = __webpack_require__(453);
+	var paginator_component_1 = __webpack_require__(454);
+	var games_item_component_1 = __webpack_require__(455);
+	var gourmets_item_component_1 = __webpack_require__(458);
+	var hearthstone_seasons_item_component_1 = __webpack_require__(459);
+	var hearthstone_decks_item_component_1 = __webpack_require__(460);
+	var List = (function (_super) {
+	    __extends(List, _super);
+	    function List() {
+	        _super.apply(this, arguments);
+	    }
+	    List.prototype.componentWillMount = function () {
+	        var type = this.props.type;
+	        document.title = type + ' | Admin';
+	    };
+	    List.prototype.componentDidMount = function () {
+	        var _a = this.props, getList = _a.getList, location = _a.location, list = _a.list;
+	        var page = location.query['page'] ? parseInt(location.query['page']) : 1;
+	        if (list.fetchedPages.indexOf(page) < 0) {
+	            getList(location.query['page']);
+	        }
+	    };
+	    List.prototype.componentWillUpdate = function (nextProps) {
+	        var location = nextProps.location;
+	        var _a = this.props, getList = _a.getList, list = _a.list;
+	        var page = location.query['page'] ? parseInt(location.query['page']) : 1;
+	        if (this.props.location.query['page'] != location.query['page'] && list.fetchedPages.indexOf(page) < 0) {
+	            getList(location.query['page']);
+	        }
+	    };
+	    List.prototype.handleItems = function (item, key) {
+	        var _a = this.props, type = _a.type, postDelete = _a.postDelete;
+	        switch (type) {
+	            case 'Games':
+	                return React.createElement(games_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item.url); }});
+	            case 'Gourmets':
+	                return React.createElement(gourmets_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item._id); }});
+	            case 'Hearthsonte-Seasons':
+	                return React.createElement(hearthstone_seasons_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item.url); }});
+	            case 'Hearthsonte-Decks':
+	                return React.createElement(hearthstone_decks_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item._id); }});
+	            default:
+	                return '';
+	        }
+	    };
+	    List.prototype.handleContent = function (list, type, page) {
+	        var _page = page ? parseInt(page) : 1;
+	        var per = (type == 'Hearthstonr-Matches') ? 100 : 30;
+	        var index = list.fetchedPages.indexOf(_page);
+	        var start = per * index;
+	        var items = list.items.slice(start, start + per);
+	        return items;
+	    };
+	    List.prototype.render = function () {
+	        var _this = this;
+	        var _a = this.props, list = _a.list, type = _a.type, location = _a.location;
+	        var items = this.handleContent(list, type, location.query['page']);
+	        return (React.createElement("div", {className: "container-fluid"}, 
+	            React.createElement(page_header_component_1.default, {title: type, button: true, total: list.total}), 
+	            React.createElement(alert_component_1.default, {fetch: list}), 
+	            React.createElement("div", {className: "row"}, 
+	                React.createElement("div", {className: "col-sm-12"}, 
+	                    React.createElement("table", {className: "table table-bordered admin-table-list"}, 
+	                        React.createElement("tbody", null, items.map(function (item, key) {
+	                            return _this.handleItems(item, key);
+	                        }))
+	                    )
+	                )
+	            ), 
+	            React.createElement(paginator_component_1.default, {total: list.total, path: location.pathname, current: location.query['page'], per: type == 'Hearthstonr-Matches' ? 100 : 30})));
+	    };
+	    return List;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = List;
+
+
+/***/ },
+/* 453 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var react_router_1 = __webpack_require__(209);
+	var PageHeader = (function (_super) {
+	    __extends(PageHeader, _super);
+	    function PageHeader() {
+	        _super.apply(this, arguments);
+	    }
+	    PageHeader.prototype.render = function () {
+	        var _a = this.props, title = _a.title, total = _a.total, button = _a.button;
+	        var addButton = null;
+	        if (button) {
+	            addButton = React.createElement(react_router_1.Link, {to: '/admin/' + title.toLowerCase() + '/add', className: "btn btn-primary pull-right"}, "Add");
+	        }
+	        return (React.createElement("div", {className: "row"}, 
+	            React.createElement("div", {className: "col-sm-12"}, 
+	                React.createElement("section", {className: "page-header"}, 
+	                    React.createElement("h1", null, 
+	                        title, 
+	                        " ", 
+	                        React.createElement("small", null, total ? total : ''), 
+	                        addButton ? addButton : null)
+	                )
+	            )
+	        ));
+	    };
+	    return PageHeader;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = PageHeader;
+
+
+/***/ },
+/* 454 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var react_router_1 = __webpack_require__(209);
+	var Pagination = (function (_super) {
+	    __extends(Pagination, _super);
+	    function Pagination() {
+	        _super.apply(this, arguments);
+	    }
+	    Pagination.prototype.render = function () {
+	        var _a = this.props, total = _a.total, per = _a.per, current = _a.current, path = _a.path;
+	        var pages = Math.ceil(total / per);
+	        var indent = [];
+	        for (var i = 0; i < pages; i++) {
+	            var active = false;
+	            var url = path;
+	            if (i > 0) {
+	                url = path + '?page=' + (i + 1);
+	            }
+	            if ((!current && i === 0) || (current && current == i + 1)) {
+	                active = true;
+	            }
+	            indent.push(React.createElement("li", {key: i, className: active ? 'active' : ''}, 
+	                React.createElement(react_router_1.Link, {to: url}, i + 1)
+	            ));
+	        }
+	        return (React.createElement("div", {className: "row"}, 
+	            React.createElement("div", {className: "col-sm-12"}, 
+	                React.createElement("ul", {className: "pagination"}, indent)
+	            )
+	        ));
+	    };
+	    return Pagination;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Pagination;
+
+
+/***/ },
+/* 455 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var react_router_1 = __webpack_require__(209);
+	var game_platforms_1 = __webpack_require__(456);
+	var game_genres_1 = __webpack_require__(457);
+	var GamesItem = (function (_super) {
+	    __extends(GamesItem, _super);
+	    function GamesItem() {
+	        _super.apply(this, arguments);
+	    }
+	    GamesItem.prototype.render = function () {
+	        var data = this.props.data;
+	        return (React.createElement("tr", null, 
+	            React.createElement("td", null, data._id), 
+	            React.createElement("td", null, 
+	                React.createElement(react_router_1.Link, {to: '/admin/games/' + data.url}, data.title)
+	            ), 
+	            React.createElement("td", null, data.name), 
+	            React.createElement("td", null, game_platforms_1.GamePlatforms.find(function (platfrom) { return platfrom.value == data.platform; }).name), 
+	            React.createElement("td", null, game_genres_1.GameGenres.find(function (genre) { return genre.value == data.genre; }).name), 
+	            React.createElement("td", null, 
+	                React.createElement(react_router_1.Link, {to: '/admin/games/' + data.url + '/trophy', className: "btn btn-primary"}, "Tophy"), 
+	                React.createElement("button", {className: "btn btn-danger", type: "button", onClick: this.props.delete}, "×"))));
+	    };
+	    return GamesItem;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = GamesItem;
+
+
+/***/ },
+/* 456 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var GAME_PLATFORMS = [
+	    {
+	        value: 0,
+	        name: 'PlayStation 3'
+	    },
+	    {
+	        value: 1,
+	        name: 'PlayStation Vita'
+	    },
+	    {
+	        value: 2,
+	        name: 'PlayStation 4'
+	    }
+	];
+	exports.GamePlatforms = GAME_PLATFORMS;
+
+
+/***/ },
+/* 457 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var GAME_GENRES = [
+	    {
+	        value: 0,
+	        name: 'Action'
+	    },
+	    {
+	        value: 1,
+	        name: 'Adventure'
+	    },
+	    {
+	        value: 2,
+	        name: 'Fighting'
+	    },
+	    {
+	        value: 3,
+	        name: 'Racing'
+	    },
+	    {
+	        value: 4,
+	        name: 'Role-Playing'
+	    },
+	    {
+	        value: 5,
+	        name: 'Sports'
+	    },
+	    {
+	        value: 6,
+	        name: 'Third-person shooter'
+	    },
+	    {
+	        value: 7,
+	        name: 'Strategy'
+	    }
+	];
+	exports.GameGenres = GAME_GENRES;
+
+
+/***/ },
+/* 458 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var react_router_1 = __webpack_require__(209);
+	var helpers_1 = __webpack_require__(447);
+	var GourmetsItem = (function (_super) {
+	    __extends(GourmetsItem, _super);
+	    function GourmetsItem() {
+	        _super.apply(this, arguments);
+	    }
+	    GourmetsItem.prototype.render = function () {
+	        var data = this.props.data;
+	        return (React.createElement("tr", null, 
+	            React.createElement("td", null, data._id), 
+	            React.createElement("td", null, 
+	                React.createElement(react_router_1.Link, {to: '/admin/gourmets/' + data._id}, data.food)
+	            ), 
+	            React.createElement("td", null, data.restaurant), 
+	            React.createElement("td", null, helpers_1.default.time2Date(data.date)), 
+	            React.createElement("td", null, 
+	                React.createElement("a", {href: data.url, target: "_blank"}, data.url)
+	            ), 
+	            React.createElement("td", null, 
+	                React.createElement("button", {className: "btn btn-danger", type: "button", onClick: this.props.delete}, "×")
+	            )));
+	    };
+	    return GourmetsItem;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = GourmetsItem;
+
+
+/***/ },
+/* 459 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var react_router_1 = __webpack_require__(209);
+	var HearthstoneSeasonsItem = (function (_super) {
+	    __extends(HearthstoneSeasonsItem, _super);
+	    function HearthstoneSeasonsItem() {
+	        _super.apply(this, arguments);
+	    }
+	    HearthstoneSeasonsItem.prototype.render = function () {
+	        var data = this.props.data;
+	        return (React.createElement("tr", null, 
+	            React.createElement("td", null, data._id), 
+	            React.createElement("td", null, 
+	                React.createElement(react_router_1.Link, {to: '/admin/hearthstone-seasons/' + data.url}, data.title)
+	            ), 
+	            React.createElement("td", null, data.month), 
+	            React.createElement("td", null, data.rank), 
+	            React.createElement("td", null, data.url), 
+	            React.createElement("td", null, 
+	                React.createElement("button", {type: "button", className: "btn btn-danger", onClick: this.props.delete}, "×")
+	            )));
+	    };
+	    return HearthstoneSeasonsItem;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneSeasonsItem;
+
+
+/***/ },
+/* 460 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var react_router_1 = __webpack_require__(209);
+	var hearthstone_player_classes_1 = __webpack_require__(461);
+	var HearthstoneDecksItem = (function (_super) {
+	    __extends(HearthstoneDecksItem, _super);
+	    function HearthstoneDecksItem() {
+	        _super.apply(this, arguments);
+	    }
+	    HearthstoneDecksItem.prototype.render = function () {
+	        var data = this.props.data;
+	        return (React.createElement("tr", null, 
+	            React.createElement("td", null, data._id), 
+	            React.createElement("td", null, 
+	                React.createElement(react_router_1.Link, {to: '/admin/hearthstone-decks/' + data._id}, data.name)
+	            ), 
+	            React.createElement("td", null, hearthstone_player_classes_1.HearthstonePlayerClasses.find(function (player) { return player.value == data.playerClass; }).name), 
+	            React.createElement("td", null, data.active ? 'Active' : 'Inactive'), 
+	            React.createElement("td", null, 
+	                React.createElement("button", {className: "btn btn-danger", type: "button", onClick: this.props.delete}, "×")
+	            )));
+	    };
+	    return HearthstoneDecksItem;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneDecksItem;
+
+
+/***/ },
+/* 461 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var HEARTHSTONE_PLAYER_CLASSES = [
+	    {
+	        value: 0,
+	        name: "Druid"
+	    },
+	    {
+	        value: 1,
+	        name: "Hunter"
+	    },
+	    {
+	        value: 2,
+	        name: "Mage"
+	    },
+	    {
+	        value: 3,
+	        name: "Paladin"
+	    },
+	    {
+	        value: 4,
+	        name: "Priest"
+	    },
+	    {
+	        value: 5,
+	        name: "Rogue"
+	    },
+	    {
+	        value: 6,
+	        name: "Shaman"
+	    },
+	    {
+	        value: 7,
+	        name: "Warlock"
+	    },
+	    {
+	        value: 8,
+	        name: "Warrior"
+	    }
+	];
+	exports.HearthstonePlayerClasses = HEARTHSTONE_PLAYER_CLASSES;
+
+
+/***/ },
+/* 462 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var react_redux_1 = __webpack_require__(179);
+	var games_action_1 = __webpack_require__(463);
+	var game_page_component_1 = __webpack_require__(484);
+	var mapStateToProps = function (state) {
+	    return {
+	        game: state.game
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        getGame: function (url) { return dispatch(games_action_1.fetchGame(url)); },
+	        createGame: function (game) { return dispatch(games_action_1.createGame(game)); },
+	        updateGame: function (game) { return dispatch(games_action_1.updateGame(game)); },
+	        changeField: function (field, value) { return dispatch(games_action_1.changField(field, value)); },
+	        initGameCreate: function () { return dispatch(games_action_1.initGameCreate()); }
+	    };
+	};
+	var Game = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(game_page_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Game;
+
+
+/***/ },
+/* 463 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
 	var axios_1 = __webpack_require__(263);
-	var store_1 = __webpack_require__(453);
+	var store_1 = __webpack_require__(464);
 	function fetchGames(page) {
 	    if (page === void 0) { page = null; }
 	    var url = '/games?limit=30';
@@ -35519,22 +36016,22 @@
 
 
 /***/ },
-/* 453 */
+/* 464 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var redux_1 = __webpack_require__(186);
-	var logger = __webpack_require__(454);
-	var redux_promise_middleware_1 = __webpack_require__(460);
-	var redux_thunk_1 = __webpack_require__(462);
-	var reducers_1 = __webpack_require__(463);
+	var logger = __webpack_require__(465);
+	var redux_promise_middleware_1 = __webpack_require__(471);
+	var redux_thunk_1 = __webpack_require__(473);
+	var reducers_1 = __webpack_require__(474);
 	var middleware = redux_1.applyMiddleware(logger(), redux_thunk_1.default, redux_promise_middleware_1.default());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = redux_1.createStore(reducers_1.default, middleware);
 
 
 /***/ },
-/* 454 */
+/* 465 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35545,11 +36042,11 @@
 	  value: true
 	});
 
-	var _core = __webpack_require__(455);
+	var _core = __webpack_require__(466);
 
-	var _helpers = __webpack_require__(456);
+	var _helpers = __webpack_require__(467);
 
-	var _defaults = __webpack_require__(459);
+	var _defaults = __webpack_require__(470);
 
 	var _defaults2 = _interopRequireDefault(_defaults);
 
@@ -35652,7 +36149,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 455 */
+/* 466 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35662,9 +36159,9 @@
 	});
 	exports.printBuffer = printBuffer;
 
-	var _helpers = __webpack_require__(456);
+	var _helpers = __webpack_require__(467);
 
-	var _diff = __webpack_require__(457);
+	var _diff = __webpack_require__(468);
 
 	var _diff2 = _interopRequireDefault(_diff);
 
@@ -35793,7 +36290,7 @@
 	}
 
 /***/ },
-/* 456 */
+/* 467 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -35817,7 +36314,7 @@
 	var timer = exports.timer = typeof performance !== "undefined" && performance !== null && typeof performance.now === "function" ? performance : Date;
 
 /***/ },
-/* 457 */
+/* 468 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35827,7 +36324,7 @@
 	});
 	exports.default = diffLogger;
 
-	var _deepDiff = __webpack_require__(458);
+	var _deepDiff = __webpack_require__(469);
 
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 
@@ -35913,7 +36410,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 458 */
+/* 469 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global) {/*!
@@ -36342,7 +36839,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 459 */
+/* 470 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36393,7 +36890,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 460 */
+/* 471 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36410,7 +36907,7 @@
 
 	exports.default = promiseMiddleware;
 
-	var _isPromise = __webpack_require__(461);
+	var _isPromise = __webpack_require__(472);
 
 	var _isPromise2 = _interopRequireDefault(_isPromise);
 
@@ -36567,7 +37064,7 @@
 	}
 
 /***/ },
-/* 461 */
+/* 472 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36588,7 +37085,7 @@
 	}
 
 /***/ },
-/* 462 */
+/* 473 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36616,20 +37113,20 @@
 	exports['default'] = thunk;
 
 /***/ },
-/* 463 */
+/* 474 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var redux_1 = __webpack_require__(186);
-	var counts_reducer_1 = __webpack_require__(464);
-	var image_reducer_1 = __webpack_require__(465);
-	var games_reducer_1 = __webpack_require__(466);
-	var game_reducer_1 = __webpack_require__(467);
-	var gourmets_reducer_1 = __webpack_require__(468);
-	var gourmet_reducer_1 = __webpack_require__(469);
-	var hearthstone_seasons_reducer_1 = __webpack_require__(470);
-	var hearthstone_season_reducer_1 = __webpack_require__(471);
-	var hearthstone_decks_reducer_1 = __webpack_require__(472);
+	var counts_reducer_1 = __webpack_require__(475);
+	var image_reducer_1 = __webpack_require__(476);
+	var games_reducer_1 = __webpack_require__(477);
+	var game_reducer_1 = __webpack_require__(478);
+	var gourmets_reducer_1 = __webpack_require__(479);
+	var gourmet_reducer_1 = __webpack_require__(480);
+	var hearthstone_seasons_reducer_1 = __webpack_require__(481);
+	var hearthstone_season_reducer_1 = __webpack_require__(482);
+	var hearthstone_decks_reducer_1 = __webpack_require__(483);
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = redux_1.combineReducers({
 	    counts: counts_reducer_1.default, image: image_reducer_1.default, games: games_reducer_1.default, game: game_reducer_1.default, gourmets: gourmets_reducer_1.default, gourmet: gourmet_reducer_1.default, hearthstoneSeasons: hearthstone_seasons_reducer_1.default, hearthstoneSeason: hearthstone_season_reducer_1.default, hearthstoneDecks: hearthstone_decks_reducer_1.default
@@ -36637,15 +37134,15 @@
 
 
 /***/ },
-/* 464 */
+/* 475 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var redux_helpers_1 = __webpack_require__(447);
+	var helpers_1 = __webpack_require__(447);
 	function reducer(state, action) {
-	    if (state === void 0) { state = redux_helpers_1.default.initialState; }
-	    var actionTypeStatus = redux_helpers_1.default.actionTypeStatus;
-	    var counts = redux_helpers_1.default.actionTypes.counts;
+	    if (state === void 0) { state = helpers_1.default.initialState; }
+	    var actionTypeStatus = helpers_1.default.actionTypeStatus;
+	    var counts = helpers_1.default.actionTypes.counts;
 	    var type = action.type, payload = action.payload;
 	    switch (type) {
 	        case actionTypeStatus(counts.fetch_list, 'pending'):
@@ -36668,7 +37165,7 @@
 
 
 /***/ },
-/* 465 */
+/* 476 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36711,15 +37208,15 @@
 
 
 /***/ },
-/* 466 */
+/* 477 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var redux_helpers_1 = __webpack_require__(447);
+	var helpers_1 = __webpack_require__(447);
 	function reducer(state, action) {
-	    if (state === void 0) { state = redux_helpers_1.default.initialState; }
-	    var actionTypeStatus = redux_helpers_1.default.actionTypeStatus;
-	    var games = redux_helpers_1.default.actionTypes.games;
+	    if (state === void 0) { state = helpers_1.default.initialState; }
+	    var actionTypeStatus = helpers_1.default.actionTypeStatus;
+	    var games = helpers_1.default.actionTypes.games;
 	    var type = action.type, payload = action.payload;
 	    switch (type) {
 	        case actionTypeStatus(games.fetch_list, 'pending'):
@@ -36738,7 +37235,7 @@
 	                    return 1;
 	                return 0;
 	            });
-	            var pages = redux_helpers_1.default.fetchedPages(state.fetchedPages, payload.request.responseURL);
+	            var pages = helpers_1.default.fetchedPages(state.fetchedPages, payload.request.responseURL);
 	            return Object.assign({}, state, {
 	                isFetching: false,
 	                fetched: true,
@@ -36785,7 +37282,7 @@
 
 
 /***/ },
-/* 467 */
+/* 478 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36849,7 +37346,7 @@
 
 
 /***/ },
-/* 468 */
+/* 479 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36935,7 +37432,7 @@
 
 
 /***/ },
-/* 469 */
+/* 480 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36999,7 +37496,7 @@
 
 
 /***/ },
-/* 470 */
+/* 481 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -37085,7 +37582,7 @@
 
 
 /***/ },
-/* 471 */
+/* 482 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -37145,7 +37642,7 @@
 
 
 /***/ },
-/* 472 */
+/* 483 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -37231,567 +37728,20 @@
 
 
 /***/ },
-/* 473 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var alert_component_1 = __webpack_require__(450);
-	var page_header_component_1 = __webpack_require__(474);
-	var paginator_component_1 = __webpack_require__(475);
-	var games_item_component_1 = __webpack_require__(476);
-	var gourmets_item_component_1 = __webpack_require__(479);
-	var hearthstone_seasons_item_component_1 = __webpack_require__(481);
-	var hearthstone_decks_item_component_1 = __webpack_require__(482);
-	var List = (function (_super) {
-	    __extends(List, _super);
-	    function List() {
-	        _super.apply(this, arguments);
-	    }
-	    List.prototype.componentWillMount = function () {
-	        var type = this.props.type;
-	        document.title = type + ' | Admin';
-	    };
-	    List.prototype.componentDidMount = function () {
-	        var _a = this.props, getList = _a.getList, location = _a.location, list = _a.list;
-	        var page = location.query['page'] ? parseInt(location.query['page']) : 1;
-	        if (list.fetchedPages.indexOf(page) < 0) {
-	            getList(location.query['page']);
-	        }
-	    };
-	    List.prototype.componentWillUpdate = function (nextProps) {
-	        var location = nextProps.location;
-	        var _a = this.props, getList = _a.getList, list = _a.list;
-	        var page = location.query['page'] ? parseInt(location.query['page']) : 1;
-	        if (this.props.location.query['page'] != location.query['page'] && list.fetchedPages.indexOf(page) < 0) {
-	            getList(location.query['page']);
-	        }
-	    };
-	    List.prototype.handleItems = function (item, key) {
-	        var _a = this.props, type = _a.type, postDelete = _a.postDelete;
-	        var element = null;
-	        switch (type) {
-	            case 'Games':
-	                element = React.createElement(games_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item.url); }});
-	                break;
-	            case 'Gourmets':
-	                element = React.createElement(gourmets_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item._id); }});
-	                break;
-	            case 'Hearthsonte-Seasons':
-	                element = React.createElement(hearthstone_seasons_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item.url); }});
-	                break;
-	            case 'Hearthsonte-Decks':
-	                element = React.createElement(hearthstone_decks_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item._id); }});
-	                break;
-	            default:
-	                break;
-	        }
-	        return element;
-	    };
-	    List.prototype.handleContent = function (list, type, page) {
-	        var _this = this;
-	        if (!list.items.length) {
-	            return '';
-	        }
-	        var _page = page ? parseInt(page) : 1;
-	        var per = (type == 'Hearthstonr-Matches') ? 100 : 30;
-	        var index = list.fetchedPages.indexOf(_page);
-	        if (index < 0) {
-	            return '';
-	        }
-	        var start = per * index;
-	        var items = list.items.slice(start, start + per);
-	        var indent = [];
-	        items.map(function (item, key) {
-	            indent.push(_this.handleItems(item, key));
-	        });
-	        return (React.createElement("div", {className: "row"}, 
-	            React.createElement("div", {className: "col-sm-12"}, 
-	                React.createElement("table", {className: "table table-bordered admin-table-list"}, 
-	                    React.createElement("tbody", null, indent)
-	                )
-	            )
-	        ));
-	    };
-	    List.prototype.render = function () {
-	        var _a = this.props, list = _a.list, type = _a.type, location = _a.location;
-	        return (React.createElement("div", {className: "container-fluid"}, 
-	            React.createElement(page_header_component_1.default, {title: type, button: true, total: list.total}), 
-	            React.createElement(alert_component_1.default, {fetch: list}), 
-	            this.handleContent(list, type, location.query['page']), 
-	            React.createElement(paginator_component_1.default, {total: list.total, path: location.pathname, current: location.query['page'], per: type == 'Hearthstonr-Matches' ? 100 : 30})));
-	    };
-	    return List;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = List;
-
-
-/***/ },
-/* 474 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var react_router_1 = __webpack_require__(209);
-	var PageHeader = (function (_super) {
-	    __extends(PageHeader, _super);
-	    function PageHeader() {
-	        _super.apply(this, arguments);
-	    }
-	    PageHeader.prototype.render = function () {
-	        var _a = this.props, title = _a.title, total = _a.total, button = _a.button;
-	        var addButton = null;
-	        if (button) {
-	            addButton = React.createElement(react_router_1.Link, {to: '/admin/' + title.toLowerCase() + '/add', className: "btn btn-primary pull-right"}, "Add");
-	        }
-	        return (React.createElement("div", {className: "row"}, 
-	            React.createElement("div", {className: "col-sm-12"}, 
-	                React.createElement("section", {className: "page-header"}, 
-	                    React.createElement("h1", null, 
-	                        title, 
-	                        " ", 
-	                        React.createElement("small", null, total ? total : ''), 
-	                        addButton ? addButton : null)
-	                )
-	            )
-	        ));
-	    };
-	    return PageHeader;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = PageHeader;
-
-
-/***/ },
-/* 475 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var react_router_1 = __webpack_require__(209);
-	var Pagination = (function (_super) {
-	    __extends(Pagination, _super);
-	    function Pagination() {
-	        _super.apply(this, arguments);
-	    }
-	    Pagination.prototype.render = function () {
-	        var _a = this.props, total = _a.total, per = _a.per, current = _a.current, path = _a.path;
-	        var pages = Math.ceil(total / per);
-	        var indent = [];
-	        for (var i = 0; i < pages; i++) {
-	            var active = false;
-	            var url = path;
-	            if (i > 0) {
-	                url = path + '?page=' + (i + 1);
-	            }
-	            if ((!current && i === 0) || (current && current == i + 1)) {
-	                active = true;
-	            }
-	            indent.push(React.createElement("li", {key: i, className: active ? 'active' : ''}, 
-	                React.createElement(react_router_1.Link, {to: url}, i + 1)
-	            ));
-	        }
-	        return (React.createElement("div", {className: "row"}, 
-	            React.createElement("div", {className: "col-sm-12"}, 
-	                React.createElement("ul", {className: "pagination"}, indent)
-	            )
-	        ));
-	    };
-	    return Pagination;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = Pagination;
-
-
-/***/ },
-/* 476 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var react_router_1 = __webpack_require__(209);
-	var game_platforms_1 = __webpack_require__(477);
-	var game_genres_1 = __webpack_require__(478);
-	var GamesItem = (function (_super) {
-	    __extends(GamesItem, _super);
-	    function GamesItem() {
-	        _super.apply(this, arguments);
-	    }
-	    GamesItem.prototype.render = function () {
-	        var data = this.props.data;
-	        return (React.createElement("tr", null, 
-	            React.createElement("td", null, data._id), 
-	            React.createElement("td", null, 
-	                React.createElement(react_router_1.Link, {to: '/admin/games/' + data.url}, data.title)
-	            ), 
-	            React.createElement("td", null, data.name), 
-	            React.createElement("td", null, game_platforms_1.GamePlatforms.find(function (platfrom) { return platfrom.value == data.platform; }).name), 
-	            React.createElement("td", null, game_genres_1.GameGenres.find(function (genre) { return genre.value == data.genre; }).name), 
-	            React.createElement("td", null, 
-	                React.createElement(react_router_1.Link, {to: '/admin/games/' + data.url + '/trophy', className: "btn btn-primary"}, "Tophy"), 
-	                React.createElement("button", {className: "btn btn-danger", type: "button", onClick: this.props.delete}, "×"))));
-	    };
-	    return GamesItem;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = GamesItem;
-
-
-/***/ },
-/* 477 */
-/***/ function(module, exports) {
-
-	"use strict";
-	var GAME_PLATFORMS = [
-	    {
-	        value: 0,
-	        name: 'PlayStation 3'
-	    },
-	    {
-	        value: 1,
-	        name: 'PlayStation Vita'
-	    },
-	    {
-	        value: 2,
-	        name: 'PlayStation 4'
-	    }
-	];
-	exports.GamePlatforms = GAME_PLATFORMS;
-
-
-/***/ },
-/* 478 */
-/***/ function(module, exports) {
-
-	"use strict";
-	var GAME_GENRES = [
-	    {
-	        value: 0,
-	        name: 'Action'
-	    },
-	    {
-	        value: 1,
-	        name: 'Adventure'
-	    },
-	    {
-	        value: 2,
-	        name: 'Fighting'
-	    },
-	    {
-	        value: 3,
-	        name: 'Racing'
-	    },
-	    {
-	        value: 4,
-	        name: 'Role-Playing'
-	    },
-	    {
-	        value: 5,
-	        name: 'Sports'
-	    },
-	    {
-	        value: 6,
-	        name: 'Third-person shooter'
-	    },
-	    {
-	        value: 7,
-	        name: 'Strategy'
-	    }
-	];
-	exports.GameGenres = GAME_GENRES;
-
-
-/***/ },
-/* 479 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var react_router_1 = __webpack_require__(209);
-	var helpers_1 = __webpack_require__(480);
-	var GourmetsItem = (function (_super) {
-	    __extends(GourmetsItem, _super);
-	    function GourmetsItem() {
-	        _super.apply(this, arguments);
-	    }
-	    GourmetsItem.prototype.render = function () {
-	        var data = this.props.data;
-	        return (React.createElement("tr", null, 
-	            React.createElement("td", null, data._id), 
-	            React.createElement("td", null, 
-	                React.createElement(react_router_1.Link, {to: '/admin/gourmets/' + data._id}, data.food)
-	            ), 
-	            React.createElement("td", null, data.restaurant), 
-	            React.createElement("td", null, helpers_1.time2Date(data.date)), 
-	            React.createElement("td", null, 
-	                React.createElement("a", {href: data.url, target: "_blank"}, data.url)
-	            ), 
-	            React.createElement("td", null, 
-	                React.createElement("button", {className: "btn btn-danger", type: "button", onClick: this.props.delete}, "×")
-	            )));
-	    };
-	    return GourmetsItem;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = GourmetsItem;
-
-
-/***/ },
-/* 480 */
-/***/ function(module, exports) {
-
-	"use strict";
-	function time2Date(timestamp, displayTime) {
-	    if (displayTime === void 0) { displayTime = false; }
-	    if (!timestamp) {
-	        return '';
-	    }
-	    var time = new Date(timestamp);
-	    var year = time.getFullYear();
-	    var month = (time.getMonth() + 1);
-	    var day = time.getDate();
-	    var hour = time.getHours();
-	    var minute = time.getMinutes();
-	    var second = time.getSeconds();
-	    var arr = [month, day, hour, minute, second];
-	    var newArr = arr.map(function (t) { return ('0' + t).slice(-2); });
-	    var dateArray = [year.toString()].concat(newArr.slice(0, 2));
-	    var timeArray = newArr.slice(2);
-	    var ts = dateArray.join('-');
-	    if (displayTime) {
-	        ts = ts + ' ' + timeArray.join(':');
-	    }
-	    return ts;
-	}
-	exports.time2Date = time2Date;
-	function actionTypeGenerator(reducer, action) {
-	    var progressObj = {
-	        pending: 'PENDING',
-	        success: 'FULFILLED',
-	        error: 'REJECTED',
-	    };
-	    var state = reducer.replace('-', '_').toUpperCase();
-	    return function (progress) {
-	        var type = action.toUpperCase() + "_" + state;
-	        if (progress && progress in progressObj) {
-	            return type + "_" + progressObj[progress];
-	        }
-	        return type;
-	    };
-	}
-	exports.actionTypeGenerator = actionTypeGenerator;
-	function fetchedPages(pages, url) {
-	    var match = url.match(/page=(\d)/i);
-	    var page = match ? parseInt(match[1]) : 1;
-	    pages.push(page);
-	    pages.sort(function (a, b) {
-	        if (a > b)
-	            return 1;
-	        if (a < b)
-	            return -1;
-	        return 0;
-	    });
-	    return pages;
-	}
-	exports.fetchedPages = fetchedPages;
-	exports.initialState = {
-	    isFetching: false,
-	    fetched: false,
-	    items: [],
-	    total: 0,
-	    fetchedPages: [],
-	    error: null,
-	};
-
-
-/***/ },
-/* 481 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var react_router_1 = __webpack_require__(209);
-	var HearthstoneSeasonsItem = (function (_super) {
-	    __extends(HearthstoneSeasonsItem, _super);
-	    function HearthstoneSeasonsItem() {
-	        _super.apply(this, arguments);
-	    }
-	    HearthstoneSeasonsItem.prototype.render = function () {
-	        var data = this.props.data;
-	        return (React.createElement("tr", null, 
-	            React.createElement("td", null, data._id), 
-	            React.createElement("td", null, 
-	                React.createElement(react_router_1.Link, {to: '/admin/hearthstone-seasons/' + data.url}, data.title)
-	            ), 
-	            React.createElement("td", null, data.month), 
-	            React.createElement("td", null, data.rank), 
-	            React.createElement("td", null, data.url), 
-	            React.createElement("td", null, 
-	                React.createElement("button", {type: "button", className: "btn btn-danger", onClick: this.props.delete}, "×")
-	            )));
-	    };
-	    return HearthstoneSeasonsItem;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneSeasonsItem;
-
-
-/***/ },
-/* 482 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var react_router_1 = __webpack_require__(209);
-	var hearthstone_player_classes_1 = __webpack_require__(483);
-	var HearthstoneDecksItem = (function (_super) {
-	    __extends(HearthstoneDecksItem, _super);
-	    function HearthstoneDecksItem() {
-	        _super.apply(this, arguments);
-	    }
-	    HearthstoneDecksItem.prototype.render = function () {
-	        var data = this.props.data;
-	        return (React.createElement("tr", null, 
-	            React.createElement("td", null, data._id), 
-	            React.createElement("td", null, 
-	                React.createElement(react_router_1.Link, {to: '/admin/hearthstone-decks/' + data._id}, data.name)
-	            ), 
-	            React.createElement("td", null, hearthstone_player_classes_1.HearthstonePlayerClasses.find(function (player) { return player.value == data.playerClass; }).name), 
-	            React.createElement("td", null, data.active ? 'Active' : 'Inactive'), 
-	            React.createElement("td", null, 
-	                React.createElement("button", {className: "btn btn-danger", type: "button", onClick: this.props.delete}, "×")
-	            )));
-	    };
-	    return HearthstoneDecksItem;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneDecksItem;
-
-
-/***/ },
-/* 483 */
-/***/ function(module, exports) {
-
-	"use strict";
-	var HEARTHSTONE_PLAYER_CLASSES = [
-	    {
-	        value: 0,
-	        name: "Druid"
-	    },
-	    {
-	        value: 1,
-	        name: "Hunter"
-	    },
-	    {
-	        value: 2,
-	        name: "Mage"
-	    },
-	    {
-	        value: 3,
-	        name: "Paladin"
-	    },
-	    {
-	        value: 4,
-	        name: "Priest"
-	    },
-	    {
-	        value: 5,
-	        name: "Rogue"
-	    },
-	    {
-	        value: 6,
-	        name: "Shaman"
-	    },
-	    {
-	        value: 7,
-	        name: "Warlock"
-	    },
-	    {
-	        value: 8,
-	        name: "Warrior"
-	    }
-	];
-	exports.HearthstonePlayerClasses = HEARTHSTONE_PLAYER_CLASSES;
-
-
-/***/ },
 /* 484 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var react_redux_1 = __webpack_require__(179);
-	var games_action_1 = __webpack_require__(452);
-	var game_page_component_1 = __webpack_require__(485);
-	var mapStateToProps = function (state) {
-	    return {
-	        game: state.game
-	    };
-	};
-	var mapDispatchToProps = function (dispatch) {
-	    return {
-	        getGame: function (url) { return dispatch(games_action_1.fetchGame(url)); },
-	        createGame: function (game) { return dispatch(games_action_1.createGame(game)); },
-	        updateGame: function (game) { return dispatch(games_action_1.updateGame(game)); },
-	        changeField: function (field, value) { return dispatch(games_action_1.changField(field, value)); },
-	        initGameCreate: function () { return dispatch(games_action_1.initGameCreate()); }
-	    };
-	};
-	var Game = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(game_page_component_1.default);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = Game;
-
-
-/***/ },
-/* 485 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
 	var __extends = (this && this.__extends) || function (d, b) {
 	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var game_1 = __webpack_require__(486);
-	var page_header_component_1 = __webpack_require__(474);
+	var game_1 = __webpack_require__(485);
+	var page_header_component_1 = __webpack_require__(453);
 	var alert_component_1 = __webpack_require__(450);
-	var form_component_1 = __webpack_require__(487);
+	var form_component_1 = __webpack_require__(486);
 	var GamePage = (function (_super) {
 	    __extends(GamePage, _super);
 	    function GamePage() {
@@ -37836,12 +37786,12 @@
 
 
 /***/ },
-/* 486 */
+/* 485 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var game_genres_1 = __webpack_require__(478);
-	var game_platforms_1 = __webpack_require__(477);
+	var game_genres_1 = __webpack_require__(457);
+	var game_platforms_1 = __webpack_require__(456);
 	var GAME_FIELDS = [
 	    {
 	        name: 'image',
@@ -37900,7 +37850,7 @@
 
 
 /***/ },
-/* 487 */
+/* 486 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -37910,7 +37860,7 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var field_component_1 = __webpack_require__(488);
+	var field_component_1 = __webpack_require__(487);
 	var Form = (function (_super) {
 	    __extends(Form, _super);
 	    function Form() {
@@ -37940,7 +37890,7 @@
 
 
 /***/ },
-/* 488 */
+/* 487 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -37950,8 +37900,8 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var helpers_1 = __webpack_require__(480);
-	var image_container_1 = __webpack_require__(489);
+	var helpers_1 = __webpack_require__(447);
+	var image_container_1 = __webpack_require__(488);
 	var Field = (function (_super) {
 	    __extends(Field, _super);
 	    function Field() {
@@ -37973,7 +37923,7 @@
 	                    return React.createElement("option", {value: option.value, key: option.value}, option.value + ' - ' + option.name);
 	                })));
 	            case 'date':
-	                return React.createElement("input", {className: "form-control", type: "date", value: helpers_1.time2Date(data), onChange: this.handleChange.bind(this)});
+	                return React.createElement("input", {className: "form-control", type: "date", value: helpers_1.default.time2Date(data), onChange: this.handleChange.bind(this)});
 	            case 'radio':
 	                return (React.createElement("div", null, field.enum.map(function (radio) {
 	                    return (React.createElement("label", {className: "radio-inline", key: radio}, 
@@ -37999,13 +37949,13 @@
 
 
 /***/ },
-/* 489 */
+/* 488 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var image_action_1 = __webpack_require__(490);
-	var image_upload_component_1 = __webpack_require__(491);
+	var image_action_1 = __webpack_require__(489);
+	var image_upload_component_1 = __webpack_require__(490);
 	var mapStateToProps = function (state, ownProps) {
 	    return {
 	        image: state.image,
@@ -38025,7 +37975,7 @@
 
 
 /***/ },
-/* 490 */
+/* 489 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -38046,7 +37996,7 @@
 
 
 /***/ },
-/* 491 */
+/* 490 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -38102,13 +38052,13 @@
 
 
 /***/ },
-/* 492 */
+/* 491 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var gourmets_action_1 = __webpack_require__(493);
-	var list_component_1 = __webpack_require__(473);
+	var gourmets_action_1 = __webpack_require__(492);
+	var list_component_1 = __webpack_require__(452);
 	var mapStateToProps = function (state) {
 	    return {
 	        list: state.gourmets,
@@ -38130,12 +38080,12 @@
 
 
 /***/ },
-/* 493 */
+/* 492 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var axios_1 = __webpack_require__(263);
-	var store_1 = __webpack_require__(453);
+	var store_1 = __webpack_require__(464);
 	function fetchGourmets(page) {
 	    var url = '/gourmets?limit=30';
 	    if (page) {
@@ -38209,13 +38159,13 @@
 
 
 /***/ },
-/* 494 */
+/* 493 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var gourmets_action_1 = __webpack_require__(493);
-	var gourmet_page_component_1 = __webpack_require__(495);
+	var gourmets_action_1 = __webpack_require__(492);
+	var gourmet_page_component_1 = __webpack_require__(494);
 	var mapStateToProps = function (state) {
 	    return {
 	        gourmet: state.gourmet
@@ -38236,7 +38186,7 @@
 
 
 /***/ },
-/* 495 */
+/* 494 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -38246,10 +38196,10 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var gourmet_1 = __webpack_require__(496);
-	var page_header_component_1 = __webpack_require__(474);
+	var gourmet_1 = __webpack_require__(495);
+	var page_header_component_1 = __webpack_require__(453);
 	var alert_component_1 = __webpack_require__(450);
-	var form_component_1 = __webpack_require__(487);
+	var form_component_1 = __webpack_require__(486);
 	var GourmetPage = (function (_super) {
 	    __extends(GourmetPage, _super);
 	    function GourmetPage() {
@@ -38294,7 +38244,7 @@
 
 
 /***/ },
-/* 496 */
+/* 495 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -38325,13 +38275,13 @@
 
 
 /***/ },
-/* 497 */
+/* 496 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var hearthstone_seasons_action_1 = __webpack_require__(498);
-	var list_component_1 = __webpack_require__(473);
+	var hearthstone_seasons_action_1 = __webpack_require__(497);
+	var list_component_1 = __webpack_require__(452);
 	var mapStateToProps = function (state) {
 	    return {
 	        list: state.hearthstoneSeasons,
@@ -38353,7 +38303,7 @@
 
 
 /***/ },
-/* 498 */
+/* 497 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -38414,13 +38364,13 @@
 
 
 /***/ },
-/* 499 */
+/* 498 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var hearthstone_seasons_action_1 = __webpack_require__(498);
-	var hearthstone_season_page_component_1 = __webpack_require__(500);
+	var hearthstone_seasons_action_1 = __webpack_require__(497);
+	var hearthstone_season_page_component_1 = __webpack_require__(499);
 	var mapStateToProps = function (state) {
 	    return {
 	        season: state.hearthstoneSeason
@@ -38441,7 +38391,7 @@
 
 
 /***/ },
-/* 500 */
+/* 499 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -38451,10 +38401,10 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var hearthstone_season_1 = __webpack_require__(501);
-	var page_header_component_1 = __webpack_require__(474);
+	var hearthstone_season_1 = __webpack_require__(500);
+	var page_header_component_1 = __webpack_require__(453);
 	var alert_component_1 = __webpack_require__(450);
-	var form_component_1 = __webpack_require__(487);
+	var form_component_1 = __webpack_require__(486);
 	var HearthstoneSeasonPage = (function (_super) {
 	    __extends(HearthstoneSeasonPage, _super);
 	    function HearthstoneSeasonPage() {
@@ -38494,11 +38444,11 @@
 
 
 /***/ },
-/* 501 */
+/* 500 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var hearthstone_season_ranked_1 = __webpack_require__(502);
+	var hearthstone_season_ranked_1 = __webpack_require__(501);
 	var HEARTHSTONE_SEASON_FIELDS = [
 	    {
 	        name: 'image',
@@ -38531,7 +38481,7 @@
 
 
 /***/ },
-/* 502 */
+/* 501 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -38645,13 +38595,13 @@
 
 
 /***/ },
-/* 503 */
+/* 502 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var hearthstone_decks_action_1 = __webpack_require__(504);
-	var list_component_1 = __webpack_require__(473);
+	var hearthstone_decks_action_1 = __webpack_require__(503);
+	var list_component_1 = __webpack_require__(452);
 	var mapStateToProps = function (state) {
 	    return {
 	        list: state.hearthstoneDecks,
@@ -38673,7 +38623,7 @@
 
 
 /***/ },
-/* 504 */
+/* 503 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";

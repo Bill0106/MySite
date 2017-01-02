@@ -41,67 +41,55 @@ class List extends React.Component<ListProps, void> {
         }
     }
 
-    handleItems(item, key): any {
+    handleItems(item: any, key: number): any {
         const { type, postDelete } = this.props;
-        let element = null;
+
         switch (type) {
             case 'Games':
-                element = <GamesItem key={key} data={item} delete={() => postDelete(item.url)} />
-                break;
+                return <GamesItem key={key} data={item} delete={() => postDelete(item.url)} />
             case 'Gourmets':
-                element = <GourmetsItem key={key} data={item} delete={() => postDelete(item._id)} />
-                break;
+                return <GourmetsItem key={key} data={item} delete={() => postDelete(item._id)} />
             case 'Hearthsonte-Seasons':
-                element = <HearthstoneSeasonsItem key={key} data={item} delete={() => postDelete(item.url)} />
-                break;
+                return <HearthstoneSeasonsItem key={key} data={item} delete={() => postDelete(item.url)} />
             case 'Hearthsonte-Decks':
-                element = <HearthstoneDecksItem key={key} data={item} delete={() => postDelete(item._id)} />
-                break;
+                return <HearthstoneDecksItem key={key} data={item} delete={() => postDelete(item._id)} />
             default:
-                break;
+                return '';
         }
-
-        return element
     }
 
-    handleContent(list, type, page): any {
-        if (!list.items.length) {
-            return '';
-        }
-
+    handleContent(list: any, type: string, page: string): any {
         const _page = page ? parseInt(page) : 1;
         const per = (type == 'Hearthstonr-Matches') ? 100 : 30;
         const index = list.fetchedPages.indexOf(_page);
-        if (index < 0) {
-            return '';
-        }
 
         const start = per * index;
         const items = list.items.slice(start, start + per);
-        let indent = [];
-        items.map((item, key) => {
-            indent.push(this.handleItems(item, key));
-        });
-
-        return (
-            <div className="row">
-                <div className="col-sm-12">
-                    <table className="table table-bordered admin-table-list">
-                        <tbody>{indent}</tbody>
-                    </table>
-                </div>
-            </div>
-        );
+        
+        return items;
     }
 
     render() {
         const { list, type, location } = this.props;
+        const items = this.handleContent(list, type, location.query['page']);
 
         return (
             <div className="container-fluid">
                 <PageHeader title={type} button={true} total={list.total} />
                 <Alert fetch={list} />
-                {this.handleContent(list, type, location.query['page'])}
+                <div className="row">
+                    <div className="col-sm-12">
+                        <table className="table table-bordered admin-table-list">
+                        <tbody>
+                        {
+                            items.map((item, key) => {
+                                return this.handleItems(item, key);
+                            })
+                        }
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
                 <Paginator total={list.total} path={location.pathname} current={location.query['page']} per={type == 'Hearthstonr-Matches' ? 100 : 30} />
             </div>
         );
