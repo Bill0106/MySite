@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router';
 
 import { ItemProps } from '../interface/item.interface';
-import { time2Date } from '../helpers';
+import helpers from '../helpers';
 
 class GourmetsItem extends React.Component<ItemProps, void> {
     render() {
@@ -14,7 +14,7 @@ class GourmetsItem extends React.Component<ItemProps, void> {
                     <Link to={'/admin/gourmets/' + data._id}>{data.food}</Link>
                 </td>
                 <td>{data.restaurant}</td>
-                <td>{time2Date(data.date)}</td>
+                <td>{helpers.time2Date(data.date)}</td>
                 <td>
                     <a href={data.url} target="_blank">{data.url}</a>
                 </td>

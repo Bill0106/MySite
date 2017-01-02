@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { createAction } from 'redux-actions';
-import { actionTypeGenerator } from '../helpers';
+import helpers from '../helpers';
 import DashboardList from '../components/dashboard-list.component';
 
 const mapStateToProps = (state) => {
@@ -11,8 +11,8 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-    const type = actionTypeGenerator('counts', 'fetch');
-    const getCounts = createAction(type(), () => axios.get('/counts'));
+    const type = helpers.actionTypeStatus(helpers.actionTypes.counts.fetch_list, 'fetch');
+    const getCounts = createAction(type, () => axios.get('/counts'));
 
     return {
         getCounts: () => dispatch(getCounts())

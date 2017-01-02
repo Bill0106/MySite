@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { time2Date } from '../helpers';
+import helpers from '../helpers';
 import Image from '../containers/image.container';
 
 interface FieldProps extends React.Props<any> {
@@ -32,7 +32,7 @@ class Field extends React.Component<FieldProps, void> {
                     </select>
                 );
             case 'date':
-                return <input className="form-control" type="date" value={time2Date(data)} onChange={this.handleChange.bind(this)} />;
+                return <input className="form-control" type="date" value={helpers.time2Date(data)} onChange={this.handleChange.bind(this)} />;
             case 'radio':
                 return (
                     <div>

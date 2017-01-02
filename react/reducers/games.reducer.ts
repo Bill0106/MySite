@@ -1,19 +1,16 @@
-const initialState = {
-    isFetching: false,
-    fetched: false,
-    items: [],
-    total: 0,
-    fetchedPages: [],
-    error: null,
-}
+import helpers from '../helpers';
 
-export default function reducer(state = initialState, action) {
+export default function reducer(state = helpers.initialState, action) {
+    const { actionTypeStatus } = helpers;
+    const { games } = helpers.actionTypes;
     const { type, payload } = action;
+
     switch (type) {
-        case "FETCH_GAMES_PENDING":
+        case actionTypeStatus(games.fetch_list, 'pending'):
             return Object.assign({}, state, { isFetching: true, error: null });
-        case "FETCH_GAMES_FULFILLED":
-            let items = state.items.concat(payload.data.list);
+        case actionTypeStatus(games.fetch_list, 'success'):
+            let newSet = new Set(state.items.concat(payload.data.list));
+            let items = Array.from(newSet)
             items.sort((a, b) => {
                 if (a.buy_at > b.buy_at) return -1;
                 if (a.buy_at < b.buy_at) return 1;
@@ -22,16 +19,7 @@ export default function reducer(state = initialState, action) {
                 return 0;
             });
 
-            const url = payload.request.responseURL;
-            const match = url.match(/page=(\d)/i);
-            const page = match ? parseInt(match[1]) : 1;
-            let pages = state.fetchedPages;
-            pages.push(page);
-            pages.sort((a, b) => {
-                if (a > b) return 1;
-                if (a < b) return -1;
-                return 0;
-            });
+            const pages = helpers.fetchedPages(state.fetchedPages, payload.request.responseURL);
 
             return Object.assign({}, state, {
                 isFetching: false,
@@ -40,7 +28,7 @@ export default function reducer(state = initialState, action) {
                 total: state.total ? state.total : payload.data.total,
                 fetchedPages: pages,
             });
-        case "FETCH_GAMES_REJECTED":
+        case actionTypeStatus(games.fetch_list, 'error'):
             return Object.assign({}, state, {
                 isFetching: false,
                 fetched: false,
@@ -49,12 +37,11 @@ export default function reducer(state = initialState, action) {
                     data: payload.response.data
                 } 
             });
-        case "DELETE_GAME_PENDING":
+        case actionTypeStatus(games.delete, 'pending'):
             return Object.assign({}, state, { isFetching: true, error: null });
-        case "DELETE_GAME_FULFILLED":
+        case actionTypeStatus(games.delete, 'success'):
             let list = state.items;
-            let item = list.find(v => v._id == payload.data);
-            let index = list.indexOf(item);
+            let index = list.findIndex(v => v._id == payload.data);
             
             list.splice(index, 1);
             state.total--;
@@ -64,7 +51,7 @@ export default function reducer(state = initialState, action) {
                 fetched: true,
                 items: list,
             });
-        case "DELETE_GAME_REJECTED":
+        case actionTypeStatus(games.delete, 'error'):
             return Object.assign({}, state, {
                 isFetching: false,
                 fetched: false,
