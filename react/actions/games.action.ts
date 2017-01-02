@@ -1,17 +1,14 @@
 import axios from 'axios';
+import { createAction } from 'redux-actions';
+import helpers from '../helpers';
 import store from '../store';
 
-export function fetchGames(page: number = null) {
-    let url = '/games?limit=30';
-    if (page) {
-        url = `${url}&page=${page}`;
-    }
+const { games } = helpers.actionTypes;
 
-    return {
-        type: 'FETCH_GAMES',
-        payload: axios.get(url)
-    }
-}
+export const fetchGames = createAction(games.fetch_list, (page = null) => {
+    let url = `/games?limit=30${page ? '&page=' + page : ''}`;
+    return axios.get(url);
+});
 
 export function fetchGame(url: string) {
     const state = store.getState();
@@ -61,12 +58,7 @@ export function updateGame(game: any) {
     }
 }
 
-export function deleteGame(url: string) {
-    return {
-        type: 'DELETE_GAME',
-        payload: axios.post('/games/' + url + '/delete')
-    }
-}
+export const deleteGame = createAction(games.delete, (url) => axios.post('/games/' + url + '/delete'));
 
 export function changField(field: string, value: any) {
     return {
