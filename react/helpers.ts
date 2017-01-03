@@ -1,6 +1,8 @@
 const initialState = {
     isFetching: false,
     fetched: false,
+    isPosting: false,
+    posted: false,
     items: [],
     total: 0,
     fetchedPages: [],
@@ -16,7 +18,31 @@ const actionTypes = {
         fetch_item: 'FETCH_GAME',
         post: 'POST_GAME',
         delete: 'DELETE_GAME',
+    },
+    item: {
+        change: 'CHANGE_ITEM',
+        init: 'INIT_ITEM_CREATE',
+        set: 'SET_ITEM',
     }
+}
+
+const actionStatusGenerator = (types: any) => {
+    const progress = {
+        pending: 'PENDING',
+        success: 'FULFILLED',
+        error: 'REJECTED',
+    };
+
+    let newTypes = {};
+    for (let type in types) {
+        let obj = {};
+        for (let key in progress) {
+            obj[key] = `${types[type]}_${progress[key]}`;
+        }
+        newTypes[type] = obj;
+    }
+
+    return newTypes;
 }
 
 const actionTypeStatus = function (type: string, status: string) {
@@ -47,7 +73,7 @@ const fetchedPages = function (pages: any, url: string) {
     return pages;
 }
 
-const time2Date = function(timestamp: number, displayTime: boolean = false) {
+const time2Date = function (timestamp: number, displayTime: boolean = false) {
     if (!timestamp) {
         return '';
     }
@@ -74,4 +100,4 @@ const time2Date = function(timestamp: number, displayTime: boolean = false) {
     return ts;
 }
 
-export default { initialState, actionTypes, actionTypeStatus, fetchedPages, time2Date }
+export default { initialState, actionTypes, actionTypeStatus, fetchedPages, time2Date, actionStatusGenerator }

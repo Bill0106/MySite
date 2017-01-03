@@ -10,33 +10,7 @@ export const fetchGames = createAction(games.fetch_list, (page = null) => {
     return axios.get(url);
 });
 
-export function fetchGame(url: string) {
-    const state = store.getState();
-    const games = state['games'];
-    const game = state['game'];
-
-    if (game.fetched && game.item.url == url) {
-        return {
-            type: 'FETCH_GAME_FULFILLED',
-            payload: game.item
-        }
-    }
-
-    if (games.fetched && games.items.length) {
-        const item = games.items.find(v => v.url == url);
-        if (item) {
-            return {
-                type: 'FETCH_GAME_FULFILLED',
-                payload: item
-            }
-        }
-    }
-
-    return {
-        type: 'FETCH_GAME',
-        payload: axios.get('/games/' + url)
-    }
-}
+export const fetchGame = createAction(games.fetch_item, (url) => axios.get('/games/' + url));
 
 export function initGameCreate() {
     return {

@@ -52,7 +52,7 @@
 	var axios_1 = __webpack_require__(263);
 	var keys_1 = __webpack_require__(288);
 	var routing_1 = __webpack_require__(289);
-	var store_1 = __webpack_require__(453);
+	var store_1 = __webpack_require__(474);
 	axios_1.default.defaults.baseURL = '/api';
 	axios_1.default.defaults.headers.common['auth'] = keys_1.Keys.api.GET;
 	axios_1.default.defaults.headers.post['auth'] = keys_1.Keys.api.POST;
@@ -29711,12 +29711,12 @@
 	var app_component_1 = __webpack_require__(290);
 	var dashboard_container_1 = __webpack_require__(291);
 	var games_container_1 = __webpack_require__(451);
-	var game_container_1 = __webpack_require__(483);
-	var gourmets_container_1 = __webpack_require__(491);
-	var gourmet_container_1 = __webpack_require__(493);
-	var hearthstone_seasons_container_1 = __webpack_require__(496);
-	var hearthstone_season_container_1 = __webpack_require__(498);
-	var hearthstone_decks_container_1 = __webpack_require__(502);
+	var game_container_1 = __webpack_require__(463);
+	var gourmets_container_1 = __webpack_require__(472);
+	var gourmet_container_1 = __webpack_require__(494);
+	var hearthstone_seasons_container_1 = __webpack_require__(497);
+	var hearthstone_season_container_1 = __webpack_require__(499);
+	var hearthstone_decks_container_1 = __webpack_require__(503);
 	var ROUTING_CONFIG = [
 	    {
 	        path: '/admin',
@@ -35239,6 +35239,8 @@
 	var initialState = {
 	    isFetching: false,
 	    fetched: false,
+	    isPosting: false,
+	    posted: false,
 	    items: [],
 	    total: 0,
 	    fetchedPages: [],
@@ -35253,7 +35255,28 @@
 	        fetch_item: 'FETCH_GAME',
 	        post: 'POST_GAME',
 	        delete: 'DELETE_GAME',
+	    },
+	    item: {
+	        change: 'CHANGE_ITEM',
+	        init: 'INIT_ITEM_CREATE',
+	        set: 'SET_ITEM',
 	    }
+	};
+	var actionStatusGenerator = function (types) {
+	    var progress = {
+	        pending: 'PENDING',
+	        success: 'FULFILLED',
+	        error: 'REJECTED',
+	    };
+	    var newTypes = {};
+	    for (var type in types) {
+	        var obj = {};
+	        for (var key in progress) {
+	            obj[key] = types[type] + "_" + progress[key];
+	        }
+	        newTypes[type] = obj;
+	    }
+	    return newTypes;
 	};
 	var actionTypeStatus = function (type, status) {
 	    var progress = {
@@ -35302,7 +35325,7 @@
 	    return ts;
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = { initialState: initialState, actionTypes: actionTypes, actionTypeStatus: actionTypeStatus, fetchedPages: fetchedPages, time2Date: time2Date };
+	exports.default = { initialState: initialState, actionTypes: actionTypes, actionTypeStatus: actionTypeStatus, fetchedPages: fetchedPages, time2Date: time2Date, actionStatusGenerator: actionStatusGenerator };
 
 
 /***/ },
@@ -35439,7 +35462,7 @@
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
 	var games_action_1 = __webpack_require__(452);
-	var list_component_1 = __webpack_require__(473);
+	var list_component_1 = __webpack_require__(453);
 	var mapStateToProps = function (state) {
 	    return {
 	        list: state.games,
@@ -35468,38 +35491,13 @@
 	var axios_1 = __webpack_require__(263);
 	var redux_actions_1 = __webpack_require__(292);
 	var helpers_1 = __webpack_require__(447);
-	var store_1 = __webpack_require__(453);
 	var games = helpers_1.default.actionTypes.games;
 	exports.fetchGames = redux_actions_1.createAction(games.fetch_list, function (page) {
 	    if (page === void 0) { page = null; }
 	    var url = "/games?limit=30" + (page ? '&page=' + page : '');
 	    return axios_1.default.get(url);
 	});
-	function fetchGame(url) {
-	    var state = store_1.default.getState();
-	    var games = state['games'];
-	    var game = state['game'];
-	    if (game.fetched && game.item.url == url) {
-	        return {
-	            type: 'FETCH_GAME_FULFILLED',
-	            payload: game.item
-	        };
-	    }
-	    if (games.fetched && games.items.length) {
-	        var item = games.items.find(function (v) { return v.url == url; });
-	        if (item) {
-	            return {
-	                type: 'FETCH_GAME_FULFILLED',
-	                payload: item
-	            };
-	        }
-	    }
-	    return {
-	        type: 'FETCH_GAME',
-	        payload: axios_1.default.get('/games/' + url)
-	    };
-	}
-	exports.fetchGame = fetchGame;
+	exports.fetchGame = redux_actions_1.createAction(games.fetch_item, function (url) { return axios_1.default.get('/games/' + url); });
 	function initGameCreate() {
 	    return {
 	        type: 'INIT_GAME_CREATE'
@@ -35535,18 +35533,954 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var alert_component_1 = __webpack_require__(450);
+	var page_header_component_1 = __webpack_require__(454);
+	var paginator_component_1 = __webpack_require__(455);
+	var games_item_component_1 = __webpack_require__(456);
+	var gourmets_item_component_1 = __webpack_require__(459);
+	var hearthstone_seasons_item_component_1 = __webpack_require__(460);
+	var hearthstone_decks_item_component_1 = __webpack_require__(461);
+	var List = (function (_super) {
+	    __extends(List, _super);
+	    function List() {
+	        _super.apply(this, arguments);
+	    }
+	    List.prototype.componentWillMount = function () {
+	        var type = this.props.type;
+	        document.title = type + ' | Admin';
+	    };
+	    List.prototype.componentDidMount = function () {
+	        var _a = this.props, getList = _a.getList, location = _a.location, list = _a.list;
+	        var page = location.query['page'] ? parseInt(location.query['page']) : 1;
+	        if (list.fetchedPages.indexOf(page) < 0) {
+	            getList(location.query['page']);
+	        }
+	    };
+	    List.prototype.componentWillUpdate = function (nextProps) {
+	        var location = nextProps.location;
+	        var _a = this.props, getList = _a.getList, list = _a.list;
+	        var page = location.query['page'] ? parseInt(location.query['page']) : 1;
+	        if (this.props.location.query['page'] != location.query['page'] && list.fetchedPages.indexOf(page) < 0) {
+	            getList(location.query['page']);
+	        }
+	    };
+	    List.prototype.handleItems = function (item, key) {
+	        var _a = this.props, type = _a.type, postDelete = _a.postDelete;
+	        switch (type) {
+	            case 'Games':
+	                return React.createElement(games_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item.url); }});
+	            case 'Gourmets':
+	                return React.createElement(gourmets_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item._id); }});
+	            case 'Hearthsonte-Seasons':
+	                return React.createElement(hearthstone_seasons_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item.url); }});
+	            case 'Hearthsonte-Decks':
+	                return React.createElement(hearthstone_decks_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item._id); }});
+	            default:
+	                return '';
+	        }
+	    };
+	    List.prototype.handleContent = function (list, type, page) {
+	        var _page = page ? parseInt(page) : 1;
+	        var per = (type == 'Hearthstonr-Matches') ? 100 : 30;
+	        var index = list.fetchedPages.indexOf(_page);
+	        var start = per * index;
+	        var items = list.items.slice(start, start + per);
+	        return items;
+	    };
+	    List.prototype.render = function () {
+	        var _this = this;
+	        var _a = this.props, list = _a.list, type = _a.type, location = _a.location;
+	        var items = this.handleContent(list, type, location.query['page']);
+	        return (React.createElement("div", {className: "container-fluid"}, 
+	            React.createElement(page_header_component_1.default, {title: type, button: true, total: list.total}), 
+	            React.createElement(alert_component_1.default, {fetch: list}), 
+	            React.createElement("div", {className: "row"}, 
+	                React.createElement("div", {className: "col-sm-12"}, 
+	                    React.createElement("table", {className: "table table-bordered admin-table-list"}, 
+	                        React.createElement("tbody", null, items.map(function (item, key) {
+	                            return _this.handleItems(item, key);
+	                        }))
+	                    )
+	                )
+	            ), 
+	            React.createElement(paginator_component_1.default, {total: list.total, path: location.pathname, current: location.query['page'], per: type == 'Hearthstonr-Matches' ? 100 : 30})));
+	    };
+	    return List;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = List;
+
+
+/***/ },
+/* 454 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var react_router_1 = __webpack_require__(209);
+	var PageHeader = (function (_super) {
+	    __extends(PageHeader, _super);
+	    function PageHeader() {
+	        _super.apply(this, arguments);
+	    }
+	    PageHeader.prototype.render = function () {
+	        var _a = this.props, title = _a.title, total = _a.total, button = _a.button;
+	        var addButton = null;
+	        if (button) {
+	            addButton = React.createElement(react_router_1.Link, {to: '/admin/' + title.toLowerCase() + '/add', className: "btn btn-primary pull-right"}, "Add");
+	        }
+	        return (React.createElement("div", {className: "row"}, 
+	            React.createElement("div", {className: "col-sm-12"}, 
+	                React.createElement("section", {className: "page-header"}, 
+	                    React.createElement("h1", null, 
+	                        title, 
+	                        " ", 
+	                        React.createElement("small", null, total ? total : ''), 
+	                        addButton ? addButton : null)
+	                )
+	            )
+	        ));
+	    };
+	    return PageHeader;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = PageHeader;
+
+
+/***/ },
+/* 455 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var react_router_1 = __webpack_require__(209);
+	var Pagination = (function (_super) {
+	    __extends(Pagination, _super);
+	    function Pagination() {
+	        _super.apply(this, arguments);
+	    }
+	    Pagination.prototype.render = function () {
+	        var _a = this.props, total = _a.total, per = _a.per, current = _a.current, path = _a.path;
+	        var pages = Math.ceil(total / per);
+	        var indent = [];
+	        for (var i = 0; i < pages; i++) {
+	            var active = false;
+	            var url = path;
+	            if (i > 0) {
+	                url = path + '?page=' + (i + 1);
+	            }
+	            if ((!current && i === 0) || (current && current == i + 1)) {
+	                active = true;
+	            }
+	            indent.push(React.createElement("li", {key: i, className: active ? 'active' : ''}, 
+	                React.createElement(react_router_1.Link, {to: url}, i + 1)
+	            ));
+	        }
+	        return (React.createElement("div", {className: "row"}, 
+	            React.createElement("div", {className: "col-sm-12"}, 
+	                React.createElement("ul", {className: "pagination"}, indent)
+	            )
+	        ));
+	    };
+	    return Pagination;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Pagination;
+
+
+/***/ },
+/* 456 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var react_router_1 = __webpack_require__(209);
+	var game_platforms_1 = __webpack_require__(457);
+	var game_genres_1 = __webpack_require__(458);
+	var GamesItem = (function (_super) {
+	    __extends(GamesItem, _super);
+	    function GamesItem() {
+	        _super.apply(this, arguments);
+	    }
+	    GamesItem.prototype.render = function () {
+	        var data = this.props.data;
+	        return (React.createElement("tr", null, 
+	            React.createElement("td", null, data._id), 
+	            React.createElement("td", null, 
+	                React.createElement(react_router_1.Link, {to: '/admin/games/' + data.url}, data.title)
+	            ), 
+	            React.createElement("td", null, data.name), 
+	            React.createElement("td", null, game_platforms_1.GamePlatforms.find(function (platfrom) { return platfrom.value == data.platform; }).name), 
+	            React.createElement("td", null, game_genres_1.GameGenres.find(function (genre) { return genre.value == data.genre; }).name), 
+	            React.createElement("td", null, 
+	                React.createElement(react_router_1.Link, {to: '/admin/games/' + data.url + '/trophy', className: "btn btn-primary"}, "Tophy"), 
+	                React.createElement("button", {className: "btn btn-danger", type: "button", onClick: this.props.delete}, "×"))));
+	    };
+	    return GamesItem;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = GamesItem;
+
+
+/***/ },
+/* 457 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var GAME_PLATFORMS = [
+	    {
+	        value: 0,
+	        name: 'PlayStation 3'
+	    },
+	    {
+	        value: 1,
+	        name: 'PlayStation Vita'
+	    },
+	    {
+	        value: 2,
+	        name: 'PlayStation 4'
+	    }
+	];
+	exports.GamePlatforms = GAME_PLATFORMS;
+
+
+/***/ },
+/* 458 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var GAME_GENRES = [
+	    {
+	        value: 0,
+	        name: 'Action'
+	    },
+	    {
+	        value: 1,
+	        name: 'Adventure'
+	    },
+	    {
+	        value: 2,
+	        name: 'Fighting'
+	    },
+	    {
+	        value: 3,
+	        name: 'Racing'
+	    },
+	    {
+	        value: 4,
+	        name: 'Role-Playing'
+	    },
+	    {
+	        value: 5,
+	        name: 'Sports'
+	    },
+	    {
+	        value: 6,
+	        name: 'Third-person shooter'
+	    },
+	    {
+	        value: 7,
+	        name: 'Strategy'
+	    }
+	];
+	exports.GameGenres = GAME_GENRES;
+
+
+/***/ },
+/* 459 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var react_router_1 = __webpack_require__(209);
+	var helpers_1 = __webpack_require__(447);
+	var GourmetsItem = (function (_super) {
+	    __extends(GourmetsItem, _super);
+	    function GourmetsItem() {
+	        _super.apply(this, arguments);
+	    }
+	    GourmetsItem.prototype.render = function () {
+	        var data = this.props.data;
+	        return (React.createElement("tr", null, 
+	            React.createElement("td", null, data._id), 
+	            React.createElement("td", null, 
+	                React.createElement(react_router_1.Link, {to: '/admin/gourmets/' + data._id}, data.food)
+	            ), 
+	            React.createElement("td", null, data.restaurant), 
+	            React.createElement("td", null, helpers_1.default.time2Date(data.date)), 
+	            React.createElement("td", null, 
+	                React.createElement("a", {href: data.url, target: "_blank"}, data.url)
+	            ), 
+	            React.createElement("td", null, 
+	                React.createElement("button", {className: "btn btn-danger", type: "button", onClick: this.props.delete}, "×")
+	            )));
+	    };
+	    return GourmetsItem;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = GourmetsItem;
+
+
+/***/ },
+/* 460 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var react_router_1 = __webpack_require__(209);
+	var HearthstoneSeasonsItem = (function (_super) {
+	    __extends(HearthstoneSeasonsItem, _super);
+	    function HearthstoneSeasonsItem() {
+	        _super.apply(this, arguments);
+	    }
+	    HearthstoneSeasonsItem.prototype.render = function () {
+	        var data = this.props.data;
+	        return (React.createElement("tr", null, 
+	            React.createElement("td", null, data._id), 
+	            React.createElement("td", null, 
+	                React.createElement(react_router_1.Link, {to: '/admin/hearthstone-seasons/' + data.url}, data.title)
+	            ), 
+	            React.createElement("td", null, data.month), 
+	            React.createElement("td", null, data.rank), 
+	            React.createElement("td", null, data.url), 
+	            React.createElement("td", null, 
+	                React.createElement("button", {type: "button", className: "btn btn-danger", onClick: this.props.delete}, "×")
+	            )));
+	    };
+	    return HearthstoneSeasonsItem;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneSeasonsItem;
+
+
+/***/ },
+/* 461 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var react_router_1 = __webpack_require__(209);
+	var hearthstone_player_classes_1 = __webpack_require__(462);
+	var HearthstoneDecksItem = (function (_super) {
+	    __extends(HearthstoneDecksItem, _super);
+	    function HearthstoneDecksItem() {
+	        _super.apply(this, arguments);
+	    }
+	    HearthstoneDecksItem.prototype.render = function () {
+	        var data = this.props.data;
+	        return (React.createElement("tr", null, 
+	            React.createElement("td", null, data._id), 
+	            React.createElement("td", null, 
+	                React.createElement(react_router_1.Link, {to: '/admin/hearthstone-decks/' + data._id}, data.name)
+	            ), 
+	            React.createElement("td", null, hearthstone_player_classes_1.HearthstonePlayerClasses.find(function (player) { return player.value == data.playerClass; }).name), 
+	            React.createElement("td", null, data.active ? 'Active' : 'Inactive'), 
+	            React.createElement("td", null, 
+	                React.createElement("button", {className: "btn btn-danger", type: "button", onClick: this.props.delete}, "×")
+	            )));
+	    };
+	    return HearthstoneDecksItem;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneDecksItem;
+
+
+/***/ },
+/* 462 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var HEARTHSTONE_PLAYER_CLASSES = [
+	    {
+	        value: 0,
+	        name: "Druid"
+	    },
+	    {
+	        value: 1,
+	        name: "Hunter"
+	    },
+	    {
+	        value: 2,
+	        name: "Mage"
+	    },
+	    {
+	        value: 3,
+	        name: "Paladin"
+	    },
+	    {
+	        value: 4,
+	        name: "Priest"
+	    },
+	    {
+	        value: 5,
+	        name: "Rogue"
+	    },
+	    {
+	        value: 6,
+	        name: "Shaman"
+	    },
+	    {
+	        value: 7,
+	        name: "Warlock"
+	    },
+	    {
+	        value: 8,
+	        name: "Warrior"
+	    }
+	];
+	exports.HearthstonePlayerClasses = HEARTHSTONE_PLAYER_CLASSES;
+
+
+/***/ },
+/* 463 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var react_redux_1 = __webpack_require__(179);
+	var game_1 = __webpack_require__(464);
+	var games_action_1 = __webpack_require__(452);
+	var item_action_1 = __webpack_require__(465);
+	var item_component_1 = __webpack_require__(466);
+	var mapStateToProps = function (state) {
+	    return {
+	        list: state.games,
+	        item: state.item,
+	        type: 'Game',
+	        fields: game_1.GameFields,
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        initItemCreate: function () { return dispatch(item_action_1.initItemCreate()); },
+	        getItem: function (param) { return dispatch(games_action_1.fetchGame(param)); },
+	        setItem: function (item) { return dispatch(item_action_1.setItem(item)); },
+	        createItem: function (item) { return dispatch(games_action_1.createGame(item)); },
+	        updateItem: function (item) { return dispatch(games_action_1.updateGame(item)); },
+	        changeItem: function (field, value) { return dispatch(item_action_1.changeItem({ field: field, value: value })); },
+	    };
+	};
+	var Game = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(item_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Game;
+
+
+/***/ },
+/* 464 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var game_genres_1 = __webpack_require__(458);
+	var game_platforms_1 = __webpack_require__(457);
+	var GAME_FIELDS = [
+	    {
+	        name: 'image',
+	        type: 'image',
+	        placeholder: 'https://placeholdit.imgix.net/~text?txtsize=30&txt=570%C3%97570&w=150&h=150',
+	    },
+	    {
+	        name: 'title',
+	        type: 'input',
+	    },
+	    {
+	        name: 'name',
+	        type: 'input',
+	    },
+	    {
+	        name: 'developer',
+	        type: 'input',
+	    },
+	    {
+	        name: 'publisher',
+	        type: 'input',
+	    },
+	    {
+	        name: 'release_at',
+	        type: 'date',
+	    },
+	    {
+	        name: 'buy_at',
+	        type: 'date',
+	    },
+	    {
+	        name: 'rate',
+	        type: 'radio',
+	        enum: ['1', '2', '3', '4', '5']
+	    },
+	    {
+	        name: 'url',
+	        type: 'input',
+	    },
+	    {
+	        name: 'platform',
+	        type: 'select',
+	        enum: game_platforms_1.GamePlatforms
+	    },
+	    {
+	        name: 'genre',
+	        type: 'select',
+	        enum: game_genres_1.GameGenres
+	    },
+	    {
+	        name: 'description',
+	        type: 'text',
+	    }
+	];
+	exports.GameFields = GAME_FIELDS;
+
+
+/***/ },
+/* 465 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var redux_actions_1 = __webpack_require__(292);
+	var helpers_1 = __webpack_require__(447);
+	var item = helpers_1.default.actionTypes.item;
+	exports.initItemCreate = redux_actions_1.createAction(item.init);
+	exports.setItem = redux_actions_1.createAction(item.set);
+	exports.changeItem = redux_actions_1.createAction(item.change);
+
+
+/***/ },
+/* 466 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var form_component_1 = __webpack_require__(467);
+	var Item = (function (_super) {
+	    __extends(Item, _super);
+	    function Item() {
+	        _super.apply(this, arguments);
+	    }
+	    Item.prototype.componentWillMount = function () {
+	        var _a = this.props, initItemCreate = _a.initItemCreate, type = _a.type, params = _a.params;
+	        if (Object.values(params).indexOf('add') < 0) {
+	            document.title = "Edit - " + type + " | Admin";
+	        }
+	        else {
+	            document.title = "Add - " + type + " | Admin";
+	        }
+	        initItemCreate();
+	    };
+	    Item.prototype.componentDidMount = function () {
+	        var _a = this.props, params = _a.params, type = _a.type, list = _a.list, getItem = _a.getItem, setItem = _a.setItem;
+	        var items = list.items;
+	        var key = (type == 'Game') ? 'url' : 'id';
+	        var item = this.handleItemSearch();
+	        if (item) {
+	            setItem(item);
+	        }
+	        else if (params[key] != 'add') {
+	            getItem(params[key]);
+	        }
+	    };
+	    Item.prototype.componentWillUpdate = function (nextProps, nextState) {
+	        var item = nextProps.item, setItem = nextProps.setItem;
+	        var obj = this.handleItemSearch();
+	        if (!item.data && obj) {
+	            setItem(obj);
+	        }
+	    };
+	    Item.prototype.handleItemSearch = function () {
+	        var _a = this.props, type = _a.type, list = _a.list, params = _a.params;
+	        var items = list.items;
+	        switch (type) {
+	            case 'Game':
+	                return items.find(function (v) { return v.url == params['url']; });
+	            default:
+	                return null;
+	        }
+	    };
+	    Item.prototype.handlePost = function () {
+	        var _a = this.props, item = _a.item, createItem = _a.createItem, updateItem = _a.updateItem, params = _a.params;
+	        if (Object.values(params).indexOf('add') < 0) {
+	            updateItem(item.data);
+	        }
+	        else {
+	            createItem(item.data);
+	        }
+	        window.scrollTo(0, 0);
+	    };
+	    Item.prototype.render = function () {
+	        var _a = this.props, fields = _a.fields, item = _a.item, changeItem = _a.changeItem;
+	        return (React.createElement("div", {className: "container-fluid"}, 
+	            React.createElement(form_component_1.default, {fields: fields, data: item.data, change: function (f, v) { return changeItem(f, v); }, submit: this.handlePost.bind(this)})
+	        ));
+	    };
+	    return Item;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Item;
+
+
+/***/ },
+/* 467 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var field_component_1 = __webpack_require__(468);
+	var Form = (function (_super) {
+	    __extends(Form, _super);
+	    function Form() {
+	        _super.apply(this, arguments);
+	    }
+	    Form.prototype.handleSubmit = function (e) {
+	        var submit = this.props.submit;
+	        e.preventDefault();
+	        submit();
+	    };
+	    Form.prototype.render = function () {
+	        var _a = this.props, fields = _a.fields, data = _a.data, change = _a.change;
+	        return (React.createElement("form", {onSubmit: this.handleSubmit.bind(this)}, 
+	            React.createElement("table", {className: "table table-bordered"}, 
+	                React.createElement("tbody", null, fields.map(function (field, key) {
+	                    return React.createElement(field_component_1.default, {field: field, key: key, data: data ? data[field.name] : '', change: function (f, v) { return change(f, v); }});
+	                }))
+	            ), 
+	            React.createElement("div", {className: "form-group"}, 
+	                React.createElement("button", {className: "btn btn-success", type: "submit"}, "Submit")
+	            )));
+	    };
+	    return Form;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Form;
+
+
+/***/ },
+/* 468 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var helpers_1 = __webpack_require__(447);
+	var image_container_1 = __webpack_require__(469);
+	var Field = (function (_super) {
+	    __extends(Field, _super);
+	    function Field() {
+	        _super.apply(this, arguments);
+	    }
+	    Field.prototype.handleChange = function (e) {
+	        var _a = this.props, change = _a.change, field = _a.field;
+	        change(field.name, e.target.value);
+	    };
+	    Field.prototype.handleField = function (field, data) {
+	        var _this = this;
+	        switch (field.type) {
+	            case 'image':
+	                return React.createElement(image_container_1.default, {image: data ? JSON.parse(data).url : field.placeholder, change: function (f, v) { return _this.props.change(f, v); }});
+	            case 'text':
+	                return React.createElement("textarea", {value: data, className: "form-control", rows: 20, onChange: this.handleChange.bind(this)});
+	            case 'select':
+	                return (React.createElement("select", {className: "form-control", value: data, onChange: this.handleChange.bind(this)}, field.enum.map(function (option) {
+	                    return React.createElement("option", {value: option.value, key: option.value}, option.value + ' - ' + option.name);
+	                })));
+	            case 'date':
+	                return React.createElement("input", {className: "form-control", type: "date", value: helpers_1.default.time2Date(data), onChange: this.handleChange.bind(this)});
+	            case 'radio':
+	                return (React.createElement("div", null, field.enum.map(function (radio) {
+	                    return (React.createElement("label", {className: "radio-inline", key: radio}, 
+	                        React.createElement("input", {type: "radio", value: radio, checked: data == radio, onChange: _this.handleChange.bind(_this)}), 
+	                        radio));
+	                })));
+	            default:
+	                return React.createElement("input", {type: "text", className: "form-control", onChange: this.handleChange.bind(this), placeholder: 'ENTER ' + field.name.toUpperCase(), value: data || ''});
+	        }
+	    };
+	    Field.prototype.render = function () {
+	        var _a = this.props, field = _a.field, data = _a.data;
+	        return (React.createElement("tr", null, 
+	            React.createElement("td", null, 
+	                React.createElement("label", null, field.name.toUpperCase())
+	            ), 
+	            React.createElement("td", null, this.handleField(field, data))));
+	    };
+	    return Field;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Field;
+
+
+/***/ },
+/* 469 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var react_redux_1 = __webpack_require__(179);
+	var image_action_1 = __webpack_require__(470);
+	var image_upload_component_1 = __webpack_require__(471);
+	var mapStateToProps = function (state, ownProps) {
+	    return {
+	        image: state.image,
+	        imageUrl: ownProps.image,
+	        change: ownProps.change
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        upload: function (file) { return dispatch(image_action_1.uploadImage(file)); },
+	        init: function () { return dispatch(image_action_1.initImage()); }
+	    };
+	};
+	var Image = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(image_upload_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Image;
+
+
+/***/ },
+/* 470 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var axios_1 = __webpack_require__(263);
+	function uploadImage(file) {
+	    return {
+	        type: 'UPLOAD_IMAGE',
+	        payload: axios_1.default.post('/images', file)
+	    };
+	}
+	exports.uploadImage = uploadImage;
+	function initImage() {
+	    return {
+	        type: 'INIT_IMAGE'
+	    };
+	}
+	exports.initImage = initImage;
+
+
+/***/ },
+/* 471 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var ImageUpload = (function (_super) {
+	    __extends(ImageUpload, _super);
+	    function ImageUpload() {
+	        _super.apply(this, arguments);
+	    }
+	    ImageUpload.prototype.componentWillMount = function () {
+	        var init = this.props.init;
+	        init();
+	    };
+	    ImageUpload.prototype.componentWillUpdate = function (nextProps, nextState) {
+	        var change = this.props.change;
+	        var image = nextProps.image;
+	        if (!this.props.image.fetched && image.fetched) {
+	            change('image', JSON.stringify(image.image));
+	        }
+	    };
+	    ImageUpload.prototype.handleUpload = function (e) {
+	        var upload = this.props.upload;
+	        var data = new FormData();
+	        data.append('file', e.target.files[0]);
+	        upload(data);
+	    };
+	    ImageUpload.prototype.handleStatus = function (image) {
+	        var isFetching = image.isFetching, error = image.error;
+	        if (isFetching) {
+	            return React.createElement("div", {className: "alert alert-info"}, "Upload...");
+	        }
+	        else if (error) {
+	            return React.createElement("div", {className: "alert alert-danger"}, error.data);
+	        }
+	    };
+	    ImageUpload.prototype.render = function () {
+	        var _a = this.props, image = _a.image, imageUrl = _a.imageUrl, change = _a.change;
+	        return (React.createElement("div", {className: "clearfix"}, 
+	            React.createElement("div", {className: "admin-image-upload"}, 
+	                React.createElement("img", {src: imageUrl, alt: ""}), 
+	                React.createElement("input", {type: "file", onChange: this.handleUpload.bind(this)})), 
+	            this.handleStatus(image)));
+	    };
+	    return ImageUpload;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = ImageUpload;
+
+
+/***/ },
+/* 472 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var react_redux_1 = __webpack_require__(179);
+	var gourmets_action_1 = __webpack_require__(473);
+	var list_component_1 = __webpack_require__(453);
+	var mapStateToProps = function (state) {
+	    return {
+	        list: state.gourmets,
+	        type: 'Gourmets'
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        getList: function (page) {
+	            if (page === void 0) { page = null; }
+	            return dispatch(gourmets_action_1.fetchGourmets(page));
+	        },
+	        postDelete: function (url) { return dispatch(gourmets_action_1.deleteGourmet(url)); }
+	    };
+	};
+	var Gourmets = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(list_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Gourmets;
+
+
+/***/ },
+/* 473 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var axios_1 = __webpack_require__(263);
+	var store_1 = __webpack_require__(474);
+	function fetchGourmets(page) {
+	    var url = '/gourmets?limit=30';
+	    if (page) {
+	        url = url + "&page=" + page;
+	    }
+	    return {
+	        type: 'FETCH_GOURMETS',
+	        payload: axios_1.default.get(url)
+	    };
+	}
+	exports.fetchGourmets = fetchGourmets;
+	function fetchGourmet(id) {
+	    var state = store_1.default.getState();
+	    var gourmets = state['gourmets'];
+	    var gourmet = state['gourmet'];
+	    if (gourmet.fetched && gourmet.item._id == id) {
+	        return {
+	            type: 'FETCH_GOURMET_FULFILLED',
+	            payload: gourmet.item
+	        };
+	    }
+	    if (gourmets.fetched && gourmets.items.length) {
+	        var item = gourmets.items.find(function (v) { return v._id == id; });
+	        if (item) {
+	            return {
+	                type: 'FETCH_GOURMET_FULFILLED',
+	                payload: item
+	            };
+	        }
+	    }
+	    return {
+	        type: 'FETCH_GOURMET',
+	        payload: axios_1.default.get('/gourmets/' + id)
+	    };
+	}
+	exports.fetchGourmet = fetchGourmet;
+	function initGourmetCreate() {
+	    return {
+	        type: 'INIT_GOURMET_CREATE'
+	    };
+	}
+	exports.initGourmetCreate = initGourmetCreate;
+	function createGourmet(gourmet) {
+	    return {
+	        type: 'POST_GOURMET',
+	        payload: axios_1.default.post('/gourmets/', gourmet)
+	    };
+	}
+	exports.createGourmet = createGourmet;
+	function updateGourmet(gourmet) {
+	    return {
+	        type: 'POST_GOURMET',
+	        payload: axios_1.default.post('/gourmets/' + gourmet._id, gourmet)
+	    };
+	}
+	exports.updateGourmet = updateGourmet;
+	function deleteGourmet(id) {
+	    return {
+	        type: 'DELETE_GOURMET',
+	        payload: axios_1.default.post('/gourmets/' + id + '/delete')
+	    };
+	}
+	exports.deleteGourmet = deleteGourmet;
+	function changField(field, value) {
+	    return {
+	        type: 'CHANGE_FIELD',
+	        payload: { field: field, value: value }
+	    };
+	}
+	exports.changField = changField;
+
+
+/***/ },
+/* 474 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
 	var redux_1 = __webpack_require__(186);
-	var logger = __webpack_require__(454);
-	var redux_promise_middleware_1 = __webpack_require__(460);
-	var redux_thunk_1 = __webpack_require__(462);
-	var reducers_1 = __webpack_require__(463);
+	var logger = __webpack_require__(475);
+	var redux_promise_middleware_1 = __webpack_require__(481);
+	var redux_thunk_1 = __webpack_require__(483);
+	var reducers_1 = __webpack_require__(484);
 	var middleware = redux_1.applyMiddleware(logger(), redux_thunk_1.default, redux_promise_middleware_1.default());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = redux_1.createStore(reducers_1.default, middleware);
 
 
 /***/ },
-/* 454 */
+/* 475 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35557,11 +36491,11 @@
 	  value: true
 	});
 
-	var _core = __webpack_require__(455);
+	var _core = __webpack_require__(476);
 
-	var _helpers = __webpack_require__(456);
+	var _helpers = __webpack_require__(477);
 
-	var _defaults = __webpack_require__(459);
+	var _defaults = __webpack_require__(480);
 
 	var _defaults2 = _interopRequireDefault(_defaults);
 
@@ -35664,7 +36598,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 455 */
+/* 476 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35674,9 +36608,9 @@
 	});
 	exports.printBuffer = printBuffer;
 
-	var _helpers = __webpack_require__(456);
+	var _helpers = __webpack_require__(477);
 
-	var _diff = __webpack_require__(457);
+	var _diff = __webpack_require__(478);
 
 	var _diff2 = _interopRequireDefault(_diff);
 
@@ -35805,7 +36739,7 @@
 	}
 
 /***/ },
-/* 456 */
+/* 477 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -35829,7 +36763,7 @@
 	var timer = exports.timer = typeof performance !== "undefined" && performance !== null && typeof performance.now === "function" ? performance : Date;
 
 /***/ },
-/* 457 */
+/* 478 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35839,7 +36773,7 @@
 	});
 	exports.default = diffLogger;
 
-	var _deepDiff = __webpack_require__(458);
+	var _deepDiff = __webpack_require__(479);
 
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 
@@ -35925,7 +36859,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 458 */
+/* 479 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global) {/*!
@@ -36354,7 +37288,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 459 */
+/* 480 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36405,7 +37339,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 460 */
+/* 481 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36422,7 +37356,7 @@
 
 	exports.default = promiseMiddleware;
 
-	var _isPromise = __webpack_require__(461);
+	var _isPromise = __webpack_require__(482);
 
 	var _isPromise2 = _interopRequireDefault(_isPromise);
 
@@ -36579,7 +37513,7 @@
 	}
 
 /***/ },
-/* 461 */
+/* 482 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36600,7 +37534,7 @@
 	}
 
 /***/ },
-/* 462 */
+/* 483 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36628,28 +37562,28 @@
 	exports['default'] = thunk;
 
 /***/ },
-/* 463 */
+/* 484 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var redux_1 = __webpack_require__(186);
-	var counts_reducer_1 = __webpack_require__(464);
-	var image_reducer_1 = __webpack_require__(465);
-	var games_reducer_1 = __webpack_require__(466);
-	var game_reducer_1 = __webpack_require__(467);
-	var gourmets_reducer_1 = __webpack_require__(468);
-	var gourmet_reducer_1 = __webpack_require__(469);
-	var hearthstone_seasons_reducer_1 = __webpack_require__(470);
-	var hearthstone_season_reducer_1 = __webpack_require__(471);
-	var hearthstone_decks_reducer_1 = __webpack_require__(472);
+	var counts_reducer_1 = __webpack_require__(485);
+	var image_reducer_1 = __webpack_require__(486);
+	var games_reducer_1 = __webpack_require__(487);
+	var gourmets_reducer_1 = __webpack_require__(488);
+	var gourmet_reducer_1 = __webpack_require__(489);
+	var hearthstone_seasons_reducer_1 = __webpack_require__(490);
+	var hearthstone_season_reducer_1 = __webpack_require__(491);
+	var hearthstone_decks_reducer_1 = __webpack_require__(492);
+	var item_reducer_1 = __webpack_require__(493);
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = redux_1.combineReducers({
-	    counts: counts_reducer_1.default, image: image_reducer_1.default, games: games_reducer_1.default, game: game_reducer_1.default, gourmets: gourmets_reducer_1.default, gourmet: gourmet_reducer_1.default, hearthstoneSeasons: hearthstone_seasons_reducer_1.default, hearthstoneSeason: hearthstone_season_reducer_1.default, hearthstoneDecks: hearthstone_decks_reducer_1.default
+	    counts: counts_reducer_1.default, image: image_reducer_1.default, games: games_reducer_1.default, gourmets: gourmets_reducer_1.default, gourmet: gourmet_reducer_1.default, hearthstoneSeasons: hearthstone_seasons_reducer_1.default, hearthstoneSeason: hearthstone_season_reducer_1.default, hearthstoneDecks: hearthstone_decks_reducer_1.default, item: item_reducer_1.default
 	});
 
 
 /***/ },
-/* 464 */
+/* 485 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36680,7 +37614,7 @@
 
 
 /***/ },
-/* 465 */
+/* 486 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36723,33 +37657,37 @@
 
 
 /***/ },
-/* 466 */
+/* 487 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var helpers_1 = __webpack_require__(447);
+	var sort = function (a, b) {
+	    if (a.buy_at > b.buy_at)
+	        return -1;
+	    if (a.buy_at < b.buy_at)
+	        return 1;
+	    if (a.release_at > b.release_at)
+	        return -1;
+	    if (a.release_at < b.release_at)
+	        return 1;
+	    return 0;
+	};
 	function reducer(state, action) {
 	    if (state === void 0) { state = helpers_1.default.initialState; }
-	    var actionTypeStatus = helpers_1.default.actionTypeStatus;
+	    var actionStatusGenerator = helpers_1.default.actionStatusGenerator;
 	    var games = helpers_1.default.actionTypes.games;
 	    var type = action.type, payload = action.payload;
+	    var types = actionStatusGenerator(games);
+	    var newSet, items, index;
 	    switch (type) {
-	        case actionTypeStatus(games.fetch_list, 'pending'):
-	            return Object.assign({}, state, { isFetching: true, error: null });
-	        case actionTypeStatus(games.fetch_list, 'success'):
-	            var newSet = new Set(state.items.concat(payload.data.list));
-	            var items = Array.from(newSet);
-	            items.sort(function (a, b) {
-	                if (a.buy_at > b.buy_at)
-	                    return -1;
-	                if (a.buy_at < b.buy_at)
-	                    return 1;
-	                if (a.release_at > b.release_at)
-	                    return -1;
-	                if (a.release_at < b.release_at)
-	                    return 1;
-	                return 0;
-	            });
+	        // Fetch List
+	        case types['fetch_list'].pending:
+	            return Object.assign({}, state, { isFetching: true, fetched: false, error: null });
+	        case types['fetch_list'].success:
+	            newSet = new Set(state.items.concat(payload.data.list));
+	            items = Array.from(newSet);
+	            items.sort(sort);
 	            var pages = helpers_1.default.fetchedPages(state.fetchedPages, payload.request.responseURL);
 	            return Object.assign({}, state, {
 	                isFetching: false,
@@ -36758,28 +37696,79 @@
 	                total: state.total ? state.total : payload.data.total,
 	                fetchedPages: pages,
 	            });
-	        case actionTypeStatus(games.fetch_list, 'error'):
+	        case types['fetch_list'].error:
 	            return Object.assign({}, state, {
 	                isFetching: false,
-	                fetched: false,
 	                error: {
 	                    status: payload.response.status,
 	                    data: payload.response.data
 	                }
 	            });
-	        case actionTypeStatus(games.delete, 'pending'):
+	        // Fetch Item
+	        case types['fetch_item'].pending:
+	            return Object.assign({}, state, { isFetching: true, fetched: false, error: null });
+	        case types['fetch_item'].success:
+	            state.items.push(payload.data);
+	            newSet = new Set(state.items);
+	            items = Array.from(newSet);
+	            if (items.length > 1) {
+	                items.sort(sort);
+	            }
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                items: items,
+	            });
+	        case types['fetch_item'].error:
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                error: {
+	                    status: payload.response.status,
+	                    data: payload.response.data
+	                }
+	            });
+	        // Post Item
+	        case types['post'].pending:
+	            return Object.assign({}, state, { isPosting: true, posted: false, error: null });
+	        case types['post'].success:
+	            items = state.items;
+	            index = items.findIndex(function (v) { return v._id == payload.data._id; });
+	            if (index < 0) {
+	                state.items.push(payload.data);
+	                if (items.length > 1) {
+	                    items.sort(sort);
+	                }
+	                state.total++;
+	            }
+	            else {
+	                items = items.slice(index, 1, payload.data);
+	            }
+	            return Object.assign({}, state, {
+	                isPosting: false,
+	                posted: true,
+	                items: items,
+	            });
+	        case types['post'].error:
+	            return Object.assign({}, state, {
+	                isPosting: false,
+	                error: {
+	                    status: payload.response.status,
+	                    data: payload.response.data
+	                }
+	            });
+	        // Delete Item
+	        case types['delete'].pending:
 	            return Object.assign({}, state, { isFetching: true, error: null });
-	        case actionTypeStatus(games.delete, 'success'):
-	            var list = state.items;
-	            var index = list.findIndex(function (v) { return v._id == payload.data; });
-	            list.splice(index, 1);
+	        case types['delete'].success:
+	            items = state.items;
+	            index = items.findIndex(function (v) { return v._id == payload.data; });
+	            items.splice(index, 1);
 	            state.total--;
 	            return Object.assign({}, state, {
 	                isFetching: false,
 	                fetched: true,
-	                items: list,
+	                items: items,
 	            });
-	        case actionTypeStatus(games.delete, 'error'):
+	        case types['delete'].error:
 	            return Object.assign({}, state, {
 	                isFetching: false,
 	                fetched: false,
@@ -36797,71 +37786,7 @@
 
 
 /***/ },
-/* 467 */
-/***/ function(module, exports) {
-
-	"use strict";
-	var initialState = {
-	    isFetching: false,
-	    fetched: false,
-	    posted: false,
-	    item: {},
-	    error: null,
-	};
-	function reducer(state, action) {
-	    if (state === void 0) { state = initialState; }
-	    var type = action.type, payload = action.payload;
-	    switch (type) {
-	        case "INIT_GAME_CREATE":
-	            return Object.assign({}, state, initialState);
-	        case "FETCH_GAME_PENDING":
-	            return Object.assign({}, state, {
-	                isFetching: true,
-	                error: null,
-	                posted: false
-	            });
-	        case "FETCH_GAME_FULFILLED":
-	            return Object.assign({}, state, {
-	                isFetching: false,
-	                fetched: true,
-	                item: payload.hasOwnProperty('_id') ? payload : payload.data
-	            });
-	        case "FETCH_GAME_REJECTED":
-	            return Object.assign({}, state, {
-	                isFetching: false,
-	                fetched: false,
-	                error: {
-	                    statue: payload.response.status,
-	                    data: payload.response.data
-	                }
-	            });
-	        case "POST_GAME_PENDING":
-	            return Object.assign({}, state, { isFetching: true });
-	        case "POST_GAME_FULFILLED":
-	            return Object.assign({}, state, { isFetching: false, posted: true });
-	        case "POST_GAME_REJECTED":
-	            return Object.assign({}, state, {
-	                isFetching: false,
-	                error: {
-	                    statue: payload.response.status,
-	                    data: payload.response.data
-	                }
-	            });
-	        case "CHANGE_FIELD":
-	            var field = payload.field, value = payload.value;
-	            var item = state.item;
-	            item[field] = value;
-	            return Object.assign({}, state, { item: item });
-	        default:
-	            return state;
-	    }
-	}
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = reducer;
-
-
-/***/ },
-/* 468 */
+/* 488 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36947,7 +37872,7 @@
 
 
 /***/ },
-/* 469 */
+/* 489 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -37011,7 +37936,7 @@
 
 
 /***/ },
-/* 470 */
+/* 490 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -37097,7 +38022,7 @@
 
 
 /***/ },
-/* 471 */
+/* 491 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -37157,7 +38082,7 @@
 
 
 /***/ },
-/* 472 */
+/* 492 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -37243,910 +38168,41 @@
 
 
 /***/ },
-/* 473 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var alert_component_1 = __webpack_require__(450);
-	var page_header_component_1 = __webpack_require__(474);
-	var paginator_component_1 = __webpack_require__(475);
-	var games_item_component_1 = __webpack_require__(476);
-	var gourmets_item_component_1 = __webpack_require__(479);
-	var hearthstone_seasons_item_component_1 = __webpack_require__(480);
-	var hearthstone_decks_item_component_1 = __webpack_require__(481);
-	var List = (function (_super) {
-	    __extends(List, _super);
-	    function List() {
-	        _super.apply(this, arguments);
-	    }
-	    List.prototype.componentWillMount = function () {
-	        var type = this.props.type;
-	        document.title = type + ' | Admin';
-	    };
-	    List.prototype.componentDidMount = function () {
-	        var _a = this.props, getList = _a.getList, location = _a.location, list = _a.list;
-	        var page = location.query['page'] ? parseInt(location.query['page']) : 1;
-	        if (list.fetchedPages.indexOf(page) < 0) {
-	            getList(location.query['page']);
-	        }
-	    };
-	    List.prototype.componentWillUpdate = function (nextProps) {
-	        var location = nextProps.location;
-	        var _a = this.props, getList = _a.getList, list = _a.list;
-	        var page = location.query['page'] ? parseInt(location.query['page']) : 1;
-	        if (this.props.location.query['page'] != location.query['page'] && list.fetchedPages.indexOf(page) < 0) {
-	            getList(location.query['page']);
-	        }
-	    };
-	    List.prototype.handleItems = function (item, key) {
-	        var _a = this.props, type = _a.type, postDelete = _a.postDelete;
-	        switch (type) {
-	            case 'Games':
-	                return React.createElement(games_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item.url); }});
-	            case 'Gourmets':
-	                return React.createElement(gourmets_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item._id); }});
-	            case 'Hearthsonte-Seasons':
-	                return React.createElement(hearthstone_seasons_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item.url); }});
-	            case 'Hearthsonte-Decks':
-	                return React.createElement(hearthstone_decks_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item._id); }});
-	            default:
-	                return '';
-	        }
-	    };
-	    List.prototype.handleContent = function (list, type, page) {
-	        var _page = page ? parseInt(page) : 1;
-	        var per = (type == 'Hearthstonr-Matches') ? 100 : 30;
-	        var index = list.fetchedPages.indexOf(_page);
-	        var start = per * index;
-	        var items = list.items.slice(start, start + per);
-	        return items;
-	    };
-	    List.prototype.render = function () {
-	        var _this = this;
-	        var _a = this.props, list = _a.list, type = _a.type, location = _a.location;
-	        var items = this.handleContent(list, type, location.query['page']);
-	        return (React.createElement("div", {className: "container-fluid"}, 
-	            React.createElement(page_header_component_1.default, {title: type, button: true, total: list.total}), 
-	            React.createElement(alert_component_1.default, {fetch: list}), 
-	            React.createElement("div", {className: "row"}, 
-	                React.createElement("div", {className: "col-sm-12"}, 
-	                    React.createElement("table", {className: "table table-bordered admin-table-list"}, 
-	                        React.createElement("tbody", null, items.map(function (item, key) {
-	                            return _this.handleItems(item, key);
-	                        }))
-	                    )
-	                )
-	            ), 
-	            React.createElement(paginator_component_1.default, {total: list.total, path: location.pathname, current: location.query['page'], per: type == 'Hearthstonr-Matches' ? 100 : 30})));
-	    };
-	    return List;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = List;
-
-
-/***/ },
-/* 474 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var react_router_1 = __webpack_require__(209);
-	var PageHeader = (function (_super) {
-	    __extends(PageHeader, _super);
-	    function PageHeader() {
-	        _super.apply(this, arguments);
-	    }
-	    PageHeader.prototype.render = function () {
-	        var _a = this.props, title = _a.title, total = _a.total, button = _a.button;
-	        var addButton = null;
-	        if (button) {
-	            addButton = React.createElement(react_router_1.Link, {to: '/admin/' + title.toLowerCase() + '/add', className: "btn btn-primary pull-right"}, "Add");
-	        }
-	        return (React.createElement("div", {className: "row"}, 
-	            React.createElement("div", {className: "col-sm-12"}, 
-	                React.createElement("section", {className: "page-header"}, 
-	                    React.createElement("h1", null, 
-	                        title, 
-	                        " ", 
-	                        React.createElement("small", null, total ? total : ''), 
-	                        addButton ? addButton : null)
-	                )
-	            )
-	        ));
-	    };
-	    return PageHeader;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = PageHeader;
-
-
-/***/ },
-/* 475 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var react_router_1 = __webpack_require__(209);
-	var Pagination = (function (_super) {
-	    __extends(Pagination, _super);
-	    function Pagination() {
-	        _super.apply(this, arguments);
-	    }
-	    Pagination.prototype.render = function () {
-	        var _a = this.props, total = _a.total, per = _a.per, current = _a.current, path = _a.path;
-	        var pages = Math.ceil(total / per);
-	        var indent = [];
-	        for (var i = 0; i < pages; i++) {
-	            var active = false;
-	            var url = path;
-	            if (i > 0) {
-	                url = path + '?page=' + (i + 1);
-	            }
-	            if ((!current && i === 0) || (current && current == i + 1)) {
-	                active = true;
-	            }
-	            indent.push(React.createElement("li", {key: i, className: active ? 'active' : ''}, 
-	                React.createElement(react_router_1.Link, {to: url}, i + 1)
-	            ));
-	        }
-	        return (React.createElement("div", {className: "row"}, 
-	            React.createElement("div", {className: "col-sm-12"}, 
-	                React.createElement("ul", {className: "pagination"}, indent)
-	            )
-	        ));
-	    };
-	    return Pagination;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = Pagination;
-
-
-/***/ },
-/* 476 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var react_router_1 = __webpack_require__(209);
-	var game_platforms_1 = __webpack_require__(477);
-	var game_genres_1 = __webpack_require__(478);
-	var GamesItem = (function (_super) {
-	    __extends(GamesItem, _super);
-	    function GamesItem() {
-	        _super.apply(this, arguments);
-	    }
-	    GamesItem.prototype.render = function () {
-	        var data = this.props.data;
-	        return (React.createElement("tr", null, 
-	            React.createElement("td", null, data._id), 
-	            React.createElement("td", null, 
-	                React.createElement(react_router_1.Link, {to: '/admin/games/' + data.url}, data.title)
-	            ), 
-	            React.createElement("td", null, data.name), 
-	            React.createElement("td", null, game_platforms_1.GamePlatforms.find(function (platfrom) { return platfrom.value == data.platform; }).name), 
-	            React.createElement("td", null, game_genres_1.GameGenres.find(function (genre) { return genre.value == data.genre; }).name), 
-	            React.createElement("td", null, 
-	                React.createElement(react_router_1.Link, {to: '/admin/games/' + data.url + '/trophy', className: "btn btn-primary"}, "Tophy"), 
-	                React.createElement("button", {className: "btn btn-danger", type: "button", onClick: this.props.delete}, "×"))));
-	    };
-	    return GamesItem;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = GamesItem;
-
-
-/***/ },
-/* 477 */
-/***/ function(module, exports) {
-
-	"use strict";
-	var GAME_PLATFORMS = [
-	    {
-	        value: 0,
-	        name: 'PlayStation 3'
-	    },
-	    {
-	        value: 1,
-	        name: 'PlayStation Vita'
-	    },
-	    {
-	        value: 2,
-	        name: 'PlayStation 4'
-	    }
-	];
-	exports.GamePlatforms = GAME_PLATFORMS;
-
-
-/***/ },
-/* 478 */
-/***/ function(module, exports) {
-
-	"use strict";
-	var GAME_GENRES = [
-	    {
-	        value: 0,
-	        name: 'Action'
-	    },
-	    {
-	        value: 1,
-	        name: 'Adventure'
-	    },
-	    {
-	        value: 2,
-	        name: 'Fighting'
-	    },
-	    {
-	        value: 3,
-	        name: 'Racing'
-	    },
-	    {
-	        value: 4,
-	        name: 'Role-Playing'
-	    },
-	    {
-	        value: 5,
-	        name: 'Sports'
-	    },
-	    {
-	        value: 6,
-	        name: 'Third-person shooter'
-	    },
-	    {
-	        value: 7,
-	        name: 'Strategy'
-	    }
-	];
-	exports.GameGenres = GAME_GENRES;
-
-
-/***/ },
-/* 479 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var react_router_1 = __webpack_require__(209);
-	var helpers_1 = __webpack_require__(447);
-	var GourmetsItem = (function (_super) {
-	    __extends(GourmetsItem, _super);
-	    function GourmetsItem() {
-	        _super.apply(this, arguments);
-	    }
-	    GourmetsItem.prototype.render = function () {
-	        var data = this.props.data;
-	        return (React.createElement("tr", null, 
-	            React.createElement("td", null, data._id), 
-	            React.createElement("td", null, 
-	                React.createElement(react_router_1.Link, {to: '/admin/gourmets/' + data._id}, data.food)
-	            ), 
-	            React.createElement("td", null, data.restaurant), 
-	            React.createElement("td", null, helpers_1.default.time2Date(data.date)), 
-	            React.createElement("td", null, 
-	                React.createElement("a", {href: data.url, target: "_blank"}, data.url)
-	            ), 
-	            React.createElement("td", null, 
-	                React.createElement("button", {className: "btn btn-danger", type: "button", onClick: this.props.delete}, "×")
-	            )));
-	    };
-	    return GourmetsItem;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = GourmetsItem;
-
-
-/***/ },
-/* 480 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var react_router_1 = __webpack_require__(209);
-	var HearthstoneSeasonsItem = (function (_super) {
-	    __extends(HearthstoneSeasonsItem, _super);
-	    function HearthstoneSeasonsItem() {
-	        _super.apply(this, arguments);
-	    }
-	    HearthstoneSeasonsItem.prototype.render = function () {
-	        var data = this.props.data;
-	        return (React.createElement("tr", null, 
-	            React.createElement("td", null, data._id), 
-	            React.createElement("td", null, 
-	                React.createElement(react_router_1.Link, {to: '/admin/hearthstone-seasons/' + data.url}, data.title)
-	            ), 
-	            React.createElement("td", null, data.month), 
-	            React.createElement("td", null, data.rank), 
-	            React.createElement("td", null, data.url), 
-	            React.createElement("td", null, 
-	                React.createElement("button", {type: "button", className: "btn btn-danger", onClick: this.props.delete}, "×")
-	            )));
-	    };
-	    return HearthstoneSeasonsItem;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneSeasonsItem;
-
-
-/***/ },
-/* 481 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var react_router_1 = __webpack_require__(209);
-	var hearthstone_player_classes_1 = __webpack_require__(482);
-	var HearthstoneDecksItem = (function (_super) {
-	    __extends(HearthstoneDecksItem, _super);
-	    function HearthstoneDecksItem() {
-	        _super.apply(this, arguments);
-	    }
-	    HearthstoneDecksItem.prototype.render = function () {
-	        var data = this.props.data;
-	        return (React.createElement("tr", null, 
-	            React.createElement("td", null, data._id), 
-	            React.createElement("td", null, 
-	                React.createElement(react_router_1.Link, {to: '/admin/hearthstone-decks/' + data._id}, data.name)
-	            ), 
-	            React.createElement("td", null, hearthstone_player_classes_1.HearthstonePlayerClasses.find(function (player) { return player.value == data.playerClass; }).name), 
-	            React.createElement("td", null, data.active ? 'Active' : 'Inactive'), 
-	            React.createElement("td", null, 
-	                React.createElement("button", {className: "btn btn-danger", type: "button", onClick: this.props.delete}, "×")
-	            )));
-	    };
-	    return HearthstoneDecksItem;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneDecksItem;
-
-
-/***/ },
-/* 482 */
-/***/ function(module, exports) {
-
-	"use strict";
-	var HEARTHSTONE_PLAYER_CLASSES = [
-	    {
-	        value: 0,
-	        name: "Druid"
-	    },
-	    {
-	        value: 1,
-	        name: "Hunter"
-	    },
-	    {
-	        value: 2,
-	        name: "Mage"
-	    },
-	    {
-	        value: 3,
-	        name: "Paladin"
-	    },
-	    {
-	        value: 4,
-	        name: "Priest"
-	    },
-	    {
-	        value: 5,
-	        name: "Rogue"
-	    },
-	    {
-	        value: 6,
-	        name: "Shaman"
-	    },
-	    {
-	        value: 7,
-	        name: "Warlock"
-	    },
-	    {
-	        value: 8,
-	        name: "Warrior"
-	    }
-	];
-	exports.HearthstonePlayerClasses = HEARTHSTONE_PLAYER_CLASSES;
-
-
-/***/ },
-/* 483 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var react_redux_1 = __webpack_require__(179);
-	var games_action_1 = __webpack_require__(452);
-	var game_page_component_1 = __webpack_require__(484);
-	var mapStateToProps = function (state) {
-	    return {
-	        game: state.game
-	    };
-	};
-	var mapDispatchToProps = function (dispatch) {
-	    return {
-	        getGame: function (url) { return dispatch(games_action_1.fetchGame(url)); },
-	        createGame: function (game) { return dispatch(games_action_1.createGame(game)); },
-	        updateGame: function (game) { return dispatch(games_action_1.updateGame(game)); },
-	        changeField: function (field, value) { return dispatch(games_action_1.changField(field, value)); },
-	        initGameCreate: function () { return dispatch(games_action_1.initGameCreate()); }
-	    };
-	};
-	var Game = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(game_page_component_1.default);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = Game;
-
-
-/***/ },
-/* 484 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var game_1 = __webpack_require__(485);
-	var page_header_component_1 = __webpack_require__(474);
-	var alert_component_1 = __webpack_require__(450);
-	var form_component_1 = __webpack_require__(486);
-	var GamePage = (function (_super) {
-	    __extends(GamePage, _super);
-	    function GamePage() {
-	        _super.apply(this, arguments);
-	    }
-	    GamePage.prototype.componentDidMount = function (nextProps, nextState) {
-	        var _a = this.props, initGameCreate = _a.initGameCreate, params = _a.params, getGame = _a.getGame;
-	        if (params['url'] == 'add') {
-	            initGameCreate();
-	        }
-	        else {
-	            getGame(params['url']);
-	        }
-	    };
-	    GamePage.prototype.handlePost = function () {
-	        var _a = this.props, createGame = _a.createGame, updateGame = _a.updateGame, game = _a.game, params = _a.params;
-	        if (params['url'] == 'add') {
-	            createGame(game.item);
-	        }
-	        else {
-	            updateGame(game.item);
-	        }
-	        window.scrollTo(0, 0);
-	    };
-	    GamePage.prototype.render = function () {
-	        var _a = this.props, game = _a.game, params = _a.params, changeField = _a.changeField;
-	        if (game.fetched) {
-	            document.title = game.item.name + ' - Games | Admin';
-	        }
-	        else {
-	            document.title = 'Add - Games | Admin';
-	        }
-	        return (React.createElement("div", {className: "container-fluid"}, 
-	            React.createElement(page_header_component_1.default, {title: params['url'] == 'add' ? 'Add Game' : game.item.name}), 
-	            React.createElement(alert_component_1.default, {fetch: game}), 
-	            React.createElement(form_component_1.default, {fields: game_1.GameFields, data: game.item, change: function (f, v) { return changeField(f, v); }, submit: this.handlePost.bind(this)})));
-	    };
-	    return GamePage;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = GamePage;
-
-
-/***/ },
-/* 485 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var game_genres_1 = __webpack_require__(478);
-	var game_platforms_1 = __webpack_require__(477);
-	var GAME_FIELDS = [
-	    {
-	        name: 'image',
-	        type: 'image',
-	        placeholder: 'https://placeholdit.imgix.net/~text?txtsize=30&txt=570%C3%97570&w=150&h=150',
-	    },
-	    {
-	        name: 'title',
-	        type: 'input',
-	    },
-	    {
-	        name: 'name',
-	        type: 'input',
-	    },
-	    {
-	        name: 'developer',
-	        type: 'input',
-	    },
-	    {
-	        name: 'publisher',
-	        type: 'input',
-	    },
-	    {
-	        name: 'release_at',
-	        type: 'date',
-	    },
-	    {
-	        name: 'buy_at',
-	        type: 'date',
-	    },
-	    {
-	        name: 'rate',
-	        type: 'radio',
-	        enum: ['1', '2', '3', '4', '5']
-	    },
-	    {
-	        name: 'url',
-	        type: 'input',
-	    },
-	    {
-	        name: 'platform',
-	        type: 'select',
-	        enum: game_platforms_1.GamePlatforms
-	    },
-	    {
-	        name: 'genre',
-	        type: 'select',
-	        enum: game_genres_1.GameGenres
-	    },
-	    {
-	        name: 'description',
-	        type: 'text',
-	    }
-	];
-	exports.GameFields = GAME_FIELDS;
-
-
-/***/ },
-/* 486 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var field_component_1 = __webpack_require__(487);
-	var Form = (function (_super) {
-	    __extends(Form, _super);
-	    function Form() {
-	        _super.apply(this, arguments);
-	    }
-	    Form.prototype.handleSubmit = function (e) {
-	        var submit = this.props.submit;
-	        e.preventDefault();
-	        submit();
-	    };
-	    Form.prototype.render = function () {
-	        var _a = this.props, fields = _a.fields, data = _a.data, change = _a.change;
-	        return (React.createElement("form", {onSubmit: this.handleSubmit.bind(this)}, 
-	            React.createElement("table", {className: "table table-bordered"}, 
-	                React.createElement("tbody", null, fields.map(function (field, key) {
-	                    return React.createElement(field_component_1.default, {field: field, key: key, data: data ? data[field.name] : '', change: function (f, v) { return change(f, v); }});
-	                }))
-	            ), 
-	            React.createElement("div", {className: "form-group"}, 
-	                React.createElement("button", {className: "btn btn-success", type: "submit"}, "Submit")
-	            )));
-	    };
-	    return Form;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = Form;
-
-
-/***/ },
-/* 487 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var helpers_1 = __webpack_require__(447);
-	var image_container_1 = __webpack_require__(488);
-	var Field = (function (_super) {
-	    __extends(Field, _super);
-	    function Field() {
-	        _super.apply(this, arguments);
-	    }
-	    Field.prototype.handleChange = function (e) {
-	        var _a = this.props, change = _a.change, field = _a.field;
-	        change(field.name, e.target.value);
-	    };
-	    Field.prototype.handleField = function (field, data) {
-	        var _this = this;
-	        switch (field.type) {
-	            case 'image':
-	                return React.createElement(image_container_1.default, {image: data ? JSON.parse(data).url : field.placeholder, change: function (f, v) { return _this.props.change(f, v); }});
-	            case 'text':
-	                return React.createElement("textarea", {value: data, className: "form-control", rows: 20, onChange: this.handleChange.bind(this)});
-	            case 'select':
-	                return (React.createElement("select", {className: "form-control", value: data, onChange: this.handleChange.bind(this)}, field.enum.map(function (option) {
-	                    return React.createElement("option", {value: option.value, key: option.value}, option.value + ' - ' + option.name);
-	                })));
-	            case 'date':
-	                return React.createElement("input", {className: "form-control", type: "date", value: helpers_1.default.time2Date(data), onChange: this.handleChange.bind(this)});
-	            case 'radio':
-	                return (React.createElement("div", null, field.enum.map(function (radio) {
-	                    return (React.createElement("label", {className: "radio-inline", key: radio}, 
-	                        React.createElement("input", {type: "radio", value: radio, checked: data == radio, onChange: _this.handleChange.bind(_this)}), 
-	                        radio));
-	                })));
-	            default:
-	                return React.createElement("input", {type: "text", className: "form-control", onChange: this.handleChange.bind(this), placeholder: 'ENTER ' + field.name.toUpperCase(), value: data || ''});
-	        }
-	    };
-	    Field.prototype.render = function () {
-	        var _a = this.props, field = _a.field, data = _a.data;
-	        return (React.createElement("tr", null, 
-	            React.createElement("td", null, 
-	                React.createElement("label", null, field.name.toUpperCase())
-	            ), 
-	            React.createElement("td", null, this.handleField(field, data))));
-	    };
-	    return Field;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = Field;
-
-
-/***/ },
-/* 488 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var react_redux_1 = __webpack_require__(179);
-	var image_action_1 = __webpack_require__(489);
-	var image_upload_component_1 = __webpack_require__(490);
-	var mapStateToProps = function (state, ownProps) {
-	    return {
-	        image: state.image,
-	        imageUrl: ownProps.image,
-	        change: ownProps.change
-	    };
-	};
-	var mapDispatchToProps = function (dispatch) {
-	    return {
-	        upload: function (file) { return dispatch(image_action_1.uploadImage(file)); },
-	        init: function () { return dispatch(image_action_1.initImage()); }
-	    };
-	};
-	var Image = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(image_upload_component_1.default);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = Image;
-
-
-/***/ },
-/* 489 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var axios_1 = __webpack_require__(263);
-	function uploadImage(file) {
-	    return {
-	        type: 'UPLOAD_IMAGE',
-	        payload: axios_1.default.post('/images', file)
-	    };
-	}
-	exports.uploadImage = uploadImage;
-	function initImage() {
-	    return {
-	        type: 'INIT_IMAGE'
-	    };
-	}
-	exports.initImage = initImage;
-
-
-/***/ },
-/* 490 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var ImageUpload = (function (_super) {
-	    __extends(ImageUpload, _super);
-	    function ImageUpload() {
-	        _super.apply(this, arguments);
-	    }
-	    ImageUpload.prototype.componentWillMount = function () {
-	        var init = this.props.init;
-	        init();
-	    };
-	    ImageUpload.prototype.componentWillUpdate = function (nextProps, nextState) {
-	        var change = this.props.change;
-	        var image = nextProps.image;
-	        if (!this.props.image.fetched && image.fetched) {
-	            change('image', JSON.stringify(image.image));
-	        }
-	    };
-	    ImageUpload.prototype.handleUpload = function (e) {
-	        var upload = this.props.upload;
-	        var data = new FormData();
-	        data.append('file', e.target.files[0]);
-	        upload(data);
-	    };
-	    ImageUpload.prototype.handleStatus = function (image) {
-	        var isFetching = image.isFetching, error = image.error;
-	        if (isFetching) {
-	            return React.createElement("div", {className: "alert alert-info"}, "Upload...");
-	        }
-	        else if (error) {
-	            return React.createElement("div", {className: "alert alert-danger"}, error.data);
-	        }
-	    };
-	    ImageUpload.prototype.render = function () {
-	        var _a = this.props, image = _a.image, imageUrl = _a.imageUrl, change = _a.change;
-	        return (React.createElement("div", {className: "clearfix"}, 
-	            React.createElement("div", {className: "admin-image-upload"}, 
-	                React.createElement("img", {src: imageUrl, alt: ""}), 
-	                React.createElement("input", {type: "file", onChange: this.handleUpload.bind(this)})), 
-	            this.handleStatus(image)));
-	    };
-	    return ImageUpload;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = ImageUpload;
-
-
-/***/ },
-/* 491 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var react_redux_1 = __webpack_require__(179);
-	var gourmets_action_1 = __webpack_require__(492);
-	var list_component_1 = __webpack_require__(473);
-	var mapStateToProps = function (state) {
-	    return {
-	        list: state.gourmets,
-	        type: 'Gourmets'
-	    };
-	};
-	var mapDispatchToProps = function (dispatch) {
-	    return {
-	        getList: function (page) {
-	            if (page === void 0) { page = null; }
-	            return dispatch(gourmets_action_1.fetchGourmets(page));
-	        },
-	        postDelete: function (url) { return dispatch(gourmets_action_1.deleteGourmet(url)); }
-	    };
-	};
-	var Gourmets = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(list_component_1.default);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = Gourmets;
-
-
-/***/ },
-/* 492 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var axios_1 = __webpack_require__(263);
-	var store_1 = __webpack_require__(453);
-	function fetchGourmets(page) {
-	    var url = '/gourmets?limit=30';
-	    if (page) {
-	        url = url + "&page=" + page;
-	    }
-	    return {
-	        type: 'FETCH_GOURMETS',
-	        payload: axios_1.default.get(url)
-	    };
-	}
-	exports.fetchGourmets = fetchGourmets;
-	function fetchGourmet(id) {
-	    var state = store_1.default.getState();
-	    var gourmets = state['gourmets'];
-	    var gourmet = state['gourmet'];
-	    if (gourmet.fetched && gourmet.item._id == id) {
-	        return {
-	            type: 'FETCH_GOURMET_FULFILLED',
-	            payload: gourmet.item
-	        };
-	    }
-	    if (gourmets.fetched && gourmets.items.length) {
-	        var item = gourmets.items.find(function (v) { return v._id == id; });
-	        if (item) {
-	            return {
-	                type: 'FETCH_GOURMET_FULFILLED',
-	                payload: item
-	            };
-	        }
-	    }
-	    return {
-	        type: 'FETCH_GOURMET',
-	        payload: axios_1.default.get('/gourmets/' + id)
-	    };
-	}
-	exports.fetchGourmet = fetchGourmet;
-	function initGourmetCreate() {
-	    return {
-	        type: 'INIT_GOURMET_CREATE'
-	    };
-	}
-	exports.initGourmetCreate = initGourmetCreate;
-	function createGourmet(gourmet) {
-	    return {
-	        type: 'POST_GOURMET',
-	        payload: axios_1.default.post('/gourmets/', gourmet)
-	    };
-	}
-	exports.createGourmet = createGourmet;
-	function updateGourmet(gourmet) {
-	    return {
-	        type: 'POST_GOURMET',
-	        payload: axios_1.default.post('/gourmets/' + gourmet._id, gourmet)
-	    };
-	}
-	exports.updateGourmet = updateGourmet;
-	function deleteGourmet(id) {
-	    return {
-	        type: 'DELETE_GOURMET',
-	        payload: axios_1.default.post('/gourmets/' + id + '/delete')
-	    };
-	}
-	exports.deleteGourmet = deleteGourmet;
-	function changField(field, value) {
-	    return {
-	        type: 'CHANGE_FIELD',
-	        payload: { field: field, value: value }
-	    };
-	}
-	exports.changField = changField;
-
-
-/***/ },
 /* 493 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	var helpers_1 = __webpack_require__(447);
+	function reducer(state, action) {
+	    if (state === void 0) { state = { data: null }; }
+	    var item = helpers_1.default.actionTypes.item;
+	    var type = action.type, payload = action.payload;
+	    switch (type) {
+	        case item.init:
+	            return Object.assign({}, state, { data: null });
+	        case item.set:
+	            return Object.assign({}, state, { data: payload });
+	        case item.change:
+	            var field = payload.field, value = payload.value;
+	            var data = state.data;
+	            data[field] = value;
+	            return Object.assign({}, state, { data: data });
+	        default:
+	            return state;
+	    }
+	}
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = reducer;
+
+
+/***/ },
+/* 494 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var gourmets_action_1 = __webpack_require__(492);
-	var gourmet_page_component_1 = __webpack_require__(494);
+	var gourmets_action_1 = __webpack_require__(473);
+	var gourmet_page_component_1 = __webpack_require__(495);
 	var mapStateToProps = function (state) {
 	    return {
 	        gourmet: state.gourmet
@@ -38167,7 +38223,7 @@
 
 
 /***/ },
-/* 494 */
+/* 495 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -38177,10 +38233,10 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var gourmet_1 = __webpack_require__(495);
-	var page_header_component_1 = __webpack_require__(474);
+	var gourmet_1 = __webpack_require__(496);
+	var page_header_component_1 = __webpack_require__(454);
 	var alert_component_1 = __webpack_require__(450);
-	var form_component_1 = __webpack_require__(486);
+	var form_component_1 = __webpack_require__(467);
 	var GourmetPage = (function (_super) {
 	    __extends(GourmetPage, _super);
 	    function GourmetPage() {
@@ -38225,7 +38281,7 @@
 
 
 /***/ },
-/* 495 */
+/* 496 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -38256,13 +38312,13 @@
 
 
 /***/ },
-/* 496 */
+/* 497 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var hearthstone_seasons_action_1 = __webpack_require__(497);
-	var list_component_1 = __webpack_require__(473);
+	var hearthstone_seasons_action_1 = __webpack_require__(498);
+	var list_component_1 = __webpack_require__(453);
 	var mapStateToProps = function (state) {
 	    return {
 	        list: state.hearthstoneSeasons,
@@ -38284,7 +38340,7 @@
 
 
 /***/ },
-/* 497 */
+/* 498 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -38345,13 +38401,13 @@
 
 
 /***/ },
-/* 498 */
+/* 499 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var hearthstone_seasons_action_1 = __webpack_require__(497);
-	var hearthstone_season_page_component_1 = __webpack_require__(499);
+	var hearthstone_seasons_action_1 = __webpack_require__(498);
+	var hearthstone_season_page_component_1 = __webpack_require__(500);
 	var mapStateToProps = function (state) {
 	    return {
 	        season: state.hearthstoneSeason
@@ -38372,7 +38428,7 @@
 
 
 /***/ },
-/* 499 */
+/* 500 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -38382,10 +38438,10 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var hearthstone_season_1 = __webpack_require__(500);
-	var page_header_component_1 = __webpack_require__(474);
+	var hearthstone_season_1 = __webpack_require__(501);
+	var page_header_component_1 = __webpack_require__(454);
 	var alert_component_1 = __webpack_require__(450);
-	var form_component_1 = __webpack_require__(486);
+	var form_component_1 = __webpack_require__(467);
 	var HearthstoneSeasonPage = (function (_super) {
 	    __extends(HearthstoneSeasonPage, _super);
 	    function HearthstoneSeasonPage() {
@@ -38425,11 +38481,11 @@
 
 
 /***/ },
-/* 500 */
+/* 501 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var hearthstone_season_ranked_1 = __webpack_require__(501);
+	var hearthstone_season_ranked_1 = __webpack_require__(502);
 	var HEARTHSTONE_SEASON_FIELDS = [
 	    {
 	        name: 'image',
@@ -38462,7 +38518,7 @@
 
 
 /***/ },
-/* 501 */
+/* 502 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -38576,13 +38632,13 @@
 
 
 /***/ },
-/* 502 */
+/* 503 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var hearthstone_decks_action_1 = __webpack_require__(503);
-	var list_component_1 = __webpack_require__(473);
+	var hearthstone_decks_action_1 = __webpack_require__(504);
+	var list_component_1 = __webpack_require__(453);
 	var mapStateToProps = function (state) {
 	    return {
 	        list: state.hearthstoneDecks,
@@ -38604,7 +38660,7 @@
 
 
 /***/ },
-/* 503 */
+/* 504 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
