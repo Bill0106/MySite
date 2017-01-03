@@ -35488,8 +35488,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var axios_1 = __webpack_require__(263);
 	var redux_actions_1 = __webpack_require__(292);
+	var axios_1 = __webpack_require__(263);
 	var helpers_1 = __webpack_require__(447);
 	var games = helpers_1.default.actionTypes.games;
 	exports.fetchGames = redux_actions_1.createAction(games.fetch_list, function (page) {
@@ -35498,34 +35498,9 @@
 	    return axios_1.default.get(url);
 	});
 	exports.fetchGame = redux_actions_1.createAction(games.fetch_item, function (url) { return axios_1.default.get('/games/' + url); });
-	function initGameCreate() {
-	    return {
-	        type: 'INIT_GAME_CREATE'
-	    };
-	}
-	exports.initGameCreate = initGameCreate;
-	function createGame(game) {
-	    return {
-	        type: 'POST_GAME',
-	        payload: axios_1.default.post('/games/', game)
-	    };
-	}
-	exports.createGame = createGame;
-	function updateGame(game) {
-	    return {
-	        type: 'POST_GAME',
-	        payload: axios_1.default.post('/games/' + game.url, game)
-	    };
-	}
-	exports.updateGame = updateGame;
+	exports.createGame = redux_actions_1.createAction(games.post, function (game) { return axios_1.default.post('/games', game); });
+	exports.updateGame = redux_actions_1.createAction(games.post, function (game, params) { return axios_1.default.post('/games/' + params.url, game); });
 	exports.deleteGame = redux_actions_1.createAction(games.delete, function (url) { return axios_1.default.post('/games/' + url + '/delete'); });
-	function changField(field, value) {
-	    return {
-	        type: 'CHANGE_FIELD',
-	        payload: { field: field, value: value }
-	    };
-	}
-	exports.changField = changField;
 
 
 /***/ },
@@ -35988,10 +35963,10 @@
 	var mapDispatchToProps = function (dispatch) {
 	    return {
 	        initItemCreate: function () { return dispatch(item_action_1.initItemCreate()); },
-	        getItem: function (param) { return dispatch(games_action_1.fetchGame(param)); },
+	        getItem: function (params) { return dispatch(games_action_1.fetchGame(params.url)); },
 	        setItem: function (item) { return dispatch(item_action_1.setItem(item)); },
 	        createItem: function (item) { return dispatch(games_action_1.createGame(item)); },
-	        updateItem: function (item) { return dispatch(games_action_1.updateGame(item)); },
+	        updateItem: function (item, params) { return dispatch(games_action_1.updateGame(item, params)); },
 	        changeItem: function (field, value) { return dispatch(item_action_1.changeItem({ field: field, value: value })); },
 	    };
 	};
@@ -36107,13 +36082,12 @@
 	    Item.prototype.componentDidMount = function () {
 	        var _a = this.props, params = _a.params, type = _a.type, list = _a.list, getItem = _a.getItem, setItem = _a.setItem;
 	        var items = list.items;
-	        var key = (type == 'Game') ? 'url' : 'id';
 	        var item = this.handleItemSearch();
 	        if (item) {
 	            setItem(item);
 	        }
-	        else if (params[key] != 'add') {
-	            getItem(params[key]);
+	        else if (Object.values(params).indexOf('add') < 0) {
+	            getItem(params);
 	        }
 	    };
 	    Item.prototype.componentWillUpdate = function (nextProps, nextState) {
@@ -36136,7 +36110,7 @@
 	    Item.prototype.handlePost = function () {
 	        var _a = this.props, item = _a.item, createItem = _a.createItem, updateItem = _a.updateItem, params = _a.params;
 	        if (Object.values(params).indexOf('add') < 0) {
-	            updateItem(item.data);
+	            updateItem(item.data, params);
 	        }
 	        else {
 	            createItem(item.data);

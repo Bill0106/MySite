@@ -34,14 +34,13 @@ class Item extends React.Component<ItemProps, void> {
     componentDidMount() {
         const { params, type, list, getItem, setItem } = this.props;
         const { items } = list;
-        const key = (type == 'Game') ? 'url' : 'id';
 
         let item = this.handleItemSearch();
 
         if (item) {
             setItem(item);
-        } else if (params[key] != 'add') {
-            getItem(params[key]);
+        } else if (Object.values(params).indexOf('add') < 0) {
+            getItem(params);
         }
     }
 
@@ -70,7 +69,7 @@ class Item extends React.Component<ItemProps, void> {
         const { item, createItem, updateItem, params } = this.props;
 
         if (Object.values(params).indexOf('add') < 0) {
-            updateItem(item.data);
+            updateItem(item.data, params);
         } else {
             createItem(item.data);
         }

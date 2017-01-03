@@ -16,10 +16,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         initItemCreate: () => dispatch(initItemCreate()),
-        getItem: (param) => dispatch(fetchGame(param)),
+        getItem: (params) => dispatch(fetchGame(params.url)),
         setItem: (item) => dispatch(setItem(item)),
         createItem: (item) => dispatch(createGame(item)),
-        updateItem: (item) => dispatch(updateGame(item)),
+        updateItem: (item, params) => dispatch(updateGame(item, params)),
         changeItem: (field, value) => dispatch(changeItem({field, value})),
     }
 }
