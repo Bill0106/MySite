@@ -1,18 +1,17 @@
 import helpers from '../helpers';
 
-const sort = (a, b) => {
-    if (a.buy_at > b.buy_at) return -1;
-    if (a.buy_at < b.buy_at) return 1;
-    if (a.release_at > b.release_at) return -1;
-    if (a.release_at < b.release_at) return 1;
-    return 0;
-}
-
 export default function reducer(state = helpers.initialState, action) {
     const { actionStatusGenerator } = helpers;
     const { games } = helpers.actionTypes;
     const { type, payload } = action;
     const types = actionStatusGenerator(games);
+    const sort = (a, b) => {
+        if (a.buy_at > b.buy_at) return -1;
+        if (a.buy_at < b.buy_at) return 1;
+        if (a.release_at > b.release_at) return -1;
+        if (a.release_at < b.release_at) return 1;
+        return 0;
+    }
 
     let newSet, items, index;
 
@@ -56,6 +55,7 @@ export default function reducer(state = helpers.initialState, action) {
 
             return Object.assign({}, state, {
                 isFetching: false,
+                fetched: true,
                 items: items,
             });
         case types['fetch_item'].error:
@@ -98,7 +98,7 @@ export default function reducer(state = helpers.initialState, action) {
             });
         // Delete Item
         case types['delete'].pending:
-            return Object.assign({}, state, { isFetching: true, error: null });
+            return Object.assign({}, state, { isPosting: true, posted: false, error: null });
         case types['delete'].success:
             items = state.items;
             index = items.findIndex(v => v._id == payload.data);
@@ -107,14 +107,13 @@ export default function reducer(state = helpers.initialState, action) {
             state.total--;
 
             return Object.assign({}, state, {
-                isFetching: false,
-                fetched: true,
+                isPosting: false,
+                posted: true,
                 items: items,
             });
         case types['delete'].error:
             return Object.assign({}, state, {
-                isFetching: false,
-                fetched: false,
+                isPosting: false,
                 error: {
                     status: payload.response.status,
                     data: payload.response.data

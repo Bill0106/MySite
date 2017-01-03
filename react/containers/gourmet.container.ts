@@ -1,23 +1,29 @@
 import { connect } from 'react-redux';
-import { fetchGourmet, changField, updateGourmet, initGourmetCreate, createGourmet } from '../actions/gourmets.action';
-import GourmetPage from '../components/gourmet-page.component';
+import { GourmetFields } from '../../config/fields/gourmet';
+import { fetchGourmet, updateGourmet, createGourmet } from '../actions/gourmets.action';
+import { initItemCreate, changeItem, setItem } from '../actions/item.action';
+import Item from '../components/item.component';
 
 const mapStateToProps = (state) => {
     return {
-        gourmet: state.gourmet
+        list: state.gourmets,
+        item: state.item,
+        type: 'Gourmet',
+        fields: GourmetFields,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getGourmet: (url) => dispatch(fetchGourmet(url)),
-        createGourmet: (gourmet) => dispatch(createGourmet(gourmet)),
-        updateGourmet: (gourmet) => dispatch(updateGourmet(gourmet)),
-        changeField: (field, value) => dispatch(changField(field, value)),
-        initGourmetCreate: () => dispatch(initGourmetCreate())
+        initItemCreate: () => dispatch(initItemCreate()),
+        getItem: (params) => dispatch(fetchGourmet(params.id)),
+        setItem: (item) => dispatch(setItem(item)),
+        createItem: (item) => dispatch(createGourmet(item)),
+        updateItem: (item, params) => dispatch(updateGourmet(item, params.id)),
+        changeItem: (field, value) => dispatch(changeItem({field, value})),
     }
 }
 
-const Gourmet = connect(mapStateToProps, mapDispatchToProps)(GourmetPage);
+const Gourmet = connect(mapStateToProps, mapDispatchToProps)(Item);
 
 export default Gourmet;

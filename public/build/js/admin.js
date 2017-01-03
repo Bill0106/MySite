@@ -52,7 +52,7 @@
 	var axios_1 = __webpack_require__(263);
 	var keys_1 = __webpack_require__(288);
 	var routing_1 = __webpack_require__(289);
-	var store_1 = __webpack_require__(474);
+	var store_1 = __webpack_require__(484);
 	axios_1.default.defaults.baseURL = '/api';
 	axios_1.default.defaults.headers.common['auth'] = keys_1.Keys.api.GET;
 	axios_1.default.defaults.headers.post['auth'] = keys_1.Keys.api.POST;
@@ -29713,10 +29713,10 @@
 	var games_container_1 = __webpack_require__(451);
 	var game_container_1 = __webpack_require__(463);
 	var gourmets_container_1 = __webpack_require__(472);
-	var gourmet_container_1 = __webpack_require__(494);
-	var hearthstone_seasons_container_1 = __webpack_require__(497);
-	var hearthstone_season_container_1 = __webpack_require__(499);
-	var hearthstone_decks_container_1 = __webpack_require__(503);
+	var gourmet_container_1 = __webpack_require__(474);
+	var hearthstone_seasons_container_1 = __webpack_require__(476);
+	var hearthstone_season_container_1 = __webpack_require__(478);
+	var hearthstone_decks_container_1 = __webpack_require__(482);
 	var ROUTING_CONFIG = [
 	    {
 	        path: '/admin',
@@ -35255,6 +35255,12 @@
 	        post: 'POST_GAME',
 	        delete: 'DELETE_GAME',
 	    },
+	    gourmets: {
+	        fetch_list: 'FETCH_GOURMETS',
+	        fetch_item: 'FETCH_GOURMET',
+	        post: 'POST_GOURMET',
+	        delete: 'DELETE_GOURMET',
+	    },
 	    item: {
 	        change: 'CHANGE_ITEM',
 	        init: 'INIT_ITEM_CREATE',
@@ -36091,6 +36097,8 @@
 	        switch (type) {
 	            case 'Game':
 	                return items.find(function (v) { return v.url == params['url']; });
+	            case 'Gourmet':
+	                return items.find(function (v) { return v._id == params['id']; });
 	            default:
 	                return null;
 	        }
@@ -36352,71 +36360,164 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	var redux_actions_1 = __webpack_require__(292);
 	var axios_1 = __webpack_require__(263);
-	var store_1 = __webpack_require__(474);
-	function fetchGourmets(page) {
-	    var url = '/gourmets?limit=30';
+	var helpers_1 = __webpack_require__(447);
+	var gourmets = helpers_1.default.actionTypes.gourmets;
+	exports.fetchGourmets = redux_actions_1.createAction(gourmets.fetch_list, function (page) {
+	    var url = "/gourmets?limit=30" + (page ? '&page=' + page : '');
+	    return axios_1.default.get(url);
+	});
+	exports.fetchGourmet = redux_actions_1.createAction(gourmets.fetch_item, function (id) { return axios_1.default.get('/gourmets/' + id); });
+	exports.createGourmet = redux_actions_1.createAction(gourmets.post, function (gourmet) { return axios_1.default.post('/gourmets', gourmets); });
+	exports.updateGourmet = redux_actions_1.createAction(gourmets.post, function (gourmet, id) { return axios_1.default.post('/gourmets/' + id, gourmet); });
+	exports.deleteGourmet = redux_actions_1.createAction(gourmets.delete, function (id) { return axios_1.default.post('/gourmets/' + id + '/delete'); });
+
+
+/***/ },
+/* 474 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var react_redux_1 = __webpack_require__(179);
+	var gourmet_1 = __webpack_require__(475);
+	var gourmets_action_1 = __webpack_require__(473);
+	var item_action_1 = __webpack_require__(465);
+	var item_component_1 = __webpack_require__(466);
+	var mapStateToProps = function (state) {
+	    return {
+	        list: state.gourmets,
+	        item: state.item,
+	        type: 'Gourmet',
+	        fields: gourmet_1.GourmetFields,
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        initItemCreate: function () { return dispatch(item_action_1.initItemCreate()); },
+	        getItem: function (params) { return dispatch(gourmets_action_1.fetchGourmet(params.id)); },
+	        setItem: function (item) { return dispatch(item_action_1.setItem(item)); },
+	        createItem: function (item) { return dispatch(gourmets_action_1.createGourmet(item)); },
+	        updateItem: function (item, params) { return dispatch(gourmets_action_1.updateGourmet(item, params.id)); },
+	        changeItem: function (field, value) { return dispatch(item_action_1.changeItem({ field: field, value: value })); },
+	    };
+	};
+	var Gourmet = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(item_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Gourmet;
+
+
+/***/ },
+/* 475 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var GOURMET_FIELDS = [
+	    {
+	        name: 'image',
+	        type: 'image',
+	        placeholder: 'https://placeholdit.imgix.net/~text?txtsize=30&txt=300%C3%97300&w=150&h=150',
+	    },
+	    {
+	        name: 'food',
+	        type: 'input',
+	    },
+	    {
+	        name: 'restaurant',
+	        type: 'input',
+	    },
+	    {
+	        name: 'date',
+	        type: 'date',
+	    },
+	    {
+	        name: 'url',
+	        type: 'input',
+	    }
+	];
+	exports.GourmetFields = GOURMET_FIELDS;
+
+
+/***/ },
+/* 476 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var react_redux_1 = __webpack_require__(179);
+	var hearthstone_seasons_action_1 = __webpack_require__(477);
+	var list_component_1 = __webpack_require__(453);
+	var mapStateToProps = function (state) {
+	    return {
+	        list: state.hearthstoneSeasons,
+	        type: 'Hearthsonte-Seasons'
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        getList: function (page) {
+	            if (page === void 0) { page = null; }
+	            return dispatch(hearthstone_seasons_action_1.fetchSeasons(page));
+	        },
+	        postDelete: function (url) { return dispatch(hearthstone_seasons_action_1.deleteSeason(url)); }
+	    };
+	};
+	var HearthstoneSeasons = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(list_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneSeasons;
+
+
+/***/ },
+/* 477 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var axios_1 = __webpack_require__(263);
+	function fetchSeasons(page) {
+	    if (page === void 0) { page = null; }
+	    var url = '/hearthstone-seasons?limit=30';
 	    if (page) {
 	        url = url + "&page=" + page;
 	    }
 	    return {
-	        type: 'FETCH_GOURMETS',
+	        type: 'FETCH_HEARTHSTONE_SEASONS',
 	        payload: axios_1.default.get(url)
 	    };
 	}
-	exports.fetchGourmets = fetchGourmets;
-	function fetchGourmet(id) {
-	    var state = store_1.default.getState();
-	    var gourmets = state['gourmets'];
-	    var gourmet = state['gourmet'];
-	    if (gourmet.fetched && gourmet.item._id == id) {
-	        return {
-	            type: 'FETCH_GOURMET_FULFILLED',
-	            payload: gourmet.item
-	        };
-	    }
-	    if (gourmets.fetched && gourmets.items.length) {
-	        var item = gourmets.items.find(function (v) { return v._id == id; });
-	        if (item) {
-	            return {
-	                type: 'FETCH_GOURMET_FULFILLED',
-	                payload: item
-	            };
-	        }
-	    }
+	exports.fetchSeasons = fetchSeasons;
+	function fetchSeason(url) {
 	    return {
-	        type: 'FETCH_GOURMET',
-	        payload: axios_1.default.get('/gourmets/' + id)
+	        type: 'FETCH_HEARTHSTONE_SEASON',
+	        payload: axios_1.default.get('/hearthstone-seasons/' + url)
 	    };
 	}
-	exports.fetchGourmet = fetchGourmet;
-	function initGourmetCreate() {
+	exports.fetchSeason = fetchSeason;
+	function initSeasonCreate() {
 	    return {
-	        type: 'INIT_GOURMET_CREATE'
+	        type: 'INIT_HEARTHSTONE_CREATE'
 	    };
 	}
-	exports.initGourmetCreate = initGourmetCreate;
-	function createGourmet(gourmet) {
+	exports.initSeasonCreate = initSeasonCreate;
+	function createSeason(season) {
 	    return {
-	        type: 'POST_GOURMET',
-	        payload: axios_1.default.post('/gourmets/', gourmet)
+	        type: 'POST_HEARTHSTONE_SEASON',
+	        payload: axios_1.default.post('/hearthstone-seasons/', season)
 	    };
 	}
-	exports.createGourmet = createGourmet;
-	function updateGourmet(gourmet) {
+	exports.createSeason = createSeason;
+	function updateSeason(season) {
 	    return {
-	        type: 'POST_GOURMET',
-	        payload: axios_1.default.post('/gourmets/' + gourmet._id, gourmet)
+	        type: 'POST_HEARTHSTONE_SEASON',
+	        payload: axios_1.default.post('/hearthstone-seasons/' + season.url, season)
 	    };
 	}
-	exports.updateGourmet = updateGourmet;
-	function deleteGourmet(id) {
+	exports.updateSeason = updateSeason;
+	function deleteSeason(url) {
 	    return {
-	        type: 'DELETE_GOURMET',
-	        payload: axios_1.default.post('/gourmets/' + id + '/delete')
+	        type: 'DELETE_HEARTHSTONE_SEASON',
+	        payload: axios_1.default.post('/hearthstone-seasons/' + url + '/delete')
 	    };
 	}
-	exports.deleteGourmet = deleteGourmet;
+	exports.deleteSeason = deleteSeason;
 	function changField(field, value) {
 	    return {
 	        type: 'CHANGE_FIELD',
@@ -36427,22 +36528,316 @@
 
 
 /***/ },
-/* 474 */
+/* 478 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var react_redux_1 = __webpack_require__(179);
+	var hearthstone_seasons_action_1 = __webpack_require__(477);
+	var hearthstone_season_page_component_1 = __webpack_require__(479);
+	var mapStateToProps = function (state) {
+	    return {
+	        season: state.hearthstoneSeason
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        getSeason: function (url) { return dispatch(hearthstone_seasons_action_1.fetchSeason(url)); },
+	        initSeasonCreate: function () { return dispatch(hearthstone_seasons_action_1.initSeasonCreate()); },
+	        createSeason: function (season) { return dispatch(hearthstone_seasons_action_1.createSeason(season)); },
+	        updateSeason: function (season) { return dispatch(hearthstone_seasons_action_1.updateSeason(season)); },
+	        changeField: function (field, value) { return dispatch(hearthstone_seasons_action_1.changField(field, value)); }
+	    };
+	};
+	var HearthstoneSeason = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(hearthstone_season_page_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneSeason;
+
+
+/***/ },
+/* 479 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var hearthstone_season_1 = __webpack_require__(480);
+	var page_header_component_1 = __webpack_require__(454);
+	var alert_component_1 = __webpack_require__(450);
+	var form_component_1 = __webpack_require__(467);
+	var HearthstoneSeasonPage = (function (_super) {
+	    __extends(HearthstoneSeasonPage, _super);
+	    function HearthstoneSeasonPage() {
+	        _super.apply(this, arguments);
+	    }
+	    HearthstoneSeasonPage.prototype.componentDidMount = function () {
+	        var _a = this.props, params = _a.params, getSeason = _a.getSeason;
+	        getSeason(params['url']);
+	    };
+	    HearthstoneSeasonPage.prototype.handlePost = function () {
+	        var _a = this.props, createSeason = _a.createSeason, updateSeason = _a.updateSeason, season = _a.season, params = _a.params;
+	        if (params['url'] == 'add') {
+	            createSeason(season.item);
+	        }
+	        else {
+	            updateSeason(season.item);
+	        }
+	        window.scrollTo(0, 0);
+	    };
+	    HearthstoneSeasonPage.prototype.render = function () {
+	        var _a = this.props, season = _a.season, params = _a.params, changeField = _a.changeField;
+	        if (season.fetched) {
+	            document.title = season.item.title + ' - Hearthstone Season | Admin';
+	        }
+	        else {
+	            document.title = 'Add - Games | Admin';
+	        }
+	        return (React.createElement("div", {className: "container-fluid"}, 
+	            React.createElement(page_header_component_1.default, {title: params['url'] == 'add' ? 'Add Hearthstone Season' : season.item.title}), 
+	            React.createElement(alert_component_1.default, {fetch: season}), 
+	            React.createElement(form_component_1.default, {fields: hearthstone_season_1.HearthstoneSeasonFields, data: season.item, change: function (f, v) { return changeField(f, v); }, submit: this.handlePost.bind(this)})));
+	    };
+	    return HearthstoneSeasonPage;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneSeasonPage;
+
+
+/***/ },
+/* 480 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var hearthstone_season_ranked_1 = __webpack_require__(481);
+	var HEARTHSTONE_SEASON_FIELDS = [
+	    {
+	        name: 'image',
+	        type: 'image',
+	        placeholder: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=760%C3%97270&w=442&h=150',
+	    },
+	    {
+	        name: 'title',
+	        type: 'input',
+	    },
+	    {
+	        name: 'month',
+	        type: 'date',
+	    },
+	    {
+	        name: 'rank',
+	        type: 'select',
+	        enum: hearthstone_season_ranked_1.HearthstoneSeasonRanked
+	    },
+	    {
+	        name: 'url',
+	        type: 'input',
+	    },
+	    {
+	        name: 'description',
+	        type: 'text',
+	    }
+	];
+	exports.HearthstoneSeasonFields = HEARTHSTONE_SEASON_FIELDS;
+
+
+/***/ },
+/* 481 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var HEARTHSTONE_SEASON_RANKED = [
+	    {
+	        value: 0,
+	        name: 'Legend'
+	    },
+	    {
+	        value: 1,
+	        name: 'Innkeeper'
+	    },
+	    {
+	        value: 2,
+	        name: 'The Black Knight'
+	    },
+	    {
+	        value: 3,
+	        name: 'Molten Giant'
+	    },
+	    {
+	        value: 4,
+	        name: '	Mountain Giant'
+	    },
+	    {
+	        value: 5,
+	        name: 'Sea Giant'
+	    },
+	    {
+	        value: 6,
+	        name: 'Ancient of War'
+	    },
+	    {
+	        value: 7,
+	        name: 'Sunwalker'
+	    },
+	    {
+	        value: 8,
+	        name: 'Frostwolf Warlord'
+	    },
+	    {
+	        value: 9,
+	        name: 'Silver Hand Knight'
+	    },
+	    {
+	        value: 10,
+	        name: 'Ogre Magi'
+	    },
+	    {
+	        value: 11,
+	        name: 'Big Game Hunter'
+	    },
+	    {
+	        value: 12,
+	        name: 'Warsong Commander'
+	    },
+	    {
+	        value: 13,
+	        name: '	Dread Corsair'
+	    },
+	    {
+	        value: 14,
+	        name: '	Raid Leader'
+	    },
+	    {
+	        value: 15,
+	        name: 'Silvermoon Guardian'
+	    },
+	    {
+	        value: 16,
+	        name: '	Questing Adventurer'
+	    },
+	    {
+	        value: 17,
+	        name: 'Tauren Warrior'
+	    },
+	    {
+	        value: 18,
+	        name: 'Sorcerer\'s Apprentice'
+	    },
+	    {
+	        value: 19,
+	        name: 'Novice Engineer'
+	    },
+	    {
+	        value: 20,
+	        name: '	Shieldbearer'
+	    },
+	    {
+	        value: 21,
+	        name: '	Southsea Deckhand'
+	    },
+	    {
+	        value: 22,
+	        name: 'Murloc Raider'
+	    },
+	    {
+	        value: 23,
+	        name: 'Argent Squire'
+	    },
+	    {
+	        value: 24,
+	        name: 'Leper Gnome'
+	    },
+	    {
+	        value: 25,
+	        name: '	Angry Chicken'
+	    },
+	];
+	exports.HearthstoneSeasonRanked = HEARTHSTONE_SEASON_RANKED;
+
+
+/***/ },
+/* 482 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var react_redux_1 = __webpack_require__(179);
+	var hearthstone_decks_action_1 = __webpack_require__(483);
+	var list_component_1 = __webpack_require__(453);
+	var mapStateToProps = function (state) {
+	    return {
+	        list: state.hearthstoneDecks,
+	        type: 'Hearthsonte-Decks'
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        getList: function (page) {
+	            if (page === void 0) { page = null; }
+	            return dispatch(hearthstone_decks_action_1.fetchDecks(page));
+	        },
+	        postDelete: function (id) { return dispatch(hearthstone_decks_action_1.deleteDeck(id)); }
+	    };
+	};
+	var HearthstoneDecks = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(list_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneDecks;
+
+
+/***/ },
+/* 483 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var axios_1 = __webpack_require__(263);
+	function fetchDecks(page, options) {
+	    if (page === void 0) { page = null; }
+	    if (options === void 0) { options = {}; }
+	    var url = '/hearthstone-decks';
+	    if (options.hasOwnProperty('ids') && Array.isArray(options.ids)) {
+	        var ids = options.ids.join(',');
+	        url = url + "?ids=" + ids;
+	    }
+	    else if (options.hasOwnProperty('active')) {
+	        url = url + "?active=" + options.active;
+	    }
+	    else {
+	        url = page ? url + "?limit=30&page" + page : url + "?limit=30";
+	    }
+	    return {
+	        type: 'FETCH_HEARTHSTONE_DECKS',
+	        payload: axios_1.default.get(url)
+	    };
+	}
+	exports.fetchDecks = fetchDecks;
+	function deleteDeck(id) {
+	    return {
+	        type: 'DELETE_HEARTHSTONE_DECK',
+	        payload: axios_1.default.post('/hearthstone-decks/' + id + '/delete')
+	    };
+	}
+	exports.deleteDeck = deleteDeck;
+
+
+/***/ },
+/* 484 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var redux_1 = __webpack_require__(186);
-	var logger = __webpack_require__(475);
-	var redux_promise_middleware_1 = __webpack_require__(481);
-	var redux_thunk_1 = __webpack_require__(483);
-	var reducers_1 = __webpack_require__(484);
+	var logger = __webpack_require__(485);
+	var redux_promise_middleware_1 = __webpack_require__(491);
+	var redux_thunk_1 = __webpack_require__(493);
+	var reducers_1 = __webpack_require__(494);
 	var middleware = redux_1.applyMiddleware(logger(), redux_thunk_1.default, redux_promise_middleware_1.default());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = redux_1.createStore(reducers_1.default, middleware);
 
 
 /***/ },
-/* 475 */
+/* 485 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36453,11 +36848,11 @@
 	  value: true
 	});
 
-	var _core = __webpack_require__(476);
+	var _core = __webpack_require__(486);
 
-	var _helpers = __webpack_require__(477);
+	var _helpers = __webpack_require__(487);
 
-	var _defaults = __webpack_require__(480);
+	var _defaults = __webpack_require__(490);
 
 	var _defaults2 = _interopRequireDefault(_defaults);
 
@@ -36560,7 +36955,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 476 */
+/* 486 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36570,9 +36965,9 @@
 	});
 	exports.printBuffer = printBuffer;
 
-	var _helpers = __webpack_require__(477);
+	var _helpers = __webpack_require__(487);
 
-	var _diff = __webpack_require__(478);
+	var _diff = __webpack_require__(488);
 
 	var _diff2 = _interopRequireDefault(_diff);
 
@@ -36701,7 +37096,7 @@
 	}
 
 /***/ },
-/* 477 */
+/* 487 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36725,7 +37120,7 @@
 	var timer = exports.timer = typeof performance !== "undefined" && performance !== null && typeof performance.now === "function" ? performance : Date;
 
 /***/ },
-/* 478 */
+/* 488 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36735,7 +37130,7 @@
 	});
 	exports.default = diffLogger;
 
-	var _deepDiff = __webpack_require__(479);
+	var _deepDiff = __webpack_require__(489);
 
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 
@@ -36821,7 +37216,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 479 */
+/* 489 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global) {/*!
@@ -37250,7 +37645,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 480 */
+/* 490 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -37301,7 +37696,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 481 */
+/* 491 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37318,7 +37713,7 @@
 
 	exports.default = promiseMiddleware;
 
-	var _isPromise = __webpack_require__(482);
+	var _isPromise = __webpack_require__(492);
 
 	var _isPromise2 = _interopRequireDefault(_isPromise);
 
@@ -37475,7 +37870,7 @@
 	}
 
 /***/ },
-/* 482 */
+/* 492 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37496,7 +37891,7 @@
 	}
 
 /***/ },
-/* 483 */
+/* 493 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37524,28 +37919,27 @@
 	exports['default'] = thunk;
 
 /***/ },
-/* 484 */
+/* 494 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var redux_1 = __webpack_require__(186);
-	var counts_reducer_1 = __webpack_require__(485);
-	var image_reducer_1 = __webpack_require__(486);
-	var games_reducer_1 = __webpack_require__(487);
-	var gourmets_reducer_1 = __webpack_require__(488);
-	var gourmet_reducer_1 = __webpack_require__(489);
-	var hearthstone_seasons_reducer_1 = __webpack_require__(490);
-	var hearthstone_season_reducer_1 = __webpack_require__(491);
-	var hearthstone_decks_reducer_1 = __webpack_require__(492);
-	var item_reducer_1 = __webpack_require__(493);
+	var counts_reducer_1 = __webpack_require__(495);
+	var image_reducer_1 = __webpack_require__(496);
+	var games_reducer_1 = __webpack_require__(497);
+	var gourmets_reducer_1 = __webpack_require__(498);
+	var hearthstone_seasons_reducer_1 = __webpack_require__(499);
+	var hearthstone_season_reducer_1 = __webpack_require__(500);
+	var hearthstone_decks_reducer_1 = __webpack_require__(501);
+	var item_reducer_1 = __webpack_require__(502);
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = redux_1.combineReducers({
-	    counts: counts_reducer_1.default, image: image_reducer_1.default, games: games_reducer_1.default, gourmets: gourmets_reducer_1.default, gourmet: gourmet_reducer_1.default, hearthstoneSeasons: hearthstone_seasons_reducer_1.default, hearthstoneSeason: hearthstone_season_reducer_1.default, hearthstoneDecks: hearthstone_decks_reducer_1.default, item: item_reducer_1.default
+	    counts: counts_reducer_1.default, image: image_reducer_1.default, games: games_reducer_1.default, gourmets: gourmets_reducer_1.default, hearthstoneSeasons: hearthstone_seasons_reducer_1.default, hearthstoneSeason: hearthstone_season_reducer_1.default, hearthstoneDecks: hearthstone_decks_reducer_1.default, item: item_reducer_1.default
 	});
 
 
 /***/ },
-/* 485 */
+/* 495 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -37577,7 +37971,7 @@
 
 
 /***/ },
-/* 486 */
+/* 496 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -37620,28 +38014,28 @@
 
 
 /***/ },
-/* 487 */
+/* 497 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var helpers_1 = __webpack_require__(447);
-	var sort = function (a, b) {
-	    if (a.buy_at > b.buy_at)
-	        return -1;
-	    if (a.buy_at < b.buy_at)
-	        return 1;
-	    if (a.release_at > b.release_at)
-	        return -1;
-	    if (a.release_at < b.release_at)
-	        return 1;
-	    return 0;
-	};
 	function reducer(state, action) {
 	    if (state === void 0) { state = helpers_1.default.initialState; }
 	    var actionStatusGenerator = helpers_1.default.actionStatusGenerator;
 	    var games = helpers_1.default.actionTypes.games;
 	    var type = action.type, payload = action.payload;
 	    var types = actionStatusGenerator(games);
+	    var sort = function (a, b) {
+	        if (a.buy_at > b.buy_at)
+	            return -1;
+	        if (a.buy_at < b.buy_at)
+	            return 1;
+	        if (a.release_at > b.release_at)
+	            return -1;
+	        if (a.release_at < b.release_at)
+	            return 1;
+	        return 0;
+	    };
 	    var newSet, items, index;
 	    switch (type) {
 	        // Fetch List
@@ -37679,6 +38073,7 @@
 	            }
 	            return Object.assign({}, state, {
 	                isFetching: false,
+	                fetched: true,
 	                items: items,
 	            });
 	        case types['fetch_item'].error:
@@ -37720,21 +38115,20 @@
 	            });
 	        // Delete Item
 	        case types['delete'].pending:
-	            return Object.assign({}, state, { isFetching: true, error: null });
+	            return Object.assign({}, state, { isPosting: true, posted: false, error: null });
 	        case types['delete'].success:
 	            items = state.items;
 	            index = items.findIndex(function (v) { return v._id == payload.data; });
 	            items.splice(index, 1);
 	            state.total--;
 	            return Object.assign({}, state, {
-	                isFetching: false,
-	                fetched: true,
+	                isPosting: false,
+	                posted: true,
 	                items: items,
 	            });
 	        case types['delete'].error:
 	            return Object.assign({}, state, {
-	                isFetching: false,
-	                fetched: false,
+	                isPosting: false,
 	                error: {
 	                    status: payload.response.status,
 	                    data: payload.response.data
@@ -37749,45 +38143,34 @@
 
 
 /***/ },
-/* 488 */
-/***/ function(module, exports) {
+/* 498 */
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var initialState = {
-	    isFetching: false,
-	    fetched: false,
-	    items: [],
-	    total: 0,
-	    fetchedPages: [],
-	    error: null,
-	};
+	var helpers_1 = __webpack_require__(447);
 	function reducer(state, action) {
-	    if (state === void 0) { state = initialState; }
+	    if (state === void 0) { state = helpers_1.default.initialState; }
+	    var actionStatusGenerator = helpers_1.default.actionStatusGenerator;
+	    var gourmets = helpers_1.default.actionTypes.gourmets;
 	    var type = action.type, payload = action.payload;
+	    var types = actionStatusGenerator(gourmets);
+	    var sort = function (a, b) {
+	        if (a.date > b.date)
+	            return -1;
+	        if (a.date < b.date)
+	            return 1;
+	        return 0;
+	    };
+	    var newSet, items, index;
 	    switch (type) {
-	        case "FETCH_GOURMETS_PENDING":
-	            return Object.assign({}, state, { isFetching: true, error: null });
-	        case "FETCH_GOURMETS_FULFILLED":
-	            var items = state.items.concat(payload.data.list);
-	            items.sort(function (a, b) {
-	                if (a.date > b.date)
-	                    return -1;
-	                if (a.date < b.date)
-	                    return 1;
-	                return 0;
-	            });
-	            var url = payload.request.responseURL;
-	            var match = url.match(/page=(\d)/i);
-	            var page = match ? parseInt(match[1]) : 1;
-	            var pages = state.fetchedPages;
-	            pages.push(page);
-	            pages.sort(function (a, b) {
-	                if (a > b)
-	                    return 1;
-	                if (a < b)
-	                    return -1;
-	                return 0;
-	            });
+	        // Fetch List
+	        case types['fetch_list'].pending:
+	            return Object.assign({}, state, { isFetching: true, fatched: false, error: null });
+	        case types['fetch_list'].success:
+	            newSet = new Set(state.items.concat(payload.data.list));
+	            items = Array.from(newSet);
+	            items.sort(sort);
+	            var pages = helpers_1.default.fetchedPages(state.fetchedPages, payload.request.responseURL);
 	            return Object.assign({}, state, {
 	                isFetching: false,
 	                fetched: true,
@@ -37795,32 +38178,77 @@
 	                total: state.total ? state.total : payload.data.total,
 	                fetchedPages: pages,
 	            });
-	        case "FETCH_GOURMETS_REJECTED":
+	        case types['fetch_list'].error:
 	            return Object.assign({}, state, {
 	                isFetching: false,
-	                fetched: false,
 	                error: {
 	                    status: payload.response.status,
 	                    data: payload.response.data
 	                }
 	            });
-	        case "DELETE_GOURMET_PENDING":
-	            return Object.assign({}, state, { isFetching: true, error: null });
-	        case "DELETE_GOURMET_FULFILLED":
-	            var list = state.items;
-	            var item = list.find(function (v) { return v._id == payload.data; });
-	            var index = list.indexOf(item);
-	            list.splice(index, 1);
+	        // Fetch Item
+	        case types['fetch_item'].pending:
+	            return Object.assign({}, state, { isFetching: true, fatched: false, error: null });
+	        case types['fetch_item'].success:
+	            state.items.push(payload.data);
+	            newSet = new Set(state.items);
+	            items = Array.from(newSet);
+	            if (items.length > 1) {
+	                items.sort(sort);
+	            }
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                fetched: true,
+	                items: items,
+	            });
+	        case types['fetch_item'].error:
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                error: {
+	                    status: payload.response.status,
+	                    data: payload.response.data
+	                }
+	            });
+	        // Post Item
+	        case types['post'].pending:
+	            return Object.assign({}, state, { isPosting: true, posted: false, error: null });
+	        case types['post'].success:
+	            items = state.items;
+	            index = items.findIndex(function (v) { return v._id == payload.data._id; });
+	            if (index < 0) {
+	                state.items.push(payload.data);
+	                if (items.length > 1) {
+	                    items.sort(sort);
+	                }
+	                state.total++;
+	            }
+	            else {
+	                items = items.slice(index, 1, payload.data);
+	            }
+	        case types['post'].error:
+	            return Object.assign({}, state, {
+	                isPosting: false,
+	                error: {
+	                    status: payload.response.status,
+	                    data: payload.response.data
+	                }
+	            });
+	        // Delete Item
+	        case types['delete'].pending:
+	            return Object.assign({}, state, { isPosting: true, posted: false, error: null });
+	        case types['delete'].success:
+	            items = state.items;
+	            index = items.findIndex(function (v) { return v._id == payload.data; });
+	            items.splice(index, 1);
 	            state.total--;
 	            return Object.assign({}, state, {
-	                isFetching: false,
-	                fetched: true,
-	                items: list,
+	                isPosting: false,
+	                posted: true,
+	                items: items,
 	            });
-	        case "DELETE_GOURMET_REJECTED":
+	        case types['delete'].error:
 	            return Object.assign({}, state, {
-	                isFetching: false,
-	                fetched: false,
+	                isPosting: false,
 	                error: {
 	                    status: payload.response.status,
 	                    data: payload.response.data
@@ -37835,71 +38263,7 @@
 
 
 /***/ },
-/* 489 */
-/***/ function(module, exports) {
-
-	"use strict";
-	var initialState = {
-	    isFetching: false,
-	    fetched: false,
-	    posted: false,
-	    item: {},
-	    error: null,
-	};
-	function reducer(state, action) {
-	    if (state === void 0) { state = initialState; }
-	    var type = action.type, payload = action.payload;
-	    switch (type) {
-	        case "INIT_GOURMET_CREATE":
-	            return Object.assign({}, state, initialState);
-	        case "FETCH_GOURMET_PENDING":
-	            return Object.assign({}, state, {
-	                isFetching: true,
-	                error: null,
-	                posted: false
-	            });
-	        case "FETCH_GOURMET_FULFILLED":
-	            return Object.assign({}, state, {
-	                isFetching: false,
-	                fetched: true,
-	                item: payload.hasOwnProperty('_id') ? payload : payload.data
-	            });
-	        case "FETCH_GOURMET_REJECTED":
-	            return Object.assign({}, state, {
-	                isFetching: false,
-	                fetched: false,
-	                error: {
-	                    statue: payload.response.status,
-	                    data: payload.response.data
-	                }
-	            });
-	        case "POST_GOURMET_PENDING":
-	            return Object.assign({}, state, { isFetching: true });
-	        case "POST_GOURMET_FULFILLED":
-	            return Object.assign({}, state, { isFetching: false, posted: true });
-	        case "POST_GOURMET_REJECTED":
-	            return Object.assign({}, state, {
-	                isFetching: false,
-	                error: {
-	                    statue: payload.response.status,
-	                    data: payload.response.data
-	                }
-	            });
-	        case "CHANGE_FIELD":
-	            var field = payload.field, value = payload.value;
-	            var item = state.item;
-	            item[field] = value;
-	            return Object.assign({}, state, { item: item });
-	        default:
-	            return state;
-	    }
-	}
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = reducer;
-
-
-/***/ },
-/* 490 */
+/* 499 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -37985,7 +38349,7 @@
 
 
 /***/ },
-/* 491 */
+/* 500 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -38045,7 +38409,7 @@
 
 
 /***/ },
-/* 492 */
+/* 501 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -38131,7 +38495,7 @@
 
 
 /***/ },
-/* 493 */
+/* 502 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -38156,505 +38520,6 @@
 	}
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = reducer;
-
-
-/***/ },
-/* 494 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var react_redux_1 = __webpack_require__(179);
-	var gourmets_action_1 = __webpack_require__(473);
-	var gourmet_page_component_1 = __webpack_require__(495);
-	var mapStateToProps = function (state) {
-	    return {
-	        gourmet: state.gourmet
-	    };
-	};
-	var mapDispatchToProps = function (dispatch) {
-	    return {
-	        getGourmet: function (url) { return dispatch(gourmets_action_1.fetchGourmet(url)); },
-	        createGourmet: function (gourmet) { return dispatch(gourmets_action_1.createGourmet(gourmet)); },
-	        updateGourmet: function (gourmet) { return dispatch(gourmets_action_1.updateGourmet(gourmet)); },
-	        changeField: function (field, value) { return dispatch(gourmets_action_1.changField(field, value)); },
-	        initGourmetCreate: function () { return dispatch(gourmets_action_1.initGourmetCreate()); }
-	    };
-	};
-	var Gourmet = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(gourmet_page_component_1.default);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = Gourmet;
-
-
-/***/ },
-/* 495 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var gourmet_1 = __webpack_require__(496);
-	var page_header_component_1 = __webpack_require__(454);
-	var alert_component_1 = __webpack_require__(450);
-	var form_component_1 = __webpack_require__(467);
-	var GourmetPage = (function (_super) {
-	    __extends(GourmetPage, _super);
-	    function GourmetPage() {
-	        _super.apply(this, arguments);
-	    }
-	    GourmetPage.prototype.componentDidMount = function (nextProps, nextState) {
-	        var _a = this.props, initGourmetCreate = _a.initGourmetCreate, params = _a.params, getGourmet = _a.getGourmet;
-	        if (params['id'] == 'add') {
-	            initGourmetCreate();
-	        }
-	        else {
-	            getGourmet(params['id']);
-	        }
-	    };
-	    GourmetPage.prototype.handlePost = function () {
-	        var _a = this.props, createGourmet = _a.createGourmet, updateGourmet = _a.updateGourmet, gourmet = _a.gourmet, params = _a.params;
-	        if (params['id'] == 'add') {
-	            createGourmet(gourmet.item);
-	        }
-	        else {
-	            createGourmet(gourmet.item);
-	        }
-	        window.scrollTo(0, 0);
-	    };
-	    GourmetPage.prototype.render = function () {
-	        var _a = this.props, gourmet = _a.gourmet, params = _a.params, changeField = _a.changeField;
-	        if (gourmet.fetched) {
-	            document.title = gourmet.item.food + ' - Gourmet | Admin';
-	        }
-	        else {
-	            document.title = 'Add - Gourmet | Admin';
-	        }
-	        return (React.createElement("div", {className: "container-fluid"}, 
-	            React.createElement(page_header_component_1.default, {title: params['id'] == 'add' ? 'Add Gourmet' : gourmet.item.food}), 
-	            React.createElement(alert_component_1.default, {fetch: gourmet}), 
-	            React.createElement(form_component_1.default, {fields: gourmet_1.GourmetFields, data: gourmet.item, change: function (f, v) { return changeField(f, v); }, submit: this.handlePost.bind(this)})));
-	    };
-	    return GourmetPage;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = GourmetPage;
-
-
-/***/ },
-/* 496 */
-/***/ function(module, exports) {
-
-	"use strict";
-	var GOURMET_FIELDS = [
-	    {
-	        name: 'image',
-	        type: 'image',
-	        placeholder: 'https://placeholdit.imgix.net/~text?txtsize=30&txt=300%C3%97300&w=150&h=150',
-	    },
-	    {
-	        name: 'food',
-	        type: 'input',
-	    },
-	    {
-	        name: 'restaurant',
-	        type: 'input',
-	    },
-	    {
-	        name: 'date',
-	        type: 'date',
-	    },
-	    {
-	        name: 'url',
-	        type: 'input',
-	    }
-	];
-	exports.GourmetFields = GOURMET_FIELDS;
-
-
-/***/ },
-/* 497 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var react_redux_1 = __webpack_require__(179);
-	var hearthstone_seasons_action_1 = __webpack_require__(498);
-	var list_component_1 = __webpack_require__(453);
-	var mapStateToProps = function (state) {
-	    return {
-	        list: state.hearthstoneSeasons,
-	        type: 'Hearthsonte-Seasons'
-	    };
-	};
-	var mapDispatchToProps = function (dispatch) {
-	    return {
-	        getList: function (page) {
-	            if (page === void 0) { page = null; }
-	            return dispatch(hearthstone_seasons_action_1.fetchSeasons(page));
-	        },
-	        postDelete: function (url) { return dispatch(hearthstone_seasons_action_1.deleteSeason(url)); }
-	    };
-	};
-	var HearthstoneSeasons = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(list_component_1.default);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneSeasons;
-
-
-/***/ },
-/* 498 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var axios_1 = __webpack_require__(263);
-	function fetchSeasons(page) {
-	    if (page === void 0) { page = null; }
-	    var url = '/hearthstone-seasons?limit=30';
-	    if (page) {
-	        url = url + "&page=" + page;
-	    }
-	    return {
-	        type: 'FETCH_HEARTHSTONE_SEASONS',
-	        payload: axios_1.default.get(url)
-	    };
-	}
-	exports.fetchSeasons = fetchSeasons;
-	function fetchSeason(url) {
-	    return {
-	        type: 'FETCH_HEARTHSTONE_SEASON',
-	        payload: axios_1.default.get('/hearthstone-seasons/' + url)
-	    };
-	}
-	exports.fetchSeason = fetchSeason;
-	function initSeasonCreate() {
-	    return {
-	        type: 'INIT_HEARTHSTONE_CREATE'
-	    };
-	}
-	exports.initSeasonCreate = initSeasonCreate;
-	function createSeason(season) {
-	    return {
-	        type: 'POST_HEARTHSTONE_SEASON',
-	        payload: axios_1.default.post('/hearthstone-seasons/', season)
-	    };
-	}
-	exports.createSeason = createSeason;
-	function updateSeason(season) {
-	    return {
-	        type: 'POST_HEARTHSTONE_SEASON',
-	        payload: axios_1.default.post('/hearthstone-seasons/' + season.url, season)
-	    };
-	}
-	exports.updateSeason = updateSeason;
-	function deleteSeason(url) {
-	    return {
-	        type: 'DELETE_HEARTHSTONE_SEASON',
-	        payload: axios_1.default.post('/hearthstone-seasons/' + url + '/delete')
-	    };
-	}
-	exports.deleteSeason = deleteSeason;
-	function changField(field, value) {
-	    return {
-	        type: 'CHANGE_FIELD',
-	        payload: { field: field, value: value }
-	    };
-	}
-	exports.changField = changField;
-
-
-/***/ },
-/* 499 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var react_redux_1 = __webpack_require__(179);
-	var hearthstone_seasons_action_1 = __webpack_require__(498);
-	var hearthstone_season_page_component_1 = __webpack_require__(500);
-	var mapStateToProps = function (state) {
-	    return {
-	        season: state.hearthstoneSeason
-	    };
-	};
-	var mapDispatchToProps = function (dispatch) {
-	    return {
-	        getSeason: function (url) { return dispatch(hearthstone_seasons_action_1.fetchSeason(url)); },
-	        initSeasonCreate: function () { return dispatch(hearthstone_seasons_action_1.initSeasonCreate()); },
-	        createSeason: function (season) { return dispatch(hearthstone_seasons_action_1.createSeason(season)); },
-	        updateSeason: function (season) { return dispatch(hearthstone_seasons_action_1.updateSeason(season)); },
-	        changeField: function (field, value) { return dispatch(hearthstone_seasons_action_1.changField(field, value)); }
-	    };
-	};
-	var HearthstoneSeason = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(hearthstone_season_page_component_1.default);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneSeason;
-
-
-/***/ },
-/* 500 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var hearthstone_season_1 = __webpack_require__(501);
-	var page_header_component_1 = __webpack_require__(454);
-	var alert_component_1 = __webpack_require__(450);
-	var form_component_1 = __webpack_require__(467);
-	var HearthstoneSeasonPage = (function (_super) {
-	    __extends(HearthstoneSeasonPage, _super);
-	    function HearthstoneSeasonPage() {
-	        _super.apply(this, arguments);
-	    }
-	    HearthstoneSeasonPage.prototype.componentDidMount = function () {
-	        var _a = this.props, params = _a.params, getSeason = _a.getSeason;
-	        getSeason(params['url']);
-	    };
-	    HearthstoneSeasonPage.prototype.handlePost = function () {
-	        var _a = this.props, createSeason = _a.createSeason, updateSeason = _a.updateSeason, season = _a.season, params = _a.params;
-	        if (params['url'] == 'add') {
-	            createSeason(season.item);
-	        }
-	        else {
-	            updateSeason(season.item);
-	        }
-	        window.scrollTo(0, 0);
-	    };
-	    HearthstoneSeasonPage.prototype.render = function () {
-	        var _a = this.props, season = _a.season, params = _a.params, changeField = _a.changeField;
-	        if (season.fetched) {
-	            document.title = season.item.title + ' - Hearthstone Season | Admin';
-	        }
-	        else {
-	            document.title = 'Add - Games | Admin';
-	        }
-	        return (React.createElement("div", {className: "container-fluid"}, 
-	            React.createElement(page_header_component_1.default, {title: params['url'] == 'add' ? 'Add Hearthstone Season' : season.item.title}), 
-	            React.createElement(alert_component_1.default, {fetch: season}), 
-	            React.createElement(form_component_1.default, {fields: hearthstone_season_1.HearthstoneSeasonFields, data: season.item, change: function (f, v) { return changeField(f, v); }, submit: this.handlePost.bind(this)})));
-	    };
-	    return HearthstoneSeasonPage;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneSeasonPage;
-
-
-/***/ },
-/* 501 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var hearthstone_season_ranked_1 = __webpack_require__(502);
-	var HEARTHSTONE_SEASON_FIELDS = [
-	    {
-	        name: 'image',
-	        type: 'image',
-	        placeholder: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=760%C3%97270&w=442&h=150',
-	    },
-	    {
-	        name: 'title',
-	        type: 'input',
-	    },
-	    {
-	        name: 'month',
-	        type: 'date',
-	    },
-	    {
-	        name: 'rank',
-	        type: 'select',
-	        enum: hearthstone_season_ranked_1.HearthstoneSeasonRanked
-	    },
-	    {
-	        name: 'url',
-	        type: 'input',
-	    },
-	    {
-	        name: 'description',
-	        type: 'text',
-	    }
-	];
-	exports.HearthstoneSeasonFields = HEARTHSTONE_SEASON_FIELDS;
-
-
-/***/ },
-/* 502 */
-/***/ function(module, exports) {
-
-	"use strict";
-	var HEARTHSTONE_SEASON_RANKED = [
-	    {
-	        value: 0,
-	        name: 'Legend'
-	    },
-	    {
-	        value: 1,
-	        name: 'Innkeeper'
-	    },
-	    {
-	        value: 2,
-	        name: 'The Black Knight'
-	    },
-	    {
-	        value: 3,
-	        name: 'Molten Giant'
-	    },
-	    {
-	        value: 4,
-	        name: '	Mountain Giant'
-	    },
-	    {
-	        value: 5,
-	        name: 'Sea Giant'
-	    },
-	    {
-	        value: 6,
-	        name: 'Ancient of War'
-	    },
-	    {
-	        value: 7,
-	        name: 'Sunwalker'
-	    },
-	    {
-	        value: 8,
-	        name: 'Frostwolf Warlord'
-	    },
-	    {
-	        value: 9,
-	        name: 'Silver Hand Knight'
-	    },
-	    {
-	        value: 10,
-	        name: 'Ogre Magi'
-	    },
-	    {
-	        value: 11,
-	        name: 'Big Game Hunter'
-	    },
-	    {
-	        value: 12,
-	        name: 'Warsong Commander'
-	    },
-	    {
-	        value: 13,
-	        name: '	Dread Corsair'
-	    },
-	    {
-	        value: 14,
-	        name: '	Raid Leader'
-	    },
-	    {
-	        value: 15,
-	        name: 'Silvermoon Guardian'
-	    },
-	    {
-	        value: 16,
-	        name: '	Questing Adventurer'
-	    },
-	    {
-	        value: 17,
-	        name: 'Tauren Warrior'
-	    },
-	    {
-	        value: 18,
-	        name: 'Sorcerer\'s Apprentice'
-	    },
-	    {
-	        value: 19,
-	        name: 'Novice Engineer'
-	    },
-	    {
-	        value: 20,
-	        name: '	Shieldbearer'
-	    },
-	    {
-	        value: 21,
-	        name: '	Southsea Deckhand'
-	    },
-	    {
-	        value: 22,
-	        name: 'Murloc Raider'
-	    },
-	    {
-	        value: 23,
-	        name: 'Argent Squire'
-	    },
-	    {
-	        value: 24,
-	        name: 'Leper Gnome'
-	    },
-	    {
-	        value: 25,
-	        name: '	Angry Chicken'
-	    },
-	];
-	exports.HearthstoneSeasonRanked = HEARTHSTONE_SEASON_RANKED;
-
-
-/***/ },
-/* 503 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var react_redux_1 = __webpack_require__(179);
-	var hearthstone_decks_action_1 = __webpack_require__(504);
-	var list_component_1 = __webpack_require__(453);
-	var mapStateToProps = function (state) {
-	    return {
-	        list: state.hearthstoneDecks,
-	        type: 'Hearthsonte-Decks'
-	    };
-	};
-	var mapDispatchToProps = function (dispatch) {
-	    return {
-	        getList: function (page) {
-	            if (page === void 0) { page = null; }
-	            return dispatch(hearthstone_decks_action_1.fetchDecks(page));
-	        },
-	        postDelete: function (id) { return dispatch(hearthstone_decks_action_1.deleteDeck(id)); }
-	    };
-	};
-	var HearthstoneDecks = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(list_component_1.default);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneDecks;
-
-
-/***/ },
-/* 504 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var axios_1 = __webpack_require__(263);
-	function fetchDecks(page, options) {
-	    if (page === void 0) { page = null; }
-	    if (options === void 0) { options = {}; }
-	    var url = '/hearthstone-decks';
-	    if (options.hasOwnProperty('ids') && Array.isArray(options.ids)) {
-	        var ids = options.ids.join(',');
-	        url = url + "?ids=" + ids;
-	    }
-	    else if (options.hasOwnProperty('active')) {
-	        url = url + "?active=" + options.active;
-	    }
-	    else {
-	        url = page ? url + "?limit=30&page" + page : url + "?limit=30";
-	    }
-	    return {
-	        type: 'FETCH_HEARTHSTONE_DECKS',
-	        payload: axios_1.default.get(url)
-	    };
-	}
-	exports.fetchDecks = fetchDecks;
-	function deleteDeck(id) {
-	    return {
-	        type: 'DELETE_HEARTHSTONE_DECK',
-	        payload: axios_1.default.post('/hearthstone-decks/' + id + '/delete')
-	    };
-	}
-	exports.deleteDeck = deleteDeck;
 
 
 /***/ }

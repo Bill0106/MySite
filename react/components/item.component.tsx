@@ -60,6 +60,8 @@ class Item extends React.Component<ItemProps, void> {
         switch (type) {
             case 'Game':
                 return items.find(v => v.url == params['url']);
+            case 'Gourmet':
+                return items.find(v => v._id == params['id']);
             default:
                 return null;
         }
