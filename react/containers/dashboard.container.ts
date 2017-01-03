@@ -11,8 +11,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-    const type = helpers.actionTypeStatus(helpers.actionTypes.counts.fetch_list, 'fetch');
-    const getCounts = createAction(type, () => axios.get('/counts'));
+    const getCounts = createAction(helpers.actionTypes.counts.fetch_list, () => axios.get('/counts'));
 
     return {
         getCounts: () => dispatch(getCounts())

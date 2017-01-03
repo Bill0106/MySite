@@ -1,20 +1,21 @@
 import helpers from '../helpers';
 
 export default function reducer(state = helpers.initialState, action) {
-    const { actionTypeStatus } = helpers;
+    const { actionStatusGenerator } = helpers;
     const { counts } = helpers.actionTypes;
     const { type, payload } = action;
+    const types = actionStatusGenerator(counts);
     
     switch (type) {
-        case actionTypeStatus(counts.fetch_list, 'pending'):
+        case types['fetch_list'].pending:
             return Object.assign({}, state, { isFetching: true, error: null });
-        case actionTypeStatus(counts.fetch_list, 'success'):
+        case types['fetch_list'].success:
             return Object.assign({}, state, {
                 isFetching: false,
                 fetched: true,
                 items: Array.isArray(payload) ? payload : payload.data
             });
-        case actionTypeStatus(counts.fetch_list, 'error'):
+        case types['fetch_list'].error:
             const { data, status } = payload.response;
 
             return Object.assign({}, state, { isFetching: false, error: { data, status } });

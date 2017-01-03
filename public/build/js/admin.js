@@ -29815,8 +29815,7 @@
 	    };
 	};
 	var mapDispatchToProps = function (dispatch) {
-	    var type = helpers_1.default.actionTypeStatus(helpers_1.default.actionTypes.counts.fetch_list, 'fetch');
-	    var getCounts = redux_actions_1.createAction(type, function () { return axios_1.default.get('/counts'); });
+	    var getCounts = redux_actions_1.createAction(helpers_1.default.actionTypes.counts.fetch_list, function () { return axios_1.default.get('/counts'); });
 	    return {
 	        getCounts: function () { return dispatch(getCounts()); }
 	    };
@@ -35278,17 +35277,6 @@
 	    }
 	    return newTypes;
 	};
-	var actionTypeStatus = function (type, status) {
-	    var progress = {
-	        pending: 'PENDING',
-	        success: 'FULFILLED',
-	        error: 'REJECTED',
-	    };
-	    if (status in progress) {
-	        return type + "_" + progress[status];
-	    }
-	    return type;
-	};
 	var fetchedPages = function (pages, url) {
 	    var match = url.match(/page=(\d)/i);
 	    var page = match ? parseInt(match[1]) : 1;
@@ -35325,7 +35313,7 @@
 	    return ts;
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = { initialState: initialState, actionTypes: actionTypes, actionTypeStatus: actionTypeStatus, fetchedPages: fetchedPages, time2Date: time2Date, actionStatusGenerator: actionStatusGenerator };
+	exports.default = { initialState: initialState, actionTypes: actionTypes, fetchedPages: fetchedPages, time2Date: time2Date, actionStatusGenerator: actionStatusGenerator };
 
 
 /***/ },
@@ -37564,19 +37552,20 @@
 	var helpers_1 = __webpack_require__(447);
 	function reducer(state, action) {
 	    if (state === void 0) { state = helpers_1.default.initialState; }
-	    var actionTypeStatus = helpers_1.default.actionTypeStatus;
+	    var actionStatusGenerator = helpers_1.default.actionStatusGenerator;
 	    var counts = helpers_1.default.actionTypes.counts;
 	    var type = action.type, payload = action.payload;
+	    var types = actionStatusGenerator(counts);
 	    switch (type) {
-	        case actionTypeStatus(counts.fetch_list, 'pending'):
+	        case types['fetch_list'].pending:
 	            return Object.assign({}, state, { isFetching: true, error: null });
-	        case actionTypeStatus(counts.fetch_list, 'success'):
+	        case types['fetch_list'].success:
 	            return Object.assign({}, state, {
 	                isFetching: false,
 	                fetched: true,
 	                items: Array.isArray(payload) ? payload : payload.data
 	            });
-	        case actionTypeStatus(counts.fetch_list, 'error'):
+	        case types['fetch_list'].error:
 	            var _a = payload.response, data = _a.data, status = _a.status;
 	            return Object.assign({}, state, { isFetching: false, error: { data: data, status: status } });
 	        default:

@@ -45,20 +45,6 @@ const actionStatusGenerator = (types: any) => {
     return newTypes;
 }
 
-const actionTypeStatus = function (type: string, status: string) {
-    const progress = {
-        pending: 'PENDING',
-        success: 'FULFILLED',
-        error: 'REJECTED',
-    };
-
-    if (status in progress) {
-        return `${type}_${progress[status]}`;
-    }
-
-    return type;
-}
-
 const fetchedPages = function (pages: any, url: string) {
     const match = url.match(/page=(\d)/i);
     const page = match ? parseInt(match[1]) : 1;
@@ -100,4 +86,4 @@ const time2Date = function (timestamp: number, displayTime: boolean = false) {
     return ts;
 }
 
-export default { initialState, actionTypes, actionTypeStatus, fetchedPages, time2Date, actionStatusGenerator }
+export default { initialState, actionTypes, fetchedPages, time2Date, actionStatusGenerator }
