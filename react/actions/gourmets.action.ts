@@ -1,8 +1,9 @@
 import { createAction } from 'redux-actions';
 import axios from 'axios';
 import helpers from '../helpers';
+import { actionTypes } from '../constants';
 
-const { gourmets } = helpers.actionTypes;
+const { gourmets } = actionTypes;
 
 export const fetchGourmets = createAction(gourmets.fetch_list, (page: number) => {
     let url = `/gourmets?limit=30${page ? '&page=' + page : ''}`;

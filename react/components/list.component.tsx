@@ -26,6 +26,7 @@ class List extends React.Component<ListProps, void> {
         const { getList, location, list } = this.props;
         const page = location.query['page'] ? parseInt(location.query['page']) : 1;
 
+        console.log(list);
         if (list.fetchedPages.indexOf(page) < 0) {
             getList(location.query['page']);
         }

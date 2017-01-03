@@ -1,8 +1,9 @@
 import { createAction } from 'redux-actions';
 import axios from 'axios';
 import helpers from '../helpers';
+import { actionTypes } from '../constants';
 
-const { games } = helpers.actionTypes;
+const { games } = actionTypes;
 
 export const fetchGames = createAction(games.fetch_list, (page = null) => {
     let url = `/games?limit=30${page ? '&page=' + page : ''}`;

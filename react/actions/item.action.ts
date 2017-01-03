@@ -1,7 +1,8 @@
 import { createAction } from 'redux-actions';
 import helpers from '../helpers';
+import { actionTypes } from '../constants';
 
-const { item } = helpers.actionTypes;
+const { item } = actionTypes;
 
 export const initItemCreate = createAction(item.init);
 

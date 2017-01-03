@@ -1,37 +1,3 @@
-const initialState = {
-    isFetching: false,
-    fetched: false,
-    isPosting: false,
-    posted: false,
-    items: [],
-    total: 0,
-    fetchedPages: [],
-    error: null,
-}
-
-const actionTypes = {
-    counts: {
-        fetch_list: 'FETCH_COUNTS',
-    },
-    games: {
-        fetch_list: 'FETCH_GAMES',
-        fetch_item: 'FETCH_GAME',
-        post: 'POST_GAME',
-        delete: 'DELETE_GAME',
-    },
-    gourmets: {
-        fetch_list: 'FETCH_GOURMETS',
-        fetch_item: 'FETCH_GOURMET',
-        post: 'POST_GOURMET',
-        delete: 'DELETE_GOURMET',
-    },
-    item: {
-        change: 'CHANGE_ITEM',
-        init: 'INIT_ITEM_CREATE',
-        set: 'SET_ITEM',
-    }
-}
-
 const actionStatusGenerator = (types: any) => {
     const progress = {
         pending: 'PENDING',
@@ -92,4 +58,4 @@ const time2Date = function (timestamp: number, displayTime: boolean = false) {
     return ts;
 }
 
-export default { initialState, actionTypes, fetchedPages, time2Date, actionStatusGenerator }
+export default { fetchedPages, time2Date, actionStatusGenerator }

@@ -1,10 +1,21 @@
 import helpers from '../helpers';
+import { actionTypes } from '../constants';
 
-export default function reducer(state = helpers.initialState, action) {
+const initialState = {
+    isFetching: false,
+    fetched: false,
+    isPosting: false,
+    posted: false,
+    items: [],
+    total: 0,
+    fetchedPages: [],
+    error: null,
+}
+
+export default function reducer(state = initialState, action) {
     const { actionStatusGenerator } = helpers;
-    const { gourmets } = helpers.actionTypes;
     const { type, payload } = action;
-    const types = actionStatusGenerator(gourmets);
+    const types = actionStatusGenerator(actionTypes.gourmets);
     const sort = (a, b) => {
         if (a.date > b.date) return -1;
         if (a.date < b.date) return 1;

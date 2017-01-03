@@ -2,6 +2,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { createAction } from 'redux-actions';
 import helpers from '../helpers';
+import { actionTypes } from '../constants';
 import DashboardList from '../components/dashboard-list.component';
 
 const mapStateToProps = (state) => {
@@ -11,8 +12,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-    const getCounts = createAction(helpers.actionTypes.counts.fetch_list, () => axios.get('/counts'));
-
+    const getCounts = createAction(actionTypes.counts.fetch_list, () => axios.get('/counts'));
     return {
         getCounts: () => dispatch(getCounts())
     }

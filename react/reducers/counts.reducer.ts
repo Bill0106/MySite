@@ -1,10 +1,17 @@
 import helpers from '../helpers';
+import { actionTypes } from '../constants';
 
-export default function reducer(state = helpers.initialState, action) {
+const initialState = {
+    isFetching: false,
+    fetched: false,
+    items: [],
+    error: null,
+}
+
+export default function reducer(state = initialState, action) {
     const { actionStatusGenerator } = helpers;
-    const { counts } = helpers.actionTypes;
     const { type, payload } = action;
-    const types = actionStatusGenerator(counts);
+    const types = actionStatusGenerator(actionTypes.counts);
     
     switch (type) {
         case types['fetch_list'].pending:

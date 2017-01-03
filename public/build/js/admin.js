@@ -52,7 +52,7 @@
 	var axios_1 = __webpack_require__(263);
 	var keys_1 = __webpack_require__(288);
 	var routing_1 = __webpack_require__(289);
-	var store_1 = __webpack_require__(484);
+	var store_1 = __webpack_require__(485);
 	axios_1.default.defaults.baseURL = '/api';
 	axios_1.default.defaults.headers.common['auth'] = keys_1.Keys.api.GET;
 	axios_1.default.defaults.headers.post['auth'] = keys_1.Keys.api.POST;
@@ -29711,12 +29711,12 @@
 	var app_component_1 = __webpack_require__(290);
 	var dashboard_container_1 = __webpack_require__(291);
 	var games_container_1 = __webpack_require__(451);
-	var game_container_1 = __webpack_require__(463);
-	var gourmets_container_1 = __webpack_require__(472);
-	var gourmet_container_1 = __webpack_require__(474);
-	var hearthstone_seasons_container_1 = __webpack_require__(476);
-	var hearthstone_season_container_1 = __webpack_require__(478);
-	var hearthstone_decks_container_1 = __webpack_require__(482);
+	var game_container_1 = __webpack_require__(464);
+	var gourmets_container_1 = __webpack_require__(473);
+	var gourmet_container_1 = __webpack_require__(475);
+	var hearthstone_seasons_container_1 = __webpack_require__(477);
+	var hearthstone_season_container_1 = __webpack_require__(479);
+	var hearthstone_decks_container_1 = __webpack_require__(483);
 	var ROUTING_CONFIG = [
 	    {
 	        path: '/admin',
@@ -29807,7 +29807,7 @@
 	var axios_1 = __webpack_require__(263);
 	var react_redux_1 = __webpack_require__(179);
 	var redux_actions_1 = __webpack_require__(292);
-	var helpers_1 = __webpack_require__(447);
+	var constants_1 = __webpack_require__(447);
 	var dashboard_list_component_1 = __webpack_require__(448);
 	var mapStateToProps = function (state) {
 	    return {
@@ -29815,7 +29815,7 @@
 	    };
 	};
 	var mapDispatchToProps = function (dispatch) {
-	    var getCounts = redux_actions_1.createAction(helpers_1.default.actionTypes.counts.fetch_list, function () { return axios_1.default.get('/counts'); });
+	    var getCounts = redux_actions_1.createAction(constants_1.actionTypes.counts.fetch_list, function () { return axios_1.default.get('/counts'); });
 	    return {
 	        getCounts: function () { return dispatch(getCounts()); }
 	    };
@@ -35235,17 +35235,7 @@
 /***/ function(module, exports) {
 
 	"use strict";
-	var initialState = {
-	    isFetching: false,
-	    fetched: false,
-	    isPosting: false,
-	    posted: false,
-	    items: [],
-	    total: 0,
-	    fetchedPages: [],
-	    error: null,
-	};
-	var actionTypes = {
+	exports.actionTypes = {
 	    counts: {
 	        fetch_list: 'FETCH_COUNTS',
 	    },
@@ -35267,59 +35257,6 @@
 	        set: 'SET_ITEM',
 	    }
 	};
-	var actionStatusGenerator = function (types) {
-	    var progress = {
-	        pending: 'PENDING',
-	        success: 'FULFILLED',
-	        error: 'REJECTED',
-	    };
-	    var newTypes = {};
-	    for (var type in types) {
-	        var obj = {};
-	        for (var key in progress) {
-	            obj[key] = types[type] + "_" + progress[key];
-	        }
-	        newTypes[type] = obj;
-	    }
-	    return newTypes;
-	};
-	var fetchedPages = function (pages, url) {
-	    var match = url.match(/page=(\d)/i);
-	    var page = match ? parseInt(match[1]) : 1;
-	    pages.push(page);
-	    pages.sort(function (a, b) {
-	        if (a > b)
-	            return 1;
-	        if (a < b)
-	            return -1;
-	        return 0;
-	    });
-	    return pages;
-	};
-	var time2Date = function (timestamp, displayTime) {
-	    if (displayTime === void 0) { displayTime = false; }
-	    if (!timestamp) {
-	        return '';
-	    }
-	    var time = new Date(timestamp);
-	    var year = time.getFullYear();
-	    var month = (time.getMonth() + 1);
-	    var day = time.getDate();
-	    var hour = time.getHours();
-	    var minute = time.getMinutes();
-	    var second = time.getSeconds();
-	    var arr = [month, day, hour, minute, second];
-	    var newArr = arr.map(function (t) { return ('0' + t).slice(-2); });
-	    var dateArray = [year.toString()].concat(newArr.slice(0, 2));
-	    var timeArray = newArr.slice(2);
-	    var ts = dateArray.join('-');
-	    if (displayTime) {
-	        ts = ts + ' ' + timeArray.join(':');
-	    }
-	    return ts;
-	};
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = { initialState: initialState, actionTypes: actionTypes, fetchedPages: fetchedPages, time2Date: time2Date, actionStatusGenerator: actionStatusGenerator };
 
 
 /***/ },
@@ -35484,8 +35421,8 @@
 	"use strict";
 	var redux_actions_1 = __webpack_require__(292);
 	var axios_1 = __webpack_require__(263);
-	var helpers_1 = __webpack_require__(447);
-	var games = helpers_1.default.actionTypes.games;
+	var constants_1 = __webpack_require__(447);
+	var games = constants_1.actionTypes.games;
 	exports.fetchGames = redux_actions_1.createAction(games.fetch_list, function (page) {
 	    if (page === void 0) { page = null; }
 	    var url = "/games?limit=30" + (page ? '&page=' + page : '');
@@ -35513,8 +35450,8 @@
 	var paginator_component_1 = __webpack_require__(455);
 	var games_item_component_1 = __webpack_require__(456);
 	var gourmets_item_component_1 = __webpack_require__(459);
-	var hearthstone_seasons_item_component_1 = __webpack_require__(460);
-	var hearthstone_decks_item_component_1 = __webpack_require__(461);
+	var hearthstone_seasons_item_component_1 = __webpack_require__(461);
+	var hearthstone_decks_item_component_1 = __webpack_require__(462);
 	var List = (function (_super) {
 	    __extends(List, _super);
 	    function List() {
@@ -35527,6 +35464,7 @@
 	    List.prototype.componentDidMount = function () {
 	        var _a = this.props, getList = _a.getList, location = _a.location, list = _a.list;
 	        var page = location.query['page'] ? parseInt(location.query['page']) : 1;
+	        console.log(list);
 	        if (list.fetchedPages.indexOf(page) < 0) {
 	            getList(location.query['page']);
 	        }
@@ -35788,7 +35726,7 @@
 	};
 	var React = __webpack_require__(1);
 	var react_router_1 = __webpack_require__(209);
-	var helpers_1 = __webpack_require__(447);
+	var helpers_1 = __webpack_require__(460);
 	var GourmetsItem = (function (_super) {
 	    __extends(GourmetsItem, _super);
 	    function GourmetsItem() {
@@ -35818,6 +35756,66 @@
 
 /***/ },
 /* 460 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var actionStatusGenerator = function (types) {
+	    var progress = {
+	        pending: 'PENDING',
+	        success: 'FULFILLED',
+	        error: 'REJECTED',
+	    };
+	    var newTypes = {};
+	    for (var type in types) {
+	        var obj = {};
+	        for (var key in progress) {
+	            obj[key] = types[type] + "_" + progress[key];
+	        }
+	        newTypes[type] = obj;
+	    }
+	    return newTypes;
+	};
+	var fetchedPages = function (pages, url) {
+	    var match = url.match(/page=(\d)/i);
+	    var page = match ? parseInt(match[1]) : 1;
+	    pages.push(page);
+	    pages.sort(function (a, b) {
+	        if (a > b)
+	            return 1;
+	        if (a < b)
+	            return -1;
+	        return 0;
+	    });
+	    return pages;
+	};
+	var time2Date = function (timestamp, displayTime) {
+	    if (displayTime === void 0) { displayTime = false; }
+	    if (!timestamp) {
+	        return '';
+	    }
+	    var time = new Date(timestamp);
+	    var year = time.getFullYear();
+	    var month = (time.getMonth() + 1);
+	    var day = time.getDate();
+	    var hour = time.getHours();
+	    var minute = time.getMinutes();
+	    var second = time.getSeconds();
+	    var arr = [month, day, hour, minute, second];
+	    var newArr = arr.map(function (t) { return ('0' + t).slice(-2); });
+	    var dateArray = [year.toString()].concat(newArr.slice(0, 2));
+	    var timeArray = newArr.slice(2);
+	    var ts = dateArray.join('-');
+	    if (displayTime) {
+	        ts = ts + ' ' + timeArray.join(':');
+	    }
+	    return ts;
+	};
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = { fetchedPages: fetchedPages, time2Date: time2Date, actionStatusGenerator: actionStatusGenerator };
+
+
+/***/ },
+/* 461 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -35854,7 +35852,7 @@
 
 
 /***/ },
-/* 461 */
+/* 462 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -35865,7 +35863,7 @@
 	};
 	var React = __webpack_require__(1);
 	var react_router_1 = __webpack_require__(209);
-	var hearthstone_player_classes_1 = __webpack_require__(462);
+	var hearthstone_player_classes_1 = __webpack_require__(463);
 	var HearthstoneDecksItem = (function (_super) {
 	    __extends(HearthstoneDecksItem, _super);
 	    function HearthstoneDecksItem() {
@@ -35891,7 +35889,7 @@
 
 
 /***/ },
-/* 462 */
+/* 463 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -35937,15 +35935,15 @@
 
 
 /***/ },
-/* 463 */
+/* 464 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var game_1 = __webpack_require__(464);
+	var game_1 = __webpack_require__(465);
 	var games_action_1 = __webpack_require__(452);
-	var item_action_1 = __webpack_require__(465);
-	var item_component_1 = __webpack_require__(466);
+	var item_action_1 = __webpack_require__(466);
+	var item_component_1 = __webpack_require__(467);
 	var mapStateToProps = function (state) {
 	    return {
 	        list: state.games,
@@ -35970,7 +35968,7 @@
 
 
 /***/ },
-/* 464 */
+/* 465 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36034,20 +36032,20 @@
 
 
 /***/ },
-/* 465 */
+/* 466 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var redux_actions_1 = __webpack_require__(292);
-	var helpers_1 = __webpack_require__(447);
-	var item = helpers_1.default.actionTypes.item;
+	var constants_1 = __webpack_require__(447);
+	var item = constants_1.actionTypes.item;
 	exports.initItemCreate = redux_actions_1.createAction(item.init);
 	exports.setItem = redux_actions_1.createAction(item.set);
 	exports.changeItem = redux_actions_1.createAction(item.change);
 
 
 /***/ },
-/* 466 */
+/* 467 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36057,7 +36055,7 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var form_component_1 = __webpack_require__(467);
+	var form_component_1 = __webpack_require__(468);
 	var Item = (function (_super) {
 	    __extends(Item, _super);
 	    function Item() {
@@ -36126,7 +36124,7 @@
 
 
 /***/ },
-/* 467 */
+/* 468 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36136,7 +36134,7 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var field_component_1 = __webpack_require__(468);
+	var field_component_1 = __webpack_require__(469);
 	var Form = (function (_super) {
 	    __extends(Form, _super);
 	    function Form() {
@@ -36166,7 +36164,7 @@
 
 
 /***/ },
-/* 468 */
+/* 469 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36176,8 +36174,8 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var helpers_1 = __webpack_require__(447);
-	var image_container_1 = __webpack_require__(469);
+	var helpers_1 = __webpack_require__(460);
+	var image_container_1 = __webpack_require__(470);
 	var Field = (function (_super) {
 	    __extends(Field, _super);
 	    function Field() {
@@ -36225,13 +36223,13 @@
 
 
 /***/ },
-/* 469 */
+/* 470 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var image_action_1 = __webpack_require__(470);
-	var image_upload_component_1 = __webpack_require__(471);
+	var image_action_1 = __webpack_require__(471);
+	var image_upload_component_1 = __webpack_require__(472);
 	var mapStateToProps = function (state, ownProps) {
 	    return {
 	        image: state.image,
@@ -36251,7 +36249,7 @@
 
 
 /***/ },
-/* 470 */
+/* 471 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36272,7 +36270,7 @@
 
 
 /***/ },
-/* 471 */
+/* 472 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36328,12 +36326,12 @@
 
 
 /***/ },
-/* 472 */
+/* 473 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var gourmets_action_1 = __webpack_require__(473);
+	var gourmets_action_1 = __webpack_require__(474);
 	var list_component_1 = __webpack_require__(453);
 	var mapStateToProps = function (state) {
 	    return {
@@ -36356,14 +36354,14 @@
 
 
 /***/ },
-/* 473 */
+/* 474 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var redux_actions_1 = __webpack_require__(292);
 	var axios_1 = __webpack_require__(263);
-	var helpers_1 = __webpack_require__(447);
-	var gourmets = helpers_1.default.actionTypes.gourmets;
+	var constants_1 = __webpack_require__(447);
+	var gourmets = constants_1.actionTypes.gourmets;
 	exports.fetchGourmets = redux_actions_1.createAction(gourmets.fetch_list, function (page) {
 	    var url = "/gourmets?limit=30" + (page ? '&page=' + page : '');
 	    return axios_1.default.get(url);
@@ -36375,15 +36373,15 @@
 
 
 /***/ },
-/* 474 */
+/* 475 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var gourmet_1 = __webpack_require__(475);
-	var gourmets_action_1 = __webpack_require__(473);
-	var item_action_1 = __webpack_require__(465);
-	var item_component_1 = __webpack_require__(466);
+	var gourmet_1 = __webpack_require__(476);
+	var gourmets_action_1 = __webpack_require__(474);
+	var item_action_1 = __webpack_require__(466);
+	var item_component_1 = __webpack_require__(467);
 	var mapStateToProps = function (state) {
 	    return {
 	        list: state.gourmets,
@@ -36408,7 +36406,7 @@
 
 
 /***/ },
-/* 475 */
+/* 476 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36439,12 +36437,12 @@
 
 
 /***/ },
-/* 476 */
+/* 477 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var hearthstone_seasons_action_1 = __webpack_require__(477);
+	var hearthstone_seasons_action_1 = __webpack_require__(478);
 	var list_component_1 = __webpack_require__(453);
 	var mapStateToProps = function (state) {
 	    return {
@@ -36467,7 +36465,7 @@
 
 
 /***/ },
-/* 477 */
+/* 478 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36528,13 +36526,13 @@
 
 
 /***/ },
-/* 478 */
+/* 479 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var hearthstone_seasons_action_1 = __webpack_require__(477);
-	var hearthstone_season_page_component_1 = __webpack_require__(479);
+	var hearthstone_seasons_action_1 = __webpack_require__(478);
+	var hearthstone_season_page_component_1 = __webpack_require__(480);
 	var mapStateToProps = function (state) {
 	    return {
 	        season: state.hearthstoneSeason
@@ -36555,7 +36553,7 @@
 
 
 /***/ },
-/* 479 */
+/* 480 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36565,10 +36563,10 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var hearthstone_season_1 = __webpack_require__(480);
+	var hearthstone_season_1 = __webpack_require__(481);
 	var page_header_component_1 = __webpack_require__(454);
 	var alert_component_1 = __webpack_require__(450);
-	var form_component_1 = __webpack_require__(467);
+	var form_component_1 = __webpack_require__(468);
 	var HearthstoneSeasonPage = (function (_super) {
 	    __extends(HearthstoneSeasonPage, _super);
 	    function HearthstoneSeasonPage() {
@@ -36608,11 +36606,11 @@
 
 
 /***/ },
-/* 480 */
+/* 481 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var hearthstone_season_ranked_1 = __webpack_require__(481);
+	var hearthstone_season_ranked_1 = __webpack_require__(482);
 	var HEARTHSTONE_SEASON_FIELDS = [
 	    {
 	        name: 'image',
@@ -36645,7 +36643,7 @@
 
 
 /***/ },
-/* 481 */
+/* 482 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36759,12 +36757,12 @@
 
 
 /***/ },
-/* 482 */
+/* 483 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var hearthstone_decks_action_1 = __webpack_require__(483);
+	var hearthstone_decks_action_1 = __webpack_require__(484);
 	var list_component_1 = __webpack_require__(453);
 	var mapStateToProps = function (state) {
 	    return {
@@ -36787,7 +36785,7 @@
 
 
 /***/ },
-/* 483 */
+/* 484 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36822,22 +36820,22 @@
 
 
 /***/ },
-/* 484 */
+/* 485 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var redux_1 = __webpack_require__(186);
-	var logger = __webpack_require__(485);
-	var redux_promise_middleware_1 = __webpack_require__(491);
-	var redux_thunk_1 = __webpack_require__(493);
-	var reducers_1 = __webpack_require__(494);
+	var logger = __webpack_require__(486);
+	var redux_promise_middleware_1 = __webpack_require__(492);
+	var redux_thunk_1 = __webpack_require__(494);
+	var reducers_1 = __webpack_require__(495);
 	var middleware = redux_1.applyMiddleware(logger(), redux_thunk_1.default, redux_promise_middleware_1.default());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = redux_1.createStore(reducers_1.default, middleware);
 
 
 /***/ },
-/* 485 */
+/* 486 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36848,11 +36846,11 @@
 	  value: true
 	});
 
-	var _core = __webpack_require__(486);
+	var _core = __webpack_require__(487);
 
-	var _helpers = __webpack_require__(487);
+	var _helpers = __webpack_require__(488);
 
-	var _defaults = __webpack_require__(490);
+	var _defaults = __webpack_require__(491);
 
 	var _defaults2 = _interopRequireDefault(_defaults);
 
@@ -36955,7 +36953,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 486 */
+/* 487 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36965,9 +36963,9 @@
 	});
 	exports.printBuffer = printBuffer;
 
-	var _helpers = __webpack_require__(487);
+	var _helpers = __webpack_require__(488);
 
-	var _diff = __webpack_require__(488);
+	var _diff = __webpack_require__(489);
 
 	var _diff2 = _interopRequireDefault(_diff);
 
@@ -37096,7 +37094,7 @@
 	}
 
 /***/ },
-/* 487 */
+/* 488 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -37120,7 +37118,7 @@
 	var timer = exports.timer = typeof performance !== "undefined" && performance !== null && typeof performance.now === "function" ? performance : Date;
 
 /***/ },
-/* 488 */
+/* 489 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37130,7 +37128,7 @@
 	});
 	exports.default = diffLogger;
 
-	var _deepDiff = __webpack_require__(489);
+	var _deepDiff = __webpack_require__(490);
 
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 
@@ -37216,7 +37214,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 489 */
+/* 490 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global) {/*!
@@ -37645,7 +37643,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 490 */
+/* 491 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -37696,7 +37694,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 491 */
+/* 492 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37713,7 +37711,7 @@
 
 	exports.default = promiseMiddleware;
 
-	var _isPromise = __webpack_require__(492);
+	var _isPromise = __webpack_require__(493);
 
 	var _isPromise2 = _interopRequireDefault(_isPromise);
 
@@ -37870,7 +37868,7 @@
 	}
 
 /***/ },
-/* 492 */
+/* 493 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37891,7 +37889,7 @@
 	}
 
 /***/ },
-/* 493 */
+/* 494 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37919,19 +37917,19 @@
 	exports['default'] = thunk;
 
 /***/ },
-/* 494 */
+/* 495 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var redux_1 = __webpack_require__(186);
-	var counts_reducer_1 = __webpack_require__(495);
-	var image_reducer_1 = __webpack_require__(496);
-	var games_reducer_1 = __webpack_require__(497);
-	var gourmets_reducer_1 = __webpack_require__(498);
-	var hearthstone_seasons_reducer_1 = __webpack_require__(499);
-	var hearthstone_season_reducer_1 = __webpack_require__(500);
-	var hearthstone_decks_reducer_1 = __webpack_require__(501);
-	var item_reducer_1 = __webpack_require__(502);
+	var counts_reducer_1 = __webpack_require__(496);
+	var image_reducer_1 = __webpack_require__(497);
+	var games_reducer_1 = __webpack_require__(498);
+	var gourmets_reducer_1 = __webpack_require__(499);
+	var hearthstone_seasons_reducer_1 = __webpack_require__(500);
+	var hearthstone_season_reducer_1 = __webpack_require__(501);
+	var hearthstone_decks_reducer_1 = __webpack_require__(502);
+	var item_reducer_1 = __webpack_require__(503);
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = redux_1.combineReducers({
 	    counts: counts_reducer_1.default, image: image_reducer_1.default, games: games_reducer_1.default, gourmets: gourmets_reducer_1.default, hearthstoneSeasons: hearthstone_seasons_reducer_1.default, hearthstoneSeason: hearthstone_season_reducer_1.default, hearthstoneDecks: hearthstone_decks_reducer_1.default, item: item_reducer_1.default
@@ -37939,17 +37937,23 @@
 
 
 /***/ },
-/* 495 */
+/* 496 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var helpers_1 = __webpack_require__(447);
+	var helpers_1 = __webpack_require__(460);
+	var constants_1 = __webpack_require__(447);
+	var initialState = {
+	    isFetching: false,
+	    fetched: false,
+	    items: [],
+	    error: null,
+	};
 	function reducer(state, action) {
-	    if (state === void 0) { state = helpers_1.default.initialState; }
+	    if (state === void 0) { state = initialState; }
 	    var actionStatusGenerator = helpers_1.default.actionStatusGenerator;
-	    var counts = helpers_1.default.actionTypes.counts;
 	    var type = action.type, payload = action.payload;
-	    var types = actionStatusGenerator(counts);
+	    var types = actionStatusGenerator(constants_1.actionTypes.counts);
 	    switch (type) {
 	        case types['fetch_list'].pending:
 	            return Object.assign({}, state, { isFetching: true, error: null });
@@ -37971,7 +37975,7 @@
 
 
 /***/ },
-/* 496 */
+/* 497 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -38014,17 +38018,27 @@
 
 
 /***/ },
-/* 497 */
+/* 498 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var helpers_1 = __webpack_require__(447);
+	var helpers_1 = __webpack_require__(460);
+	var constants_1 = __webpack_require__(447);
+	var initialState = {
+	    isFetching: false,
+	    fetched: false,
+	    isPosting: false,
+	    posted: false,
+	    items: [],
+	    total: 0,
+	    fetchedPages: [],
+	    error: null,
+	};
 	function reducer(state, action) {
-	    if (state === void 0) { state = helpers_1.default.initialState; }
+	    if (state === void 0) { state = initialState; }
 	    var actionStatusGenerator = helpers_1.default.actionStatusGenerator;
-	    var games = helpers_1.default.actionTypes.games;
 	    var type = action.type, payload = action.payload;
-	    var types = actionStatusGenerator(games);
+	    var types = actionStatusGenerator(constants_1.actionTypes.games);
 	    var sort = function (a, b) {
 	        if (a.buy_at > b.buy_at)
 	            return -1;
@@ -38143,17 +38157,27 @@
 
 
 /***/ },
-/* 498 */
+/* 499 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var helpers_1 = __webpack_require__(447);
+	var helpers_1 = __webpack_require__(460);
+	var constants_1 = __webpack_require__(447);
+	var initialState = {
+	    isFetching: false,
+	    fetched: false,
+	    isPosting: false,
+	    posted: false,
+	    items: [],
+	    total: 0,
+	    fetchedPages: [],
+	    error: null,
+	};
 	function reducer(state, action) {
-	    if (state === void 0) { state = helpers_1.default.initialState; }
+	    if (state === void 0) { state = initialState; }
 	    var actionStatusGenerator = helpers_1.default.actionStatusGenerator;
-	    var gourmets = helpers_1.default.actionTypes.gourmets;
 	    var type = action.type, payload = action.payload;
-	    var types = actionStatusGenerator(gourmets);
+	    var types = actionStatusGenerator(constants_1.actionTypes.gourmets);
 	    var sort = function (a, b) {
 	        if (a.date > b.date)
 	            return -1;
@@ -38263,7 +38287,7 @@
 
 
 /***/ },
-/* 499 */
+/* 500 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -38349,7 +38373,7 @@
 
 
 /***/ },
-/* 500 */
+/* 501 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -38409,7 +38433,7 @@
 
 
 /***/ },
-/* 501 */
+/* 502 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -38495,14 +38519,14 @@
 
 
 /***/ },
-/* 502 */
+/* 503 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var helpers_1 = __webpack_require__(447);
+	var constants_1 = __webpack_require__(447);
 	function reducer(state, action) {
 	    if (state === void 0) { state = { data: null }; }
-	    var item = helpers_1.default.actionTypes.item;
+	    var item = constants_1.actionTypes.item;
 	    var type = action.type, payload = action.payload;
 	    switch (type) {
 	        case item.init:
