@@ -6,6 +6,7 @@ import 'redux';
 import 'redux-logger';
 import 'redux-promise-middleware';
 import 'redux-thunk';
+import 'redux-actions';
 
 import 'axios';
 import 'showdown';
