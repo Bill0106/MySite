@@ -1,6 +1,5 @@
-import { createAction } from 'redux-actions';
 import axios from 'axios';
-import helpers from '../helpers';
+import { createAction } from 'redux-actions';
 import { actionTypes } from '../constants';
 
 const { games } = actionTypes;
