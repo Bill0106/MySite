@@ -35262,6 +35262,8 @@
 	        fetch_item: 'FETCH_HEARTHSTONE_DECK',
 	        post: 'POST_HEARTHSTONE_DECK',
 	        delete: 'DELETE_HEARTHSTONE_DECK',
+	        active: 'ACTIVE_HEARTHSTONE_DECK',
+	        inactive: 'INACTIVE_HEARTHSTONE_DECK',
 	    },
 	    image: {
 	        init: 'INIT_IMAGE',
@@ -35503,7 +35505,8 @@
 	            case 'Hearthsonte-Seasons':
 	                return React.createElement(hearthstone_seasons_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item.url); }});
 	            case 'Hearthsonte-Decks':
-	                return React.createElement(hearthstone_decks_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item._id); }});
+	                var _b = this.props, inactiveDeck_1 = _b.inactiveDeck, activeDeck_1 = _b.activeDeck;
+	                return React.createElement(hearthstone_decks_item_component_1.default, {key: key, data: item, delete: function () { return postDelete(item._id); }, active: function () { return activeDeck_1(item._id); }, inactive: function () { return inactiveDeck_1(item._id); }});
 	            default:
 	                return '';
 	        }
@@ -35887,7 +35890,7 @@
 	        _super.apply(this, arguments);
 	    }
 	    HearthstoneDecksItem.prototype.render = function () {
-	        var data = this.props.data;
+	        var _a = this.props, data = _a.data, active = _a.active, inactive = _a.inactive;
 	        return (React.createElement("tr", null, 
 	            React.createElement("td", null, data._id), 
 	            React.createElement("td", null, 
@@ -35896,8 +35899,8 @@
 	            React.createElement("td", null, hearthstone_player_classes_1.HearthstonePlayerClasses.find(function (player) { return player.value == data.playerClass; }).name), 
 	            React.createElement("td", null, data.active ? 'Active' : 'Inactive'), 
 	            React.createElement("td", null, 
-	                React.createElement("button", {className: "btn btn-danger", type: "button", onClick: this.props.delete}, "×")
-	            )));
+	                React.createElement("button", {className: "btn btn-warning", type: "button", onClick: data.active ? inactive : active}, data.active ? 'Inactive' : 'Active'), 
+	                React.createElement("button", {className: "btn btn-danger", type: "button", onClick: this.props.delete}, "×"))));
 	    };
 	    return HearthstoneDecksItem;
 	}(React.Component));
@@ -36692,7 +36695,9 @@
 	            if (page === void 0) { page = null; }
 	            return dispatch(hearthstone_decks_action_1.fetchDecks(page));
 	        },
-	        postDelete: function (id) { return dispatch(hearthstone_decks_action_1.deleteDeck(id)); }
+	        postDelete: function (id) { return dispatch(hearthstone_decks_action_1.deleteDeck(id)); },
+	        activeDeck: function (id) { return dispatch(hearthstone_decks_action_1.activeDeck(id)); },
+	        inactiveDeck: function (id) { return dispatch(hearthstone_decks_action_1.inactiveDeck(id)); },
 	    };
 	};
 	var HearthstoneDecks = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(list_component_1.default);
@@ -36718,6 +36723,8 @@
 	exports.createDeck = redux_actions_1.createAction(hearthstone_decks.post, function (deck) { return axios_1.default.post('/hearthstone-decks/', deck); });
 	exports.updateDeck = redux_actions_1.createAction(hearthstone_decks.post, function (deck, id) { return axios_1.default.post('/hearthstone-decks/' + id, deck); });
 	exports.deleteDeck = redux_actions_1.createAction(hearthstone_decks.post, function (id) { return axios_1.default.post('/hearthstone-decks/' + id + '/delete'); });
+	exports.activeDeck = redux_actions_1.createAction(hearthstone_decks.active, function (id) { return axios_1.default.post('/hearthstone-decks/' + id + '/active'); });
+	exports.inactiveDeck = redux_actions_1.createAction(hearthstone_decks.inactive, function (id) { return axios_1.default.post('/hearthstone-decks/' + id + '/inactive'); });
 
 
 /***/ },
@@ -38139,6 +38146,7 @@
 
 	"use strict";
 	var reducer_1 = __webpack_require__(497);
+	var helpers_1 = __webpack_require__(460);
 	var constants_1 = __webpack_require__(447);
 	var initialState = {
 	    isFetching: false,
@@ -38152,6 +38160,9 @@
 	};
 	function reducer(state, action) {
 	    if (state === void 0) { state = initialState; }
+	    var actionStatusGenerator = helpers_1.default.actionStatusGenerator;
+	    var type = action.type, payload = action.payload;
+	    var types = actionStatusGenerator(constants_1.actionTypes.hearthstone_decks);
 	    var sort = function (a, b) {
 	        var aActive = Boolean(a.active);
 	        var bActive = Boolean(b.active);
@@ -38169,6 +38180,55 @@
 	            return -1;
 	        return 0;
 	    };
+	    var item, list;
+	    switch (type) {
+	        case types['active'].pending:
+	            return Object.assign({}, state, { isPosting: true, posted: false, error: null });
+	        case types['active'].success:
+	            list = state.items;
+	            item = list.find(function (v) { return v._id == payload.data; });
+	            if (item) {
+	                item.active = true;
+	                list.sort(sort);
+	            }
+	            return Object.assign({}, state, {
+	                isPosting: false,
+	                posted: true,
+	                items: list,
+	            });
+	        case types['active'].error:
+	            return Object.assign({}, state, {
+	                isPosting: false,
+	                error: {
+	                    status: payload.response.status,
+	                    data: payload.response.data
+	                }
+	            });
+	        case types['inactive'].pending:
+	            return Object.assign({}, state, { isPosting: true, posted: false, error: null });
+	        case types['inactive'].success:
+	            list = state.items;
+	            item = list.find(function (v) { return v._id == payload.data; });
+	            if (item) {
+	                item.active = false;
+	                list.sort(sort);
+	            }
+	            return Object.assign({}, state, {
+	                isPosting: false,
+	                posted: true,
+	                items: list,
+	            });
+	        case types['inactive'].error:
+	            return Object.assign({}, state, {
+	                isPosting: false,
+	                error: {
+	                    status: payload.response.status,
+	                    data: payload.response.data
+	                }
+	            });
+	        default:
+	            break;
+	    }
 	    return reducer_1.default(state, action, constants_1.actionTypes.hearthstone_decks, sort);
 	}
 	Object.defineProperty(exports, "__esModule", { value: true });

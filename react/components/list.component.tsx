@@ -14,6 +14,8 @@ interface ListProps extends RouteComponentProps<void, void> {
     list: any;
     getList: any;
     postDelete: any;
+    activeDeck: any;
+    inactiveDeck: any;
 }
 
 class List extends React.Component<ListProps, void> {
@@ -52,7 +54,8 @@ class List extends React.Component<ListProps, void> {
             case 'Hearthsonte-Seasons':
                 return <HearthstoneSeasonsItem key={key} data={item} delete={() => postDelete(item.url)} />
             case 'Hearthsonte-Decks':
-                return <HearthstoneDecksItem key={key} data={item} delete={() => postDelete(item._id)} />
+                const { inactiveDeck, activeDeck } = this.props;
+                return <HearthstoneDecksItem key={key} data={item} delete={() => postDelete(item._id)} active={() => activeDeck(item._id)} inactive={() => inactiveDeck(item._id)} />
             default:
                 return '';
         }

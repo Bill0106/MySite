@@ -12,3 +12,5 @@ export const fetchDeck = createAction(hearthstone_decks.fetch_item, (url: string
 export const createDeck = createAction(hearthstone_decks.post, (deck: any) => axios.post('/hearthstone-decks/', deck));
 export const updateDeck = createAction(hearthstone_decks.post, (deck: any, id: string) => axios.post('/hearthstone-decks/' + id, deck));
 export const deleteDeck = createAction(hearthstone_decks.post, (id: string) => axios.post('/hearthstone-decks/' + id + '/delete'));
+export const activeDeck = createAction(hearthstone_decks.active, (id: string) => axios.post('/hearthstone-decks/' + id + '/active'));
+export const inactiveDeck = createAction(hearthstone_decks.inactive, (id: string) => axios.post('/hearthstone-decks/' + id + '/inactive'));

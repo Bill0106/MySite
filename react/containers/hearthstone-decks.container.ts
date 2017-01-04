@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { fetchDecks, deleteDeck } from '../actions/hearthstone-decks.action';
+import { fetchDecks, deleteDeck, activeDeck, inactiveDeck } from '../actions/hearthstone-decks.action';
 import List from '../components/list.component';
 
 const mapStateToProps = (state) => {
@@ -12,7 +12,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getList: (page = null) => dispatch(fetchDecks(page)),
-        postDelete: (id) => dispatch(deleteDeck(id))
+        postDelete: (id: string) => dispatch(deleteDeck(id)),
+        activeDeck: (id: string) => dispatch(activeDeck(id)),
+        inactiveDeck: (id: string) => dispatch(inactiveDeck(id)),
     }
 }
 

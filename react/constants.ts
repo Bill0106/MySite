@@ -25,6 +25,8 @@ export const actionTypes = {
         fetch_item: 'FETCH_HEARTHSTONE_DECK',
         post: 'POST_HEARTHSTONE_DECK',
         delete: 'DELETE_HEARTHSTONE_DECK',
+        active: 'ACTIVE_HEARTHSTONE_DECK',
+        inactive: 'INACTIVE_HEARTHSTONE_DECK',
     },
     image: {
         init: 'INIT_IMAGE',

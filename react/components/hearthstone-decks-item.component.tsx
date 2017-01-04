@@ -4,9 +4,14 @@ import { Link } from 'react-router';
 import { HearthstonePlayerClasses } from '../../config/hearthstone-player-classes';
 import { ItemProps } from '../interface/item.interface';
 
-class HearthstoneDecksItem extends React.Component<ItemProps, void> {
+interface HearthstoneDecksItemProps extends ItemProps {
+    active: any;
+    inactive: any;
+}
+
+class HearthstoneDecksItem extends React.Component<HearthstoneDecksItemProps, void> {
     render() {
-        const { data } = this.props;
+        const { data, active, inactive } = this.props;
         return (
             <tr>
                 <td>{data._id}</td>
@@ -16,6 +21,7 @@ class HearthstoneDecksItem extends React.Component<ItemProps, void> {
                 <td>{HearthstonePlayerClasses.find(player => player.value == data.playerClass).name}</td>
                 <td>{data.active ? 'Active' : 'Inactive'}</td>
                 <td>
+                    <button className="btn btn-warning" type="button" onClick={data.active ? inactive : active }>{data.active ? 'Inactive' : 'Active' }</button>
                     <button className="btn btn-danger" type="button" onClick={this.props.delete}>&times;</button>
                 </td>
             </tr>
