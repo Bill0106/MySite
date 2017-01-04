@@ -1,6 +1,10 @@
+import axios from 'axios';
 import { connect } from 'react-redux';
-import { uploadImage, initImage } from '../actions/image.action';
+import { createAction } from 'redux-actions';
+import { actionTypes } from '../constants';
 import ImageUpload from '../components/image-upload.component';
+
+const { image } = actionTypes;
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -11,6 +15,8 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
+    const uploadImage = createAction(image.post, (file: any) => axios.post('/images', file));
+    const initImage = createAction(image.init);
     return {
         upload: (file) => dispatch(uploadImage(file)),
         init: () => dispatch(initImage())

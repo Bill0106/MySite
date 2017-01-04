@@ -26,6 +26,10 @@ export const actionTypes = {
         post: 'POST_HEARTHSTONE_DECK',
         delete: 'DELETE_HEARTHSTONE_DECK',
     },
+    image: {
+        init: 'INIT_IMAGE',
+        post: 'POST_IMAGE',
+    },
     item: {
         change: 'CHANGE_ITEM',
         init: 'INIT_ITEM_CREATE',

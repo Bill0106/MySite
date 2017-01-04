@@ -1,32 +1,36 @@
+import helpers from '../helpers';
+import { actionTypes } from '../constants';
+
 const initialState = {
-    isFetching: false,
-    fetched: false,
+    isPosting: false,
+    posted: false,
     image: null,
     error: null,
 }
 
 export default function reducer(state = initialState, action) {
     const { type, payload } = action;
+    const { image } = actionTypes;
+    const types = helpers.actionStatusGenerator(image);
+    
     switch (type) {
-        case 'INIT_IMAGE':
+        case image.init:
             return Object.assign({}, state, initialState)
-        case 'UPLOAD_IMAGE_PENDING':
-            return Object.assign({}, state, { isFetching: true, error: null });
-        case 'UPLOAD_IMAGE_FULFILLED':
+        case types['post'].pending:
+            return Object.assign({}, state, { isPosting: true, posted: false, error: null });
+        case types['post'].success:
             const { url, color } = payload.data;
             return Object.assign({}, state, {
                 isFetching: false,
                 fetched: true,
                 image: { url, color }
             })
-        case 'UPLOAD_IMAGE_REJECTED':
+        case types['post'].error:
+            const { status, data } = payload.response;
             return Object.assign({}, state, {
                 isFetching: false,
                 fetched: false,
-                error: {
-                    statue: payload.response.status,
-                    data: payload.response.data
-                }
+                error: { status, data }
             });
         default:
             return state;
