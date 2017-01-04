@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { fetchGames, deleteGame } from '../actions/games.action';
 import List from '../components/list.component';

@@ -1,54 +1,14 @@
 import axios from 'axios';
+import { createAction } from 'redux-actions';
+import { actionTypes } from '../constants';
 
-export function fetchSeasons(page: number = null) {
-    let url = '/hearthstone-seasons?limit=30';
-    if (page) {
-        url = `${url}&page=${page}`;
-    }
+const { hearthstone_seasons } = actionTypes;
 
-    return {
-        type: 'FETCH_HEARTHSTONE_SEASONS',
-        payload: axios.get(url)
-    }
-}
-
-export function fetchSeason(url: string) {
-    return {
-        type: 'FETCH_HEARTHSTONE_SEASON',
-        payload: axios.get('/hearthstone-seasons/' + url)
-    }
-}
-
-export function initSeasonCreate() {
-    return {
-        type: 'INIT_HEARTHSTONE_CREATE'
-    }
-}
-
-export function createSeason(season: any) {
-    return {
-        type: 'POST_HEARTHSTONE_SEASON',
-        payload: axios.post('/hearthstone-seasons/', season)
-    }
-}
-
-export function updateSeason(season: any) {
-    return {
-        type: 'POST_HEARTHSTONE_SEASON',
-        payload: axios.post('/hearthstone-seasons/' + season.url, season)
-    }
-}
-
-export function deleteSeason(url: string) {
-    return {
-        type: 'DELETE_HEARTHSTONE_SEASON',
-        payload: axios.post('/hearthstone-seasons/' + url + '/delete')
-    }
-}
-
-export function changField(field: string, value: any) {
-    return {
-        type: 'CHANGE_FIELD',
-        payload: { field, value }
-    }
-}
+export const fetchSeasons = createAction(hearthstone_seasons.fetch_list, (page = null) => {
+    let url = `/hearthstone-seasons?limit=30${page ? '&page=' + page : ''}`;
+    return axios.get(url);
+});
+export const fetchSeason = createAction(hearthstone_seasons.fetch_item, (url: string) => axios.get('/hearthstone-seasons/' + url));
+export const createSeason = createAction(hearthstone_seasons.post, (season: any) => axios.post('/hearthstone-seasons/', season));
+export const updateSeason = createAction(hearthstone_seasons.post, (season: any, url: string) => axios.post('/hearthstone-seasons/' + url, season));
+export const deleteSeason = createAction(hearthstone_seasons.post, (url: string) => axios.post('/hearthstone-seasons/' + url + '/delete'));

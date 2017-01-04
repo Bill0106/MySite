@@ -14,6 +14,12 @@ export const actionTypes = {
         post: 'POST_GOURMET',
         delete: 'DELETE_GOURMET',
     },
+    hearthstone_seasons: {
+        fetch_list: 'FETCH_HEARTHSTONE_SEASONS',
+        fetch_item: 'FETCH_HEARTHSTONE_SEASON',
+        post: 'POST_HEARTHSTONE_SEASON',
+        delete: 'DELETE_HEARTHSTONE_SEASON',
+    },
     item: {
         change: 'CHANGE_ITEM',
         init: 'INIT_ITEM_CREATE',

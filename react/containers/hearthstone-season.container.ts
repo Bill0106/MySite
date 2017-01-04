@@ -1,23 +1,29 @@
 import { connect } from 'react-redux';
-import { fetchSeason, createSeason, updateSeason, initSeasonCreate, changField } from '../actions/hearthstone-seasons.action';
-import HearthstoneSeasonPage from '../components/hearthstone-season-page.component';
+import { HearthstoneSeasonFields } from '../../config/fields/hearthstone-season';
+import { fetchSeason, createSeason, updateSeason } from '../actions/hearthstone-seasons.action';
+import { initItemCreate, changeItem, setItem } from '../actions/item.action';
+import Item from '../components/item.component';
 
 const mapStateToProps = (state) => {
     return {
-        season: state.hearthstoneSeason
+        list: state.hearthstoneSeasons,
+        item: state.item,
+        type: 'Hearthstone-Season',
+        fields: HearthstoneSeasonFields,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getSeason: (url) => dispatch(fetchSeason(url)),
-        initSeasonCreate: () => dispatch(initSeasonCreate()),
-        createSeason: (season) => dispatch(createSeason(season)),
-        updateSeason: (season) => dispatch(updateSeason(season)),
-        changeField: (field, value) => dispatch(changField(field, value))
+        initItemCreate: () => dispatch(initItemCreate()),
+        getItem: (params) => dispatch(fetchSeason(params.url)),
+        setItem: (item) => dispatch(setItem(item)),
+        createItem: (item) => dispatch(createSeason(item)),
+        updateItem: (item, params) => dispatch(updateSeason(item, params.url)),
+        changeItem: (field, value) => dispatch(changeItem({field, value})),
     }
 }
 
-const HearthstoneSeason = connect(mapStateToProps, mapDispatchToProps)(HearthstoneSeasonPage);
+const HearthstoneSeason = connect(mapStateToProps, mapDispatchToProps)(Item);
 
 export default HearthstoneSeason;

@@ -57,13 +57,10 @@ class Item extends React.Component<ItemProps, void> {
         const { type, list, params } = this.props;
         const { items } = list;
 
-        switch (type) {
-            case 'Game':
-                return items.find(v => v.url == params['url']);
-            case 'Gourmet':
-                return items.find(v => v._id == params['id']);
-            default:
-                return null;
+        if (type == 'Gourmet') {
+            return items.find(v => v._id == params['id']);
+        } else {
+            return items.find(v => v.url == params['url']);
         }
     }
 

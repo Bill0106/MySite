@@ -52,7 +52,7 @@
 	var axios_1 = __webpack_require__(263);
 	var keys_1 = __webpack_require__(288);
 	var routing_1 = __webpack_require__(289);
-	var store_1 = __webpack_require__(485);
+	var store_1 = __webpack_require__(484);
 	axios_1.default.defaults.baseURL = '/api';
 	axios_1.default.defaults.headers.common['auth'] = keys_1.Keys.api.GET;
 	axios_1.default.defaults.headers.post['auth'] = keys_1.Keys.api.POST;
@@ -29716,7 +29716,7 @@
 	var gourmet_container_1 = __webpack_require__(475);
 	var hearthstone_seasons_container_1 = __webpack_require__(477);
 	var hearthstone_season_container_1 = __webpack_require__(479);
-	var hearthstone_decks_container_1 = __webpack_require__(483);
+	var hearthstone_decks_container_1 = __webpack_require__(482);
 	var ROUTING_CONFIG = [
 	    {
 	        path: '/admin',
@@ -35251,6 +35251,12 @@
 	        post: 'POST_GOURMET',
 	        delete: 'DELETE_GOURMET',
 	    },
+	    hearthstone_seasons: {
+	        fetch_list: 'FETCH_HEARTHSTONE_SEASONS',
+	        fetch_item: 'FETCH_HEARTHSTONE_SEASON',
+	        post: 'POST_HEARTHSTONE_SEASON',
+	        delete: 'DELETE_HEARTHSTONE_SEASON',
+	    },
 	    item: {
 	        change: 'CHANGE_ITEM',
 	        init: 'INIT_ITEM_CREATE',
@@ -35464,7 +35470,6 @@
 	    List.prototype.componentDidMount = function () {
 	        var _a = this.props, getList = _a.getList, location = _a.location, list = _a.list;
 	        var page = location.query['page'] ? parseInt(location.query['page']) : 1;
-	        console.log(list);
 	        if (list.fetchedPages.indexOf(page) < 0) {
 	            getList(location.query['page']);
 	        }
@@ -36092,13 +36097,11 @@
 	    Item.prototype.handleItemSearch = function () {
 	        var _a = this.props, type = _a.type, list = _a.list, params = _a.params;
 	        var items = list.items;
-	        switch (type) {
-	            case 'Game':
-	                return items.find(function (v) { return v.url == params['url']; });
-	            case 'Gourmet':
-	                return items.find(function (v) { return v._id == params['id']; });
-	            default:
-	                return null;
+	        if (type == 'Gourmet') {
+	            return items.find(function (v) { return v._id == params['id']; });
+	        }
+	        else {
+	            return items.find(function (v) { return v.url == params['url']; });
 	        }
 	    };
 	    Item.prototype.handlePost = function () {
@@ -36470,59 +36473,18 @@
 
 	"use strict";
 	var axios_1 = __webpack_require__(263);
-	function fetchSeasons(page) {
+	var redux_actions_1 = __webpack_require__(292);
+	var constants_1 = __webpack_require__(447);
+	var hearthstone_seasons = constants_1.actionTypes.hearthstone_seasons;
+	exports.fetchSeasons = redux_actions_1.createAction(hearthstone_seasons.fetch_list, function (page) {
 	    if (page === void 0) { page = null; }
-	    var url = '/hearthstone-seasons?limit=30';
-	    if (page) {
-	        url = url + "&page=" + page;
-	    }
-	    return {
-	        type: 'FETCH_HEARTHSTONE_SEASONS',
-	        payload: axios_1.default.get(url)
-	    };
-	}
-	exports.fetchSeasons = fetchSeasons;
-	function fetchSeason(url) {
-	    return {
-	        type: 'FETCH_HEARTHSTONE_SEASON',
-	        payload: axios_1.default.get('/hearthstone-seasons/' + url)
-	    };
-	}
-	exports.fetchSeason = fetchSeason;
-	function initSeasonCreate() {
-	    return {
-	        type: 'INIT_HEARTHSTONE_CREATE'
-	    };
-	}
-	exports.initSeasonCreate = initSeasonCreate;
-	function createSeason(season) {
-	    return {
-	        type: 'POST_HEARTHSTONE_SEASON',
-	        payload: axios_1.default.post('/hearthstone-seasons/', season)
-	    };
-	}
-	exports.createSeason = createSeason;
-	function updateSeason(season) {
-	    return {
-	        type: 'POST_HEARTHSTONE_SEASON',
-	        payload: axios_1.default.post('/hearthstone-seasons/' + season.url, season)
-	    };
-	}
-	exports.updateSeason = updateSeason;
-	function deleteSeason(url) {
-	    return {
-	        type: 'DELETE_HEARTHSTONE_SEASON',
-	        payload: axios_1.default.post('/hearthstone-seasons/' + url + '/delete')
-	    };
-	}
-	exports.deleteSeason = deleteSeason;
-	function changField(field, value) {
-	    return {
-	        type: 'CHANGE_FIELD',
-	        payload: { field: field, value: value }
-	    };
-	}
-	exports.changField = changField;
+	    var url = "/hearthstone-seasons?limit=30" + (page ? '&page=' + page : '');
+	    return axios_1.default.get(url);
+	});
+	exports.fetchSeason = redux_actions_1.createAction(hearthstone_seasons.fetch_item, function (url) { return axios_1.default.get('/hearthstone-seasons/' + url); });
+	exports.createSeason = redux_actions_1.createAction(hearthstone_seasons.post, function (season) { return axios_1.default.post('/hearthstone-seasons/', season); });
+	exports.updateSeason = redux_actions_1.createAction(hearthstone_seasons.post, function (season, url) { return axios_1.default.post('/hearthstone-seasons/' + url, season); });
+	exports.deleteSeason = redux_actions_1.createAction(hearthstone_seasons.post, function (url) { return axios_1.default.post('/hearthstone-seasons/' + url + '/delete'); });
 
 
 /***/ },
@@ -36531,23 +36493,29 @@
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
+	var hearthstone_season_1 = __webpack_require__(480);
 	var hearthstone_seasons_action_1 = __webpack_require__(478);
-	var hearthstone_season_page_component_1 = __webpack_require__(480);
+	var item_action_1 = __webpack_require__(466);
+	var item_component_1 = __webpack_require__(467);
 	var mapStateToProps = function (state) {
 	    return {
-	        season: state.hearthstoneSeason
+	        list: state.hearthstoneSeasons,
+	        item: state.item,
+	        type: 'Hearthstone-Season',
+	        fields: hearthstone_season_1.HearthstoneSeasonFields,
 	    };
 	};
 	var mapDispatchToProps = function (dispatch) {
 	    return {
-	        getSeason: function (url) { return dispatch(hearthstone_seasons_action_1.fetchSeason(url)); },
-	        initSeasonCreate: function () { return dispatch(hearthstone_seasons_action_1.initSeasonCreate()); },
-	        createSeason: function (season) { return dispatch(hearthstone_seasons_action_1.createSeason(season)); },
-	        updateSeason: function (season) { return dispatch(hearthstone_seasons_action_1.updateSeason(season)); },
-	        changeField: function (field, value) { return dispatch(hearthstone_seasons_action_1.changField(field, value)); }
+	        initItemCreate: function () { return dispatch(item_action_1.initItemCreate()); },
+	        getItem: function (params) { return dispatch(hearthstone_seasons_action_1.fetchSeason(params.url)); },
+	        setItem: function (item) { return dispatch(item_action_1.setItem(item)); },
+	        createItem: function (item) { return dispatch(hearthstone_seasons_action_1.createSeason(item)); },
+	        updateItem: function (item, params) { return dispatch(hearthstone_seasons_action_1.updateSeason(item, params.url)); },
+	        changeItem: function (field, value) { return dispatch(item_action_1.changeItem({ field: field, value: value })); },
 	    };
 	};
-	var HearthstoneSeason = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(hearthstone_season_page_component_1.default);
+	var HearthstoneSeason = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(item_component_1.default);
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = HearthstoneSeason;
 
@@ -36557,60 +36525,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var hearthstone_season_1 = __webpack_require__(481);
-	var page_header_component_1 = __webpack_require__(454);
-	var alert_component_1 = __webpack_require__(450);
-	var form_component_1 = __webpack_require__(468);
-	var HearthstoneSeasonPage = (function (_super) {
-	    __extends(HearthstoneSeasonPage, _super);
-	    function HearthstoneSeasonPage() {
-	        _super.apply(this, arguments);
-	    }
-	    HearthstoneSeasonPage.prototype.componentDidMount = function () {
-	        var _a = this.props, params = _a.params, getSeason = _a.getSeason;
-	        getSeason(params['url']);
-	    };
-	    HearthstoneSeasonPage.prototype.handlePost = function () {
-	        var _a = this.props, createSeason = _a.createSeason, updateSeason = _a.updateSeason, season = _a.season, params = _a.params;
-	        if (params['url'] == 'add') {
-	            createSeason(season.item);
-	        }
-	        else {
-	            updateSeason(season.item);
-	        }
-	        window.scrollTo(0, 0);
-	    };
-	    HearthstoneSeasonPage.prototype.render = function () {
-	        var _a = this.props, season = _a.season, params = _a.params, changeField = _a.changeField;
-	        if (season.fetched) {
-	            document.title = season.item.title + ' - Hearthstone Season | Admin';
-	        }
-	        else {
-	            document.title = 'Add - Games | Admin';
-	        }
-	        return (React.createElement("div", {className: "container-fluid"}, 
-	            React.createElement(page_header_component_1.default, {title: params['url'] == 'add' ? 'Add Hearthstone Season' : season.item.title}), 
-	            React.createElement(alert_component_1.default, {fetch: season}), 
-	            React.createElement(form_component_1.default, {fields: hearthstone_season_1.HearthstoneSeasonFields, data: season.item, change: function (f, v) { return changeField(f, v); }, submit: this.handlePost.bind(this)})));
-	    };
-	    return HearthstoneSeasonPage;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneSeasonPage;
-
-
-/***/ },
-/* 481 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var hearthstone_season_ranked_1 = __webpack_require__(482);
+	var hearthstone_season_ranked_1 = __webpack_require__(481);
 	var HEARTHSTONE_SEASON_FIELDS = [
 	    {
 	        name: 'image',
@@ -36643,7 +36558,7 @@
 
 
 /***/ },
-/* 482 */
+/* 481 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36757,12 +36672,12 @@
 
 
 /***/ },
-/* 483 */
+/* 482 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var react_redux_1 = __webpack_require__(179);
-	var hearthstone_decks_action_1 = __webpack_require__(484);
+	var hearthstone_decks_action_1 = __webpack_require__(483);
 	var list_component_1 = __webpack_require__(453);
 	var mapStateToProps = function (state) {
 	    return {
@@ -36785,7 +36700,7 @@
 
 
 /***/ },
-/* 484 */
+/* 483 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36820,22 +36735,22 @@
 
 
 /***/ },
-/* 485 */
+/* 484 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var redux_1 = __webpack_require__(186);
-	var logger = __webpack_require__(486);
-	var redux_promise_middleware_1 = __webpack_require__(492);
-	var redux_thunk_1 = __webpack_require__(494);
-	var reducers_1 = __webpack_require__(495);
+	var logger = __webpack_require__(485);
+	var redux_promise_middleware_1 = __webpack_require__(491);
+	var redux_thunk_1 = __webpack_require__(493);
+	var reducers_1 = __webpack_require__(494);
 	var middleware = redux_1.applyMiddleware(logger(), redux_thunk_1.default, redux_promise_middleware_1.default());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = redux_1.createStore(reducers_1.default, middleware);
 
 
 /***/ },
-/* 486 */
+/* 485 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36846,11 +36761,11 @@
 	  value: true
 	});
 
-	var _core = __webpack_require__(487);
+	var _core = __webpack_require__(486);
 
-	var _helpers = __webpack_require__(488);
+	var _helpers = __webpack_require__(487);
 
-	var _defaults = __webpack_require__(491);
+	var _defaults = __webpack_require__(490);
 
 	var _defaults2 = _interopRequireDefault(_defaults);
 
@@ -36953,7 +36868,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 487 */
+/* 486 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36963,9 +36878,9 @@
 	});
 	exports.printBuffer = printBuffer;
 
-	var _helpers = __webpack_require__(488);
+	var _helpers = __webpack_require__(487);
 
-	var _diff = __webpack_require__(489);
+	var _diff = __webpack_require__(488);
 
 	var _diff2 = _interopRequireDefault(_diff);
 
@@ -37094,7 +37009,7 @@
 	}
 
 /***/ },
-/* 488 */
+/* 487 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -37118,7 +37033,7 @@
 	var timer = exports.timer = typeof performance !== "undefined" && performance !== null && typeof performance.now === "function" ? performance : Date;
 
 /***/ },
-/* 489 */
+/* 488 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37128,7 +37043,7 @@
 	});
 	exports.default = diffLogger;
 
-	var _deepDiff = __webpack_require__(490);
+	var _deepDiff = __webpack_require__(489);
 
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 
@@ -37214,7 +37129,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 490 */
+/* 489 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global) {/*!
@@ -37643,7 +37558,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 491 */
+/* 490 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -37694,7 +37609,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 492 */
+/* 491 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37711,7 +37626,7 @@
 
 	exports.default = promiseMiddleware;
 
-	var _isPromise = __webpack_require__(493);
+	var _isPromise = __webpack_require__(492);
 
 	var _isPromise2 = _interopRequireDefault(_isPromise);
 
@@ -37868,7 +37783,7 @@
 	}
 
 /***/ },
-/* 493 */
+/* 492 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37889,7 +37804,7 @@
 	}
 
 /***/ },
-/* 494 */
+/* 493 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37917,27 +37832,24 @@
 	exports['default'] = thunk;
 
 /***/ },
-/* 495 */
+/* 494 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var redux_1 = __webpack_require__(186);
-	var counts_reducer_1 = __webpack_require__(496);
-	var image_reducer_1 = __webpack_require__(497);
-	var games_reducer_1 = __webpack_require__(498);
-	var gourmets_reducer_1 = __webpack_require__(499);
-	var hearthstone_seasons_reducer_1 = __webpack_require__(500);
-	var hearthstone_season_reducer_1 = __webpack_require__(501);
-	var hearthstone_decks_reducer_1 = __webpack_require__(502);
-	var item_reducer_1 = __webpack_require__(503);
+	var counts_reducer_1 = __webpack_require__(495);
+	var image_reducer_1 = __webpack_require__(496);
+	var games_reducer_1 = __webpack_require__(497);
+	var gourmets_reducer_1 = __webpack_require__(498);
+	var hearthstone_seasons_reducer_1 = __webpack_require__(499);
+	var hearthstone_decks_reducer_1 = __webpack_require__(500);
+	var item_reducer_1 = __webpack_require__(501);
 	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = redux_1.combineReducers({
-	    counts: counts_reducer_1.default, image: image_reducer_1.default, games: games_reducer_1.default, gourmets: gourmets_reducer_1.default, hearthstoneSeasons: hearthstone_seasons_reducer_1.default, hearthstoneSeason: hearthstone_season_reducer_1.default, hearthstoneDecks: hearthstone_decks_reducer_1.default, item: item_reducer_1.default
-	});
+	exports.default = redux_1.combineReducers({ counts: counts_reducer_1.default, image: image_reducer_1.default, games: games_reducer_1.default, gourmets: gourmets_reducer_1.default, hearthstoneSeasons: hearthstone_seasons_reducer_1.default, hearthstoneDecks: hearthstone_decks_reducer_1.default, item: item_reducer_1.default });
 
 
 /***/ },
-/* 496 */
+/* 495 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -37975,7 +37887,7 @@
 
 
 /***/ },
-/* 497 */
+/* 496 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -38018,7 +37930,7 @@
 
 
 /***/ },
-/* 498 */
+/* 497 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -38157,7 +38069,7 @@
 
 
 /***/ },
-/* 499 */
+/* 498 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -38287,13 +38199,17 @@
 
 
 /***/ },
-/* 500 */
-/***/ function(module, exports) {
+/* 499 */
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	var helpers_1 = __webpack_require__(460);
+	var constants_1 = __webpack_require__(447);
 	var initialState = {
 	    isFetching: false,
 	    fetched: false,
+	    isPosting: false,
+	    posted: false,
 	    items: [],
 	    total: 0,
 	    fetchedPages: [],
@@ -38301,31 +38217,26 @@
 	};
 	function reducer(state, action) {
 	    if (state === void 0) { state = initialState; }
+	    var actionStatusGenerator = helpers_1.default.actionStatusGenerator;
 	    var type = action.type, payload = action.payload;
+	    var types = actionStatusGenerator(constants_1.actionTypes.hearthstone_seasons);
+	    var sort = function (a, b) {
+	        if (a.month > b.month)
+	            return -1;
+	        if (a.month < b.month)
+	            return 1;
+	        return 0;
+	    };
+	    var newSet, items, index;
 	    switch (type) {
-	        case "FETCH_HEARTHSTONE_SEASONS_PENDING":
-	            return Object.assign({}, state, { isFetching: true, error: null });
-	        case "FETCH_HEARTHSTONE_SEASONS_FULFILLED":
-	            var items = state.items.concat(payload.data.list);
-	            items.sort(function (a, b) {
-	                if (a.month > b.month)
-	                    return -1;
-	                if (a.month < b.month)
-	                    return 1;
-	                return 0;
-	            });
-	            var url = payload.request.responseURL;
-	            var match = url.match(/page=(\d)/i);
-	            var page = match ? parseInt(match[1]) : 1;
-	            var pages = state.fetchedPages;
-	            pages.push(page);
-	            pages.sort(function (a, b) {
-	                if (a > b)
-	                    return 1;
-	                if (a < b)
-	                    return -1;
-	                return 0;
-	            });
+	        // Fetch List
+	        case types['fetch_list'].pending:
+	            return Object.assign({}, state, { isFetching: true, fetched: false, error: null });
+	        case types['fetch_list'].success:
+	            newSet = new Set(state.items.concat(payload.data.list));
+	            items = Array.from(newSet);
+	            items.sort(sort);
+	            var pages = helpers_1.default.fetchedPages(state.fetchedPages, payload.request.responseURL);
 	            return Object.assign({}, state, {
 	                isFetching: false,
 	                fetched: true,
@@ -38333,7 +38244,7 @@
 	                total: state.total ? state.total : payload.data.total,
 	                fetchedPages: pages,
 	            });
-	        case "FETCH_HEARTHSTONE_SEASONS_REJECTED":
+	        case types['fetch_list'].error:
 	            return Object.assign({}, state, {
 	                isFetching: false,
 	                fetched: false,
@@ -38342,23 +38253,74 @@
 	                    data: payload.response.data
 	                }
 	            });
-	        case "DELETE_HEARTHSTONE_SEASON_PENDING":
-	            return Object.assign({}, state, { isFetching: true, error: null });
-	        case "DELETE_HEARTHSTONE_SEASON_FULFILLED":
-	            var list = state.items;
-	            var item = list.find(function (v) { return v._id == payload.data; });
-	            var index = list.indexOf(item);
-	            list.splice(index, 1);
+	        // Fetch Item
+	        case types['fetch_item'].pending:
+	            return Object.assign({}, state, { isFetching: true, fetched: false, error: null });
+	        case types['fetch_item'].success:
+	            state.items.push(payload.data);
+	            newSet = new Set(state.items);
+	            items = Array.from(newSet);
+	            if (items.length > 1) {
+	                items.sort(sort);
+	            }
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                fetched: true,
+	                items: items,
+	            });
+	        case types['fetch_item'].error:
+	            return Object.assign({}, state, {
+	                isFetching: false,
+	                error: {
+	                    status: payload.response.status,
+	                    data: payload.response.data
+	                }
+	            });
+	        // Post Item
+	        case types['post'].pending:
+	            return Object.assign({}, state, { isPosting: true, posted: false, error: null });
+	        case types['post'].success:
+	            items = state.items;
+	            index = items.findIndex(function (v) { return v._id == payload.data._id; });
+	            if (index < 0) {
+	                state.items.push(payload.data);
+	                if (items.length > 1) {
+	                    items.sort(sort);
+	                }
+	                state.total++;
+	            }
+	            else {
+	                items = items.slice(index, 1, payload.data);
+	            }
+	            return Object.assign({}, state, {
+	                isPosting: false,
+	                posted: true,
+	                items: items,
+	            });
+	        case types['post'].error:
+	            return Object.assign({}, state, {
+	                isPosting: false,
+	                error: {
+	                    status: payload.response.status,
+	                    data: payload.response.data
+	                }
+	            });
+	        // Delete Item
+	        case types['delete'].pending:
+	            return Object.assign({}, state, { isPosting: true, posted: false, error: null });
+	        case types['delete'].success:
+	            items = state.items;
+	            index = items.findIndex(function (v) { return v._id == payload.data; });
+	            items.splice(index, 1);
 	            state.total--;
 	            return Object.assign({}, state, {
-	                isFetching: false,
-	                fetched: true,
-	                items: list,
+	                isPosting: false,
+	                posted: true,
+	                items: items,
 	            });
-	        case "DELETE_HEARTHSTONE_SEASON_REJECTED":
+	        case types['delete'].error:
 	            return Object.assign({}, state, {
-	                isFetching: false,
-	                fetched: false,
+	                isPosting: false,
 	                error: {
 	                    status: payload.response.status,
 	                    data: payload.response.data
@@ -38373,67 +38335,7 @@
 
 
 /***/ },
-/* 501 */
-/***/ function(module, exports) {
-
-	"use strict";
-	var initialState = {
-	    isFetching: false,
-	    fetched: false,
-	    posted: false,
-	    item: {},
-	    error: null,
-	};
-	function reducer(state, action) {
-	    if (state === void 0) { state = initialState; }
-	    var payload = action.payload, type = action.type;
-	    switch (type) {
-	        case "INIT_HEARTHSTONE_SEASON_CREATE":
-	            return Object.assign({}, state, initialState);
-	        case "FETCH_HEARTHSTONE_SEASON_PENDING":
-	            return Object.assign({}, state, initialState, { isFetching: true });
-	        case "FETCH_HEARTHSTONE_SEASON_FULFILLED":
-	            return Object.assign({}, state, {
-	                isFetching: false,
-	                fetched: true,
-	                item: payload.data
-	            });
-	        case "FETCH_HEARTHSTONE_SEASON_REJECTED":
-	            return Object.assign({}, state, {
-	                isFetching: false,
-	                fetched: false,
-	                error: {
-	                    statue: payload.response.status,
-	                    data: payload.response.data
-	                }
-	            });
-	        case "POST_HEARTHSTONE_SEASON_PENDING":
-	            return Object.assign({}, state, { isFetching: true });
-	        case "POST_HEARTHSTONE_SEASON_FULFILLED":
-	            return Object.assign({}, state, { isFetching: false, posted: true });
-	        case "POST_HEARTHSTONE_SEASON_REJECTED":
-	            return Object.assign({}, state, {
-	                isFetching: false,
-	                error: {
-	                    statue: payload.response.status,
-	                    data: payload.response.data
-	                }
-	            });
-	        case "CHANGE_FIELD":
-	            var field = payload.field, value = payload.value;
-	            var item = state.item;
-	            item[field] = value;
-	            return Object.assign({}, state, { item: item });
-	        default:
-	            return state;
-	    }
-	}
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = reducer;
-
-
-/***/ },
-/* 502 */
+/* 500 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -38519,7 +38421,7 @@
 
 
 /***/ },
-/* 503 */
+/* 501 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
