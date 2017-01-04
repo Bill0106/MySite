@@ -3,16 +3,18 @@ import { Link } from 'react-router';
 
 interface DashboardItemProps extends React.Props<any> {
     title: string;
-    count
+    count: number;
 }
 
 class DashboardItem extends React.Component<DashboardItemProps, void> {
     render() {
+        const { title, count } = this.props;
+
         return (
-            <Link className="list-group-item list-group-item-info" to={'/admin/' + this.props.title.toLocaleLowerCase()}>
+            <Link className="list-group-item list-group-item-info" to={'/admin/' + title.toLocaleLowerCase()}>
                 <h4 className="list-group-item-heading">
-                    {this.props.title.replace('-', ' ')}
-                    <span className="badge pull-right">{this.props.count}</span>
+                    {title.replace('-', ' ')}
+                    <span className="badge pull-right">{count}</span>
                 </h4>
             </Link>
         );

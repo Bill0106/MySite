@@ -77,10 +77,14 @@ class Item extends React.Component<ItemProps, void> {
     }
 
     render() {
-        const { fields, item, changeItem } = this.props;
+        const { type, fields, item, list, changeItem } = this.props;
+        const { isFetching, isPosting, posted, error } = list;
+        const title = `${item.data ? 'Edit' : 'Add'} - ${type}`
 
         return (
             <div className="container-fluid">
+                <PageHeader title={title} />
+                <Alert isPosting={isPosting} isFetching={isFetching} posted={posted} error={error} />
                 <Form fields={fields} data={item.data} change={(f, v) => changeItem(f, v)} submit={this.handlePost.bind(this)} />
             </div>
         );

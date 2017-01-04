@@ -35304,6 +35304,7 @@
 	    };
 	    DashboardList.prototype.render = function () {
 	        var counts = this.props.counts;
+	        var isFetching = counts.isFetching, items = counts.items, error = counts.error;
 	        return (React.createElement("div", {className: "container-fluid"}, 
 	            React.createElement("div", {className: "row"}, 
 	                React.createElement("div", {className: "col-sm-12"}, 
@@ -35312,13 +35313,9 @@
 	                    )
 	                )
 	            ), 
+	            React.createElement(alert_component_1.default, {isFetching: isFetching, error: error, isPosting: false, posted: false}), 
 	            React.createElement("div", {className: "row"}, 
-	                React.createElement("div", {className: "col-sm-12"}, 
-	                    React.createElement(alert_component_1.default, {fetch: counts})
-	                )
-	            ), 
-	            React.createElement("div", {className: "row"}, 
-	                React.createElement("div", {className: "col-sm-6 col-sm-offset-3"}, counts.items.map(function (item, key) {
+	                React.createElement("div", {className: "col-sm-6 col-sm-offset-3"}, items.map(function (item, key) {
 	                    return React.createElement(dashboard_item_component_1.default, {key: key, title: item.title, count: item.count});
 	                }))
 	            )));
@@ -35347,10 +35344,11 @@
 	        _super.apply(this, arguments);
 	    }
 	    DashboardItem.prototype.render = function () {
-	        return (React.createElement(react_router_1.Link, {className: "list-group-item list-group-item-info", to: '/admin/' + this.props.title.toLocaleLowerCase()}, 
+	        var _a = this.props, title = _a.title, count = _a.count;
+	        return (React.createElement(react_router_1.Link, {className: "list-group-item list-group-item-info", to: '/admin/' + title.toLocaleLowerCase()}, 
 	            React.createElement("h4", {className: "list-group-item-heading"}, 
-	                this.props.title.replace('-', ' '), 
-	                React.createElement("span", {className: "badge pull-right"}, this.props.count))
+	                title.replace('-', ' '), 
+	                React.createElement("span", {className: "badge pull-right"}, count))
 	        ));
 	    };
 	    return DashboardItem;
@@ -35376,21 +35374,24 @@
 	        _super.apply(this, arguments);
 	    }
 	    Alert.prototype.render = function () {
-	        var fetch = this.props.fetch;
+	        var _a = this.props, isFetching = _a.isFetching, isPosting = _a.isPosting, posted = _a.posted, error = _a.error;
 	        var alert = null;
-	        if (fetch.isFetching) {
+	        if (isFetching) {
 	            alert = React.createElement("div", {className: "alert alert-info", role: "alert"}, "Loading...");
 	        }
-	        else if (fetch.error) {
+	        else if (isPosting) {
+	            alert = React.createElement("div", {className: "alert alert-info", role: "alert"}, "Posting...");
+	        }
+	        else if (posted) {
+	            alert = React.createElement("div", {className: "alert alert-success", role: "alert"}, "Success!");
+	        }
+	        else if (error) {
 	            alert = (React.createElement("div", {className: "alert alert-danger", role: "alert"}, 
 	                React.createElement("strong", null, 
-	                    fetch.error.status, 
+	                    error.status, 
 	                    " !"), 
 	                " ", 
-	                fetch.error.data));
-	        }
-	        else if (fetch.posted) {
-	            alert = (React.createElement("div", {className: "alert alert-success", role: "alert"}, "Success!"));
+	                error.data));
 	        }
 	        return (React.createElement("div", {className: "row"}, 
 	            React.createElement("div", {className: "col-sm-12"}, alert)
@@ -35484,7 +35485,7 @@
 	            getList(location.query['page']);
 	        }
 	    };
-	    List.prototype.componentWillUpdate = function (nextProps) {
+	    List.prototype.componentWillReceiveProps = function (nextProps) {
 	        var location = nextProps.location;
 	        var _a = this.props, getList = _a.getList, list = _a.list;
 	        var page = location.query['page'] ? parseInt(location.query['page']) : 1;
@@ -35518,10 +35519,11 @@
 	    List.prototype.render = function () {
 	        var _this = this;
 	        var _a = this.props, list = _a.list, type = _a.type, location = _a.location;
+	        var isFetching = list.isFetching, error = list.error;
 	        var items = this.handleContent(list, type, location.query['page']);
 	        return (React.createElement("div", {className: "container-fluid"}, 
 	            React.createElement(page_header_component_1.default, {title: type, button: true, total: list.total}), 
-	            React.createElement(alert_component_1.default, {fetch: list}), 
+	            React.createElement(alert_component_1.default, {isFetching: isFetching, error: error, isPosting: false, posted: false}), 
 	            React.createElement("div", {className: "row"}, 
 	                React.createElement("div", {className: "col-sm-12"}, 
 	                    React.createElement("table", {className: "table table-bordered admin-table-list"}, 
@@ -36070,6 +36072,8 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
+	var page_header_component_1 = __webpack_require__(454);
+	var alert_component_1 = __webpack_require__(450);
 	var form_component_1 = __webpack_require__(468);
 	var Item = (function (_super) {
 	    __extends(Item, _super);
@@ -36125,10 +36129,13 @@
 	        window.scrollTo(0, 0);
 	    };
 	    Item.prototype.render = function () {
-	        var _a = this.props, fields = _a.fields, item = _a.item, changeItem = _a.changeItem;
+	        var _a = this.props, type = _a.type, fields = _a.fields, item = _a.item, list = _a.list, changeItem = _a.changeItem;
+	        var isFetching = list.isFetching, isPosting = list.isPosting, posted = list.posted, error = list.error;
+	        var title = (item.data ? 'Edit' : 'Add') + " - " + type;
 	        return (React.createElement("div", {className: "container-fluid"}, 
-	            React.createElement(form_component_1.default, {fields: fields, data: item.data, change: function (f, v) { return changeItem(f, v); }, submit: this.handlePost.bind(this)})
-	        ));
+	            React.createElement(page_header_component_1.default, {title: title}), 
+	            React.createElement(alert_component_1.default, {isPosting: isPosting, isFetching: isFetching, posted: posted, error: error}), 
+	            React.createElement(form_component_1.default, {fields: fields, data: item.data, change: function (f, v) { return changeItem(f, v); }, submit: this.handlePost.bind(this)})));
 	    };
 	    return Item;
 	}(React.Component));
@@ -36154,8 +36161,8 @@
 	        _super.apply(this, arguments);
 	    }
 	    Form.prototype.handleSubmit = function (e) {
-	        var submit = this.props.submit;
 	        e.preventDefault();
+	        var submit = this.props.submit;
 	        submit();
 	    };
 	    Form.prototype.render = function () {
@@ -36300,9 +36307,9 @@
 	        upload(data);
 	    };
 	    ImageUpload.prototype.handleStatus = function (image) {
-	        var isFetching = image.isFetching, error = image.error;
-	        if (isFetching) {
-	            return React.createElement("div", {className: "alert alert-info"}, "Upload...");
+	        var isPosting = image.isPosting, error = image.error;
+	        if (isPosting) {
+	            return React.createElement("div", {className: "alert alert-info"}, "Posting...");
 	        }
 	        else if (error) {
 	            return React.createElement("div", {className: "alert alert-danger"}, error.data);

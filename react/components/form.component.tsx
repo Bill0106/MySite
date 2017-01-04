@@ -11,9 +11,9 @@ interface FormProps extends React.Props<any> {
 
 class Form extends React.Component<FormProps, void> {
     handleSubmit(e) {
-        const { submit } = this.props;
         e.preventDefault();
-
+        
+        const { submit } = this.props;
         submit();
     }
 

@@ -23,6 +23,7 @@ class DashboardList extends React.Component<DashboardListProps, void> {
 
     render() {
         const { counts } = this.props;
+        const { isFetching, items, error } = counts;
 
         return (
             <div className="container-fluid">
@@ -33,16 +34,11 @@ class DashboardList extends React.Component<DashboardListProps, void> {
                         </section>
                     </div>
                 </div>
-                <div className="row">
-                    <div className="col-sm-12">
-                        <Alert fetch={counts} />
-                    </div>
-                </div>
+                <Alert isFetching={isFetching} error={error} isPosting={false} posted={false} />
                 <div className="row">
                     <div className="col-sm-6 col-sm-offset-3">
                     {
-
-                        counts.items.map((item, key) => {
+                        items.map((item, key) => {
                             return <DashboardItem key={key} title={item.title} count={item.count} />;
                         })
                     }

@@ -1,25 +1,28 @@
 import * as React from 'react';
 
 interface AlertProps extends React.Props<any> {
-    fetch: any;
+    isFetching: boolean;
+    isPosting: boolean;
+    posted: boolean;
+    error: any;
 }
 
 class Alert extends React.Component<AlertProps, void> {
     render() {
-        const { fetch } = this.props;
+        const { isFetching, isPosting, posted, error } = this.props;
         let alert = null;
 
-        if (fetch.isFetching) {
+        if (isFetching) {
             alert = <div className="alert alert-info" role="alert">Loading...</div>;
-        } else if (fetch.error) {
+        } else if (isPosting) {
+            alert = <div className="alert alert-info" role="alert">Posting...</div>;
+        } else if (posted) {
+            alert = <div className="alert alert-success" role="alert">Success!</div>;
+        } else if (error) {
             alert = (
                 <div className="alert alert-danger" role="alert">
-                    <strong>{fetch.error.status} !</strong> {fetch.error.data}
+                    <strong>{error.status} !</strong> {error.data}
                 </div>
-            );
-        } else if (fetch.posted) {
-            alert = (
-                <div className="alert alert-success" role="alert">Success!</div>
             );
         }
 

@@ -31,7 +31,7 @@ class List extends React.Component<ListProps, void> {
         }
     }
 
-    componentWillUpdate(nextProps) {
+    componentWillReceiveProps(nextProps) {
         const { location } = nextProps;
         const { getList, list } = this.props;
         const page = location.query['page'] ? parseInt(location.query['page']) : 1;
@@ -65,28 +65,29 @@ class List extends React.Component<ListProps, void> {
 
         const start = per * index;
         const items = list.items.slice(start, start + per);
-        
+
         return items;
     }
 
     render() {
         const { list, type, location } = this.props;
+        const { isFetching, error } = list;
         const items = this.handleContent(list, type, location.query['page']);
 
         return (
             <div className="container-fluid">
                 <PageHeader title={type} button={true} total={list.total} />
-                <Alert fetch={list} />
+                <Alert isFetching={isFetching} error={error} isPosting={false} posted={false} />
                 <div className="row">
                     <div className="col-sm-12">
                         <table className="table table-bordered admin-table-list">
-                        <tbody>
-                        {
-                            items.map((item, key) => {
-                                return this.handleItems(item, key);
-                            })
-                        }
-                        </tbody>
+                            <tbody>
+                                {
+                                    items.map((item, key) => {
+                                        return this.handleItems(item, key);
+                                    })
+                                }
+                            </tbody>
                         </table>
                     </div>
                 </div>

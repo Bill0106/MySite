@@ -31,9 +31,9 @@ class ImageUpload extends React.Component<ImageUploadProps, void> {
     }
 
     handleStatus(image) {
-        const { isFetching, error } = image;
-        if (isFetching) {
-            return <div className="alert alert-info">Upload...</div>;
+        const { isPosting, error } = image;
+        if (isPosting) {
+            return <div className="alert alert-info">Posting...</div>;
         } else if (error) {
             return <div className="alert alert-danger">{error.data}</div>;
         }

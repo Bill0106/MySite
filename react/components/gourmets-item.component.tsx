@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Link } from 'react-router';
 
-import { ItemProps } from '../interface/item.interface';
 import helpers from '../helpers';
+import { ItemProps } from '../interface/item.interface';
 
 class GourmetsItem extends React.Component<ItemProps, void> {
     render() {
