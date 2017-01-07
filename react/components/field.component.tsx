@@ -48,6 +48,21 @@ class Field extends React.Component<FieldProps, void> {
                         }
                     </div>
                 );
+            case 'checkbox':
+                return (
+                    <div>
+                    {
+                        field.enum.map(check => {
+                            return (
+                                <label className="checkbox-inline" key={check.value}>
+                                    <input type="checkbox" value={check.value} checked={data == check.value} onChange={this.handleChange.bind(this)} />
+                                    {check.name}
+                                </label>
+                            );
+                        })
+                    }
+                    </div>
+                );
             default:
                 return <input type="text" className="form-control" onChange={this.handleChange.bind(this)} placeholder={'ENTER ' + field.name.toUpperCase()} value={data || ''} />;
         }
