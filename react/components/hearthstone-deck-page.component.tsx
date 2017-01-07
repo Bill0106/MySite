@@ -4,7 +4,7 @@ import { HearthstoneDeckFields } from '../../config/fields/hearthstone-deck';
 import PageHeader from './page-header.component';
 import Alert from './alert.component';
 import Form from './form.component';
-import HearthstoneCards from '../containers/hearthstone-cards.container';
+import HearthstoneDeckCards from '../containers/hearthstone-deck-cards.container';
 
 interface HearthstoneDeckPageProps extends RouteComponentProps<void, void> {
     list: any;
@@ -53,8 +53,41 @@ class HearthstoneDeckPage extends React.Component<HearthstoneDeckPageProps, void
     
     handleChange(field, value) {
         const { changeDeck } = this.props;
-
         changeDeck(field, value);
+    }
+    
+    handleCardsSort(cards: any) {
+        cards.sort((a, b) => {
+            if (a.cost > b.cost) return 1;
+            if (a.cost < b.cost) return -1;
+            if (a.name > b.name) return 1;
+            if (a.name > b.name) return -1;
+            return 0
+        });
+
+        return cards;
+    }
+
+    handleCardsChange(selected) {
+        const { changeDeck } = this.props;
+        const sorted = this.handleCardsSort(selected);
+        const storage = sorted.map(e => JSON.stringify(e));
+
+        let cards = [];
+        for (let card of sorted) {
+            const element = cards.findIndex(e => e.card == card._id);
+            const filter = sorted.filter(e => e._id == card._id);
+
+            if (element < 0) {
+                cards.push({
+                    card: card._id,
+                    count: filter.length,
+                });
+            }
+        }
+
+        changeDeck('cards', cards);
+        window.localStorage.setItem('selected_cards', storage.join(';'));
     }
 
     handleSubmit(e) {
@@ -76,6 +109,7 @@ class HearthstoneDeckPage extends React.Component<HearthstoneDeckPageProps, void
                 <PageHeader title={params['id'] == 'add' ? 'Add Deck' : 'Edit Deck'} />
                 <Alert isPosting={isPosting} isFetching={isFetching} posted={posted} error={error} />
                 <Form fields={HearthstoneDeckFields} data={deck.data} submit={this.handleSubmit.bind(this)} change={this.handleChange.bind(this)} />
+                <HearthstoneDeckCards change={this.handleCardsChange.bind(this)} />
             </div>
         );
     }

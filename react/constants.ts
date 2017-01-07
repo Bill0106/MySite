@@ -28,6 +28,9 @@ export const actionTypes = {
         active: 'ACTIVE_HEARTHSTONE_DECK',
         inactive: 'INACTIVE_HEARTHSTONE_DECK',
     },
+    hearthstone_cards: {
+        fetch_list: 'FETCH_HEARTHSTONE_CARDS',
+    },
     image: {
         init: 'INIT_IMAGE',
         post: 'POST_IMAGE',
