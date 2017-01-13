@@ -52,7 +52,7 @@
 	var axios_1 = __webpack_require__(263);
 	var keys_1 = __webpack_require__(288);
 	var routing_1 = __webpack_require__(289);
-	var store_1 = __webpack_require__(486);
+	var store_1 = __webpack_require__(492);
 	axios_1.default.defaults.baseURL = '/api';
 	axios_1.default.defaults.headers.common['auth'] = keys_1.Keys.api.GET;
 	axios_1.default.defaults.headers.post['auth'] = keys_1.Keys.api.POST;
@@ -36783,6 +36783,8 @@
 	var page_header_component_1 = __webpack_require__(454);
 	var alert_component_1 = __webpack_require__(450);
 	var form_component_1 = __webpack_require__(468);
+	var hearthstone_deck_cards_container_1 = __webpack_require__(486);
+	var hearthstone_cards_container_1 = __webpack_require__(489);
 	var HearthstoneDeckPage = (function (_super) {
 	    __extends(HearthstoneDeckPage, _super);
 	    function HearthstoneDeckPage() {
@@ -36819,6 +36821,42 @@
 	        var changeDeck = this.props.changeDeck;
 	        changeDeck(field, value);
 	    };
+	    HearthstoneDeckPage.prototype.handleCardsSort = function (cards) {
+	        cards.sort(function (a, b) {
+	            if (a.cost > b.cost)
+	                return 1;
+	            if (a.cost < b.cost)
+	                return -1;
+	            if (a.name > b.name)
+	                return 1;
+	            if (a.name > b.name)
+	                return -1;
+	            return 0;
+	        });
+	        return cards;
+	    };
+	    HearthstoneDeckPage.prototype.handleCardsChange = function (selected) {
+	        var changeDeck = this.props.changeDeck;
+	        var sorted = this.handleCardsSort(selected);
+	        var storage = sorted.map(function (e) { return JSON.stringify(e); });
+	        var cards = [];
+	        var _loop_1 = function(card) {
+	            var element = cards.findIndex(function (e) { return e.card == card._id; });
+	            var filter = sorted.filter(function (e) { return e._id == card._id; });
+	            if (element < 0) {
+	                cards.push({
+	                    card: card._id,
+	                    count: filter.length,
+	                });
+	            }
+	        };
+	        for (var _i = 0, sorted_1 = sorted; _i < sorted_1.length; _i++) {
+	            var card = sorted_1[_i];
+	            _loop_1(card);
+	        }
+	        changeDeck('cards', cards);
+	        window.localStorage.setItem('selected_cards', storage.join(';'));
+	    };
 	    HearthstoneDeckPage.prototype.handleSubmit = function (e) {
 	        var _a = this.props, params = _a.params, deck = _a.deck, createDeck = _a.createDeck, updateDeck = _a.updateDeck;
 	        if (params['id'] == 'add') {
@@ -36834,7 +36872,9 @@
 	        return (React.createElement("div", {className: "container-fluid"}, 
 	            React.createElement(page_header_component_1.default, {title: params['id'] == 'add' ? 'Add Deck' : 'Edit Deck'}), 
 	            React.createElement(alert_component_1.default, {isPosting: isPosting, isFetching: isFetching, posted: posted, error: error}), 
-	            React.createElement(form_component_1.default, {fields: hearthstone_deck_1.HearthstoneDeckFields, data: deck.data, submit: this.handleSubmit.bind(this), change: this.handleChange.bind(this)})));
+	            React.createElement(form_component_1.default, {fields: hearthstone_deck_1.HearthstoneDeckFields, data: deck.data, submit: this.handleSubmit.bind(this), change: this.handleChange.bind(this)}), 
+	            React.createElement(hearthstone_deck_cards_container_1.default, {change: this.handleCardsChange.bind(this)}), 
+	            React.createElement(hearthstone_cards_container_1.default, {change: this.handleCardsChange.bind(this), sort: this.handleCardsSort.bind(this)})));
 	    };
 	    return HearthstoneDeckPage;
 	}(React.Component));
@@ -36881,18 +36921,346 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	var react_redux_1 = __webpack_require__(179);
+	var hearthstone_cards_action_1 = __webpack_require__(487);
+	var hearthstone_cards_box_component_1 = __webpack_require__(488);
+	var mapStateToProps = function (state, ownProps) {
+	    return {
+	        cards: state.hearthstoneCards,
+	        deck: state.item,
+	        change: ownProps.change,
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        getCards: function (params) { return dispatch(hearthstone_cards_action_1.fetchCards(params)); }
+	    };
+	};
+	var HearthstoneDeckCards = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(hearthstone_cards_box_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneDeckCards;
+
+
+/***/ },
+/* 487 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var axios_1 = __webpack_require__(263);
+	var redux_actions_1 = __webpack_require__(292);
+	var constants_1 = __webpack_require__(447);
+	exports.fetchCards = redux_actions_1.createAction(constants_1.actionTypes.hearthstone_cards.fetch_list, function (params) {
+	    var url = '/hearthstone-cards/?standard=true';
+	    if (typeof params != 'object') {
+	        return axios_1.default.get(url + '&playerClass=-1');
+	    }
+	    if (params.hasOwnProperty('playerClass')) {
+	        url = url + "&playerClass=" + params.playerClass;
+	        if (params.playerClass == -1) {
+	            url = url + "&cost=" + (params.hasOwnProperty('cost') ? params.cost : 1);
+	        }
+	    }
+	    else if (params.hasOwnProperty('ids')) {
+	        url = url + "&ids=" + params.ids.join(',');
+	    }
+	    else {
+	        url = url + "&playerClass=-1";
+	    }
+	    return axios_1.default.get(url);
+	});
+
+
+/***/ },
+/* 488 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var HearthstoneCardsBox = (function (_super) {
+	    __extends(HearthstoneCardsBox, _super);
+	    function HearthstoneCardsBox() {
+	        _super.apply(this, arguments);
+	    }
+	    HearthstoneCardsBox.prototype.componentWillMount = function () {
+	        window.localStorage.removeItem('selected_cards');
+	    };
+	    HearthstoneCardsBox.prototype.componentWillUpdate = function (nextProps, nextState) {
+	        var cards = nextProps.cards, deck = nextProps.deck, getCards = nextProps.getCards;
+	        var data = deck.data;
+	        var selected = window.localStorage.getItem('selected_cards');
+	        if (!this.props.deck.data && data) {
+	            var array = data.cards.map(function (e) { return e.card; });
+	            if (array) {
+	                var ids = [];
+	                var _loop_1 = function(element) {
+	                    if (cards.items.findIndex(function (e) { return e._id == element; }) < 0) {
+	                        ids.push(element);
+	                    }
+	                };
+	                for (var _i = 0, array_1 = array; _i < array_1.length; _i++) {
+	                    var element = array_1[_i];
+	                    _loop_1(element);
+	                }
+	                getCards({ ids: ids });
+	            }
+	        }
+	        if (data && !selected) {
+	            var diff = data.cards.filter(function (c) { return cards.items.findIndex(function (e) { return e._id == c.card; }) < 0; });
+	            if (!diff.length) {
+	                var selectedCards = [];
+	                var _loop_2 = function(card) {
+	                    var cardItem = cards.items.find(function (c) { return c._id == card.card; });
+	                    if (cardItem) {
+	                        var string = JSON.stringify(cardItem);
+	                        selectedCards.push(string);
+	                        if (card.count == 2) {
+	                            selectedCards.push(string);
+	                        }
+	                    }
+	                };
+	                for (var _a = 0, _b = data.cards; _a < _b.length; _a++) {
+	                    var card = _b[_a];
+	                    _loop_2(card);
+	                }
+	                if (selectedCards.length) {
+	                    window.localStorage.setItem('selected_cards', selectedCards.join(';'));
+	                }
+	            }
+	        }
+	    };
+	    HearthstoneCardsBox.prototype.handleCardsTotal = function () {
+	        var deck = this.props.deck;
+	        var total = 0;
+	        if (deck.data) {
+	            var totalArray = deck.data.cards.map(function (e) { return e.count; });
+	            total = totalArray.reduce(function (a, b) { return a + b; });
+	        }
+	        return total;
+	    };
+	    HearthstoneCardsBox.prototype.handleRemoveCard = function (id) {
+	        var change = this.props.change;
+	        var storage = window.localStorage.getItem('selected_cards');
+	        var array = storage ? storage.split(';') : [];
+	        var selectedCards = array.map(function (e) { return JSON.parse(e); });
+	        var index = selectedCards.findIndex(function (e) { return e._id == id; });
+	        if (index < 0)
+	            return false;
+	        selectedCards.splice(index, 1);
+	        change(selectedCards);
+	    };
+	    HearthstoneCardsBox.prototype.render = function () {
+	        var _this = this;
+	        var _a = this.props, deck = _a.deck, cards = _a.cards;
+	        var deckCards = deck.data ? deck.data.cards : [];
+	        return (React.createElement("div", {className: "row"}, 
+	            React.createElement("div", {className: "col-sm-12"}, 
+	                React.createElement("div", {className: "panel panel-default"}, 
+	                    React.createElement("div", {className: "panel-heading"}, 
+	                        React.createElement("h3", {className: "panel-title"}, 
+	                            "Deck Cards ", 
+	                            React.createElement("small", null, this.handleCardsTotal()))
+	                    ), 
+	                    React.createElement("div", {className: "panel-body"}, 
+	                        React.createElement("div", {className: "row"}, deckCards.map(function (card, key) {
+	                            return (React.createElement("div", {className: "col-sm-2", key: key}, 
+	                                React.createElement("button", {className: "btn btn-link btn-block", type: "button", onClick: _this.handleRemoveCard.bind(_this, card.card)}, 
+	                                    React.createElement("span", {className: "pull-left"}, cards.items.find(function (c) { return c._id == card.card; }) ? cards.items.find(function (c) { return c._id == card.card; }).name : ''), 
+	                                    React.createElement("span", {className: "pull-right"}, card.count))
+	                            ));
+	                        }))
+	                    ))
+	            )
+	        ));
+	    };
+	    return HearthstoneCardsBox;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneCardsBox;
+
+
+/***/ },
+/* 489 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var react_redux_1 = __webpack_require__(179);
+	var hearthstone_cards_action_1 = __webpack_require__(487);
+	var hearthstone_cards_list_component_1 = __webpack_require__(490);
+	var mapStateToProps = function (state, ownProps) {
+	    return {
+	        deck: state.item,
+	        cards: state.hearthstoneCards,
+	        change: ownProps.change,
+	        sort: ownProps.sort,
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        getCards: function (params) { return dispatch(hearthstone_cards_action_1.fetchCards(params)); },
+	    };
+	};
+	var HearthstoneCards = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(hearthstone_cards_list_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneCards;
+
+
+/***/ },
+/* 490 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var hearthstone_card_rarity_1 = __webpack_require__(491);
+	var hearthstone_player_classes_1 = __webpack_require__(463);
+	var HearthstoneCardsList = (function (_super) {
+	    __extends(HearthstoneCardsList, _super);
+	    function HearthstoneCardsList() {
+	        _super.apply(this, arguments);
+	    }
+	    HearthstoneCardsList.prototype.componentDidMount = function () {
+	        var _a = this.props, cards = _a.cards, getCards = _a.getCards;
+	        if (cards.fetchedCosts.indexOf(1) < 0) {
+	            getCards({ playerClass: -1, cost: 1 });
+	        }
+	    };
+	    HearthstoneCardsList.prototype.componentWillUpdate = function (nextProps, nextState) {
+	        var cards = this.props.cards;
+	        var deck = nextProps.deck, getCards = nextProps.getCards;
+	        var fetchedPlayerClasses = cards.fetchedPlayerClasses;
+	        var thisDeck = this.props.deck;
+	        if (!thisDeck.data && deck.data && !fetchedPlayerClasses.includes(deck.data.playerClass)) {
+	            getCards({ playerClass: deck.data.playerClass });
+	        }
+	        if (thisDeck.data && thisDeck.data.playerClass != deck.data.playerClass && !fetchedPlayerClasses.includes(deck.data.playerClass)) {
+	            getCards({ playerClass: deck.data.playerClass });
+	        }
+	    };
+	    HearthstoneCardsList.prototype.handleSelectCard = function (id) {
+	        var _a = this.props, cards = _a.cards, deck = _a.deck, change = _a.change;
+	        var card = cards.items.find(function (c) { return c._id == id; });
+	        var legend = hearthstone_card_rarity_1.HearthstoneCardRarity.find(function (rarity) { return rarity.name == 'Legendary'; }).value;
+	        var storage = window.localStorage.getItem('selected_cards');
+	        var array = storage ? storage.split(';') : [];
+	        var selectedCards = array.map(function (e) { return JSON.parse(e); });
+	        if (!card)
+	            return false;
+	        if (selectedCards.length == 30)
+	            return false;
+	        if (card.rarity == legend && selectedCards.indexOf(card) >= 0)
+	            return false;
+	        if (card.rarity != legend && selectedCards.filter(function (c) { return c._id == card._id; }).length == 2)
+	            return false;
+	        selectedCards.push(card);
+	        change(selectedCards);
+	    };
+	    HearthstoneCardsList.prototype.handleCards = function (neutral, cost) {
+	        if (neutral === void 0) { neutral = false; }
+	        var _a = this.props, cards = _a.cards, deck = _a.deck, sort = _a.sort;
+	        var list = [];
+	        if (neutral && cards.fetchedCosts.includes(cost)) {
+	            if (cost == 1) {
+	                list = sort(cards.items.filter(function (e) { return e.playerClass == -1 && e.cost <= 1; }));
+	            }
+	        }
+	        if (!neutral && deck.data && cards.fetchedPlayerClasses.includes(deck.data.playerClass)) {
+	            list = sort(cards.items.filter(function (e) { return e.playerClass == deck.data.playerClass; }));
+	        }
+	        return list;
+	    };
+	    HearthstoneCardsList.prototype.render = function () {
+	        var _this = this;
+	        var _a = this.props, cards = _a.cards, deck = _a.deck;
+	        var neutralCards = this.handleCards(true, 1);
+	        var classCards = this.handleCards();
+	        return (React.createElement("div", {className: "row"}, 
+	            React.createElement("div", {className: "col-sm-12"}, 
+	                React.createElement("ul", {className: "nav nav-tabs", role: "tablist"}, 
+	                    React.createElement("li", {role: "presentation", className: "active"}, 
+	                        React.createElement("a", {href: "#neutralCards", "aria-controls": "neutralCards", role: "tab", "data-toggle": "tab"}, "Neutral")
+	                    ), 
+	                    React.createElement("li", {role: "presentation"}, 
+	                        React.createElement("a", {href: "#classCards", "aria-controls": "classCards", role: "tab", "data-toggle": "tab"}, deck.data ? hearthstone_player_classes_1.HearthstonePlayerClasses.find(function (player) { return player.value == deck.data.playerClass; }).name : 'Druid')
+	                    )), 
+	                React.createElement("div", {className: "tab-content"}, 
+	                    React.createElement("div", {className: "tab-pane active", id: "neutralCards"}, 
+	                        React.createElement("ul", {className: "row list-unstyled"}, neutralCards.map(function (card, key) {
+	                            return (React.createElement("li", {className: "col-sm-2", key: key}, 
+	                                React.createElement("button", {className: "btn btn-link", type: "button", onClick: _this.handleSelectCard.bind(_this, card._id)}, card.cost + ' - ' + card.name)
+	                            ));
+	                        }))
+	                    ), 
+	                    React.createElement("div", {className: "tab-pane", id: "classCards"}, 
+	                        React.createElement("ul", {className: "row list-unstyled"}, classCards.map(function (card, key) {
+	                            return (React.createElement("li", {className: "col-sm-2", key: key}, 
+	                                React.createElement("button", {className: "btn btn-link", type: "button", onClick: _this.handleSelectCard.bind(_this, card._id)}, card.cost + ' - ' + card.name)
+	                            ));
+	                        }))
+	                    )))
+	        ));
+	    };
+	    return HearthstoneCardsList;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneCardsList;
+
+
+/***/ },
+/* 491 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var HEARTHSTONE_CARD_RARITY = [
+	    {
+	        value: 0,
+	        name: "Free"
+	    },
+	    {
+	        value: 1,
+	        name: "Common"
+	    },
+	    {
+	        value: 2,
+	        name: "Rare"
+	    },
+	    {
+	        value: 3,
+	        name: "Epic"
+	    },
+	    {
+	        value: 4,
+	        name: "Legendary"
+	    }
+	];
+	exports.HearthstoneCardRarity = HEARTHSTONE_CARD_RARITY;
+
+
+/***/ },
+/* 492 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
 	var redux_1 = __webpack_require__(186);
-	var logger = __webpack_require__(487);
-	var redux_promise_middleware_1 = __webpack_require__(493);
-	var redux_thunk_1 = __webpack_require__(495);
-	var reducers_1 = __webpack_require__(496);
+	var logger = __webpack_require__(493);
+	var redux_promise_middleware_1 = __webpack_require__(499);
+	var redux_thunk_1 = __webpack_require__(501);
+	var reducers_1 = __webpack_require__(502);
 	var middleware = redux_1.applyMiddleware(logger(), redux_thunk_1.default, redux_promise_middleware_1.default());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = redux_1.createStore(reducers_1.default, middleware);
 
 
 /***/ },
-/* 487 */
+/* 493 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36903,11 +37271,11 @@
 	  value: true
 	});
 
-	var _core = __webpack_require__(488);
+	var _core = __webpack_require__(494);
 
-	var _helpers = __webpack_require__(489);
+	var _helpers = __webpack_require__(495);
 
-	var _defaults = __webpack_require__(492);
+	var _defaults = __webpack_require__(498);
 
 	var _defaults2 = _interopRequireDefault(_defaults);
 
@@ -37010,7 +37378,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 488 */
+/* 494 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37020,9 +37388,9 @@
 	});
 	exports.printBuffer = printBuffer;
 
-	var _helpers = __webpack_require__(489);
+	var _helpers = __webpack_require__(495);
 
-	var _diff = __webpack_require__(490);
+	var _diff = __webpack_require__(496);
 
 	var _diff2 = _interopRequireDefault(_diff);
 
@@ -37151,7 +37519,7 @@
 	}
 
 /***/ },
-/* 489 */
+/* 495 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -37175,7 +37543,7 @@
 	var timer = exports.timer = typeof performance !== "undefined" && performance !== null && typeof performance.now === "function" ? performance : Date;
 
 /***/ },
-/* 490 */
+/* 496 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37185,7 +37553,7 @@
 	});
 	exports.default = diffLogger;
 
-	var _deepDiff = __webpack_require__(491);
+	var _deepDiff = __webpack_require__(497);
 
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 
@@ -37271,7 +37639,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 491 */
+/* 497 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global) {/*!
@@ -37700,7 +38068,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 492 */
+/* 498 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -37751,7 +38119,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 493 */
+/* 499 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37768,7 +38136,7 @@
 
 	exports.default = promiseMiddleware;
 
-	var _isPromise = __webpack_require__(494);
+	var _isPromise = __webpack_require__(500);
 
 	var _isPromise2 = _interopRequireDefault(_isPromise);
 
@@ -37925,7 +38293,7 @@
 	}
 
 /***/ },
-/* 494 */
+/* 500 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37946,7 +38314,7 @@
 	}
 
 /***/ },
-/* 495 */
+/* 501 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37974,25 +38342,25 @@
 	exports['default'] = thunk;
 
 /***/ },
-/* 496 */
+/* 502 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var redux_1 = __webpack_require__(186);
-	var counts_reducer_1 = __webpack_require__(497);
-	var image_reducer_1 = __webpack_require__(498);
-	var games_reducer_1 = __webpack_require__(499);
-	var gourmets_reducer_1 = __webpack_require__(501);
-	var hearthstone_seasons_reducer_1 = __webpack_require__(502);
-	var hearthstone_decks_reducer_1 = __webpack_require__(503);
-	var hearthstone_cards_reducer_1 = __webpack_require__(504);
-	var item_reducer_1 = __webpack_require__(505);
+	var counts_reducer_1 = __webpack_require__(503);
+	var image_reducer_1 = __webpack_require__(504);
+	var games_reducer_1 = __webpack_require__(505);
+	var gourmets_reducer_1 = __webpack_require__(507);
+	var hearthstone_seasons_reducer_1 = __webpack_require__(508);
+	var hearthstone_decks_reducer_1 = __webpack_require__(509);
+	var hearthstone_cards_reducer_1 = __webpack_require__(510);
+	var item_reducer_1 = __webpack_require__(511);
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = redux_1.combineReducers({ counts: counts_reducer_1.default, image: image_reducer_1.default, games: games_reducer_1.default, gourmets: gourmets_reducer_1.default, hearthstoneSeasons: hearthstone_seasons_reducer_1.default, hearthstoneDecks: hearthstone_decks_reducer_1.default, hearthstoneCards: hearthstone_cards_reducer_1.default, item: item_reducer_1.default });
 
 
 /***/ },
-/* 497 */
+/* 503 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -38030,7 +38398,7 @@
 
 
 /***/ },
-/* 498 */
+/* 504 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -38075,11 +38443,11 @@
 
 
 /***/ },
-/* 499 */
+/* 505 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var reducer_1 = __webpack_require__(500);
+	var reducer_1 = __webpack_require__(506);
 	var constants_1 = __webpack_require__(447);
 	var initialState = {
 	    isFetching: false,
@@ -38111,7 +38479,7 @@
 
 
 /***/ },
-/* 500 */
+/* 506 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -38227,11 +38595,11 @@
 
 
 /***/ },
-/* 501 */
+/* 507 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var reducer_1 = __webpack_require__(500);
+	var reducer_1 = __webpack_require__(506);
 	var constants_1 = __webpack_require__(447);
 	var initialState = {
 	    isFetching: false,
@@ -38259,11 +38627,11 @@
 
 
 /***/ },
-/* 502 */
+/* 508 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var reducer_1 = __webpack_require__(500);
+	var reducer_1 = __webpack_require__(506);
 	var constants_1 = __webpack_require__(447);
 	var initialState = {
 	    isFetching: false,
@@ -38291,11 +38659,11 @@
 
 
 /***/ },
-/* 503 */
+/* 509 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var reducer_1 = __webpack_require__(500);
+	var reducer_1 = __webpack_require__(506);
 	var helpers_1 = __webpack_require__(460);
 	var constants_1 = __webpack_require__(447);
 	var initialState = {
@@ -38386,7 +38754,7 @@
 
 
 /***/ },
-/* 504 */
+/* 510 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -38410,8 +38778,15 @@
 	            return Object.assign({}, state, { isFetching: true, fetched: false, error: null });
 	        case types['fetch_list'].success:
 	            var items = state.items, fetchedCosts = state.fetchedCosts, fetchedPlayerClasses = state.fetchedPlayerClasses;
-	            var newSet = new Set(items.concat(payload.data));
-	            var list = Array.from(newSet);
+	            var _loop_1 = function(item) {
+	                if (items.findIndex(function (e) { return e._id == item._id; }) < 0) {
+	                    items.push(item);
+	                }
+	            };
+	            for (var _i = 0, _a = payload.data; _i < _a.length; _i++) {
+	                var item = _a[_i];
+	                _loop_1(item);
+	            }
 	            var playerClass_1 = payload.data[0].playerClass;
 	            var cost_1 = payload.data[0].cost;
 	            if (playerClass_1 != -1 && fetchedPlayerClasses.indexOf(playerClass_1) < 0 && payload.data.every(function (e) { return e.playerClass == playerClass_1; })) {
@@ -38437,12 +38812,12 @@
 	            return Object.assign({}, state, {
 	                isFetching: false,
 	                fetched: true,
-	                items: list,
+	                items: items,
 	                fetchedCosts: fetchedCosts,
 	                fetchedPlayerClasses: fetchedPlayerClasses,
 	            });
 	        case types['fetch_list'].error:
-	            var _a = payload.response, data = _a.data, status = _a.status;
+	            var _b = payload.response, data = _b.data, status = _b.status;
 	            return Object.assign({}, state, { isFetching: false, error: { data: data, status: status } });
 	        default:
 	            return state;
@@ -38453,7 +38828,7 @@
 
 
 /***/ },
-/* 505 */
+/* 511 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";

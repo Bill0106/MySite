@@ -5,6 +5,7 @@ import PageHeader from './page-header.component';
 import Alert from './alert.component';
 import Form from './form.component';
 import HearthstoneDeckCards from '../containers/hearthstone-deck-cards.container';
+import HearthstoneCards from '../containers/hearthstone-cards.container';
 
 interface HearthstoneDeckPageProps extends RouteComponentProps<void, void> {
     list: any;
@@ -110,6 +111,7 @@ class HearthstoneDeckPage extends React.Component<HearthstoneDeckPageProps, void
                 <Alert isPosting={isPosting} isFetching={isFetching} posted={posted} error={error} />
                 <Form fields={HearthstoneDeckFields} data={deck.data} submit={this.handleSubmit.bind(this)} change={this.handleChange.bind(this)} />
                 <HearthstoneDeckCards change={this.handleCardsChange.bind(this)} />
+                <HearthstoneCards change={this.handleCardsChange.bind(this)} sort={this.handleCardsSort.bind(this)} />
             </div>
         );
     }

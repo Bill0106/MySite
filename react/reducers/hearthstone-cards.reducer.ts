@@ -20,8 +20,12 @@ export default function reducer(state = initialState, action) {
             return Object.assign({}, state, { isFetching: true, fetched: false, error: null });
         case types['fetch_list'].success:
             const { items, fetchedCosts, fetchedPlayerClasses } = state;
-            const newSet = new Set(items.concat(payload.data));
-            const list = Array.from(newSet);
+
+            for (let item of payload.data) {
+                if (items.findIndex(e => e._id == item._id) < 0) {
+                    items.push(item);
+                }
+            }
 
             const playerClass = payload.data[0].playerClass;
             let cost = payload.data[0].cost;
@@ -51,7 +55,7 @@ export default function reducer(state = initialState, action) {
             return Object.assign({}, state, {
                 isFetching: false,
                 fetched: true,
-                items: list,
+                items: items,
                 fetchedCosts: fetchedCosts,
                 fetchedPlayerClasses: fetchedPlayerClasses,
             });

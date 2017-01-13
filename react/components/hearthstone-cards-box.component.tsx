@@ -12,14 +12,6 @@ class HearthstoneCardsBox extends React.Component<HearthstoneCardsBoxProps, void
         window.localStorage.removeItem('selected_cards');
     }
 
-    componentDidMount() {
-        const { deck, cards, getCards } = this.props;
-
-        if (cards.fetchedCosts.indexOf(1) < 0) {
-            getCards({ playerClass: -1, cost: 1 });
-        }
-    }
-
     componentWillUpdate(nextProps, nextState) {
         const { cards, deck, getCards } = nextProps;
         const { data } = deck;
