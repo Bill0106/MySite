@@ -15,6 +15,9 @@ export default function reducer(state = initialState, action) {
     switch (type) {
         case `${actionTypes.hearthstone_cards.fetch_list}_PENDING`:
             return Object.assign({}, state, { isFetching: true, fetched: false, error: null });
+        case `${actionTypes.hearthstone_cards.fetch_list}_REJECTED`:
+            const { data, status } = payload.response;
+            return Object.assign({}, state, { isFetching: false, error: { data, status } });
         case `${actionTypes.hearthstone_cards.fetch_list}_FULFILLED`:
             const { items, fetchedCosts, fetchedPlayerClasses } = state;
 
@@ -56,9 +59,6 @@ export default function reducer(state = initialState, action) {
                 fetchedCosts: fetchedCosts,
                 fetchedPlayerClasses: fetchedPlayerClasses,
             });
-        case `${actionTypes.hearthstone_cards.fetch_list}_REJECTED`:
-            const { data, status } = payload.response;
-            return Object.assign({}, state, { isFetching: false, error: { data, status } });
         default:
             return state;
     }

@@ -17,7 +17,7 @@ const actionStatusGenerator = (types: any) => {
     return newTypes;
 }
 
-const fetchedPages = function (pages: any, url: string) {
+const fetchedPages = (pages: any, url: string) => {
     const match = url.match(/page=(\d)/i);
     const page = match ? parseInt(match[1]) : 1;
 
@@ -31,7 +31,7 @@ const fetchedPages = function (pages: any, url: string) {
     return pages;
 }
 
-const formatItems = function (data, addon, sort) {
+const formatItems = (data, addon, sort) => {
     let items = data;
     for (let item of addon) {
         if (items.findIndex(e => e._id == item._id) < 0) {
@@ -46,7 +46,7 @@ const formatItems = function (data, addon, sort) {
     return items;
 }
 
-const pending = function (state, posting = false) {
+const pending = (state, posting = false) => {
     if (posting) {
         return Object.assign({}, state, { isPosting: true, posted: false, error: null });
     } else {
@@ -54,7 +54,7 @@ const pending = function (state, posting = false) {
     }
 }
 
-const error = function (state, payload, posting = false) {
+const error = (state, payload, posting = false) => {
     const { status, data } = payload.response;
 
     if (posting) {
@@ -72,14 +72,17 @@ const error = function (state, payload, posting = false) {
 
 const reducerSwitch = (state, action, typeConstants, sort) => {
     const { type, payload } = action;
+    const { items } = state;
     const types = actionStatusGenerator(typeConstants);
 
-    let newSet, items, index;
+    let newSet, index;
 
     switch (type) {
         // Fetch List
         case types['fetch_list'].pending:
             return pending(state);
+        case types['fetch_list'].error:
+            return error(state, payload);
         case types['fetch_list'].success:
             return Object.assign({}, state, {
                 isFetching: false,
@@ -88,30 +91,29 @@ const reducerSwitch = (state, action, typeConstants, sort) => {
                 total: state.total ? state.total : payload.data.total,
                 fetchedPages: fetchedPages(state.fetchedPages, payload.request.responseURL),
             });
-        case types['fetch_list'].error:
-            return error(state, payload);
 
         // Fetch Item
         case types['fetch_item'].pending:
             return pending(state);
+        case types['fetch_item'].error:
+            return error(state, payload);
         case types['fetch_item'].success:
             return Object.assign({}, state, {
                 isFetching: false,
                 fetched: true,
                 items: formatItems(state.items, [payload.data], sort),
             });
-        case types['fetch_item'].error:
-            return error(state, payload);
 
         // Post Item
         case types['post'].pending:
             return pending(state, true);
+        case types['post'].error:
+            return error(state, payload, true);
         case types['post'].success:
-            items = state.items;
             index = items.findIndex(v => v._id == payload.data._id);
 
             if (index < 0) {
-                state.items.push(payload.data);
+                items.push(payload.data);
                 if (items.length > 1) {
                     items.sort(sort);
                 }
@@ -125,14 +127,13 @@ const reducerSwitch = (state, action, typeConstants, sort) => {
                 posted: true,
                 items: items,
             })
-        case types['post'].error:
-            return error(state, payload, true);
 
         // Delete Item
         case types['delete'].pending:
             return pending(state, true);
+        case types['delete'].error:
+            return error(state, payload, true);
         case types['delete'].success:
-            items = state.items;
             index = items.findIndex(v => v._id == payload.data);
 
             if (index > -1) {
@@ -145,8 +146,6 @@ const reducerSwitch = (state, action, typeConstants, sort) => {
                 posted: true,
                 items: items,
             });
-        case types['delete'].error:
-            return error(state, payload, true);
 
         default:
             return state;

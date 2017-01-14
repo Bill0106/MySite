@@ -21,7 +21,6 @@ export default function reducer(state = initialState, action) {
             });
         case `${actionTypes.counts.fetch_list}_REJECTED`:
             const { data, status } = payload.response;
-
             return Object.assign({}, state, { isFetching: false, error: { data, status } });
         default:
             return state;

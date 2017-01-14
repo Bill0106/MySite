@@ -24,55 +24,53 @@ const sort = (a, b) => {
     return 0;
 }
 
-const changeItem = function (data, id, active = false) {
-    let items = data;
-    let item = items.find(v => v._id == id);
+const pending = (state) => {
+    return Object.assign({}, state, { isPosting: true, posted: false, error: null });
+}
+
+const fulfilled = (state, payload, active = false) => {
+    let items = state.items;
+    let item = state.items.find(v => v._id == payload.data);
 
     if (item) {
         item.active = active;
         items.sort(sort);
     }
 
-    return items;
+    return Object.assign({}, state, {
+        isPosting: false,
+        posted: true,
+        items: items
+    });
+}
+
+const error = (state, payload) => {
+    const { status, data } = payload.response;
+
+    return Object.assign({}, state, {
+        isPosting: false,
+        error: { status, data }
+    });
 }
 
 export default function reducer(state = initialState, action) {
     const { type, payload } = action;
-    const pending = Object.assign({}, state, { isPosting: true, posted: false, error: null });
 
     switch (type) {
         case `${actionTypes.hearthstone_decks.active}_PENDING`:
-            return pending;
+            return pending(state);
         case `${actionTypes.hearthstone_decks.active}_FULFILLED`:
-            return Object.assign({}, state, {
-                isPosting: false,
-                posted: true,
-                items: changeItem(state.items, payload.data, true)
-            });
+            return fulfilled(state, payload, true);
         case `${actionTypes.hearthstone_decks.active}_REJECTED`:
-            return Object.assign({}, state, {
-                isPosting: false,
-                error: {
-                    status: payload.response.status,
-                    data: payload.response.data
-                }
-            });
+            return error(state, payload);
+
         case `${actionTypes.hearthstone_decks.inactive}_PENDING`:
-            return pending;
+            return pending(state);
         case `${actionTypes.hearthstone_decks.inactive}_FULFILLED`:
-            return Object.assign({}, state, {
-                isPosting: false,
-                posted: true,
-                items: changeItem(state.items, payload.data)
-            });
+            return fulfilled(state, payload);
         case `${actionTypes.hearthstone_decks.inactive}_REJECTED`:
-            return Object.assign({}, state, {
-                isPosting: false,
-                error: {
-                    status: payload.response.status,
-                    data: payload.response.data
-                }
-            });
+            return error(state, payload);
+            
         default:
             break;
     }
