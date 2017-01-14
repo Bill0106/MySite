@@ -1,4 +1,4 @@
-import { HearthstonePlayerClasses } from '../hearthstone-player-classes';
+import { HearthstonePlayerClasses } from '../../config/hearthstone-player-classes';
 
 const HEARTHSTONE_DECK_FIELDS = [
     {

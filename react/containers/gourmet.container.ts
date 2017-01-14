@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { GourmetFields } from '../../config/fields/gourmet';
+import { GourmetFields } from '../constants/gourmet-fields.constants';
 import { fetchGourmet, updateGourmet, createGourmet } from '../actions/gourmets.action';
 import { initItemCreate, changeItem, setItem } from '../actions/item.action';
 import Item from '../components/item.component';

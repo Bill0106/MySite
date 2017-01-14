@@ -1,4 +1,4 @@
-import { HearthstoneSeasonRanked } from '../hearthstone-season-ranked';
+import { HearthstoneSeasonRanked } from '../../config/hearthstone-season-ranked';
 
 const HEARTHSTONE_SEASON_FIELDS = [
     {

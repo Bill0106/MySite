@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { createAction } from 'redux-actions';
-import { actionTypes } from '../constants';
+import { actionTypes } from '../constants/action-types.constants';
 import ImageUpload from '../components/image-upload.component';
 
 const { image } = actionTypes;

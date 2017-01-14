@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { HearthstoneSeasonFields } from '../../config/fields/hearthstone-season';
+import { HearthstoneSeasonFields } from '../constants/hearthstone-season-fields.constants';
 import { fetchSeason, createSeason, updateSeason } from '../actions/hearthstone-seasons.action';
 import { initItemCreate, changeItem, setItem } from '../actions/item.action';
 import Item from '../components/item.component';

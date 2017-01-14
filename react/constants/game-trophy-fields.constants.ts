@@ -1,4 +1,4 @@
-import { TrophyRarity } from '../trophy-rarity';
+import { TrophyRarity } from '../../config/trophy-rarity';
 
 const GAME_TROPHY_FIELDS = [
     {

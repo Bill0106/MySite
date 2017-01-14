@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { GameFields } from '../../config/fields/game';
+import { GameFields } from '../constants/game-fields.constants';
 import { fetchGame, updateGame, createGame } from '../actions/games.action';
 import { initItemCreate, changeItem, setItem } from '../actions/item.action';
 import Item from '../components/item.component';

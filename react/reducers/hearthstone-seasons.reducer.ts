@@ -1,5 +1,5 @@
 import reducerSwitch from './reducer';
-import { actionTypes } from '../constants';
+import { actionTypes } from '../constants/action-types.constants';
 
 const initialState = {
     isFetching: false,

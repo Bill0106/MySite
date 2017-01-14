@@ -1,5 +1,5 @@
 import helpers from '../helpers';
-import { actionTypes } from '../constants';
+import { actionTypes } from '../constants/action-types.constants';
 
 export default function reducer(state = { data: null }, action) {
     const { item } = actionTypes;

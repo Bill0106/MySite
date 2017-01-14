@@ -1,5 +1,5 @@
-import { GameGenres } from '../game-genres';
-import { GamePlatforms } from '../game-platforms';
+import { GameGenres } from '../../config/game-genres';
+import { GamePlatforms } from '../../config/game-platforms';
 
 const GAME_FIELDS = [
     {

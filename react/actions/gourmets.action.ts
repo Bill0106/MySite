@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { createAction } from 'redux-actions';
-import { actionTypes } from '../constants';
+import { actionTypes } from '../constants/action-types.constants';
 
 const { gourmets } = actionTypes;
 
