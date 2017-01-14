@@ -10,14 +10,14 @@ const initialState = {
     total: 0,
     fetchedPages: [],
     error: null,
-} 
-
-export default function reducer(state = initialState, action) {
-    const sort = (a, b) => {
-        if (a.date > b.date) return -1;
-        if (a.date < b.date) return 1;
-        return 0;
-    }
-
-    return reducerSwitch(state, action, actionTypes.gourmets, sort);
 }
+
+const sort = (a, b) => {
+    if (a.date > b.date) return -1;
+    if (a.date < b.date) return 1;
+    return 0;
+}
+
+const reducer = (state = initialState, action) => reducerSwitch(state, action, actionTypes.gourmets, sort)
+
+export default reducer

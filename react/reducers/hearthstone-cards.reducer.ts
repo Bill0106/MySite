@@ -1,4 +1,3 @@
-import helpers from '../helpers';
 import { actionTypes } from '../constants/action-types.constants';
 
 const initialState = {
@@ -11,14 +10,12 @@ const initialState = {
 } 
 
 export default function reducer(state = initialState, action) {
-    const { actionStatusGenerator } = helpers;
     const { type, payload } = action;
-    const types = actionStatusGenerator(actionTypes.hearthstone_cards);
 
     switch (type) {
-        case types['fetch_list'].pending:
+        case `${actionTypes.hearthstone_cards.fetch_list}_PENDING`:
             return Object.assign({}, state, { isFetching: true, fetched: false, error: null });
-        case types['fetch_list'].success:
+        case `${actionTypes.hearthstone_cards.fetch_list}_FULFILLED`:
             const { items, fetchedCosts, fetchedPlayerClasses } = state;
 
             for (let item of payload.data) {
@@ -59,7 +56,7 @@ export default function reducer(state = initialState, action) {
                 fetchedCosts: fetchedCosts,
                 fetchedPlayerClasses: fetchedPlayerClasses,
             });
-        case types['fetch_list'].error:
+        case `${actionTypes.hearthstone_cards.fetch_list}_REJECTED`:
             const { data, status } = payload.response;
             return Object.assign({}, state, { isFetching: false, error: { data, status } });
         default:

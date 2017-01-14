@@ -1,4 +1,3 @@
-import helpers from '../helpers';
 import { actionTypes } from '../constants/action-types.constants';
 
 const initialState = {
@@ -9,20 +8,18 @@ const initialState = {
 }
 
 export default function reducer(state = initialState, action) {
-    const { actionStatusGenerator } = helpers;
     const { type, payload } = action;
-    const types = actionStatusGenerator(actionTypes.counts);
     
     switch (type) {
-        case types['fetch_list'].pending:
+        case `${actionTypes.counts.fetch_list}_PENDING`:
             return Object.assign({}, state, { isFetching: true, error: null });
-        case types['fetch_list'].success:
+        case `${actionTypes.counts.fetch_list}_FULFILLED`:
             return Object.assign({}, state, {
                 isFetching: false,
                 fetched: true,
                 items: Array.isArray(payload) ? payload : payload.data
             });
-        case types['fetch_list'].error:
+        case `${actionTypes.counts.fetch_list}_REJECTED`:
             const { data, status } = payload.response;
 
             return Object.assign({}, state, { isFetching: false, error: { data, status } });

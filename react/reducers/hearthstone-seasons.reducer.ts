@@ -12,12 +12,12 @@ const initialState = {
     error: null,
 }
 
-export default function reducer(state = initialState, action) {
-    const sort = (a, b) => {
-        if (a.month > b.month) return -1;
-        if (a.month < b.month) return 1;
-        return 0;
-    }
-
-    return reducerSwitch(state, action, actionTypes.hearthstone_seasons, sort);
+const sort = (a, b) => {
+    if (a.month > b.month) return -1;
+    if (a.month < b.month) return 1;
+    return 0;
 }
+
+const reducer = (state = initialState, action) => reducerSwitch(state, action, actionTypes.hearthstone_seasons, sort);
+
+export default reducer
