@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router";
-import helpers from "../helpers";
+import { time2Date } from "../helpers";
 import { ItemProps } from "../interface/item.interface";
 
 class GourmetsItem extends React.Component<ItemProps, void> {
@@ -13,7 +13,7 @@ class GourmetsItem extends React.Component<ItemProps, void> {
                     <Link to={"/admin/gourmets/" + data._id}>{data.food}</Link>
                 </td>
                 <td>{data.restaurant}</td>
-                <td>{helpers.time2Date(data.date)}</td>
+                <td>{time2Date(data.date)}</td>
                 <td>
                     <a href={data.url} target="_blank">{data.url}</a>
                 </td>

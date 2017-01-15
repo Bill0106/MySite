@@ -1,37 +1,4 @@
-const actionStatusGenerator = (types: any) => {
-    const progress = {
-        pending: "PENDING",
-        success: "FULFILLED",
-        error: "REJECTED",
-    };
-
-    let newTypes = {};
-    for (let type in types) {
-        let obj = {};
-        for (let key in progress) {
-            obj[key] = `${types[type]}_${progress[key]}`;
-        }
-        newTypes[type] = obj;
-    }
-
-    return newTypes;
-}
-
-const fetchedPages = function (pages: any, url: string) {
-    const match = url.match(/page=(\d)/i);
-    const page = match ? parseInt(match[1]) : 1;
-
-    pages.push(page);
-    pages.sort((a, b) => {
-        if (a > b) return 1;
-        if (a < b) return -1;
-        return 0;
-    });
-
-    return pages;
-}
-
-const time2Date = function (timestamp: number, displayTime: boolean = false) {
+export function time2Date (timestamp: number, displayTime: boolean = false) {
     if (!timestamp) {
         return "";
     }
@@ -57,5 +24,3 @@ const time2Date = function (timestamp: number, displayTime: boolean = false) {
 
     return ts;
 }
-
-export default { fetchedPages, time2Date, actionStatusGenerator }
