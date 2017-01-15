@@ -1,4 +1,4 @@
-import { actionTypes } from '../constants/action-types.constants';
+import { actionTypes } from "../constants/action-types.constants";
 
 const initialState = {
     isFetching: false,
@@ -9,7 +9,7 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
     const { type, payload } = action;
-    
+
     switch (type) {
         case `${actionTypes.counts.fetch_list}_PENDING`:
             return Object.assign({}, state, { isFetching: true, error: null });

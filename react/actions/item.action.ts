@@ -1,5 +1,5 @@
-import { createAction } from 'redux-actions';
-import { actionTypes } from '../constants/action-types.constants';
+import { createAction } from "redux-actions";
+import { actionTypes } from "../constants/action-types.constants";
 
 const { item } = actionTypes;
 

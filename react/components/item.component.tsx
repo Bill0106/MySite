@@ -1,9 +1,8 @@
-import * as React from 'react';
-import { RouteComponentProps } from 'react-router';
-
-import PageHeader from './page-header.component';
-import Alert from './alert.component';
-import Form from './form.component';
+import * as React from "react";
+import { RouteComponentProps } from "react-router";
+import PageHeader from "./page-header.component";
+import Alert from "./alert.component";
+import Form from "./form.component";
 
 interface ItemProps extends RouteComponentProps<void, void> {
     list: any;
@@ -22,7 +21,7 @@ class Item extends React.Component<ItemProps, void> {
     componentWillMount() {
         const { initItemCreate, type, params } = this.props;
 
-        if (Object.values(params).indexOf('add') < 0) {
+        if (Object.values(params).indexOf("add") < 0) {
             document.title = `Edit - ${type} | Admin`;
         } else {
             document.title = `Add - ${type} | Admin`;
@@ -39,7 +38,7 @@ class Item extends React.Component<ItemProps, void> {
 
         if (item) {
             setItem(item);
-        } else if (Object.values(params).indexOf('add') < 0) {
+        } else if (Object.values(params).indexOf("add") < 0) {
             getItem(params);
         }
     }
@@ -57,17 +56,17 @@ class Item extends React.Component<ItemProps, void> {
         const { type, list, params } = this.props;
         const { items } = list;
 
-        if (type == 'Gourmet') {
-            return items.find(v => v._id == params['id']);
+        if (type === "Gourmet") {
+            return items.find(v => v._id === params["id"]);
         } else {
-            return items.find(v => v.url == params['url']);
+            return items.find(v => v.url === params["url"]);
         }
     }
 
     handlePost() {
         const { item, createItem, updateItem, params } = this.props;
 
-        if (Object.values(params).indexOf('add') < 0) {
+        if (Object.values(params).indexOf("add") < 0) {
             updateItem(item.data, params);
         } else {
             createItem(item.data);
@@ -79,7 +78,7 @@ class Item extends React.Component<ItemProps, void> {
     render() {
         const { type, fields, item, list, changeItem } = this.props;
         const { isFetching, isPosting, posted, error } = list;
-        const title = `${item.data ? 'Edit' : 'Add'} - ${type}`
+        const title = `${item.data ? "Edit" : "Add"} - ${type}`
 
         return (
             <div className="container-fluid">

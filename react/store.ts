@@ -1,9 +1,9 @@
-import { applyMiddleware, createStore } from 'redux';
-import * as logger from 'redux-logger';
-import promise from 'redux-promise-middleware';
-import thunk from 'redux-thunk';
+import { applyMiddleware, createStore } from "redux";
+import * as logger from "redux-logger";
+import promise from "redux-promise-middleware";
+import thunk from "redux-thunk";
 
-import reducer from './reducers';
+import reducer from "./reducers";
 
 const initialState = {
     isFetching: false,

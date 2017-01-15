@@ -1,8 +1,7 @@
-import * as React from 'react';
-import { Link } from 'react-router';
-
-import helpers from '../helpers';
-import { ItemProps } from '../interface/item.interface';
+import * as React from "react";
+import { Link } from "react-router";
+import helpers from "../helpers";
+import { ItemProps } from "../interface/item.interface";
 
 class GourmetsItem extends React.Component<ItemProps, void> {
     render() {
@@ -11,7 +10,7 @@ class GourmetsItem extends React.Component<ItemProps, void> {
             <tr>
                 <td>{data._id}</td>
                 <td>
-                    <Link to={'/admin/gourmets/' + data._id}>{data.food}</Link>
+                    <Link to={"/admin/gourmets/" + data._id}>{data.food}</Link>
                 </td>
                 <td>{data.restaurant}</td>
                 <td>{helpers.time2Date(data.date)}</td>

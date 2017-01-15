@@ -1,4 +1,4 @@
-import { actionTypes } from '../constants/action-types.constants';
+import { actionTypes } from "../constants/action-types.constants";
 
 const initialState = {
     isPosting: false,
@@ -10,7 +10,7 @@ const initialState = {
 export default function reducer(state = initialState, action) {
     const { type, payload } = action;
     const { image } = actionTypes;
-    
+
     switch (type) {
         case image.init:
             return Object.assign({}, state, initialState)

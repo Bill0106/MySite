@@ -1,6 +1,6 @@
-import { connect } from 'react-redux';
-import { fetchCards } from '../actions/hearthstone-cards.action';
-import HearthstoneCardsList from '../components/hearthstone-cards-list.component';
+import { connect } from "react-redux";
+import { fetchCards } from "../actions/hearthstone-cards.action";
+import HearthstoneCardsList from "../components/hearthstone-cards-list.component";
 
 const mapStateToProps = (state, ownProps) => {
     return {

@@ -1,5 +1,5 @@
-import reducerSwitch from './reducer';
-import { actionTypes } from '../constants/action-types.constants';
+import reducerSwitch from "./reducer";
+import { actionTypes } from "../constants/action-types.constants";
 
 const initialState = {
     isFetching: false,
@@ -30,7 +30,7 @@ const pending = (state) => {
 
 const fulfilled = (state, payload, active = false) => {
     let items = state.items;
-    let item = state.items.find(v => v._id == payload.data);
+    let item = state.items.find(v => v._id === payload.data);
 
     if (item) {
         item.active = active;
@@ -70,7 +70,7 @@ export default function reducer(state = initialState, action) {
             return fulfilled(state, payload);
         case `${actionTypes.hearthstone_decks.inactive}_REJECTED`:
             return error(state, payload);
-            
+
         default:
             break;
     }

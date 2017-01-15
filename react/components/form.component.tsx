@@ -1,6 +1,5 @@
-import * as React from 'react';
-
-import Field from './field.component';
+import * as React from "react";
+import Field from "./field.component";
 
 interface FormProps extends React.Props<any> {
     fields: any;
@@ -12,7 +11,6 @@ interface FormProps extends React.Props<any> {
 class Form extends React.Component<FormProps, void> {
     handleSubmit(e) {
         e.preventDefault();
-        
         const { submit } = this.props;
         submit();
     }
@@ -25,7 +23,7 @@ class Form extends React.Component<FormProps, void> {
                     <tbody>
                     {
                         fields.map((field, key) => {
-                            return <Field field={field} key={key} data={data ? data[field.name] : ''} change={(f, v) => change(f, v)} />
+                            return <Field field={field} key={key} data={data ? data[field.name] : ""} change={(f, v) => change(f, v)} />
                         })
                     }
                     </tbody>
@@ -34,7 +32,7 @@ class Form extends React.Component<FormProps, void> {
                     <button className="btn btn-success" type="submit">Submit</button>
                 </div>
             </form>
-        );  
+        );
     }
 }
 

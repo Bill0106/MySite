@@ -1,14 +1,14 @@
-import { connect } from 'react-redux';
-import { HearthstoneSeasonFields } from '../constants/hearthstone-season-fields.constants';
-import { fetchSeason, createSeason, updateSeason } from '../actions/hearthstone-seasons.action';
-import { initItemCreate, changeItem, setItem } from '../actions/item.action';
-import Item from '../components/item.component';
+import { connect } from "react-redux";
+import { HearthstoneSeasonFields } from "../constants/hearthstone-season-fields.constants";
+import { fetchSeason, createSeason, updateSeason } from "../actions/hearthstone-seasons.action";
+import { initItemCreate, changeItem, setItem } from "../actions/item.action";
+import Item from "../components/item.component";
 
 const mapStateToProps = (state) => {
     return {
         list: state.hearthstoneSeasons,
         item: state.item,
-        type: 'Hearthstone-Season',
+        type: "Hearthstone-Season",
         fields: HearthstoneSeasonFields,
     }
 }

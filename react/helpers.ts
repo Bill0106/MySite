@@ -1,8 +1,8 @@
 const actionStatusGenerator = (types: any) => {
     const progress = {
-        pending: 'PENDING',
-        success: 'FULFILLED',
-        error: 'REJECTED',
+        pending: "PENDING",
+        success: "FULFILLED",
+        error: "REJECTED",
     };
 
     let newTypes = {};
@@ -33,7 +33,7 @@ const fetchedPages = function (pages: any, url: string) {
 
 const time2Date = function (timestamp: number, displayTime: boolean = false) {
     if (!timestamp) {
-        return '';
+        return "";
     }
 
     const time = new Date(timestamp);
@@ -45,14 +45,14 @@ const time2Date = function (timestamp: number, displayTime: boolean = false) {
     const second = time.getSeconds();
 
     const arr = [month, day, hour, minute, second];
-    const newArr = arr.map(t => ('0' + t).slice(-2));
+    const newArr = arr.map(t => ("0" + t).slice(-2));
 
     const dateArray = [year.toString()].concat(newArr.slice(0, 2));
     const timeArray = newArr.slice(2);
 
-    let ts = dateArray.join('-');
+    let ts = dateArray.join("-");
     if (displayTime) {
-        ts = ts + ' ' + timeArray.join(':');
+        ts = ts + " " + timeArray.join(":");
     }
 
     return ts;

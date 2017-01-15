@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { HearthstoneCardRarity } from '../../config/hearthstone-card-rarity';
-import { HearthstonePlayerClasses } from '../../config/hearthstone-player-classes';
+import * as React from "react";
+import { HearthstoneCardRarity } from "../../config/hearthstone-card-rarity";
+import { HearthstonePlayerClasses } from "../../config/hearthstone-player-classes";
 
 interface HearthstoneCardsListProps extends React.Props<any> {
     deck: any;
@@ -29,23 +29,23 @@ class HearthstoneCardsList extends React.Component<HearthstoneCardsListProps, vo
             getCards({ playerClass: deck.data.playerClass });
         }
 
-        if (thisDeck.data && thisDeck.data.playerClass != deck.data.playerClass && !fetchedPlayerClasses.includes(deck.data.playerClass)) {
+        if (thisDeck.data && thisDeck.data.playerClass !== deck.data.playerClass && !fetchedPlayerClasses.includes(deck.data.playerClass)) {
             getCards({ playerClass: deck.data.playerClass });
         }
     }
 
     handleSelectCard(id: string) {
         const { cards, deck, change } = this.props;
-        const card = cards.items.find(c => c._id == id);
-        const legend = HearthstoneCardRarity.find(rarity => rarity.name == 'Legendary').value;
-        const storage = window.localStorage.getItem('selected_cards');
-        const array = storage ? storage.split(';') : [];
+        const card = cards.items.find(c => c._id === id);
+        const legend = HearthstoneCardRarity.find(rarity => rarity.name === "Legendary").value;
+        const storage = window.localStorage.getItem("selected_cards");
+        const array = storage ? storage.split(";") : [];
         let selectedCards = array.map(e => JSON.parse(e));
 
         if (!card) return false;
-        if (selectedCards.length == 30) return false;
-        if (card.rarity == legend && selectedCards.indexOf(card) >= 0) return false;
-        if (card.rarity != legend && selectedCards.filter(c => c._id == card._id).length == 2) return false;
+        if (selectedCards.length === 30) return false;
+        if (card.rarity === legend && selectedCards.indexOf(card) >= 0) return false;
+        if (card.rarity !== legend && selectedCards.filter(c => c._id === card._id).length === 2) return false;
 
         selectedCards.push(card);
         change(selectedCards);
@@ -56,13 +56,13 @@ class HearthstoneCardsList extends React.Component<HearthstoneCardsListProps, vo
         let list = [];
 
         if (neutral && cards.fetchedCosts.includes(cost)) {
-            if (cost == 1) {
-                list = sort(cards.items.filter(e => e.playerClass == -1 && e.cost <= 1));
+            if (cost === 1) {
+                list = sort(cards.items.filter(e => e.playerClass === -1 && e.cost <= 1));
             }
         }
 
         if (!neutral && deck.data && cards.fetchedPlayerClasses.includes(deck.data.playerClass)) {
-            list = sort(cards.items.filter(e => e.playerClass == deck.data.playerClass));
+            list = sort(cards.items.filter(e => e.playerClass === deck.data.playerClass));
         }
 
         return list;
@@ -82,7 +82,7 @@ class HearthstoneCardsList extends React.Component<HearthstoneCardsListProps, vo
                         </li>
                         <li role="presentation">
                             <a href="#classCards" aria-controls="classCards" role="tab" data-toggle="tab">
-                                {deck.data ? HearthstonePlayerClasses.find(player => player.value == deck.data.playerClass).name : 'Druid'}
+                                {deck.data ? HearthstonePlayerClasses.find(player => player.value === deck.data.playerClass).name : "Druid"}
                             </a>
                         </li>
                     </ul>
@@ -94,7 +94,7 @@ class HearthstoneCardsList extends React.Component<HearthstoneCardsListProps, vo
                                     return (
                                         <li className="col-sm-2" key={key}>
                                             <button className="btn btn-link" type="button" onClick={this.handleSelectCard.bind(this, card._id)}>
-                                                {card.cost + ' - ' + card.name}
+                                                {card.cost + " - " + card.name}
                                             </button>
                                         </li>
                                     )
@@ -109,7 +109,7 @@ class HearthstoneCardsList extends React.Component<HearthstoneCardsListProps, vo
                                     return (
                                         <li className="col-sm-2" key={key}>
                                             <button className="btn btn-link" type="button" onClick={this.handleSelectCard.bind(this, card._id)}>
-                                                {card.cost + ' - ' + card.name}
+                                                {card.cost + " - " + card.name}
                                             </button>
                                         </li>
                                     )

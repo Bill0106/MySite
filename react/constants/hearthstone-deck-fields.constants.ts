@@ -1,26 +1,26 @@
-import { HearthstonePlayerClasses } from '../../config/hearthstone-player-classes';
+import { HearthstonePlayerClasses } from "../../config/hearthstone-player-classes";
 
 const HEARTHSTONE_DECK_FIELDS = [
     {
-        name: 'name',
-        type: 'input',
+        name: "name",
+        type: "input",
     },
     {
-        name: 'playerClass',
-        type: 'select',
+        name: "playerClass",
+        type: "select",
         enum: HearthstonePlayerClasses,
     },
     {
-        name: 'active',
-        type: 'checkbox',
+        name: "active",
+        type: "checkbox",
         enum: [
             {
                 value: 1,
-                name: 'Active'
+                name: "Active"
             },
             {
                 value: 0,
-                name: 'Inactive'
+                name: "Inactive"
             }
         ]
     }

@@ -1,11 +1,11 @@
-import { connect } from 'react-redux';
-import { fetchDecks, deleteDeck, activeDeck, inactiveDeck } from '../actions/hearthstone-decks.action';
-import List from '../components/list.component';
+import { connect } from "react-redux";
+import { fetchDecks, deleteDeck, activeDeck, inactiveDeck } from "../actions/hearthstone-decks.action";
+import List from "../components/list.component";
 
 const mapStateToProps = (state) => {
     return {
         list: state.hearthstoneDecks,
-        type: 'Hearthsonte-Decks'
+        type: "Hearthsonte-Decks"
     }
 }
 

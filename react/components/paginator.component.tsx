@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Link } from 'react-router';
+import * as React from "react";
+import { Link } from "react-router";
 
 interface PaginatorProps extends React.Props<any> {
     total: number;
@@ -17,14 +17,14 @@ class Pagination extends React.Component<PaginatorProps, {}> {
             let active = false;
             let url = path;
             if (i > 0) {
-                url = path + '?page=' + (i + 1);
+                url = path + "?page=" + (i + 1);
             }
 
-            if ((!current && i === 0) || (current && current == i + 1)) {
+            if ((!current && i === 0) || (current && current === i + 1)) {
                 active = true;
             }
 
-            indent.push(<li key={i} className={active ? 'active' : ''}><Link to={url}>{i + 1}</Link></li>);
+            indent.push(<li key={i} className={active ? "active" : ""}><Link to={url}>{i + 1}</Link></li>);
         }
 
         return (

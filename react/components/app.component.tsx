@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Link, IndexLink } from 'react-router';
+import * as React from "react";
+import { Link, IndexLink } from "react-router";
 
 class App extends React.Component<void, void> {
     render() {

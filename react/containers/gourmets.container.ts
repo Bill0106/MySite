@@ -1,11 +1,11 @@
-import { connect } from 'react-redux';
-import { fetchGourmets, deleteGourmet } from '../actions/gourmets.action';
-import List from '../components/list.component';
+import { connect } from "react-redux";
+import { fetchGourmets, deleteGourmet } from "../actions/gourmets.action";
+import List from "../components/list.component";
 
 const mapStateToProps = (state) => {
     return {
         list: state.gourmets,
-        type: 'Gourmets'
+        type: "Gourmets"
     }
 }
 

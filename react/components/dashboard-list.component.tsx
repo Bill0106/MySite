@@ -1,7 +1,6 @@
-import * as React from 'react';
-
-import DashboardItem from './dashboard-item.component';
-import Alert from './alert.component';
+import * as React from "react";
+import DashboardItem from "./dashboard-item.component";
+import Alert from "./alert.component";
 
 interface DashboardListProps extends React.Props<any> {
     counts: any;
@@ -10,7 +9,7 @@ interface DashboardListProps extends React.Props<any> {
 
 class DashboardList extends React.Component<DashboardListProps, void> {
     componentWillMount() {
-        document.title = 'Dashboard - ' + document.title;
+        document.title = "Dashboard - " + document.title;
     }
 
     componentDidMount() {

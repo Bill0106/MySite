@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 
 interface ImageUploadProps extends React.Props<any> {
     image: any;
@@ -19,14 +19,14 @@ class ImageUpload extends React.Component<ImageUploadProps, void> {
         const { image } = nextProps;
 
         if (!this.props.image.fetched && image.fetched) {
-            change('image', JSON.stringify(image.image));
+            change("image", JSON.stringify(image.image));
         }
     }
 
     handleUpload(e) {
         const { upload } = this.props;
-        let data = new FormData();
-        data.append('file', e.target.files[0]);
+        const data = new FormData();
+        data.append("file", e.target.files[0]);
         upload(data);
     }
 

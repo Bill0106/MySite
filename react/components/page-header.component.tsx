@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Link } from 'react-router';
+import * as React from "react";
+import { Link } from "react-router";
 
 interface PageHeaderProps extends React.Props<any> {
     title: string;
@@ -12,7 +12,7 @@ class PageHeader extends React.Component<PageHeaderProps, void> {
         const { title, total, button } = this.props;
         let addButton = null;
         if (button) {
-            addButton = <Link to={'/admin/' + title.toLowerCase() + '/add'} className="btn btn-primary pull-right">Add</Link>;
+            addButton = <Link to={"/admin/" + title.toLowerCase() + "/add"} className="btn btn-primary pull-right">Add</Link>;
         }
 
         return (
@@ -20,7 +20,7 @@ class PageHeader extends React.Component<PageHeaderProps, void> {
                 <div className="col-sm-12">
                     <section className="page-header">
                         <h1>
-                            {title} <small>{total ? total : ''}</small>
+                            {title} <small>{total ? total : ""}</small>
                             {addButton ? addButton : null}
                         </h1>
                     </section>
