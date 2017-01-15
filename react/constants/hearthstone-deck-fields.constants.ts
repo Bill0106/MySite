@@ -1,4 +1,4 @@
-import { HearthstonePlayerClasses } from "../../config/hearthstone-player-classes";
+import { HearthstonePlayerClasses } from "../../config/hearthstone-player-classes"
 
 const HEARTHSTONE_DECK_FIELDS = [
     {
@@ -24,6 +24,6 @@ const HEARTHSTONE_DECK_FIELDS = [
             }
         ]
     }
-];
+]
 
-export const HearthstoneDeckFields = HEARTHSTONE_DECK_FIELDS;
+export const HearthstoneDeckFields = HEARTHSTONE_DECK_FIELDS

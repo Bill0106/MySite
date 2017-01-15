@@ -20,6 +20,6 @@ const GOURMET_FIELDS = [
         name: "url",
         type: "input",
     }
-];
+]
 
-export const GourmetFields = GOURMET_FIELDS;
+export const GourmetFields = GOURMET_FIELDS

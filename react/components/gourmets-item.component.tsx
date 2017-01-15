@@ -1,11 +1,11 @@
-import * as React from "react";
-import { Link } from "react-router";
-import { time2Date } from "../helpers";
-import { ItemProps } from "../interface/item.interface";
+import * as React from "react"
+import { Link } from "react-router"
+import { time2Date } from "../helpers"
+import { ItemProps } from "../interface/item.interface"
 
 class GourmetsItem extends React.Component<ItemProps, void> {
     render() {
-        const { data } = this.props;
+        const { data } = this.props
         return (
             <tr>
                 <td>{data._id}</td>
@@ -21,8 +21,8 @@ class GourmetsItem extends React.Component<ItemProps, void> {
                     <button className="btn btn-danger" type="button" onClick={this.props.delete}>&times;</button>
                 </td>
             </tr>
-        );
+        )
     }
 }
 
-export default GourmetsItem;
+export default GourmetsItem

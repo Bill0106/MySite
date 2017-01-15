@@ -1,5 +1,5 @@
-import reducerSwitch from "./reducer";
-import { actionTypes } from "../constants/action-types.constants";
+import reducerSwitch from "./reducer"
+import { actionTypes } from "../constants/action-types.constants"
 
 const initialState = {
     isFetching: false,
@@ -13,9 +13,9 @@ const initialState = {
 }
 
 const sort = (a, b) => {
-    if (a.date > b.date) return -1;
-    if (a.date < b.date) return 1;
-    return 0;
+    if (a.date > b.date) return -1
+    if (a.date < b.date) return 1
+    return 0
 }
 
 const reducer = (state = initialState, action) => reducerSwitch(state, action, actionTypes.gourmets, sort)

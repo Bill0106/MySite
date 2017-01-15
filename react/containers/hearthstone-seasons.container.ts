@@ -1,6 +1,6 @@
-import { connect } from "react-redux";
-import { fetchSeasons, deleteSeason } from "../actions/hearthstone-seasons.action";
-import List from "../components/list.component";
+import { connect } from "react-redux"
+import { fetchSeasons, deleteSeason } from "../actions/hearthstone-seasons.action"
+import List from "../components/list.component"
 
 const mapStateToProps = (state) => {
     return {
@@ -16,6 +16,6 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-const HearthstoneSeasons = connect(mapStateToProps, mapDispatchToProps)(List);
+const HearthstoneSeasons = connect(mapStateToProps, mapDispatchToProps)(List)
 
-export default HearthstoneSeasons;
+export default HearthstoneSeasons

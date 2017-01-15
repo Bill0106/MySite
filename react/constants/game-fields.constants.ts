@@ -1,5 +1,5 @@
-import { GameGenres } from "../../config/game-genres";
-import { GamePlatforms } from "../../config/game-platforms";
+import { GameGenres } from "../../config/game-genres"
+import { GamePlatforms } from "../../config/game-platforms"
 
 const GAME_FIELDS = [
     {
@@ -54,6 +54,6 @@ const GAME_FIELDS = [
         name: "description",
         type: "text",
     }
-];
+]
 
-export const GameFields = GAME_FIELDS;
+export const GameFields = GAME_FIELDS

@@ -13,11 +13,11 @@ const initialState = {
 }
 
 const sort = (a, b) => {
-    if (a.buy_at > b.buy_at) return -1;
-    if (a.buy_at < b.buy_at) return 1;
-    if (a.release_at > b.release_at) return -1;
-    if (a.release_at < b.release_at) return 1;
-    return 0;
+    if (a.buy_at > b.buy_at) return -1
+    if (a.buy_at < b.buy_at) return 1
+    if (a.release_at > b.release_at) return -1
+    if (a.release_at < b.release_at) return 1
+    return 0
 }
 
 const reducer = (state = initialState, action) => reducerSwitch(state, action, actionTypes.games, sort)

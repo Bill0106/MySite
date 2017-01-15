@@ -1,6 +1,6 @@
-import { connect } from "react-redux";
-import { fetchGames, deleteGame } from "../actions/games.action";
-import List from "../components/list.component";
+import { connect } from "react-redux"
+import { fetchGames, deleteGame } from "../actions/games.action"
+import List from "../components/list.component"
 
 const mapStateToProps = (state) => {
     return {
@@ -16,6 +16,6 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-const Games = connect(mapStateToProps, mapDispatchToProps)(List);
+const Games = connect(mapStateToProps, mapDispatchToProps)(List)
 
-export default Games;
+export default Games

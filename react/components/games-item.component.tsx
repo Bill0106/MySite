@@ -1,12 +1,12 @@
-import * as React from "react";
-import { Link } from "react-router";
-import { ItemProps } from "../interface/item.interface";
-import { GamePlatforms } from "../../config/game-platforms";
-import { GameGenres } from "../../config/game-genres";
+import * as React from "react"
+import { Link } from "react-router"
+import { ItemProps } from "../interface/item.interface"
+import { GamePlatforms } from "../../config/game-platforms"
+import { GameGenres } from "../../config/game-genres"
 
 class GamesItem extends React.Component<ItemProps, void> {
     render() {
-        const { data } = this.props;
+        const { data } = this.props
         return (
             <tr>
                 <td>{data._id}</td>
@@ -21,8 +21,8 @@ class GamesItem extends React.Component<ItemProps, void> {
                     <button className="btn btn-danger" type="button" onClick={this.props.delete}>&times;</button>
                 </td>
             </tr>
-        );
+        )
     }
 }
 
-export default GamesItem;
+export default GamesItem

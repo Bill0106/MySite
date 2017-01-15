@@ -1,6 +1,6 @@
-import { connect } from "react-redux";
-import { fetchDecks, deleteDeck, activeDeck, inactiveDeck } from "../actions/hearthstone-decks.action";
-import List from "../components/list.component";
+import { connect } from "react-redux"
+import { fetchDecks, deleteDeck, activeDeck, inactiveDeck } from "../actions/hearthstone-decks.action"
+import List from "../components/list.component"
 
 const mapStateToProps = (state) => {
     return {
@@ -18,6 +18,6 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-const HearthstoneDecks = connect(mapStateToProps, mapDispatchToProps)(List);
+const HearthstoneDecks = connect(mapStateToProps, mapDispatchToProps)(List)
 
-export default HearthstoneDecks;
+export default HearthstoneDecks

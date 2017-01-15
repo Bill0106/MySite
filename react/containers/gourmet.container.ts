@@ -1,8 +1,8 @@
-import { connect } from "react-redux";
-import { GourmetFields } from "../constants/gourmet-fields.constants";
-import { fetchGourmet, updateGourmet, createGourmet } from "../actions/gourmets.action";
-import { initItemCreate, changeItem, setItem } from "../actions/item.action";
-import Item from "../components/item.component";
+import { connect } from "react-redux"
+import { GourmetFields } from "../constants/gourmet-fields.constants"
+import { fetchGourmet, updateGourmet, createGourmet } from "../actions/gourmets.action"
+import { initItemCreate, changeItem, setItem } from "../actions/item.action"
+import Item from "../components/item.component"
 
 const mapStateToProps = (state) => {
     return {
@@ -24,6 +24,6 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-const Gourmet = connect(mapStateToProps, mapDispatchToProps)(Item);
+const Gourmet = connect(mapStateToProps, mapDispatchToProps)(Item)
 
-export default Gourmet;
+export default Gourmet

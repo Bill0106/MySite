@@ -1,7 +1,7 @@
-import { connect } from "react-redux";
-import { createDeck, updateDeck, fetchDeck } from "../actions/hearthstone-decks.action";
-import { initItemCreate, changeItem, setItem } from "../actions/item.action";
-import HearthstoneDeckPage from "../components/hearthstone-deck-page.component";
+import { connect } from "react-redux"
+import { createDeck, updateDeck, fetchDeck } from "../actions/hearthstone-decks.action"
+import { initItemCreate, changeItem, setItem } from "../actions/item.action"
+import HearthstoneDeckPage from "../components/hearthstone-deck-page.component"
 
 const mapStateToProps = (state) => {
     return {
@@ -21,6 +21,6 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-const HearthstoneDeck = connect(mapStateToProps, mapDispatchToProps)(HearthstoneDeckPage);
+const HearthstoneDeck = connect(mapStateToProps, mapDispatchToProps)(HearthstoneDeckPage)
 
-export default HearthstoneDeck;
+export default HearthstoneDeck

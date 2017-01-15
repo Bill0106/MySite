@@ -1,4 +1,4 @@
-import { TrophyRarity } from "../../config/trophy-rarity";
+import { TrophyRarity } from "../../config/trophy-rarity"
 
 const GAME_TROPHY_FIELDS = [
     {
@@ -22,6 +22,6 @@ const GAME_TROPHY_FIELDS = [
         type: "select",
         enum: TrophyRarity
     }
-];
+]
 
-export let GameTrophyFields = GAME_TROPHY_FIELDS;
+export let GameTrophyFields = GAME_TROPHY_FIELDS

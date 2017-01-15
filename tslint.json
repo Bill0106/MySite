@@ -68,7 +68,8 @@
             "double"
         ],
         "semicolon": [
-            false
+            true,
+            "never"
         ],
         "triple-equals": [
             true,
