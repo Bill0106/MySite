@@ -1,4 +1,4 @@
-export function time2Date (timestamp: number, displayTime: boolean = false) {
+const time2Date = (timestamp: number, displayTime: boolean = false) => {
     if (!timestamp) {
         return;
     }
@@ -23,4 +23,6 @@ export function time2Date (timestamp: number, displayTime: boolean = false) {
     }
 
     return ts;
-}
+};
+
+export { time2Date }
