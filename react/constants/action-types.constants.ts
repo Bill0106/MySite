@@ -42,4 +42,4 @@ const actionTypes = {
     },
 };
 
-export const actionTypes;
+export { actionTypes };

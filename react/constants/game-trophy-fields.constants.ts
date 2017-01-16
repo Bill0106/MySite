@@ -24,4 +24,4 @@ const GameTrophyFields = [
     },
 ];
 
-export const GameTrophyFields;
+export { GameTrophyFields };

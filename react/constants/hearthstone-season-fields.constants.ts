@@ -29,4 +29,4 @@ const HearthstoneSeasonFields = [
     },
 ];
 
-export const HearthstoneSeasonFields;
+export { HearthstoneSeasonFields };

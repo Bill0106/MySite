@@ -56,4 +56,4 @@ const GameFields = [
     },
 ];
 
-export const GameFields;
+export { GameFields };

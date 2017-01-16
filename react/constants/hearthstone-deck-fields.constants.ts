@@ -26,4 +26,4 @@ const HearthstoneDeckFields = [
     },
 ];
 
-export const HearthstoneDeckFields;
+export { HearthstoneDeckFields };

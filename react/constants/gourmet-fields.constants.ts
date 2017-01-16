@@ -22,4 +22,4 @@ const GourmetFields = [
     },
 ];
 
-export const GourmetFields;
+export { GourmetFields };
