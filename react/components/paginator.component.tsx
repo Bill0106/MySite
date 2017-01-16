@@ -1,30 +1,30 @@
-import * as React from "react"
-import { Link } from "react-router"
+import * as React from 'react';
+import { Link } from 'react-router';
 
 interface PaginatorProps extends React.Props<any> {
-    total: number
-    per: number
-    current: number
-    path: string
+    total: number;
+    per: number;
+    current: number;
+    path: string;
 }
 
 class Pagination extends React.Component<PaginatorProps, {}> {
     render() {
-        const { total, per, current, path } = this.props
-        let pages = Math.ceil(total / per)
-        let indent = []
+        const { total, per, current, path } = this.props;
+        let pages = Math.ceil(total / per);
+        let indent = [];
         for (let i = 0; i < pages; i++) {
-            let active = false
-            let url = path
+            let active = false;
+            let url = path;
             if (i > 0) {
-                url = path + "?page=" + (i + 1)
+                url = path + '?page=' + (i + 1);
             }
 
             if ((!current && i === 0) || (current && current === i + 1)) {
-                active = true
+                active = true;
             }
 
-            indent.push(<li key={i} className={active ? "active" : ""}><Link to={url}>{i + 1}</Link></li>)
+            indent.push(<li key={i} className={active ? 'active' : ''}><Link to={url}>{i + 1}</Link></li>);
         }
 
         return (
@@ -35,8 +35,8 @@ class Pagination extends React.Component<PaginatorProps, {}> {
                     </ul>
                 </div>
             </div>
-        )
+        );
     }
 }
 
-export default Pagination
+export default Pagination;

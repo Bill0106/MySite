@@ -1,28 +1,28 @@
-import * as React from "react"
-import DashboardItem from "./dashboard-item.component"
-import Alert from "./alert.component"
+import * as React from 'react';
+import DashboardItem from './dashboard-item.component';
+import Alert from './alert.component';
 
 interface DashboardListProps extends React.Props<any> {
-    counts: any
-    getCounts: any
+    counts: any;
+    getCounts: any;
 }
 
 class DashboardList extends React.Component<DashboardListProps, void> {
     componentWillMount() {
-        document.title = "Dashboard - " + document.title
+        document.title = 'Dashboard - ' + document.title;
     }
 
     componentDidMount() {
-        const { getCounts, counts } = this.props
+        const { getCounts, counts } = this.props;
 
         if (!counts.fetched) {
-            getCounts()
+            getCounts();
         }
     }
 
     render() {
-        const { counts } = this.props
-        const { isFetching, items, error } = counts
+        const { counts } = this.props;
+        const { isFetching, items, error } = counts;
 
         return (
             <div className="container-fluid">
@@ -38,14 +38,14 @@ class DashboardList extends React.Component<DashboardListProps, void> {
                     <div className="col-sm-6 col-sm-offset-3">
                     {
                         items.map((item, key) => {
-                            return <DashboardItem key={key} title={item.title} count={item.count} />
+                            return <DashboardItem key={key} title={item.title} count={item.count} />;
                         })
                     }
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
 
-export default DashboardList
+export default DashboardList;

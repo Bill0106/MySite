@@ -65,11 +65,20 @@
         ],
         "quotemark": [
             true,
-            "double"
+            "single",
+            "jsx-double"
         ],
         "semicolon": [
             true,
-            "never"
+            "always",
+            "ignore-bound-class-methods"
+        ],
+        "trailing-comma": [
+            true,
+            {
+                "multiline": "always",
+                "singleline": "never"
+            }
         ],
         "triple-equals": [
             true,

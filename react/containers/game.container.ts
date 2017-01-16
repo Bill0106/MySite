@@ -1,17 +1,17 @@
-import { connect } from "react-redux"
-import { GameFields } from "../constants/game-fields.constants"
-import { fetchGame, updateGame, createGame } from "../actions/games.action"
-import { initItemCreate, changeItem, setItem } from "../actions/item.action"
-import Item from "../components/item.component"
+import { connect } from 'react-redux';
+import { GameFields } from '../constants/game-fields.constants';
+import { fetchGame, updateGame, createGame } from '../actions/games.action';
+import { initItemCreate, changeItem, setItem } from '../actions/item.action';
+import Item from '../components/item.component';
 
 const mapStateToProps = (state) => {
     return {
         list: state.games,
         item: state.item,
-        type: "Game",
+        type: 'Game',
         fields: GameFields,
-    }
-}
+    };
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -21,9 +21,9 @@ const mapDispatchToProps = (dispatch) => {
         createItem: (item) => dispatch(createGame(item)),
         updateItem: (item, params) => dispatch(updateGame(item, params)),
         changeItem: (field, value) => dispatch(changeItem({field, value})),
-    }
-}
+    };
+};
 
-const Game = connect(mapStateToProps, mapDispatchToProps)(Item)
+const Game = connect(mapStateToProps, mapDispatchToProps)(Item);
 
-export default Game
+export default Game;
