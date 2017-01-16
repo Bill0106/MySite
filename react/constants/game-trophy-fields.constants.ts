@@ -1,4 +1,4 @@
-import { TrophyRarity } from '../../config/trophy-rarit';
+import { TrophyRarity } from '../../config/trophy-rarity';
 
 const GameTrophyFields = [
     {
@@ -24,4 +24,4 @@ const GameTrophyFields = [
     },
 ];
 
-export { GameTrophyFields };
+export default GameTrophyFields;

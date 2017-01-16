@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import { HearthstoneDeckFields } from '../constants/hearthstone-deck-fields.constants';
+import HearthstoneDeckFields from '../constants/hearthstone-deck-fields.constants';
 import PageHeader from './page-header.component';
 import Alert from './alert.component';
 import Form from './form.component';

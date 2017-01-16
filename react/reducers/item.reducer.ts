@@ -1,4 +1,4 @@
-import { actionTypes } from '../constants/action-types.constants';
+import actionTypes from '../constants/action-types.constants';
 
 const reducer = (state = { data: null }, action) => {
     const { item } = actionTypes;

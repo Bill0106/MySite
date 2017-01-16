@@ -1,7 +1,7 @@
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { createAction } from 'redux-actions';
-import { actionTypes } from '../constants/action-types.constants';
+import axios from 'axios';
+import actionTypes from '../constants/action-types.constants';
 import DashboardList from '../components/dashboard-list.component';
 
 const mapStateToProps = (state) => {

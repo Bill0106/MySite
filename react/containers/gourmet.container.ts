@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import { GourmetFields } from '../constants/gourmet-fields.constants';
 import { fetchGourmet, updateGourmet, createGourmet } from '../actions/gourmets.action';
 import { initItemCreate, changeItem, setItem } from '../actions/item.action';
+import GourmetFields from '../constants/gourmet-fields.constants';
 import Item from '../components/item.component';
 
 const mapStateToProps = (state) => {

@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { createAction } from 'redux-actions';
-import { actionTypes } from '../constants/action-types.constants';
+import axios from 'axios';
+import actionTypes from '../constants/action-types.constants';
 
 const fetchCards = createAction(actionTypes.hearthstone_cards.fetch_list, (params: any) => {
     let url = '/hearthstone-cards/?standard=true';

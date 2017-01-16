@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import { HearthstoneSeasonFields } from '../constants/hearthstone-season-fields.constants';
 import { fetchSeason, createSeason, updateSeason } from '../actions/hearthstone-seasons.action';
 import { initItemCreate, changeItem, setItem } from '../actions/item.action';
+import HearthstoneSeasonFields from '../constants/hearthstone-season-fields.constants';
 import Item from '../components/item.component';
 
 const mapStateToProps = (state) => {

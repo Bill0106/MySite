@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import { GameFields } from '../constants/game-fields.constants';
 import { fetchGame, updateGame, createGame } from '../actions/games.action';
 import { initItemCreate, changeItem, setItem } from '../actions/item.action';
+import GameFields from '../constants/game-fields.constants';
 import Item from '../components/item.component';
 
 const mapStateToProps = (state) => {
