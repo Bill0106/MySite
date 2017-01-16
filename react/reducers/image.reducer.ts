@@ -7,7 +7,7 @@ const initialState = {
     error: null,
 };
 
-export default function reducer(state = initialState, action) {
+const reducer = (state = initialState, action) => {
     const { type, payload } = action;
     const { image } = actionTypes;
 
@@ -33,4 +33,6 @@ export default function reducer(state = initialState, action) {
         default:
             return state;
     }
-}
+};
+
+export default reducer;

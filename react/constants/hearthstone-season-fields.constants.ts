@@ -1,6 +1,6 @@
 import { HearthstoneSeasonRanked } from '../../config/hearthstone-season-ranked';
 
-const HEARTHSTONE_SEASON_FIELDS = [
+const HearthstoneSeasonFields = [
     {
         name: 'image',
         type: 'image',
@@ -29,4 +29,4 @@ const HEARTHSTONE_SEASON_FIELDS = [
     },
 ];
 
-export const HearthstoneSeasonFields = HEARTHSTONE_SEASON_FIELDS;
+export const HearthstoneSeasonFields;

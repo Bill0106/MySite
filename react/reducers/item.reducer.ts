@@ -1,6 +1,6 @@
 import { actionTypes } from '../constants/action-types.constants';
 
-export default function reducer(state = { data: null }, action) {
+const reducer = (state = { data: null }, action) => {
     const { item } = actionTypes;
     const { type, payload } = action;
 
@@ -17,4 +17,6 @@ export default function reducer(state = { data: null }, action) {
         default:
             return state;
     }
-}
+};
+
+export default reducer;

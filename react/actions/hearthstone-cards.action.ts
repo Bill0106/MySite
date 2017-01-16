@@ -2,7 +2,7 @@ import axios from 'axios';
 import { createAction } from 'redux-actions';
 import { actionTypes } from '../constants/action-types.constants';
 
-export const fetchCards = createAction(actionTypes.hearthstone_cards.fetch_list, (params: any) => {
+const fetchCards = createAction(actionTypes.hearthstone_cards.fetch_list, (params: any) => {
     let url = '/hearthstone-cards/?standard=true';
 
     if (typeof params !== 'object') {
@@ -22,3 +22,5 @@ export const fetchCards = createAction(actionTypes.hearthstone_cards.fetch_list,
 
     return axios.get(url);
 });
+
+export { fetchCards }

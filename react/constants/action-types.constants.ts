@@ -1,4 +1,4 @@
-export const actionTypes = {
+const actionTypes = {
     counts: {
         fetch_list: 'FETCH_COUNTS',
     },
@@ -41,3 +41,5 @@ export const actionTypes = {
         set: 'SET_ITEM',
     },
 };
+
+export const actionTypes;

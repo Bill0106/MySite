@@ -53,7 +53,7 @@ const error = (state, payload) => {
     });
 };
 
-export default function reducer(state = initialState, action) {
+const reducer = (state = initialState, action) => {
     const { type, payload } = action;
 
     switch (type) {
@@ -76,4 +76,6 @@ export default function reducer(state = initialState, action) {
     }
 
     return reducerSwitch(state, action, actionTypes.hearthstone_decks, sort);
-}
+};
+
+export default reducer;

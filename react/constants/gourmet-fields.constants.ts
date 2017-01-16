@@ -1,4 +1,4 @@
-const GOURMET_FIELDS = [
+const GourmetFields = [
     {
         name: 'image',
         type: 'image',
@@ -22,4 +22,4 @@ const GOURMET_FIELDS = [
     },
 ];
 
-export const GourmetFields = GOURMET_FIELDS;
+export const GourmetFields;

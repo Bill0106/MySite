@@ -1,7 +1,7 @@
 import { GameGenres } from '../../config/game-genres';
 import { GamePlatforms } from '../../config/game-platforms';
 
-const GAME_FIELDS = [
+const GameFields = [
     {
         name: 'image',
         type: 'image',
@@ -56,4 +56,4 @@ const GAME_FIELDS = [
     },
 ];
 
-export const GameFields = GAME_FIELDS;
+export const GameFields;

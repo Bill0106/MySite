@@ -1,6 +1,6 @@
 import { TrophyRarity } from '../../config/trophy-rarit';
 
-const GAME_TROPHY_FIELDS = [
+const GameTrophyFields = [
     {
         field: 'title',
         type: 'input',
@@ -24,4 +24,4 @@ const GAME_TROPHY_FIELDS = [
     },
 ];
 
-export let GameTrophyFields = GAME_TROPHY_FIELDS;
+export const GameTrophyFields;

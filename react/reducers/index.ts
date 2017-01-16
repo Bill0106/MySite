@@ -9,4 +9,6 @@ import hearthstoneDecks from './hearthstone-decks.reducer';
 import hearthstoneCards from './hearthstone-cards.reducer';
 import item from './item.reducer';
 
-export default combineReducers({ counts, image, games, gourmets, hearthstoneSeasons, hearthstoneDecks, hearthstoneCards, item });
+const reducers = combineReducers({ counts, image, games, gourmets, hearthstoneSeasons, hearthstoneDecks, hearthstoneCards, item });
+
+export default reducers;

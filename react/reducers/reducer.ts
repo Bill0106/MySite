@@ -70,7 +70,7 @@ const error = (state, payload, posting = false) => {
     }
 };
 
-const reducerSwitch = (state, action, typeConstants, sort) => {
+const reducer = (state, action, typeConstants, sort) => {
     const { type, payload } = action;
     const types = actionStatusGenerator(typeConstants);
     let items = state.items;
@@ -152,4 +152,4 @@ const reducerSwitch = (state, action, typeConstants, sort) => {
     }
 };
 
-export default reducerSwitch;
+export default reducer;

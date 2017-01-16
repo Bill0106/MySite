@@ -1,6 +1,6 @@
 import { HearthstonePlayerClasses } from '../../config/hearthstone-player-classes';
 
-const HEARTHSTONE_DECK_FIELDS = [
+const HearthstoneDeckFields = [
     {
         name: 'name',
         type: 'input',
@@ -26,4 +26,4 @@ const HEARTHSTONE_DECK_FIELDS = [
     },
 ];
 
-export const HearthstoneDeckFields = HEARTHSTONE_DECK_FIELDS;
+export const HearthstoneDeckFields;
