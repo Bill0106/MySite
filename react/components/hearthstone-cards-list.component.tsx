@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { HearthstoneCardRarity } from '../../config/hearthstone-card-rarity';
 import { HearthstonePlayerClasses } from '../../config/hearthstone-player-classes';
+import Pagination from './pagination.component';
 
 interface HearthstoneCardsListProps extends React.Props<any> {
     deck: any;
@@ -83,15 +84,8 @@ class HearthstoneCardsList extends React.Component<HearthstoneCardsListProps, vo
         return list;
     }
 
-    handleActiveCost(e) {
-        e.preventDefault();
-        const { activeCost } = this.props;
-        activeCost(parseInt(e.target.text));
-    }
-
     render() {
-        const { cards, deck } = this.props;
-        const { activeCost } = cards;
+        const { cards, deck, activeCost } = this.props;
         const neutralCards = this.handleCards();
         const classCards = this.handleCards(false);
 
@@ -123,17 +117,7 @@ class HearthstoneCardsList extends React.Component<HearthstoneCardsListProps, vo
                                 })
                             }
                             </ul>
-                            <ul className="pagination">
-                            {
-                                Array(7).fill(null).map((_, i) => {
-                                    return (
-                                        <li key={i} className={i + 1 === activeCost ? 'active' : ''}>
-                                            <a href="#" onClick={this.handleActiveCost.bind(this)}>{i + 1}</a>
-                                        </li>
-                                    );
-                                })
-                            }
-                            </ul>
+                            <Pagination total={7} current={cards.activeCost} per={1} clickEvent={(cost) => activeCost(cost)} />
                         </div>
                         <div className="tab-pane" id="classCards">
                             <ul className="row list-unstyled">
@@ -157,4 +141,4 @@ class HearthstoneCardsList extends React.Component<HearthstoneCardsListProps, vo
     }
 }
 
-export default HearthstoneCardsList;
+export default HearthstoneCardsList; ;

@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps, browserHistory } from 'react-router';
 import Alert from './alert.component';
 import PageHeader from './page-header.component';
-import Paginator from './paginator.component';
+import Pagination from './pagination.component';
 import GamesItem from './games-item.component';
 import GourmetsItem from './gourmets-item.component';
 import HearthstoneSeasonsItem from './hearthstone-seasons-item.component';
@@ -71,6 +71,12 @@ class List extends React.Component<ListProps, void> {
         return items;
     }
 
+    handlePagination(i) {
+        const { type } = this.props;
+        const url = `/admin/${type.toLowerCase()}${i === 1 ? '' : `?page=${i}`}`;
+        browserHistory.push(url);
+    }
+
     render() {
         const { list, type, location } = this.props;
         const { isFetching, error } = list;
@@ -93,7 +99,13 @@ class List extends React.Component<ListProps, void> {
                         </table>
                     </div>
                 </div>
-                <Paginator total={list.total} path={location.pathname} current={location.query['page']} per={type === 'Hearthstonr-Matches' ? 100 : 30} />
+                <div className="row">
+                    <div className="col-sm-12">
+                        <Pagination clickEvent={this.handlePagination.bind(this)} total={list.total}
+                                    current={parseInt(location.query['page']) || 1}
+                                    per={type === 'Hearthstonr-Matches' ? 100 : 30} />
+                    </div>
+                </div>
             </div>
         );
     }
