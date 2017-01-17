@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { fetchCards } from '../actions/hearthstone-cards.action';
+import { fetchCards, changeActiveCost } from '../actions/hearthstone-cards.action';
 import HearthstoneCardsList from '../components/hearthstone-cards-list.component';
 
 const mapStateToProps = (state, ownProps) => {
@@ -14,6 +14,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getCards: (params) => dispatch(fetchCards(params)),
+        activeCost: (cost: number) => dispatch(changeActiveCost(cost)),
     };
 };
 

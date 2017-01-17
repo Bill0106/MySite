@@ -5,7 +5,7 @@ import List from '../components/list.component';
 const mapStateToProps = (state) => {
     return {
         list: state.hearthstoneSeasons,
-        type: 'Hearthsonte-Seasons',
+        type: 'Hearthstone-Seasons',
     };
 };
 

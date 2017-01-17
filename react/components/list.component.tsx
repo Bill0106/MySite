@@ -50,9 +50,9 @@ class List extends React.Component<ListProps, void> {
                 return <GamesItem key={key} data={item} delete={() => postDelete(item.url)} />;
             case 'Gourmets':
                 return <GourmetsItem key={key} data={item} delete={() => postDelete(item._id)} />;
-            case 'Hearthsonte-Seasons':
+            case 'Hearthstone-Seasons':
                 return <HearthstoneSeasonsItem key={key} data={item} delete={() => postDelete(item.url)} />;
-            case 'Hearthsonte-Decks':
+            case 'Hearthstone-Decks':
                 const { inactiveDeck, activeDeck } = this.props;
                 return <HearthstoneDecksItem key={key} data={item} delete={() => postDelete(item._id)} active={() => activeDeck(item._id)} inactive={() => inactiveDeck(item._id)} />;
             default:

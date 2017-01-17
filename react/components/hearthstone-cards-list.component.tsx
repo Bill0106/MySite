@@ -8,11 +8,12 @@ interface HearthstoneCardsListProps extends React.Props<any> {
     getCards: any;
     change: any;
     sort: any;
+    activeCost: any;
 }
 
 class HearthstoneCardsList extends React.Component<HearthstoneCardsListProps, void> {
     componentDidMount() {
-        const { cards, getCards } = this.props;
+        const { cards, getCards, deck } = this.props;
 
         if (cards.fetchedCosts.indexOf(1) < 0) {
             getCards({ playerClass: -1, cost: 1 });
@@ -20,17 +21,26 @@ class HearthstoneCardsList extends React.Component<HearthstoneCardsListProps, vo
     }
 
     componentWillUpdate(nextProps, nextState) {
-        const { cards } = this.props;
-        const { deck, getCards } = nextProps;
-        const { fetchedPlayerClasses } = cards;
-        const thisDeck = this.props.deck;
+        const { getCards } = this.props;
+        const thisCards = this.props.cards;
+        const thisDeck = this.props.deck.data;
+        const nextCards = nextProps.cards;
+        const nextDeck = nextProps.deck.data;
 
-        if (!thisDeck.data && deck.data && !fetchedPlayerClasses.includes(deck.data.playerClass)) {
-            getCards({ playerClass: deck.data.playerClass });
+        if (!thisDeck && nextDeck
+        && !thisCards.fetchedPlayerClasses.includes(nextDeck.playerClass)) {
+            getCards({ playerClass: nextDeck.playerClass });
         }
 
-        if (thisDeck.data && thisDeck.data.playerClass !== deck.data.playerClass && !fetchedPlayerClasses.includes(deck.data.playerClass)) {
-            getCards({ playerClass: deck.data.playerClass });
+        if (thisDeck
+        && thisDeck.playerClass !== nextDeck.playerClass
+        && !thisCards.fetchedPlayerClasses.includes(nextDeck.playerClass)) {
+            getCards({ playerClass: nextDeck.playerClass });
+        }
+
+        if (thisCards.activeCost !== nextCards.activeCost
+        && !thisCards.fetchedCosts.includes(nextCards.activeCost)) {
+            getCards({ playerClass: -1, cost: nextCards.activeCost });
         }
     }
 
@@ -51,27 +61,39 @@ class HearthstoneCardsList extends React.Component<HearthstoneCardsListProps, vo
         change(selectedCards);
     }
 
-    handleCards(neutral: boolean = false, cost?: number) {
+    handleCards(neutral: boolean = true) {
         const { cards, deck, sort } = this.props;
+        const { fetchedCosts, fetchedPlayerClasses, activeCost, items } = cards;
         let list = [];
 
-        if (neutral && cards.fetchedCosts.includes(cost)) {
-            if (cost === 1) {
-                list = sort(cards.items.filter(e => e.playerClass === -1 && e.cost <= 1));
+        if (neutral && fetchedCosts.includes(activeCost)) {
+            if (activeCost === 1) {
+                list = sort(cards.items.filter(e => e.playerClass === -1 && e.cost < 2));
+            } else if (activeCost === 7) {
+                list = sort(cards.items.filter(e => e.playerClass === -1 && e.cost > 6));
+            } else {
+                list = sort(cards.items.filter(e => e.playerClass === -1 && e.cost === activeCost));
             }
         }
 
-        if (!neutral && deck.data && cards.fetchedPlayerClasses.includes(deck.data.playerClass)) {
+        if (!neutral && deck.data && fetchedPlayerClasses.includes(deck.data.playerClass)) {
             list = sort(cards.items.filter(e => e.playerClass === deck.data.playerClass));
         }
 
         return list;
     }
 
+    handleActiveCost(e) {
+        e.preventDefault();
+        const { activeCost } = this.props;
+        activeCost(parseInt(e.target.text));
+    }
+
     render() {
         const { cards, deck } = this.props;
-        const neutralCards = this.handleCards(true, 1);
-        const classCards = this.handleCards();
+        const { activeCost } = cards;
+        const neutralCards = this.handleCards();
+        const classCards = this.handleCards(false);
 
         return (
             <div className="row">
@@ -96,6 +118,17 @@ class HearthstoneCardsList extends React.Component<HearthstoneCardsListProps, vo
                                             <button className="btn btn-link" type="button" onClick={this.handleSelectCard.bind(this, card._id)}>
                                                 {card.cost + ' - ' + card.name}
                                             </button>
+                                        </li>
+                                    );
+                                })
+                            }
+                            </ul>
+                            <ul className="pagination">
+                            {
+                                Array(7).fill(null).map((_, i) => {
+                                    return (
+                                        <li key={i} className={i + 1 === activeCost ? 'active' : ''}>
+                                            <a href="#" onClick={this.handleActiveCost.bind(this)}>{i + 1}</a>
                                         </li>
                                     );
                                 })

@@ -6,6 +6,7 @@ const initialState = {
     items: [],
     fetchedCosts: [],
     fetchedPlayerClasses: [],
+    activeCost: 1,
     error: null,
 };
 
@@ -13,6 +14,8 @@ const reducer = (state = initialState, action) => {
     const { type, payload } = action;
 
     switch (type) {
+        case actionTypes.hearthstone_cards.active_cost:
+            return Object.assign({}, state, { activeCost: payload });
         case `${actionTypes.hearthstone_cards.fetch_list}_PENDING`:
             return Object.assign({}, state, { isFetching: true, fetched: false, error: null });
         case `${actionTypes.hearthstone_cards.fetch_list}_REJECTED`:

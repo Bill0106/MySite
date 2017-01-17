@@ -30,6 +30,7 @@ const actionTypes = {
     },
     hearthstone_cards: {
         fetch_list: 'FETCH_HEARTHSTONE_CARDS',
+        active_cost: 'CHANGE_HEARTHSTONE_CARDS_COST',
     },
     image: {
         init: 'INIT_IMAGE',

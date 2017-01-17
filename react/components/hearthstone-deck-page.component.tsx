@@ -32,13 +32,17 @@ class HearthstoneDeckPage extends React.Component<HearthstoneDeckPageProps, void
     }
 
     componentDidMount() {
-        const { params, list, getDeck, setDeck } = this.props;
+        const { params, list, getDeck, setDeck, changeDeck } = this.props;
         const item = list.items.find(v => v._id === params['id']);
 
-        if (item) {
-            setDeck(item);
-        } else if (params['id'] !== 'add') {
-            getDeck(params['id']);
+        if (params['id'] === 'add') {
+            // changeDeck('playerClass', 0);
+        } else {
+            if (item) {
+                setDeck(item);
+            } else {
+                getDeck(params['id']);
+            }
         }
     }
 

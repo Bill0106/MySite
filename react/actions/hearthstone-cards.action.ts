@@ -22,5 +22,6 @@ const fetchCards = createAction(actionTypes.hearthstone_cards.fetch_list, (param
 
     return axios.get(url);
 });
+const changeActiveCost = createAction(actionTypes.hearthstone_cards.active_cost);
 
-export { fetchCards }
+export { fetchCards, changeActiveCost }
