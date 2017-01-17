@@ -28,6 +28,12 @@ const actionTypes = {
         active: 'ACTIVE_HEARTHSTONE_DECK',
         inactive: 'INACTIVE_HEARTHSTONE_DECK',
     },
+    hearthstone_matches: {
+        fetch_list: 'FETCH_HEARTHSTONE_MATCHES',
+        fetch_item: 'FETCH_HEARTHSTONE_MATCHE',
+        post: 'POST_HEARTHSTONE_MATCH',
+        delete: 'DELETE_HEARTHSTONE_MATCH',
+    },
     hearthstone_cards: {
         fetch_list: 'FETCH_HEARTHSTONE_CARDS',
         active_cost: 'CHANGE_HEARTHSTONE_CARDS_COST',
