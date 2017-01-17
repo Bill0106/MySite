@@ -48,13 +48,14 @@ class Field extends React.Component<FieldProps, void> {
                     </div>
                 );
             case 'checkbox':
+                const checked = typeof data === 'boolean' ? data : (data === 'true');
                 return (
                     <div>
                     {
                         field.enum.map(check => {
                             return (
                                 <label className="checkbox-inline" key={check.value}>
-                                    <input type="checkbox" value={check.value} checked={data === check.value} onChange={this.handleChange.bind(this)} />
+                                    <input type="checkbox" value={check.value} checked={checked === check.value} onChange={this.handleChange.bind(this)} />
                                     {check.name}
                                 </label>
                             );

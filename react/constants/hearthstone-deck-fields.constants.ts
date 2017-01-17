@@ -15,11 +15,11 @@ const HearthstoneDeckFields = [
         type: 'checkbox',
         enum: [
             {
-                value: 1,
+                value: true,
                 name: 'Active',
             },
             {
-                value: 0,
+                value: false,
                 name: 'Inactive',
             },
         ],
