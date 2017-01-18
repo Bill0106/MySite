@@ -18,8 +18,20 @@ const actionStatusGenerator = (types: any) => {
 };
 
 const fetchedPages = (pages: any, url: string) => {
-    const match = url.match(/page=(\d)/i);
-    const page = match ? parseInt(match[1]) : 1;
+    const urlArray = url.split('?');
+    const query = urlArray[1].split('&');
+    const queryObj = {};
+
+    query.map(value => {
+        const pair = value.split('=');
+        queryObj[pair[0]] = pair[1];
+    });
+
+    if (queryObj.hasOwnProperty('ids')) {
+        return pages;
+    }
+
+    const page = queryObj['page'] ? parseInt(queryObj['page']) : 1;
 
     pages.push(page);
     pages.sort((a, b) => {

@@ -11,7 +11,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getList: (page = null) => dispatch(fetchDecks(page)),
+        getList: (page = null) => dispatch(fetchDecks({ page })),
         postDelete: (id: string) => dispatch(deleteDeck(id)),
         activeDeck: (id: string) => dispatch(activeDeck(id)),
         inactiveDeck: (id: string) => dispatch(inactiveDeck(id)),

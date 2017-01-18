@@ -4,8 +4,16 @@ import actionTypes from '../constants/action-types.constants';
 
 const { hearthstone_decks } = actionTypes;
 
-const fetchDecks = createAction(hearthstone_decks.fetch_list, (page: number = null) => {
-    let url = `/hearthstone-decks?limit=30${page ? '&page=' + page : ''}`;
+const fetchDecks = createAction(hearthstone_decks.fetch_list, (params: any) => {
+    const base = '/hearthstone-decks';
+    let url = `${base}?limit=30`;
+
+    if (params.hasOwnProperty('page')) {
+        url = `${url}&page=${params.page}`;
+    } else if (params.hasOwnProperty('ids')) {
+        url = `${base}?ids=${params.ids.join(',')}`;
+    }
+
     return axios.get(url);
 });
 const fetchDeck = createAction(hearthstone_decks.fetch_item, (id: string) => axios.get('/hearthstone-decks/' + id));

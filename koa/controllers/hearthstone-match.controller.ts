@@ -26,19 +26,19 @@ const list = async (ctx) => {
             let limit = parseInt(ctx.query.limit) || 100;
             let page = parseInt(ctx.query.page) || 1;
             let skip = limit * (page - 1);
-            
+
             query = query.limit(limit).skip(skip);
         }
-        
+
         ctx.body = {
             list: await query.sort({ time: 'desc' }).exec(),
-            total: await HearthstoneMatch.repositry.count({})
-        }
+            total: await HearthstoneMatch.repositry.count({}),
+        };
     } catch (error) {
         ctx.status = ctx.status || 500;
         ctx.body = error.message;
     }
-}
+};
 
 const create = async (ctx) => {
     try {
@@ -46,15 +46,15 @@ const create = async (ctx) => {
 
         let deck = await HearthstoneDeck.repositry.findById(data.deck);
         if (!deck) {
-            throw "Deck Not Found";
+            throw 'Deck Not Found';
         }
 
-        if (!HearthstonePlayerClasses.find(item => item.value == data.opponent)) {
-            throw "Invalid Opponent";
+        if (!HearthstonePlayerClasses.find(item => item.value === data.opponent)) {
+            throw 'Invalid Opponent';
         }
 
-        if (!HearthstoneMatchResult.find(item => item.value == data.result)) {
-            throw "Invalid Result";
+        if (!HearthstoneMatchResult.find(item => item.value === data.result)) {
+            throw 'Invalid Result';
         }
 
         data.deck_id = deck._id;
@@ -65,26 +65,29 @@ const create = async (ctx) => {
         ctx.body = {
             success: true,
             data: {
-                id: match._id
-            }
-        }
+                id: match._id,
+            },
+        };
     } catch (error) {
         ctx.status = ctx.status || 500;
         ctx.body = error.message;
     }
-}
+};
 
 const remove = async (ctx) => {
     try {
-        await HearthstoneMatch.repositry.findByIdAndRemove(ctx.params.id);
-
-        ctx.body = {
-            success: true,
+        const match = await HearthstoneMatch.repositry.findById(ctx.params.id);
+        if (!match) {
+            throw new Error('Match Not Found');
         }
+
+        await match.remove();
+
+        ctx.body = match._id;
     } catch (error) {
         ctx.status = ctx.status || 500;
         ctx.body = error.message;
     }
-}
+};
 
-export default { list, create, remove }
+export default { list, create, remove };
