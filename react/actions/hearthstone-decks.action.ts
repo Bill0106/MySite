@@ -8,7 +8,7 @@ const fetchDecks = createAction(hearthstone_decks.fetch_list, (params: any) => {
     const base = '/hearthstone-decks';
     let url = `${base}?limit=30`;
 
-    if (params.hasOwnProperty('page')) {
+    if (params.hasOwnProperty('page') && params.page) {
         url = `${url}&page=${params.page}`;
     } else if (params.hasOwnProperty('ids')) {
         url = `${base}?ids=${params.ids.join(',')}`;
