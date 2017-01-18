@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as moment from 'moment';
 import PageHeader from './page-header.component';
 import Alert from './alert.component';
 import { HearthstonePlayerClasses } from '../../config/hearthstone-player-classes';
@@ -50,9 +51,20 @@ class HearthstoneMatchAdd extends React.Component<HearthstoneMatchAddProps, void
         createMatch(match.data);
     }
 
+    handleTotal() {
+        const { matches } = this.props;
+        const today = moment().startOf('day').valueOf();
+
+        return matches.items.filter(item => item.time > today);
+    }
+
     render() {
         const { decks, match, matches } = this.props;
         const activeDecks = decks.items.filter(e => e.active);
+        const today = this.handleTotal();
+        const wins = today.filter(e => e.result === 1);
+        const pet = (wins.length / today.length * 100).toFixed(2);
+
         return (
             <div className="container-fluid">
                 <PageHeader title={'Add Match'} />
@@ -94,6 +106,11 @@ class HearthstoneMatchAdd extends React.Component<HearthstoneMatchAddProps, void
                         </div>
                     </div>
                 </form>
+                <div className="row">
+                    <div className="col-sm-12 text-center">
+                        <h3>Total: {today.length} Win: {wins.length} PET: {pet}%</h3>
+                    </div>
+                </div>
             </div>
         );
     }
