@@ -1,4 +1,4 @@
-import reducerSwitch from './reducer';
+import Reducer from './reducer';
 import actionTypes from '../constants/action-types.constants';
 
 const initialState = {
@@ -20,6 +20,9 @@ const sort = (a, b) => {
     return 0;
 };
 
-const reducer = (state = initialState, action) => reducerSwitch(state, action, actionTypes.games, sort);
+const reducer = (state = initialState, action) => {
+    const reducer = new Reducer(state, action, actionTypes.games, sort);
+    return reducer.combinedReducers();
+};
 
 export default reducer;

@@ -1,20 +1,27 @@
-const actionStatusGenerator = (types: any) => {
-    const progress = {
-        pending: 'PENDING',
-        success: 'FULFILLED',
-        error: 'REJECTED',
-    };
+import { combineReducers } from 'redux';
 
-    let newTypes = {};
-    for (let type in types) {
-        let obj = {};
-        for (let key in progress) {
-            obj[key] = `${types[type]}_${progress[key]}`;
-        }
-        newTypes[type] = obj;
+const pending = (state, posting = false) => {
+    if (posting) {
+        return Object.assign({}, state, { isPosting: true, posted: false, error: null });
+    } else {
+        return Object.assign({}, state, { isFetching: true, fetched: false, error: null });
     }
+};
 
-    return newTypes;
+const error = (state, payload, posting = false) => {
+    const { status, data } = payload.response;
+
+    if (posting) {
+        return Object.assign({}, state, {
+            isPosting: false,
+            error: { status, data },
+        });
+    } else {
+        return Object.assign({}, state, {
+            isFetching: false,
+            error: { status, data },
+        });
+    }
 };
 
 const fetchedPages = (pages: any, url: string) => {
@@ -44,7 +51,7 @@ const fetchedPages = (pages: any, url: string) => {
 };
 
 const formatItems = (data, addon, sort) => {
-    let items = data;
+    const items = data;
     for (let item of addon) {
         if (items.findIndex(e => e._id === item._id) < 0) {
             items.push(item);
@@ -58,110 +65,153 @@ const formatItems = (data, addon, sort) => {
     return items;
 };
 
-const pending = (state, posting = false) => {
-    if (posting) {
-        return Object.assign({}, state, { isPosting: true, posted: false, error: null });
-    } else {
-        return Object.assign({}, state, { isFetching: true, fetched: false, error: null });
+class Reducer {
+    private state: any;
+    private action: any;
+    private types: any;
+    private sort: any;
+
+    constructor(state, action, types, sort) {
+        this.state = state;
+        this.action = action;
+        this.types = types;
+        this.sort = sort;
     }
-};
 
-const error = (state, payload, posting = false) => {
-    const { status, data } = payload.response;
+    actionStatusGenerator(property: string = null) {
+        let newTypes = {};
+        const types = this.types;
+        const progress = {
+            pending: 'PENDING',
+            success: 'FULFILLED',
+            error: 'REJECTED',
+        };
 
-    if (posting) {
-        return Object.assign({}, state, {
-            isPosting: false,
-            error: { status, data },
-        });
-    } else {
-        return Object.assign({}, state, {
-            isFetching: false,
-            error: { status, data },
-        });
+        if (property) {
+            for (let key in progress) {
+                newTypes[key] = `${types[property]}_${progress[key]}`;
+            }
+
+            return newTypes;
+        }
+
+        for (let type in types) {
+            let obj = {};
+            for (let key in progress) {
+                obj[key] = `${types[type]}_${progress[key]}`;
+            }
+            newTypes[type] = obj;
+        }
+
+        return newTypes;
     }
-};
 
-const reducer = (state, action, typeConstants, sort) => {
-    const { type, payload } = action;
-    const types = actionStatusGenerator(typeConstants);
-    let items = state.items;
+    fetchListReducer() {
+        const { type, payload } = this.action;
+        const types = this.actionStatusGenerator('fetch_list');
+        const state = this.state;
+        const sort = this.sort;
 
-    let newSet, index;
+        switch (type) {
+            case types['pending']:
+                return pending(state);
+            case types['error']:
+                return error(state, payload);
+            case types['success']:
+                return Object.assign({}, state, {
+                    isFetching: false,
+                    fetched: true,
+                    items: formatItems(state, payload.data.list, sort),
+                    total: state.total ? state.total : payload.data.total,
+                    fetchedPages: fetchedPages(state.fetchedPages, payload.request.responseURL),
+                });
+            default:
+                return state;
+        }
+    }
 
-    switch (type) {
-        // Fetch List
-        case types['fetch_list'].pending:
-            return pending(state);
-        case types['fetch_list'].error:
-            return error(state, payload);
-        case types['fetch_list'].success:
-            return Object.assign({}, state, {
-                isFetching: false,
-                fetched: true,
-                items: formatItems(items, payload.data.list, sort),
-                total: state.total ? state.total : payload.data.total,
-                fetchedPages: fetchedPages(state.fetchedPages, payload.request.responseURL),
-            });
+    fetchItemReducer() {
+        const { type, payload } = this.action;
+        const types = this.actionStatusGenerator('fetch_item');
+        const state = this.state;
+        const sort = this.sort;
 
-        // Fetch Item
-        case types['fetch_item'].pending:
-            return pending(state);
-        case types['fetch_item'].error:
-            return error(state, payload);
-        case types['fetch_item'].success:
-            return Object.assign({}, state, {
-                isFetching: false,
-                fetched: true,
-                items: formatItems(items, [payload.data], sort),
-            });
+        switch (type) {
+            case types['pending']:
+                return pending(state);
+            case types['error']:
+                return error(state, payload);
+            case types['success']:
+                return Object.assign({}, state, {
+                    isFetching: false,
+                    fetched: true,
+                    items: formatItems(state.items, [payload.data], sort),
+                });
+            default:
+                return state;
+        }
+    }
 
-        // Post Item
-        case types['post'].pending:
-            return pending(state, true);
-        case types['post'].error:
-            return error(state, payload, true);
-        case types['post'].success:
-            index = items.findIndex(v => v._id === payload.data._id);
+    postItemReducer() {
+        const { type, payload } = this.action;
+        const types = this.actionStatusGenerator('post');
+        const state = this.state;
+        const sort = this.sort;
 
-            if (index < 0) {
-                items.push(payload.data);
-                if (items.length > 1) {
-                    items.sort(sort);
+        switch (type) {
+            case types['pending']:
+                return pending(state, true);
+            case types['error']:
+                return error(state, payload, true);
+            case types['success']:
+                return Object.assign({}, state, {
+                    isFetching: false,
+                    fetched: true,
+                    items: formatItems(state.items, [payload.data], sort),
+                });
+            default:
+                return state;
+        }
+    }
+
+    deleteItemReducer() {
+        const { type, payload } = this.action;
+        const types = this.actionStatusGenerator('delete');
+        const state = this.state;
+        const sort = this.sort;
+        const { items } = state;
+
+        switch (type) {
+            case types['pending']:
+                return pending(state);
+            case types['error']:
+                return error(state, payload);
+            case types['success']:
+                const index = items.findIndex(v => v._id === payload.data);
+
+                if (index > -1) {
+                    items.splice(index, 1);
+                    state.total--;
                 }
-                state.total++;
-            } else {
-                items = items.slice(index, 1, payload.data);
-            }
 
-            return Object.assign({}, state, {
-                isPosting: false,
-                posted: true,
-                items: items,
-            });
-
-        // Delete Item
-        case types['delete'].pending:
-            return pending(state, true);
-        case types['delete'].error:
-            return error(state, payload, true);
-        case types['delete'].success:
-            index = items.findIndex(v => v._id === payload.data);
-
-            if (index > -1) {
-                items.splice(index, 1);
-                state.total--;
-            }
-
-            return Object.assign({}, state, {
-                isPosting: false,
-                posted: true,
-                items: items,
-            });
-
-        default:
-            return state;
+                return Object.assign({}, state, {
+                    isPosting: false,
+                    posted: true,
+                    items: items,
+                });
+            default:
+                return state;
+        }
     }
-};
 
-export default reducer;
+    combinedReducers() {
+        const fetchList = this.fetchListReducer();
+        const fetchItem = this.fetchItemReducer();
+        const postItem = this.postItemReducer();
+        const deleteItem = this.deleteItemReducer();
+
+        return combineReducers({ fetchList, fetchItem, postItem, deleteItem });
+    }
+}
+
+export default Reducer;
