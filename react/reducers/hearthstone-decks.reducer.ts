@@ -1,4 +1,4 @@
-import Reducer from './reducer';
+import reducerSwitch from './reducer';
 import actionTypes from '../constants/action-types.constants';
 
 const initialState = {
@@ -24,40 +24,58 @@ const sort = (a, b) => {
     return 0;
 };
 
+const pending = (state) => {
+    return Object.assign({}, state, { isPosting: true, posted: false, error: null });
+};
+
+const fulfilled = (state, payload, active = false) => {
+    let items = state.items;
+    let item = state.items.find(v => v._id === payload.data);
+
+    if (item) {
+        item.active = active;
+        items.sort(sort);
+    }
+
+    return Object.assign({}, state, {
+        isPosting: false,
+        posted: true,
+        items: items,
+    });
+};
+
+const error = (state, payload) => {
+    const { status, data } = payload.response;
+
+    return Object.assign({}, state, {
+        isPosting: false,
+        error: { status, data },
+    });
+};
+
 const reducer = (state = initialState, action) => {
     const { type, payload } = action;
-    const reducer = new Reducer(state, action, actionTypes.hearthstone_decks, sort);
-    const activeTypes = reducer.actionStatusGenerator('active');
-    const inactiveTypes = reducer.actionStatusGenerator('inactive');
 
     switch (type) {
-        case activeTypes['pending']:
-        case inactiveTypes['pending']:
-            return Object.assign({}, state, { isPosting: true, posted: false, error: null });
-        case activeTypes['error']:
-        case inactiveTypes['error']:
-            const { status, data } = payload.response;
-            return Object.assign({}, state, { isPosting: false, error: { status, data } });
-        case activeTypes['success']:
-        case inactiveTypes['success']:
-            const items = state.items;
-            let item = state.items.find(v => v._id === payload.data);
+        case `${actionTypes.hearthstone_decks.active}_PENDING`:
+            return pending(state);
+        case `${actionTypes.hearthstone_decks.active}_FULFILLED`:
+            return fulfilled(state, payload, true);
+        case `${actionTypes.hearthstone_decks.active}_REJECTED`:
+            return error(state, payload);
 
-            if (item) {
-                item.active = !item.active;
-                items.sort(sort);
-            }
+        case `${actionTypes.hearthstone_decks.inactive}_PENDING`:
+            return pending(state);
+        case `${actionTypes.hearthstone_decks.inactive}_FULFILLED`:
+            return fulfilled(state, payload);
+        case `${actionTypes.hearthstone_decks.inactive}_REJECTED`:
+            return error(state, payload);
 
-            return Object.assign({}, state, {
-                isPosting: false,
-                posted: true,
-                items: items,
-            });
         default:
             break;
     }
 
-    return reducer.combinedReducers();
+    return reducerSwitch(state, action, actionTypes.hearthstone_decks, sort);
 };
 
 export default reducer;

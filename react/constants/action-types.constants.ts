@@ -30,6 +30,7 @@ const actionTypes = {
     },
     hearthstone_matches: {
         fetch_list: 'FETCH_HEARTHSTONE_MATCHES',
+        fetch_item: 'FETCH_HEARTHSTONE_MATCHE',
         post: 'POST_HEARTHSTONE_MATCH',
         delete: 'DELETE_HEARTHSTONE_MATCH',
     },

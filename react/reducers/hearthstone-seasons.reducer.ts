@@ -1,4 +1,4 @@
-import Reducer from './reducer';
+import reducerSwitch from './reducer';
 import actionTypes from '../constants/action-types.constants';
 
 const initialState = {
@@ -18,9 +18,6 @@ const sort = (a, b) => {
     return 0;
 };
 
-const reducer = (state = initialState, action) => {
-    const reducer = new Reducer(state, action, actionTypes.hearthstone_seasons, sort);
-    return reducer.combinedReducers();
-};
+const reducer = (state = initialState, action) => reducerSwitch(state, action, actionTypes.hearthstone_seasons, sort);
 
 export default reducer;
