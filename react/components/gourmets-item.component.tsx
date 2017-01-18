@@ -1,6 +1,6 @@
+import * as moment from 'moment';
 import * as React from 'react';
 import { Link } from 'react-router';
-import { time2Date } from '../helpers';
 import { ItemProps } from '../interface/item.interface';
 
 class GourmetsItem extends React.Component<ItemProps, void> {
@@ -13,7 +13,7 @@ class GourmetsItem extends React.Component<ItemProps, void> {
                     <Link to={'/admin/gourmets/' + data._id}>{data.food}</Link>
                 </td>
                 <td>{data.restaurant}</td>
-                <td>{time2Date(data.date)}</td>
+                <td>{moment(data.date, 'x').format('YYYY-MM-DD')}</td>
                 <td>
                     <a href={data.url} target="_blank">{data.url}</a>
                 </td>

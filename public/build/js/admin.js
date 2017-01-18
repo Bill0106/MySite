@@ -52,7 +52,7 @@
 	var react_router_1 = __webpack_require__(234);
 	var keys_1 = __webpack_require__(288);
 	var routing_1 = __webpack_require__(289);
-	var store_1 = __webpack_require__(608);
+	var store_1 = __webpack_require__(607);
 	axios_1.default.defaults.baseURL = '/api';
 	axios_1.default.defaults.headers.common['auth'] = keys_1.Keys.api.GET;
 	axios_1.default.defaults.headers.post['auth'] = keys_1.Keys.api.POST;
@@ -29711,15 +29711,15 @@
 	var app_component_1 = __webpack_require__(290);
 	var dashboard_container_1 = __webpack_require__(291);
 	var games_container_1 = __webpack_require__(451);
-	var game_container_1 = __webpack_require__(466);
-	var gourmets_container_1 = __webpack_require__(474);
-	var gourmet_container_1 = __webpack_require__(476);
-	var hearthstone_seasons_container_1 = __webpack_require__(478);
-	var hearthstone_season_container_1 = __webpack_require__(480);
-	var hearthstone_decks_container_1 = __webpack_require__(483);
-	var hearthstone_deck_container_1 = __webpack_require__(485);
-	var hearthstone_matches_container_1 = __webpack_require__(494);
-	var hearthstone_match_container_1 = __webpack_require__(496);
+	var game_container_1 = __webpack_require__(575);
+	var gourmets_container_1 = __webpack_require__(583);
+	var gourmet_container_1 = __webpack_require__(585);
+	var hearthstone_seasons_container_1 = __webpack_require__(587);
+	var hearthstone_season_container_1 = __webpack_require__(589);
+	var hearthstone_decks_container_1 = __webpack_require__(592);
+	var hearthstone_deck_container_1 = __webpack_require__(594);
+	var hearthstone_matches_container_1 = __webpack_require__(603);
+	var hearthstone_match_container_1 = __webpack_require__(605);
 	var ROUTING_CONFIG = [
 	    {
 	        path: '/admin',
@@ -35490,9 +35490,9 @@
 	var pagination_component_1 = __webpack_require__(455);
 	var games_item_component_1 = __webpack_require__(456);
 	var gourmets_item_component_1 = __webpack_require__(459);
-	var hearthstone_seasons_item_component_1 = __webpack_require__(461);
-	var hearthstone_decks_item_component_1 = __webpack_require__(462);
-	var hearthstone_matches_item_component_1 = __webpack_require__(464);
+	var hearthstone_seasons_item_component_1 = __webpack_require__(570);
+	var hearthstone_decks_item_component_1 = __webpack_require__(571);
+	var hearthstone_matches_item_component_1 = __webpack_require__(573);
 	var List = (function (_super) {
 	    __extends(List, _super);
 	    function List() {
@@ -35785,9 +35785,9 @@
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
+	var moment = __webpack_require__(460);
 	var React = __webpack_require__(27);
 	var react_router_1 = __webpack_require__(234);
-	var helpers_1 = __webpack_require__(460);
 	var GourmetsItem = (function (_super) {
 	    __extends(GourmetsItem, _super);
 	    function GourmetsItem() {
@@ -35801,7 +35801,7 @@
 	                React.createElement(react_router_1.Link, {to: '/admin/gourmets/' + data._id}, data.food)
 	            ), 
 	            React.createElement("td", null, data.restaurant), 
-	            React.createElement("td", null, helpers_1.time2Date(data.date)), 
+	            React.createElement("td", null, moment(data.date, 'x').format('YYYY-MM-DD')), 
 	            React.createElement("td", null, 
 	                React.createElement("a", {href: data.url, target: "_blank"}, data.url)
 	            ), 
@@ -35817,1741 +35817,6 @@
 
 /***/ },
 /* 460 */
-/***/ function(module, exports) {
-
-	"use strict";
-	var time2Date = function (timestamp, displayTime) {
-	    if (displayTime === void 0) { displayTime = false; }
-	    if (!timestamp) {
-	        return;
-	    }
-	    var time = new Date(timestamp);
-	    var year = time.getFullYear();
-	    var month = (time.getMonth() + 1);
-	    var day = time.getDate();
-	    var hour = time.getHours();
-	    var minute = time.getMinutes();
-	    var second = time.getSeconds();
-	    var arr = [month, day, hour, minute, second];
-	    var newArr = arr.map(function (t) { return ('0' + t).slice(-2); });
-	    var dateArray = [year.toString()].concat(newArr.slice(0, 2));
-	    var timeArray = newArr.slice(2);
-	    var ts = dateArray.join('-');
-	    if (displayTime) {
-	        ts = ts + ' ' + timeArray.join(':');
-	    }
-	    return ts;
-	};
-	exports.time2Date = time2Date;
-
-
-/***/ },
-/* 461 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(27);
-	var react_router_1 = __webpack_require__(234);
-	var HearthstoneSeasonsItem = (function (_super) {
-	    __extends(HearthstoneSeasonsItem, _super);
-	    function HearthstoneSeasonsItem() {
-	        _super.apply(this, arguments);
-	    }
-	    HearthstoneSeasonsItem.prototype.render = function () {
-	        var data = this.props.data;
-	        return (React.createElement("tr", null, 
-	            React.createElement("td", null, data._id), 
-	            React.createElement("td", null, 
-	                React.createElement(react_router_1.Link, {to: '/admin/hearthstone-seasons/' + data.url}, data.title)
-	            ), 
-	            React.createElement("td", null, data.month), 
-	            React.createElement("td", null, data.rank), 
-	            React.createElement("td", null, data.url), 
-	            React.createElement("td", null, 
-	                React.createElement("button", {type: "button", className: "btn btn-danger", onClick: this.props.delete}, "×")
-	            )));
-	    };
-	    return HearthstoneSeasonsItem;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneSeasonsItem;
-
-
-/***/ },
-/* 462 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(27);
-	var react_router_1 = __webpack_require__(234);
-	var hearthstone_player_classes_1 = __webpack_require__(463);
-	var HearthstoneDecksItem = (function (_super) {
-	    __extends(HearthstoneDecksItem, _super);
-	    function HearthstoneDecksItem() {
-	        _super.apply(this, arguments);
-	    }
-	    HearthstoneDecksItem.prototype.render = function () {
-	        var _a = this.props, data = _a.data, active = _a.active, inactive = _a.inactive;
-	        return (React.createElement("tr", null, 
-	            React.createElement("td", null, data._id), 
-	            React.createElement("td", null, 
-	                React.createElement(react_router_1.Link, {to: '/admin/hearthstone-decks/' + data._id}, data.name)
-	            ), 
-	            React.createElement("td", null, hearthstone_player_classes_1.HearthstonePlayerClasses.find(function (player) { return player.value === data.playerClass; }).name), 
-	            React.createElement("td", null, data.active ? 'Active' : 'Inactive'), 
-	            React.createElement("td", null, 
-	                React.createElement("button", {className: "btn btn-warning", type: "button", onClick: data.active ? inactive : active}, data.active ? 'Inactive' : 'Active'), 
-	                React.createElement("button", {className: "btn btn-danger", type: "button", onClick: this.props.delete}, "×"))));
-	    };
-	    return HearthstoneDecksItem;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneDecksItem;
-
-
-/***/ },
-/* 463 */
-/***/ function(module, exports) {
-
-	"use strict";
-	var HEARTHSTONE_PLAYER_CLASSES = [
-	    {
-	        value: 0,
-	        name: "Druid"
-	    },
-	    {
-	        value: 1,
-	        name: "Hunter"
-	    },
-	    {
-	        value: 2,
-	        name: "Mage"
-	    },
-	    {
-	        value: 3,
-	        name: "Paladin"
-	    },
-	    {
-	        value: 4,
-	        name: "Priest"
-	    },
-	    {
-	        value: 5,
-	        name: "Rogue"
-	    },
-	    {
-	        value: 6,
-	        name: "Shaman"
-	    },
-	    {
-	        value: 7,
-	        name: "Warlock"
-	    },
-	    {
-	        value: 8,
-	        name: "Warrior"
-	    }
-	];
-	exports.HearthstonePlayerClasses = HEARTHSTONE_PLAYER_CLASSES;
-
-
-/***/ },
-/* 464 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(27);
-	var helpers_1 = __webpack_require__(460);
-	var hearthstone_match_result_1 = __webpack_require__(465);
-	var hearthstone_player_classes_1 = __webpack_require__(463);
-	var HearthstoneMatchesItem = (function (_super) {
-	    __extends(HearthstoneMatchesItem, _super);
-	    function HearthstoneMatchesItem() {
-	        _super.apply(this, arguments);
-	    }
-	    HearthstoneMatchesItem.prototype.render = function () {
-	        var _a = this.props, data = _a.data, deck = _a.deck;
-	        return (React.createElement("tr", null, 
-	            React.createElement("td", null, data._id), 
-	            React.createElement("td", null, helpers_1.time2Date(data.time, true)), 
-	            React.createElement("td", null, deck ? deck.name : data.deck_id), 
-	            React.createElement("td", null, hearthstone_player_classes_1.HearthstonePlayerClasses.find(function (r) { return r.value === data.opponent; }).name), 
-	            React.createElement("td", null, hearthstone_match_result_1.HearthstoneMatchResult.find(function (r) { return r.value === data.result; }).name), 
-	            React.createElement("td", null, 
-	                React.createElement("button", {className: "btn btn-danger", type: "button", onClick: this.props.delete}, "×")
-	            )));
-	    };
-	    return HearthstoneMatchesItem;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneMatchesItem;
-
-
-/***/ },
-/* 465 */
-/***/ function(module, exports) {
-
-	"use strict";
-	var HEARTHSTONE_MATCH_RESULT = [
-	    {
-	        value: 1,
-	        name: 'Win'
-	    },
-	    {
-	        value: 0,
-	        name: 'Draw'
-	    },
-	    {
-	        value: -1,
-	        name: 'Lose'
-	    }
-	];
-	exports.HearthstoneMatchResult = HEARTHSTONE_MATCH_RESULT;
-
-
-/***/ },
-/* 466 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var react_redux_1 = __webpack_require__(204);
-	var games_action_1 = __webpack_require__(452);
-	var item_action_1 = __webpack_require__(467);
-	var game_fields_constants_1 = __webpack_require__(468);
-	var item_component_1 = __webpack_require__(469);
-	var mapStateToProps = function (state) {
-	    return {
-	        list: state.games,
-	        item: state.item,
-	        type: 'Game',
-	        fields: game_fields_constants_1.default,
-	    };
-	};
-	var mapDispatchToProps = function (dispatch) {
-	    return {
-	        initItemCreate: function () { return dispatch(item_action_1.initItemCreate()); },
-	        getItem: function (params) { return dispatch(games_action_1.fetchGame(params.url)); },
-	        setItem: function (item) { return dispatch(item_action_1.setItem(item)); },
-	        createItem: function (item) { return dispatch(games_action_1.createGame(item)); },
-	        updateItem: function (item, params) { return dispatch(games_action_1.updateGame(item, params)); },
-	        changeItem: function (field, value) { return dispatch(item_action_1.changeItem({ field: field, value: value })); },
-	    };
-	};
-	var Game = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(item_component_1.default);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = Game;
-
-
-/***/ },
-/* 467 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var redux_actions_1 = __webpack_require__(292);
-	var action_types_constants_1 = __webpack_require__(447);
-	var item = action_types_constants_1.default.item;
-	var initItemCreate = redux_actions_1.createAction(item.init);
-	exports.initItemCreate = initItemCreate;
-	var setItem = redux_actions_1.createAction(item.set);
-	exports.setItem = setItem;
-	var changeItem = redux_actions_1.createAction(item.change);
-	exports.changeItem = changeItem;
-
-
-/***/ },
-/* 468 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var game_genres_1 = __webpack_require__(458);
-	var game_platforms_1 = __webpack_require__(457);
-	var GameFields = [
-	    {
-	        name: 'image',
-	        type: 'image',
-	        placeholder: 'https://placeholdit.imgix.net/~text?txtsize=30&txt=570%C3%97570&w=150&h=150',
-	    },
-	    {
-	        name: 'title',
-	        type: 'input',
-	    },
-	    {
-	        name: 'name',
-	        type: 'input',
-	    },
-	    {
-	        name: 'developer',
-	        type: 'input',
-	    },
-	    {
-	        name: 'publisher',
-	        type: 'input',
-	    },
-	    {
-	        name: 'release_at',
-	        type: 'date',
-	    },
-	    {
-	        name: 'buy_at',
-	        type: 'date',
-	    },
-	    {
-	        name: 'rate',
-	        type: 'radio',
-	        enum: ['1', '2', '3', '4', '5'],
-	    },
-	    {
-	        name: 'url',
-	        type: 'input',
-	    },
-	    {
-	        name: 'platform',
-	        type: 'select',
-	        enum: game_platforms_1.GamePlatforms,
-	    },
-	    {
-	        name: 'genre',
-	        type: 'select',
-	        enum: game_genres_1.GameGenres,
-	    },
-	    {
-	        name: 'description',
-	        type: 'text',
-	    },
-	];
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = GameFields;
-
-
-/***/ },
-/* 469 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(27);
-	var page_header_component_1 = __webpack_require__(454);
-	var alert_component_1 = __webpack_require__(450);
-	var form_component_1 = __webpack_require__(470);
-	var Item = (function (_super) {
-	    __extends(Item, _super);
-	    function Item() {
-	        _super.apply(this, arguments);
-	    }
-	    Item.prototype.componentWillMount = function () {
-	        var _a = this.props, initItemCreate = _a.initItemCreate, type = _a.type, params = _a.params;
-	        if (Object.values(params).indexOf('add') < 0) {
-	            document.title = "Edit - " + type + " | Admin";
-	        }
-	        else {
-	            document.title = "Add - " + type + " | Admin";
-	        }
-	        initItemCreate();
-	    };
-	    Item.prototype.componentDidMount = function () {
-	        var _a = this.props, params = _a.params, type = _a.type, list = _a.list, getItem = _a.getItem, setItem = _a.setItem;
-	        var items = list.items;
-	        var item = this.handleItemSearch();
-	        if (item) {
-	            setItem(item);
-	        }
-	        else if (Object.values(params).indexOf('add') < 0) {
-	            getItem(params);
-	        }
-	    };
-	    Item.prototype.componentWillUpdate = function (nextProps, nextState) {
-	        var item = nextProps.item, setItem = nextProps.setItem;
-	        var obj = this.handleItemSearch();
-	        if (!item.data && obj) {
-	            setItem(obj);
-	        }
-	    };
-	    Item.prototype.handleItemSearch = function () {
-	        var _a = this.props, type = _a.type, list = _a.list, params = _a.params;
-	        var items = list.items;
-	        if (type === 'Gourmet') {
-	            return items.find(function (v) { return v._id === params['id']; });
-	        }
-	        else {
-	            return items.find(function (v) { return v.url === params['url']; });
-	        }
-	    };
-	    Item.prototype.handlePost = function () {
-	        var _a = this.props, item = _a.item, createItem = _a.createItem, updateItem = _a.updateItem, params = _a.params;
-	        if (Object.values(params).indexOf('add') < 0) {
-	            updateItem(item.data, params);
-	        }
-	        else {
-	            createItem(item.data);
-	        }
-	        window.scrollTo(0, 0);
-	    };
-	    Item.prototype.render = function () {
-	        var _a = this.props, type = _a.type, fields = _a.fields, item = _a.item, list = _a.list, changeItem = _a.changeItem;
-	        var isFetching = list.isFetching, isPosting = list.isPosting, posted = list.posted, error = list.error;
-	        var title = (item.data ? 'Edit' : 'Add') + " - " + type;
-	        return (React.createElement("div", {className: "container-fluid"}, 
-	            React.createElement(page_header_component_1.default, {title: title}), 
-	            React.createElement(alert_component_1.default, {isPosting: isPosting, isFetching: isFetching, posted: posted, error: error}), 
-	            React.createElement(form_component_1.default, {fields: fields, data: item.data, change: function (f, v) { return changeItem(f, v); }, submit: this.handlePost.bind(this)})));
-	    };
-	    return Item;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = Item;
-
-
-/***/ },
-/* 470 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(27);
-	var field_component_1 = __webpack_require__(471);
-	var Form = (function (_super) {
-	    __extends(Form, _super);
-	    function Form() {
-	        _super.apply(this, arguments);
-	    }
-	    Form.prototype.handleSubmit = function (e) {
-	        e.preventDefault();
-	        var submit = this.props.submit;
-	        submit();
-	    };
-	    Form.prototype.render = function () {
-	        var _a = this.props, fields = _a.fields, data = _a.data, change = _a.change;
-	        return (React.createElement("form", {onSubmit: this.handleSubmit.bind(this)}, 
-	            React.createElement("table", {className: "table table-bordered"}, 
-	                React.createElement("tbody", null, fields.map(function (field, key) {
-	                    return React.createElement(field_component_1.default, {field: field, key: key, data: data ? data[field.name] : '', change: function (f, v) { return change(f, v); }});
-	                }))
-	            ), 
-	            React.createElement("div", {className: "form-group"}, 
-	                React.createElement("button", {className: "btn btn-success", type: "submit"}, "Submit")
-	            )));
-	    };
-	    return Form;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = Form;
-
-
-/***/ },
-/* 471 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(27);
-	var helpers_1 = __webpack_require__(460);
-	var image_container_1 = __webpack_require__(472);
-	var Field = (function (_super) {
-	    __extends(Field, _super);
-	    function Field() {
-	        _super.apply(this, arguments);
-	    }
-	    Field.prototype.handleChange = function (e) {
-	        var _a = this.props, change = _a.change, field = _a.field;
-	        change(field.name, e.target.value);
-	    };
-	    Field.prototype.handleField = function (field, data) {
-	        var _this = this;
-	        switch (field.type) {
-	            case 'image':
-	                return React.createElement(image_container_1.default, {image: data ? JSON.parse(data).url : field.placeholder, change: function (f, v) { return _this.props.change(f, v); }});
-	            case 'text':
-	                return React.createElement("textarea", {value: data, className: "form-control", rows: 20, onChange: this.handleChange.bind(this)});
-	            case 'select':
-	                return (React.createElement("select", {className: "form-control", value: data, onChange: this.handleChange.bind(this)}, field.enum.map(function (option) {
-	                    return React.createElement("option", {value: option.value, key: option.value}, option.value + ' - ' + option.name);
-	                })));
-	            case 'date':
-	                return React.createElement("input", {className: "form-control", type: "date", value: helpers_1.time2Date(data), onChange: this.handleChange.bind(this)});
-	            case 'radio':
-	                return (React.createElement("div", null, field.enum.map(function (radio) {
-	                    return (React.createElement("label", {className: "radio-inline", key: radio}, 
-	                        React.createElement("input", {type: "radio", value: radio, checked: data === radio, onChange: _this.handleChange.bind(_this)}), 
-	                        radio));
-	                })));
-	            case 'checkbox':
-	                var checked_1 = typeof data === 'boolean' ? data : (data === 'true');
-	                return (React.createElement("div", null, field.enum.map(function (check) {
-	                    return (React.createElement("label", {className: "checkbox-inline", key: check.value}, 
-	                        React.createElement("input", {type: "checkbox", value: check.value, checked: checked_1 === check.value, onChange: _this.handleChange.bind(_this)}), 
-	                        check.name));
-	                })));
-	            default:
-	                return React.createElement("input", {type: "text", className: "form-control", onChange: this.handleChange.bind(this), placeholder: 'ENTER ' + field.name.toUpperCase(), value: data || ''});
-	        }
-	    };
-	    Field.prototype.render = function () {
-	        var _a = this.props, field = _a.field, data = _a.data;
-	        return (React.createElement("tr", null, 
-	            React.createElement("td", null, 
-	                React.createElement("label", null, field.name.toUpperCase())
-	            ), 
-	            React.createElement("td", null, this.handleField(field, data))));
-	    };
-	    return Field;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = Field;
-
-
-/***/ },
-/* 472 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var axios_1 = __webpack_require__(1);
-	var react_redux_1 = __webpack_require__(204);
-	var redux_actions_1 = __webpack_require__(292);
-	var action_types_constants_1 = __webpack_require__(447);
-	var image_upload_component_1 = __webpack_require__(473);
-	var image = action_types_constants_1.default.image;
-	var mapStateToProps = function (state, ownProps) {
-	    return {
-	        image: state.image,
-	        imageUrl: ownProps.image,
-	        change: ownProps.change,
-	    };
-	};
-	var mapDispatchToProps = function (dispatch) {
-	    var uploadImage = redux_actions_1.createAction(image.post, function (file) { return axios_1.default.post('/images', file); });
-	    var initImage = redux_actions_1.createAction(image.init);
-	    return {
-	        upload: function (file) { return dispatch(uploadImage(file)); },
-	        init: function () { return dispatch(initImage()); },
-	    };
-	};
-	var Image = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(image_upload_component_1.default);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = Image;
-
-
-/***/ },
-/* 473 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(27);
-	var ImageUpload = (function (_super) {
-	    __extends(ImageUpload, _super);
-	    function ImageUpload() {
-	        _super.apply(this, arguments);
-	    }
-	    ImageUpload.prototype.componentWillMount = function () {
-	        var init = this.props.init;
-	        init();
-	    };
-	    ImageUpload.prototype.componentWillUpdate = function (nextProps, nextState) {
-	        var change = this.props.change;
-	        var image = nextProps.image;
-	        if (!this.props.image.fetched && image.fetched) {
-	            change('image', JSON.stringify(image.image));
-	        }
-	    };
-	    ImageUpload.prototype.handleUpload = function (e) {
-	        var upload = this.props.upload;
-	        var data = new FormData();
-	        data.append('file', e.target.files[0]);
-	        upload(data);
-	    };
-	    ImageUpload.prototype.handleStatus = function (image) {
-	        var isPosting = image.isPosting, error = image.error;
-	        if (isPosting) {
-	            return React.createElement("div", {className: "alert alert-info"}, "Posting...");
-	        }
-	        else if (error) {
-	            return React.createElement("div", {className: "alert alert-danger"}, error.data);
-	        }
-	    };
-	    ImageUpload.prototype.render = function () {
-	        var _a = this.props, image = _a.image, imageUrl = _a.imageUrl, change = _a.change;
-	        return (React.createElement("div", {className: "clearfix"}, 
-	            React.createElement("div", {className: "admin-image-upload"}, 
-	                React.createElement("img", {src: imageUrl, alt: ""}), 
-	                React.createElement("input", {type: "file", onChange: this.handleUpload.bind(this)})), 
-	            this.handleStatus(image)));
-	    };
-	    return ImageUpload;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = ImageUpload;
-
-
-/***/ },
-/* 474 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var react_redux_1 = __webpack_require__(204);
-	var gourmets_action_1 = __webpack_require__(475);
-	var list_component_1 = __webpack_require__(453);
-	var mapStateToProps = function (state) {
-	    return {
-	        list: state.gourmets,
-	        type: 'Gourmets',
-	    };
-	};
-	var mapDispatchToProps = function (dispatch) {
-	    return {
-	        getList: function (page) {
-	            if (page === void 0) { page = null; }
-	            return dispatch(gourmets_action_1.fetchGourmets(page));
-	        },
-	        postDelete: function (url) { return dispatch(gourmets_action_1.deleteGourmet(url)); },
-	    };
-	};
-	var Gourmets = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(list_component_1.default);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = Gourmets;
-
-
-/***/ },
-/* 475 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var redux_actions_1 = __webpack_require__(292);
-	var axios_1 = __webpack_require__(1);
-	var action_types_constants_1 = __webpack_require__(447);
-	var gourmets = action_types_constants_1.default.gourmets;
-	var fetchGourmets = redux_actions_1.createAction(gourmets.fetch_list, function (page) {
-	    var url = "/gourmets?limit=30" + (page ? '&page=' + page : '');
-	    return axios_1.default.get(url);
-	});
-	exports.fetchGourmets = fetchGourmets;
-	var fetchGourmet = redux_actions_1.createAction(gourmets.fetch_item, function (id) { return axios_1.default.get('/gourmets/' + id); });
-	exports.fetchGourmet = fetchGourmet;
-	var createGourmet = redux_actions_1.createAction(gourmets.post, function (gourmet) { return axios_1.default.post('/gourmets', gourmets); });
-	exports.createGourmet = createGourmet;
-	var updateGourmet = redux_actions_1.createAction(gourmets.post, function (gourmet, id) { return axios_1.default.post('/gourmets/' + id, gourmet); });
-	exports.updateGourmet = updateGourmet;
-	var deleteGourmet = redux_actions_1.createAction(gourmets.delete, function (id) { return axios_1.default.post('/gourmets/' + id + '/delete'); });
-	exports.deleteGourmet = deleteGourmet;
-
-
-/***/ },
-/* 476 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var react_redux_1 = __webpack_require__(204);
-	var gourmets_action_1 = __webpack_require__(475);
-	var item_action_1 = __webpack_require__(467);
-	var gourmet_fields_constants_1 = __webpack_require__(477);
-	var item_component_1 = __webpack_require__(469);
-	var mapStateToProps = function (state) {
-	    return {
-	        list: state.gourmets,
-	        item: state.item,
-	        type: 'Gourmet',
-	        fields: gourmet_fields_constants_1.default,
-	    };
-	};
-	var mapDispatchToProps = function (dispatch) {
-	    return {
-	        initItemCreate: function () { return dispatch(item_action_1.initItemCreate()); },
-	        getItem: function (params) { return dispatch(gourmets_action_1.fetchGourmet(params.id)); },
-	        setItem: function (item) { return dispatch(item_action_1.setItem(item)); },
-	        createItem: function (item) { return dispatch(gourmets_action_1.createGourmet(item)); },
-	        updateItem: function (item, params) { return dispatch(gourmets_action_1.updateGourmet(item, params.id)); },
-	        changeItem: function (field, value) { return dispatch(item_action_1.changeItem({ field: field, value: value })); },
-	    };
-	};
-	var Gourmet = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(item_component_1.default);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = Gourmet;
-
-
-/***/ },
-/* 477 */
-/***/ function(module, exports) {
-
-	"use strict";
-	var GourmetFields = [
-	    {
-	        name: 'image',
-	        type: 'image',
-	        placeholder: 'https://placeholdit.imgix.net/~text?txtsize=30&txt=300%C3%97300&w=150&h=150',
-	    },
-	    {
-	        name: 'food',
-	        type: 'input',
-	    },
-	    {
-	        name: 'restaurant',
-	        type: 'input',
-	    },
-	    {
-	        name: 'date',
-	        type: 'date',
-	    },
-	    {
-	        name: 'url',
-	        type: 'input',
-	    },
-	];
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = GourmetFields;
-
-
-/***/ },
-/* 478 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var react_redux_1 = __webpack_require__(204);
-	var hearthstone_seasons_action_1 = __webpack_require__(479);
-	var list_component_1 = __webpack_require__(453);
-	var mapStateToProps = function (state) {
-	    return {
-	        list: state.hearthstoneSeasons,
-	        type: 'Hearthstone-Seasons',
-	    };
-	};
-	var mapDispatchToProps = function (dispatch) {
-	    return {
-	        getList: function (page) {
-	            if (page === void 0) { page = null; }
-	            return dispatch(hearthstone_seasons_action_1.fetchSeasons(page));
-	        },
-	        postDelete: function (url) { return dispatch(hearthstone_seasons_action_1.deleteSeason(url)); },
-	    };
-	};
-	var HearthstoneSeasons = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(list_component_1.default);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneSeasons;
-
-
-/***/ },
-/* 479 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var redux_actions_1 = __webpack_require__(292);
-	var axios_1 = __webpack_require__(1);
-	var action_types_constants_1 = __webpack_require__(447);
-	var hearthstone_seasons = action_types_constants_1.default.hearthstone_seasons;
-	var fetchSeasons = redux_actions_1.createAction(hearthstone_seasons.fetch_list, function (page) {
-	    if (page === void 0) { page = null; }
-	    var url = "/hearthstone-seasons?limit=30" + (page ? '&page=' + page : '');
-	    return axios_1.default.get(url);
-	});
-	exports.fetchSeasons = fetchSeasons;
-	var fetchSeason = redux_actions_1.createAction(hearthstone_seasons.fetch_item, function (url) { return axios_1.default.get('/hearthstone-seasons/' + url); });
-	exports.fetchSeason = fetchSeason;
-	var createSeason = redux_actions_1.createAction(hearthstone_seasons.post, function (season) { return axios_1.default.post('/hearthstone-seasons/', season); });
-	exports.createSeason = createSeason;
-	var updateSeason = redux_actions_1.createAction(hearthstone_seasons.post, function (season, url) { return axios_1.default.post('/hearthstone-seasons/' + url, season); });
-	exports.updateSeason = updateSeason;
-	var deleteSeason = redux_actions_1.createAction(hearthstone_seasons.post, function (url) { return axios_1.default.post('/hearthstone-seasons/' + url + '/delete'); });
-	exports.deleteSeason = deleteSeason;
-
-
-/***/ },
-/* 480 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var react_redux_1 = __webpack_require__(204);
-	var hearthstone_seasons_action_1 = __webpack_require__(479);
-	var item_action_1 = __webpack_require__(467);
-	var hearthstone_season_fields_constants_1 = __webpack_require__(481);
-	var item_component_1 = __webpack_require__(469);
-	var mapStateToProps = function (state) {
-	    return {
-	        list: state.hearthstoneSeasons,
-	        item: state.item,
-	        type: 'Hearthstone-Season',
-	        fields: hearthstone_season_fields_constants_1.default,
-	    };
-	};
-	var mapDispatchToProps = function (dispatch) {
-	    return {
-	        initItemCreate: function () { return dispatch(item_action_1.initItemCreate()); },
-	        getItem: function (params) { return dispatch(hearthstone_seasons_action_1.fetchSeason(params.url)); },
-	        setItem: function (item) { return dispatch(item_action_1.setItem(item)); },
-	        createItem: function (item) { return dispatch(hearthstone_seasons_action_1.createSeason(item)); },
-	        updateItem: function (item, params) { return dispatch(hearthstone_seasons_action_1.updateSeason(item, params.url)); },
-	        changeItem: function (field, value) { return dispatch(item_action_1.changeItem({ field: field, value: value })); },
-	    };
-	};
-	var HearthstoneSeason = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(item_component_1.default);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneSeason;
-
-
-/***/ },
-/* 481 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var hearthstone_season_ranked_1 = __webpack_require__(482);
-	var HearthstoneSeasonFields = [
-	    {
-	        name: 'image',
-	        type: 'image',
-	        placeholder: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=760%C3%97270&w=442&h=150',
-	    },
-	    {
-	        name: 'title',
-	        type: 'input',
-	    },
-	    {
-	        name: 'month',
-	        type: 'date',
-	    },
-	    {
-	        name: 'rank',
-	        type: 'select',
-	        enum: hearthstone_season_ranked_1.HearthstoneSeasonRanked,
-	    },
-	    {
-	        name: 'url',
-	        type: 'input',
-	    },
-	    {
-	        name: 'description',
-	        type: 'text',
-	    },
-	];
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneSeasonFields;
-
-
-/***/ },
-/* 482 */
-/***/ function(module, exports) {
-
-	"use strict";
-	var HEARTHSTONE_SEASON_RANKED = [
-	    {
-	        value: 0,
-	        name: 'Legend'
-	    },
-	    {
-	        value: 1,
-	        name: 'Innkeeper'
-	    },
-	    {
-	        value: 2,
-	        name: 'The Black Knight'
-	    },
-	    {
-	        value: 3,
-	        name: 'Molten Giant'
-	    },
-	    {
-	        value: 4,
-	        name: '	Mountain Giant'
-	    },
-	    {
-	        value: 5,
-	        name: 'Sea Giant'
-	    },
-	    {
-	        value: 6,
-	        name: 'Ancient of War'
-	    },
-	    {
-	        value: 7,
-	        name: 'Sunwalker'
-	    },
-	    {
-	        value: 8,
-	        name: 'Frostwolf Warlord'
-	    },
-	    {
-	        value: 9,
-	        name: 'Silver Hand Knight'
-	    },
-	    {
-	        value: 10,
-	        name: 'Ogre Magi'
-	    },
-	    {
-	        value: 11,
-	        name: 'Big Game Hunter'
-	    },
-	    {
-	        value: 12,
-	        name: 'Warsong Commander'
-	    },
-	    {
-	        value: 13,
-	        name: '	Dread Corsair'
-	    },
-	    {
-	        value: 14,
-	        name: '	Raid Leader'
-	    },
-	    {
-	        value: 15,
-	        name: 'Silvermoon Guardian'
-	    },
-	    {
-	        value: 16,
-	        name: '	Questing Adventurer'
-	    },
-	    {
-	        value: 17,
-	        name: 'Tauren Warrior'
-	    },
-	    {
-	        value: 18,
-	        name: 'Sorcerer\'s Apprentice'
-	    },
-	    {
-	        value: 19,
-	        name: 'Novice Engineer'
-	    },
-	    {
-	        value: 20,
-	        name: '	Shieldbearer'
-	    },
-	    {
-	        value: 21,
-	        name: '	Southsea Deckhand'
-	    },
-	    {
-	        value: 22,
-	        name: 'Murloc Raider'
-	    },
-	    {
-	        value: 23,
-	        name: 'Argent Squire'
-	    },
-	    {
-	        value: 24,
-	        name: 'Leper Gnome'
-	    },
-	    {
-	        value: 25,
-	        name: '	Angry Chicken'
-	    },
-	];
-	exports.HearthstoneSeasonRanked = HEARTHSTONE_SEASON_RANKED;
-
-
-/***/ },
-/* 483 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var react_redux_1 = __webpack_require__(204);
-	var hearthstone_decks_action_1 = __webpack_require__(484);
-	var list_component_1 = __webpack_require__(453);
-	var mapStateToProps = function (state) {
-	    return {
-	        list: state.hearthstoneDecks,
-	        type: 'Hearthstone-Decks',
-	    };
-	};
-	var mapDispatchToProps = function (dispatch) {
-	    return {
-	        getList: function (page) {
-	            if (page === void 0) { page = null; }
-	            return dispatch(hearthstone_decks_action_1.fetchDecks({ page: page }));
-	        },
-	        postDelete: function (id) { return dispatch(hearthstone_decks_action_1.deleteDeck(id)); },
-	        activeDeck: function (id) { return dispatch(hearthstone_decks_action_1.activeDeck(id)); },
-	        inactiveDeck: function (id) { return dispatch(hearthstone_decks_action_1.inactiveDeck(id)); },
-	    };
-	};
-	var HearthstoneDecks = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(list_component_1.default);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneDecks;
-
-
-/***/ },
-/* 484 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var redux_actions_1 = __webpack_require__(292);
-	var axios_1 = __webpack_require__(1);
-	var action_types_constants_1 = __webpack_require__(447);
-	var hearthstone_decks = action_types_constants_1.default.hearthstone_decks;
-	var fetchDecks = redux_actions_1.createAction(hearthstone_decks.fetch_list, function (params) {
-	    var base = '/hearthstone-decks';
-	    var url = base + "?limit=30";
-	    if (params.hasOwnProperty('page') && params.page) {
-	        url = url + "&page=" + params.page;
-	    }
-	    else if (params.hasOwnProperty('ids')) {
-	        url = base + "?ids=" + params.ids.join(',');
-	    }
-	    else if (params.hasOwnProperty('active')) {
-	        url = base + "?active=" + params.active;
-	    }
-	    return axios_1.default.get(url);
-	});
-	exports.fetchDecks = fetchDecks;
-	var fetchDeck = redux_actions_1.createAction(hearthstone_decks.fetch_item, function (id) { return axios_1.default.get('/hearthstone-decks/' + id); });
-	exports.fetchDeck = fetchDeck;
-	var createDeck = redux_actions_1.createAction(hearthstone_decks.post, function (deck) { return axios_1.default.post('/hearthstone-decks/', deck); });
-	exports.createDeck = createDeck;
-	var updateDeck = redux_actions_1.createAction(hearthstone_decks.post, function (deck, id) { return axios_1.default.post('/hearthstone-decks/' + id, deck); });
-	exports.updateDeck = updateDeck;
-	var deleteDeck = redux_actions_1.createAction(hearthstone_decks.post, function (id) { return axios_1.default.post('/hearthstone-decks/' + id + '/delete'); });
-	exports.deleteDeck = deleteDeck;
-	var activeDeck = redux_actions_1.createAction(hearthstone_decks.active, function (id) { return axios_1.default.post('/hearthstone-decks/' + id + '/active'); });
-	exports.activeDeck = activeDeck;
-	var inactiveDeck = redux_actions_1.createAction(hearthstone_decks.inactive, function (id) { return axios_1.default.post('/hearthstone-decks/' + id + '/inactive'); });
-	exports.inactiveDeck = inactiveDeck;
-
-
-/***/ },
-/* 485 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var react_redux_1 = __webpack_require__(204);
-	var hearthstone_decks_action_1 = __webpack_require__(484);
-	var item_action_1 = __webpack_require__(467);
-	var hearthstone_deck_page_component_1 = __webpack_require__(486);
-	var mapStateToProps = function (state) {
-	    return {
-	        list: state.hearthstoneDecks,
-	        deck: state.item,
-	    };
-	};
-	var mapDispatchToProps = function (dispatch) {
-	    return {
-	        getDeck: function (id) { return dispatch(hearthstone_decks_action_1.fetchDeck(id)); },
-	        setDeck: function (deck) { return dispatch(item_action_1.setItem(deck)); },
-	        changeDeck: function (field, value) { return dispatch(item_action_1.changeItem({ field: field, value: value })); },
-	        createDeck: function (deck) { return dispatch(hearthstone_decks_action_1.createDeck(deck)); },
-	        updateDeck: function (deck, id) { return dispatch(hearthstone_decks_action_1.updateDeck(deck, id)); },
-	        initCreateDeck: function () { return dispatch(item_action_1.initItemCreate()); },
-	    };
-	};
-	var HearthstoneDeck = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(hearthstone_deck_page_component_1.default);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneDeck;
-
-
-/***/ },
-/* 486 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(27);
-	var hearthstone_deck_fields_constants_1 = __webpack_require__(487);
-	var page_header_component_1 = __webpack_require__(454);
-	var alert_component_1 = __webpack_require__(450);
-	var form_component_1 = __webpack_require__(470);
-	var hearthstone_deck_cards_container_1 = __webpack_require__(488);
-	var hearthstone_cards_container_1 = __webpack_require__(491);
-	var HearthstoneDeckPage = (function (_super) {
-	    __extends(HearthstoneDeckPage, _super);
-	    function HearthstoneDeckPage() {
-	        _super.apply(this, arguments);
-	    }
-	    HearthstoneDeckPage.prototype.componentWillMount = function () {
-	        var _a = this.props, params = _a.params, initCreateDeck = _a.initCreateDeck;
-	        if (params['id'] === 'add') {
-	            document.title = 'Add - Hearthstone Decks | Admin';
-	        }
-	        else {
-	            document.title = 'Edit - Hearthstone Decks | Admin';
-	        }
-	        initCreateDeck();
-	    };
-	    HearthstoneDeckPage.prototype.componentDidMount = function () {
-	        var _a = this.props, params = _a.params, list = _a.list, getDeck = _a.getDeck, setDeck = _a.setDeck, changeDeck = _a.changeDeck;
-	        var item = list.items.find(function (v) { return v._id === params['id']; });
-	        if (params['id'] === 'add') {
-	        }
-	        else {
-	            if (item) {
-	                setDeck(item);
-	            }
-	            else {
-	                getDeck(params['id']);
-	            }
-	        }
-	    };
-	    HearthstoneDeckPage.prototype.componentWillUpdate = function (nextProps, nextState) {
-	        var params = nextProps.params, list = nextProps.list, deck = nextProps.deck, setDeck = nextProps.setDeck;
-	        var item = list.items.find(function (v) { return v._id === params['id']; });
-	        if (!deck.data && item) {
-	            setDeck(item);
-	        }
-	    };
-	    HearthstoneDeckPage.prototype.handleChange = function (field, value) {
-	        var changeDeck = this.props.changeDeck;
-	        changeDeck(field, value);
-	    };
-	    HearthstoneDeckPage.prototype.handleCardsSort = function (cards) {
-	        cards.sort(function (a, b) {
-	            if (a.cost > b.cost)
-	                return 1;
-	            if (a.cost < b.cost)
-	                return -1;
-	            if (a.name > b.name)
-	                return 1;
-	            if (a.name > b.name)
-	                return -1;
-	            return 0;
-	        });
-	        return cards;
-	    };
-	    HearthstoneDeckPage.prototype.handleCardsChange = function (selected) {
-	        var changeDeck = this.props.changeDeck;
-	        var sorted = this.handleCardsSort(selected);
-	        var storage = sorted.map(function (e) { return JSON.stringify(e); });
-	        var cards = [];
-	        var _loop_1 = function(card) {
-	            var element = cards.findIndex(function (e) { return e.card === card._id; });
-	            var filter = sorted.filter(function (e) { return e._id === card._id; });
-	            if (element < 0) {
-	                cards.push({
-	                    card: card._id,
-	                    count: filter.length,
-	                });
-	            }
-	        };
-	        for (var _i = 0, sorted_1 = sorted; _i < sorted_1.length; _i++) {
-	            var card = sorted_1[_i];
-	            _loop_1(card);
-	        }
-	        changeDeck('cards', cards);
-	        window.localStorage.setItem('selected_cards', storage.join(';'));
-	    };
-	    HearthstoneDeckPage.prototype.handleSubmit = function (e) {
-	        var _a = this.props, params = _a.params, deck = _a.deck, createDeck = _a.createDeck, updateDeck = _a.updateDeck;
-	        if (params['id'] === 'add') {
-	            createDeck(deck.data);
-	        }
-	        else {
-	            updateDeck(deck.data, params['id']);
-	        }
-	    };
-	    HearthstoneDeckPage.prototype.render = function () {
-	        var _a = this.props, params = _a.params, list = _a.list, deck = _a.deck, changeDeck = _a.changeDeck;
-	        var isFetching = list.isFetching, isPosting = list.isPosting, posted = list.posted, error = list.error;
-	        return (React.createElement("div", {className: "container-fluid"}, 
-	            React.createElement(page_header_component_1.default, {title: params['id'] === 'add' ? 'Add Deck' : 'Edit Deck'}), 
-	            React.createElement(alert_component_1.default, {isPosting: isPosting, isFetching: isFetching, posted: posted, error: error}), 
-	            React.createElement(form_component_1.default, {fields: hearthstone_deck_fields_constants_1.default, data: deck.data, submit: this.handleSubmit.bind(this), change: this.handleChange.bind(this)}), 
-	            React.createElement(hearthstone_deck_cards_container_1.default, {change: this.handleCardsChange.bind(this)}), 
-	            React.createElement(hearthstone_cards_container_1.default, {change: this.handleCardsChange.bind(this), sort: this.handleCardsSort.bind(this)})));
-	    };
-	    return HearthstoneDeckPage;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneDeckPage;
-
-
-/***/ },
-/* 487 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var hearthstone_player_classes_1 = __webpack_require__(463);
-	var HearthstoneDeckFields = [
-	    {
-	        name: 'name',
-	        type: 'input',
-	    },
-	    {
-	        name: 'playerClass',
-	        type: 'select',
-	        enum: hearthstone_player_classes_1.HearthstonePlayerClasses,
-	    },
-	    {
-	        name: 'active',
-	        type: 'checkbox',
-	        enum: [
-	            {
-	                value: true,
-	                name: 'Active',
-	            },
-	            {
-	                value: false,
-	                name: 'Inactive',
-	            },
-	        ],
-	    },
-	];
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneDeckFields;
-
-
-/***/ },
-/* 488 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var react_redux_1 = __webpack_require__(204);
-	var hearthstone_cards_action_1 = __webpack_require__(489);
-	var hearthstone_cards_box_component_1 = __webpack_require__(490);
-	var mapStateToProps = function (state, ownProps) {
-	    return {
-	        cards: state.hearthstoneCards,
-	        deck: state.item,
-	        change: ownProps.change,
-	    };
-	};
-	var mapDispatchToProps = function (dispatch) {
-	    return {
-	        getCards: function (params) { return dispatch(hearthstone_cards_action_1.fetchCards(params)); },
-	    };
-	};
-	var HearthstoneDeckCards = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(hearthstone_cards_box_component_1.default);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneDeckCards;
-
-
-/***/ },
-/* 489 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var redux_actions_1 = __webpack_require__(292);
-	var axios_1 = __webpack_require__(1);
-	var action_types_constants_1 = __webpack_require__(447);
-	var fetchCards = redux_actions_1.createAction(action_types_constants_1.default.hearthstone_cards.fetch_list, function (params) {
-	    var url = '/hearthstone-cards/?standard=true';
-	    if (typeof params !== 'object') {
-	        return axios_1.default.get(url + '&playerClass=-1');
-	    }
-	    if (params.hasOwnProperty('playerClass')) {
-	        url = url + "&playerClass=" + params.playerClass;
-	        if (params.playerClass === -1) {
-	            url = url + "&cost=" + (params.hasOwnProperty('cost') ? params.cost : 1);
-	        }
-	    }
-	    else if (params.hasOwnProperty('ids')) {
-	        url = url + "&ids=" + params.ids.join(',');
-	    }
-	    else {
-	        url = url + "&playerClass=-1";
-	    }
-	    return axios_1.default.get(url);
-	});
-	exports.fetchCards = fetchCards;
-	var changeActiveCost = redux_actions_1.createAction(action_types_constants_1.default.hearthstone_cards.active_cost);
-	exports.changeActiveCost = changeActiveCost;
-
-
-/***/ },
-/* 490 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(27);
-	var HearthstoneCardsBox = (function (_super) {
-	    __extends(HearthstoneCardsBox, _super);
-	    function HearthstoneCardsBox() {
-	        _super.apply(this, arguments);
-	    }
-	    HearthstoneCardsBox.prototype.componentWillMount = function () {
-	        window.localStorage.removeItem('selected_cards');
-	    };
-	    HearthstoneCardsBox.prototype.componentWillUpdate = function (nextProps, nextState) {
-	        var cards = nextProps.cards, deck = nextProps.deck, getCards = nextProps.getCards;
-	        var data = deck.data;
-	        var selected = window.localStorage.getItem('selected_cards');
-	        if (!this.props.deck.data && data) {
-	            var array = data.cards.map(function (e) { return e.card; });
-	            if (array) {
-	                var ids = [];
-	                var _loop_1 = function(element) {
-	                    if (cards.items.findIndex(function (e) { return e._id === element; }) < 0) {
-	                        ids.push(element);
-	                    }
-	                };
-	                for (var _i = 0, array_1 = array; _i < array_1.length; _i++) {
-	                    var element = array_1[_i];
-	                    _loop_1(element);
-	                }
-	                getCards({ ids: ids });
-	            }
-	        }
-	        if (data && !selected) {
-	            var diff = data.cards.filter(function (c) { return cards.items.findIndex(function (e) { return e._id === c.card; }) < 0; });
-	            if (!diff.length) {
-	                var selectedCards = [];
-	                var _loop_2 = function(card) {
-	                    var cardItem = cards.items.find(function (c) { return c._id === card.card; });
-	                    if (cardItem) {
-	                        var str = JSON.stringify(cardItem);
-	                        selectedCards.push(str);
-	                        if (card.count === 2) {
-	                            selectedCards.push(str);
-	                        }
-	                    }
-	                };
-	                for (var _a = 0, _b = data.cards; _a < _b.length; _a++) {
-	                    var card = _b[_a];
-	                    _loop_2(card);
-	                }
-	                if (selectedCards.length) {
-	                    window.localStorage.setItem('selected_cards', selectedCards.join(';'));
-	                }
-	            }
-	        }
-	    };
-	    HearthstoneCardsBox.prototype.handleCardsTotal = function () {
-	        var deck = this.props.deck;
-	        var total = 0;
-	        if (deck.data) {
-	            var totalArray = deck.data.cards.map(function (e) { return e.count; });
-	            total = totalArray.reduce(function (a, b) { return a + b; });
-	        }
-	        return total;
-	    };
-	    HearthstoneCardsBox.prototype.handleRemoveCard = function (id) {
-	        var change = this.props.change;
-	        var storage = window.localStorage.getItem('selected_cards');
-	        var array = storage ? storage.split(';') : [];
-	        var selectedCards = array.map(function (e) { return JSON.parse(e); });
-	        var index = selectedCards.findIndex(function (e) { return e._id === id; });
-	        if (index < 0)
-	            return false;
-	        selectedCards.splice(index, 1);
-	        change(selectedCards);
-	    };
-	    HearthstoneCardsBox.prototype.render = function () {
-	        var _this = this;
-	        var _a = this.props, deck = _a.deck, cards = _a.cards;
-	        var deckCards = deck.data ? deck.data.cards : [];
-	        return (React.createElement("div", {className: "row"}, 
-	            React.createElement("div", {className: "col-sm-12"}, 
-	                React.createElement("div", {className: "panel panel-default"}, 
-	                    React.createElement("div", {className: "panel-heading"}, 
-	                        React.createElement("h3", {className: "panel-title"}, 
-	                            "Deck Cards ", 
-	                            React.createElement("small", null, this.handleCardsTotal()))
-	                    ), 
-	                    React.createElement("div", {className: "panel-body"}, 
-	                        React.createElement("div", {className: "row"}, deckCards.map(function (card, key) {
-	                            return (React.createElement("div", {className: "col-sm-2", key: key}, 
-	                                React.createElement("button", {className: "btn btn-link btn-block", type: "button", onClick: _this.handleRemoveCard.bind(_this, card.card)}, 
-	                                    React.createElement("span", {className: "pull-left"}, cards.items.find(function (c) { return c._id === card.card; }) ? cards.items.find(function (c) { return c._id === card.card; }).name : ''), 
-	                                    React.createElement("span", {className: "pull-right"}, card.count))
-	                            ));
-	                        }))
-	                    ))
-	            )
-	        ));
-	    };
-	    return HearthstoneCardsBox;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneCardsBox;
-
-
-/***/ },
-/* 491 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var react_redux_1 = __webpack_require__(204);
-	var hearthstone_cards_action_1 = __webpack_require__(489);
-	var hearthstone_cards_list_component_1 = __webpack_require__(492);
-	var mapStateToProps = function (state, ownProps) {
-	    return {
-	        deck: state.item,
-	        cards: state.hearthstoneCards,
-	        change: ownProps.change,
-	        sort: ownProps.sort,
-	    };
-	};
-	var mapDispatchToProps = function (dispatch) {
-	    return {
-	        getCards: function (params) { return dispatch(hearthstone_cards_action_1.fetchCards(params)); },
-	        activeCost: function (cost) { return dispatch(hearthstone_cards_action_1.changeActiveCost(cost)); },
-	    };
-	};
-	var HearthstoneCards = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(hearthstone_cards_list_component_1.default);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneCards;
-
-
-/***/ },
-/* 492 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(27);
-	var hearthstone_card_rarity_1 = __webpack_require__(493);
-	var hearthstone_player_classes_1 = __webpack_require__(463);
-	var pagination_component_1 = __webpack_require__(455);
-	var HearthstoneCardsList = (function (_super) {
-	    __extends(HearthstoneCardsList, _super);
-	    function HearthstoneCardsList() {
-	        _super.apply(this, arguments);
-	    }
-	    HearthstoneCardsList.prototype.componentDidMount = function () {
-	        var _a = this.props, cards = _a.cards, getCards = _a.getCards, deck = _a.deck;
-	        if (cards.fetchedCosts.indexOf(1) < 0) {
-	            getCards({ playerClass: -1, cost: 1 });
-	        }
-	    };
-	    HearthstoneCardsList.prototype.componentWillUpdate = function (nextProps, nextState) {
-	        var getCards = this.props.getCards;
-	        var thisCards = this.props.cards;
-	        var thisDeck = this.props.deck.data;
-	        var nextCards = nextProps.cards;
-	        var nextDeck = nextProps.deck.data;
-	        if (!thisDeck && nextDeck
-	            && !thisCards.fetchedPlayerClasses.includes(nextDeck.playerClass)) {
-	            getCards({ playerClass: nextDeck.playerClass });
-	        }
-	        if (thisDeck
-	            && thisDeck.playerClass !== nextDeck.playerClass
-	            && !thisCards.fetchedPlayerClasses.includes(nextDeck.playerClass)) {
-	            getCards({ playerClass: nextDeck.playerClass });
-	        }
-	        if (thisCards.activeCost !== nextCards.activeCost
-	            && !thisCards.fetchedCosts.includes(nextCards.activeCost)) {
-	            getCards({ playerClass: -1, cost: nextCards.activeCost });
-	        }
-	    };
-	    HearthstoneCardsList.prototype.handleSelectCard = function (id) {
-	        var _a = this.props, cards = _a.cards, deck = _a.deck, change = _a.change;
-	        var card = cards.items.find(function (c) { return c._id === id; });
-	        var legend = hearthstone_card_rarity_1.HearthstoneCardRarity.find(function (rarity) { return rarity.name === 'Legendary'; }).value;
-	        var storage = window.localStorage.getItem('selected_cards');
-	        var array = storage ? storage.split(';') : [];
-	        var selectedCards = array.map(function (e) { return JSON.parse(e); });
-	        if (!card)
-	            return false;
-	        if (selectedCards.length === 30)
-	            return false;
-	        if (card.rarity === legend && selectedCards.indexOf(card) >= 0)
-	            return false;
-	        if (card.rarity !== legend && selectedCards.filter(function (c) { return c._id === card._id; }).length === 2)
-	            return false;
-	        selectedCards.push(card);
-	        change(selectedCards);
-	    };
-	    HearthstoneCardsList.prototype.handleCards = function (neutral) {
-	        if (neutral === void 0) { neutral = true; }
-	        var _a = this.props, cards = _a.cards, deck = _a.deck, sort = _a.sort;
-	        var fetchedCosts = cards.fetchedCosts, fetchedPlayerClasses = cards.fetchedPlayerClasses, activeCost = cards.activeCost, items = cards.items;
-	        var list = [];
-	        if (neutral && fetchedCosts.includes(activeCost)) {
-	            if (activeCost === 1) {
-	                list = sort(cards.items.filter(function (e) { return e.playerClass === -1 && e.cost < 2; }));
-	            }
-	            else if (activeCost === 7) {
-	                list = sort(cards.items.filter(function (e) { return e.playerClass === -1 && e.cost > 6; }));
-	            }
-	            else {
-	                list = sort(cards.items.filter(function (e) { return e.playerClass === -1 && e.cost === activeCost; }));
-	            }
-	        }
-	        if (!neutral && deck.data && fetchedPlayerClasses.includes(deck.data.playerClass)) {
-	            list = sort(cards.items.filter(function (e) { return e.playerClass === deck.data.playerClass; }));
-	        }
-	        return list;
-	    };
-	    HearthstoneCardsList.prototype.render = function () {
-	        var _this = this;
-	        var _a = this.props, cards = _a.cards, deck = _a.deck, activeCost = _a.activeCost;
-	        var neutralCards = this.handleCards();
-	        var classCards = this.handleCards(false);
-	        return (React.createElement("div", {className: "row"}, 
-	            React.createElement("div", {className: "col-sm-12"}, 
-	                React.createElement("ul", {className: "nav nav-tabs", role: "tablist"}, 
-	                    React.createElement("li", {role: "presentation", className: "active"}, 
-	                        React.createElement("a", {href: "#neutralCards", "aria-controls": "neutralCards", role: "tab", "data-toggle": "tab"}, "Neutral")
-	                    ), 
-	                    React.createElement("li", {role: "presentation"}, 
-	                        React.createElement("a", {href: "#classCards", "aria-controls": "classCards", role: "tab", "data-toggle": "tab"}, deck.data ? hearthstone_player_classes_1.HearthstonePlayerClasses.find(function (player) { return player.value === deck.data.playerClass; }).name : 'Druid')
-	                    )), 
-	                React.createElement("div", {className: "tab-content"}, 
-	                    React.createElement("div", {className: "tab-pane active", id: "neutralCards"}, 
-	                        React.createElement("ul", {className: "row list-unstyled"}, neutralCards.map(function (card, key) {
-	                            return (React.createElement("li", {className: "col-sm-2", key: key}, 
-	                                React.createElement("button", {className: "btn btn-link", type: "button", onClick: _this.handleSelectCard.bind(_this, card._id)}, card.cost + ' - ' + card.name)
-	                            ));
-	                        })), 
-	                        React.createElement(pagination_component_1.default, {total: 7, current: cards.activeCost, per: 1, clickEvent: function (cost) { return activeCost(cost); }})), 
-	                    React.createElement("div", {className: "tab-pane", id: "classCards"}, 
-	                        React.createElement("ul", {className: "row list-unstyled"}, classCards.map(function (card, key) {
-	                            return (React.createElement("li", {className: "col-sm-2", key: key}, 
-	                                React.createElement("button", {className: "btn btn-link", type: "button", onClick: _this.handleSelectCard.bind(_this, card._id)}, card.cost + ' - ' + card.name)
-	                            ));
-	                        }))
-	                    )))
-	        ));
-	    };
-	    return HearthstoneCardsList;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneCardsList;
-	;
-
-
-/***/ },
-/* 493 */
-/***/ function(module, exports) {
-
-	"use strict";
-	var HEARTHSTONE_CARD_RARITY = [
-	    {
-	        value: 0,
-	        name: "Free"
-	    },
-	    {
-	        value: 1,
-	        name: "Common"
-	    },
-	    {
-	        value: 2,
-	        name: "Rare"
-	    },
-	    {
-	        value: 3,
-	        name: "Epic"
-	    },
-	    {
-	        value: 4,
-	        name: "Legendary"
-	    }
-	];
-	exports.HearthstoneCardRarity = HEARTHSTONE_CARD_RARITY;
-
-
-/***/ },
-/* 494 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var react_redux_1 = __webpack_require__(204);
-	var hearthstone_matches_action_1 = __webpack_require__(495);
-	var hearthstone_decks_action_1 = __webpack_require__(484);
-	var list_component_1 = __webpack_require__(453);
-	var mapStateToProps = function (state) {
-	    return {
-	        list: state.hearthstoneMatches,
-	        decks: state.hearthstoneDecks,
-	        type: 'Hearthstone-Matches',
-	    };
-	};
-	var mapDispatchToProps = function (dispatch) {
-	    return {
-	        getList: function (page) {
-	            if (page === void 0) { page = null; }
-	            return dispatch(hearthstone_matches_action_1.fetchMatches(page));
-	        },
-	        getDecks: function (ids) { return dispatch(hearthstone_decks_action_1.fetchDecks({ ids: ids })); },
-	        postDelete: function (id) { return dispatch(hearthstone_matches_action_1.deleteMatch(id)); },
-	    };
-	};
-	var HearthstoneMatches = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(list_component_1.default);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneMatches;
-
-
-/***/ },
-/* 495 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var redux_actions_1 = __webpack_require__(292);
-	var axios_1 = __webpack_require__(1);
-	var action_types_constants_1 = __webpack_require__(447);
-	var hearthstone_matches = action_types_constants_1.default.hearthstone_matches;
-	var fetchMatches = redux_actions_1.createAction(hearthstone_matches.fetch_list, function (page) {
-	    if (page === void 0) { page = null; }
-	    var url = "/hearthstone-matches?limit=100" + (page ? '&page=' + page : '');
-	    return axios_1.default.get(url);
-	});
-	exports.fetchMatches = fetchMatches;
-	var createMatch = redux_actions_1.createAction(hearthstone_matches.post, function (match) { return axios_1.default.post('/hearthstone-matches/', match); });
-	exports.createMatch = createMatch;
-	var deleteMatch = redux_actions_1.createAction(hearthstone_matches.delete, function (id) { return axios_1.default.post('/hearthstone-matches/' + id + '/delete'); });
-	exports.deleteMatch = deleteMatch;
-
-
-/***/ },
-/* 496 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var react_redux_1 = __webpack_require__(204);
-	var hearthstone_matches_action_1 = __webpack_require__(495);
-	var hearthstone_decks_action_1 = __webpack_require__(484);
-	var item_action_1 = __webpack_require__(467);
-	var hearthstone_match_add_component_1 = __webpack_require__(497);
-	var mapStateToProps = function (state) {
-	    return {
-	        decks: state.hearthstoneDecks,
-	        matches: state.hearthstoneMatches,
-	        match: state.item,
-	    };
-	};
-	var mapDispatchToProps = function (dispatch) {
-	    return {
-	        getDecks: function () { return dispatch(hearthstone_decks_action_1.fetchDecks({ active: true })); },
-	        initMatch: function () { return dispatch(item_action_1.initItemCreate()); },
-	        setMatch: function (match) { return dispatch(item_action_1.setItem(match)); },
-	        changeMatch: function (field, value) { return dispatch(item_action_1.changeItem({ field: field, value: value })); },
-	        createMatch: function (match) { return dispatch(hearthstone_matches_action_1.createMatch(match)); },
-	    };
-	};
-	var HearthstoneMatch = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(hearthstone_match_add_component_1.default);
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneMatch;
-
-
-/***/ },
-/* 497 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(27);
-	var moment = __webpack_require__(498);
-	var page_header_component_1 = __webpack_require__(454);
-	var alert_component_1 = __webpack_require__(450);
-	var hearthstone_player_classes_1 = __webpack_require__(463);
-	var hearthstone_match_result_1 = __webpack_require__(465);
-	var HearthstoneMatchAdd = (function (_super) {
-	    __extends(HearthstoneMatchAdd, _super);
-	    function HearthstoneMatchAdd() {
-	        _super.apply(this, arguments);
-	    }
-	    HearthstoneMatchAdd.prototype.componentWillMount = function () {
-	        var _a = this.props, initMatch = _a.initMatch, setMatch = _a.setMatch;
-	        var match = {
-	            deck: '',
-	            opponent: 0,
-	            result: 0,
-	        };
-	        initMatch();
-	        setMatch(match);
-	    };
-	    HearthstoneMatchAdd.prototype.componentDidMount = function () {
-	        var _a = this.props, decks = _a.decks, getDecks = _a.getDecks;
-	        if (!decks.fetchedPages.includes(1)) {
-	            getDecks();
-	        }
-	    };
-	    HearthstoneMatchAdd.prototype.handleChange = function (e) {
-	        var _a = e.target, name = _a.name, value = _a.value;
-	        var changeMatch = this.props.changeMatch;
-	        changeMatch(name, value);
-	    };
-	    HearthstoneMatchAdd.prototype.handleSubmit = function (result) {
-	        var _a = this.props, match = _a.match, changeMatch = _a.changeMatch, createMatch = _a.createMatch;
-	        changeMatch('result', result);
-	        createMatch(match.data);
-	    };
-	    HearthstoneMatchAdd.prototype.handleTotal = function () {
-	        var matches = this.props.matches;
-	        var today = moment().startOf('day').valueOf();
-	        return matches.items.filter(function (item) { return item.time > today; });
-	    };
-	    HearthstoneMatchAdd.prototype.render = function () {
-	        var _this = this;
-	        var _a = this.props, decks = _a.decks, match = _a.match, matches = _a.matches;
-	        var activeDecks = decks.items.filter(function (e) { return e.active; });
-	        var today = this.handleTotal();
-	        var wins = today.filter(function (e) { return e.result === 1; });
-	        var pet = (wins.length / today.length * 100).toFixed(2);
-	        return (React.createElement("div", {className: "container-fluid"}, 
-	            React.createElement(page_header_component_1.default, {title: 'Add Match'}), 
-	            React.createElement(alert_component_1.default, {isFetching: decks.isFetching, isPosting: matches.isPosting, posted: false, error: matches.error}), 
-	            React.createElement("form", null, 
-	                React.createElement("div", {className: "form-group"}, 
-	                    React.createElement("label", {htmlFor: "deck"}, "Deck:"), 
-	                    React.createElement("select", {name: "deck", value: match.data ? match.data.deck : '', id: "deck", className: "form-control", onChange: this.handleChange.bind(this)}, activeDecks.map(function (deck, key) {
-	                        return React.createElement("option", {value: deck._id, key: key}, deck.name);
-	                    }))), 
-	                React.createElement("div", {className: "form-group"}, 
-	                    React.createElement("label", {htmlFor: "opponent"}, "Opponent:"), 
-	                    React.createElement("select", {name: "opponent", value: match.data ? match.data.opponent : 0, id: "opponent", className: "form-control", onChange: this.handleChange.bind(this)}, hearthstone_player_classes_1.HearthstonePlayerClasses.map(function (value) {
-	                        return React.createElement("option", {key: value.value, value: value.value.toString()}, value.name);
-	                    }))), 
-	                React.createElement("div", {className: "form-group"}, 
-	                    React.createElement("label", null, "Result:"), 
-	                    React.createElement("div", {className: "btn-group btn-group-justified"}, hearthstone_match_result_1.HearthstoneMatchResult.map(function (result) {
-	                        return (React.createElement("div", {className: "btn-group", key: result.value}, 
-	                            React.createElement("button", {type: "button", className: "btn btn-default btn-lg", onClick: _this.handleSubmit.bind(_this, result.value)}, result.name)
-	                        ));
-	                    })))), 
-	            React.createElement("div", {className: "row"}, 
-	                React.createElement("div", {className: "col-sm-12 text-center"}, 
-	                    React.createElement("h3", null, 
-	                        "Total: ", 
-	                        today.length, 
-	                        " Win: ", 
-	                        wins.length, 
-	                        " PET: ", 
-	                        pet, 
-	                        "%")
-	                )
-	            )));
-	    };
-	    return HearthstoneMatchAdd;
-	}(React.Component));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HearthstoneMatchAdd;
-
-
-/***/ },
-/* 498 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {//! moment.js
@@ -39368,7 +37633,7 @@
 	            module && module.exports) {
 	        try {
 	            oldLocale = globalLocale._abbr;
-	            __webpack_require__(499)("./" + name);
+	            __webpack_require__(461)("./" + name);
 	            // because defineLocale currently also sets the global locale, we
 	            // want to undo that for lazy loaded locales
 	            getSetGlobalLocale(oldLocale);
@@ -41859,226 +40124,226 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(225)(module)))
 
 /***/ },
-/* 499 */
+/* 461 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./af": 500,
-		"./af.js": 500,
-		"./ar": 501,
-		"./ar-dz": 502,
-		"./ar-dz.js": 502,
-		"./ar-ly": 503,
-		"./ar-ly.js": 503,
-		"./ar-ma": 504,
-		"./ar-ma.js": 504,
-		"./ar-sa": 505,
-		"./ar-sa.js": 505,
-		"./ar-tn": 506,
-		"./ar-tn.js": 506,
-		"./ar.js": 501,
-		"./az": 507,
-		"./az.js": 507,
-		"./be": 508,
-		"./be.js": 508,
-		"./bg": 509,
-		"./bg.js": 509,
-		"./bn": 510,
-		"./bn.js": 510,
-		"./bo": 511,
-		"./bo.js": 511,
-		"./br": 512,
-		"./br.js": 512,
-		"./bs": 513,
-		"./bs.js": 513,
-		"./ca": 514,
-		"./ca.js": 514,
-		"./cs": 515,
-		"./cs.js": 515,
-		"./cv": 516,
-		"./cv.js": 516,
-		"./cy": 517,
-		"./cy.js": 517,
-		"./da": 518,
-		"./da.js": 518,
-		"./de": 519,
-		"./de-at": 520,
-		"./de-at.js": 520,
-		"./de.js": 519,
-		"./dv": 521,
-		"./dv.js": 521,
-		"./el": 522,
-		"./el.js": 522,
-		"./en-au": 523,
-		"./en-au.js": 523,
-		"./en-ca": 524,
-		"./en-ca.js": 524,
-		"./en-gb": 525,
-		"./en-gb.js": 525,
-		"./en-ie": 526,
-		"./en-ie.js": 526,
-		"./en-nz": 527,
-		"./en-nz.js": 527,
-		"./eo": 528,
-		"./eo.js": 528,
-		"./es": 529,
-		"./es-do": 530,
-		"./es-do.js": 530,
-		"./es.js": 529,
-		"./et": 531,
-		"./et.js": 531,
-		"./eu": 532,
-		"./eu.js": 532,
-		"./fa": 533,
-		"./fa.js": 533,
-		"./fi": 534,
-		"./fi.js": 534,
-		"./fo": 535,
-		"./fo.js": 535,
-		"./fr": 536,
-		"./fr-ca": 537,
-		"./fr-ca.js": 537,
-		"./fr-ch": 538,
-		"./fr-ch.js": 538,
-		"./fr.js": 536,
-		"./fy": 539,
-		"./fy.js": 539,
-		"./gd": 540,
-		"./gd.js": 540,
-		"./gl": 541,
-		"./gl.js": 541,
-		"./he": 542,
-		"./he.js": 542,
-		"./hi": 543,
-		"./hi.js": 543,
-		"./hr": 544,
-		"./hr.js": 544,
-		"./hu": 545,
-		"./hu.js": 545,
-		"./hy-am": 546,
-		"./hy-am.js": 546,
-		"./id": 547,
-		"./id.js": 547,
-		"./is": 548,
-		"./is.js": 548,
-		"./it": 549,
-		"./it.js": 549,
-		"./ja": 550,
-		"./ja.js": 550,
-		"./jv": 551,
-		"./jv.js": 551,
-		"./ka": 552,
-		"./ka.js": 552,
-		"./kk": 553,
-		"./kk.js": 553,
-		"./km": 554,
-		"./km.js": 554,
-		"./ko": 555,
-		"./ko.js": 555,
-		"./ky": 556,
-		"./ky.js": 556,
-		"./lb": 557,
-		"./lb.js": 557,
-		"./lo": 558,
-		"./lo.js": 558,
-		"./lt": 559,
-		"./lt.js": 559,
-		"./lv": 560,
-		"./lv.js": 560,
-		"./me": 561,
-		"./me.js": 561,
-		"./mi": 562,
-		"./mi.js": 562,
-		"./mk": 563,
-		"./mk.js": 563,
-		"./ml": 564,
-		"./ml.js": 564,
-		"./mr": 565,
-		"./mr.js": 565,
-		"./ms": 566,
-		"./ms-my": 567,
-		"./ms-my.js": 567,
-		"./ms.js": 566,
-		"./my": 568,
-		"./my.js": 568,
-		"./nb": 569,
-		"./nb.js": 569,
-		"./ne": 570,
-		"./ne.js": 570,
-		"./nl": 571,
-		"./nl-be": 572,
-		"./nl-be.js": 572,
-		"./nl.js": 571,
-		"./nn": 573,
-		"./nn.js": 573,
-		"./pa-in": 574,
-		"./pa-in.js": 574,
-		"./pl": 575,
-		"./pl.js": 575,
-		"./pt": 576,
-		"./pt-br": 577,
-		"./pt-br.js": 577,
-		"./pt.js": 576,
-		"./ro": 578,
-		"./ro.js": 578,
-		"./ru": 579,
-		"./ru.js": 579,
-		"./se": 580,
-		"./se.js": 580,
-		"./si": 581,
-		"./si.js": 581,
-		"./sk": 582,
-		"./sk.js": 582,
-		"./sl": 583,
-		"./sl.js": 583,
-		"./sq": 584,
-		"./sq.js": 584,
-		"./sr": 585,
-		"./sr-cyrl": 586,
-		"./sr-cyrl.js": 586,
-		"./sr.js": 585,
-		"./ss": 587,
-		"./ss.js": 587,
-		"./sv": 588,
-		"./sv.js": 588,
-		"./sw": 589,
-		"./sw.js": 589,
-		"./ta": 590,
-		"./ta.js": 590,
-		"./te": 591,
-		"./te.js": 591,
-		"./tet": 592,
-		"./tet.js": 592,
-		"./th": 593,
-		"./th.js": 593,
-		"./tl-ph": 594,
-		"./tl-ph.js": 594,
-		"./tlh": 595,
-		"./tlh.js": 595,
-		"./tr": 596,
-		"./tr.js": 596,
-		"./tzl": 597,
-		"./tzl.js": 597,
-		"./tzm": 598,
-		"./tzm-latn": 599,
-		"./tzm-latn.js": 599,
-		"./tzm.js": 598,
-		"./uk": 600,
-		"./uk.js": 600,
-		"./uz": 601,
-		"./uz.js": 601,
-		"./vi": 602,
-		"./vi.js": 602,
-		"./x-pseudo": 603,
-		"./x-pseudo.js": 603,
-		"./yo": 604,
-		"./yo.js": 604,
-		"./zh-cn": 605,
-		"./zh-cn.js": 605,
-		"./zh-hk": 606,
-		"./zh-hk.js": 606,
-		"./zh-tw": 607,
-		"./zh-tw.js": 607
+		"./af": 462,
+		"./af.js": 462,
+		"./ar": 463,
+		"./ar-dz": 464,
+		"./ar-dz.js": 464,
+		"./ar-ly": 465,
+		"./ar-ly.js": 465,
+		"./ar-ma": 466,
+		"./ar-ma.js": 466,
+		"./ar-sa": 467,
+		"./ar-sa.js": 467,
+		"./ar-tn": 468,
+		"./ar-tn.js": 468,
+		"./ar.js": 463,
+		"./az": 469,
+		"./az.js": 469,
+		"./be": 470,
+		"./be.js": 470,
+		"./bg": 471,
+		"./bg.js": 471,
+		"./bn": 472,
+		"./bn.js": 472,
+		"./bo": 473,
+		"./bo.js": 473,
+		"./br": 474,
+		"./br.js": 474,
+		"./bs": 475,
+		"./bs.js": 475,
+		"./ca": 476,
+		"./ca.js": 476,
+		"./cs": 477,
+		"./cs.js": 477,
+		"./cv": 478,
+		"./cv.js": 478,
+		"./cy": 479,
+		"./cy.js": 479,
+		"./da": 480,
+		"./da.js": 480,
+		"./de": 481,
+		"./de-at": 482,
+		"./de-at.js": 482,
+		"./de.js": 481,
+		"./dv": 483,
+		"./dv.js": 483,
+		"./el": 484,
+		"./el.js": 484,
+		"./en-au": 485,
+		"./en-au.js": 485,
+		"./en-ca": 486,
+		"./en-ca.js": 486,
+		"./en-gb": 487,
+		"./en-gb.js": 487,
+		"./en-ie": 488,
+		"./en-ie.js": 488,
+		"./en-nz": 489,
+		"./en-nz.js": 489,
+		"./eo": 490,
+		"./eo.js": 490,
+		"./es": 491,
+		"./es-do": 492,
+		"./es-do.js": 492,
+		"./es.js": 491,
+		"./et": 493,
+		"./et.js": 493,
+		"./eu": 494,
+		"./eu.js": 494,
+		"./fa": 495,
+		"./fa.js": 495,
+		"./fi": 496,
+		"./fi.js": 496,
+		"./fo": 497,
+		"./fo.js": 497,
+		"./fr": 498,
+		"./fr-ca": 499,
+		"./fr-ca.js": 499,
+		"./fr-ch": 500,
+		"./fr-ch.js": 500,
+		"./fr.js": 498,
+		"./fy": 501,
+		"./fy.js": 501,
+		"./gd": 502,
+		"./gd.js": 502,
+		"./gl": 503,
+		"./gl.js": 503,
+		"./he": 504,
+		"./he.js": 504,
+		"./hi": 505,
+		"./hi.js": 505,
+		"./hr": 506,
+		"./hr.js": 506,
+		"./hu": 507,
+		"./hu.js": 507,
+		"./hy-am": 508,
+		"./hy-am.js": 508,
+		"./id": 509,
+		"./id.js": 509,
+		"./is": 510,
+		"./is.js": 510,
+		"./it": 511,
+		"./it.js": 511,
+		"./ja": 512,
+		"./ja.js": 512,
+		"./jv": 513,
+		"./jv.js": 513,
+		"./ka": 514,
+		"./ka.js": 514,
+		"./kk": 515,
+		"./kk.js": 515,
+		"./km": 516,
+		"./km.js": 516,
+		"./ko": 517,
+		"./ko.js": 517,
+		"./ky": 518,
+		"./ky.js": 518,
+		"./lb": 519,
+		"./lb.js": 519,
+		"./lo": 520,
+		"./lo.js": 520,
+		"./lt": 521,
+		"./lt.js": 521,
+		"./lv": 522,
+		"./lv.js": 522,
+		"./me": 523,
+		"./me.js": 523,
+		"./mi": 524,
+		"./mi.js": 524,
+		"./mk": 525,
+		"./mk.js": 525,
+		"./ml": 526,
+		"./ml.js": 526,
+		"./mr": 527,
+		"./mr.js": 527,
+		"./ms": 528,
+		"./ms-my": 529,
+		"./ms-my.js": 529,
+		"./ms.js": 528,
+		"./my": 530,
+		"./my.js": 530,
+		"./nb": 531,
+		"./nb.js": 531,
+		"./ne": 532,
+		"./ne.js": 532,
+		"./nl": 533,
+		"./nl-be": 534,
+		"./nl-be.js": 534,
+		"./nl.js": 533,
+		"./nn": 535,
+		"./nn.js": 535,
+		"./pa-in": 536,
+		"./pa-in.js": 536,
+		"./pl": 537,
+		"./pl.js": 537,
+		"./pt": 538,
+		"./pt-br": 539,
+		"./pt-br.js": 539,
+		"./pt.js": 538,
+		"./ro": 540,
+		"./ro.js": 540,
+		"./ru": 541,
+		"./ru.js": 541,
+		"./se": 542,
+		"./se.js": 542,
+		"./si": 543,
+		"./si.js": 543,
+		"./sk": 544,
+		"./sk.js": 544,
+		"./sl": 545,
+		"./sl.js": 545,
+		"./sq": 546,
+		"./sq.js": 546,
+		"./sr": 547,
+		"./sr-cyrl": 548,
+		"./sr-cyrl.js": 548,
+		"./sr.js": 547,
+		"./ss": 549,
+		"./ss.js": 549,
+		"./sv": 550,
+		"./sv.js": 550,
+		"./sw": 551,
+		"./sw.js": 551,
+		"./ta": 552,
+		"./ta.js": 552,
+		"./te": 553,
+		"./te.js": 553,
+		"./tet": 554,
+		"./tet.js": 554,
+		"./th": 555,
+		"./th.js": 555,
+		"./tl-ph": 556,
+		"./tl-ph.js": 556,
+		"./tlh": 557,
+		"./tlh.js": 557,
+		"./tr": 558,
+		"./tr.js": 558,
+		"./tzl": 559,
+		"./tzl.js": 559,
+		"./tzm": 560,
+		"./tzm-latn": 561,
+		"./tzm-latn.js": 561,
+		"./tzm.js": 560,
+		"./uk": 562,
+		"./uk.js": 562,
+		"./uz": 563,
+		"./uz.js": 563,
+		"./vi": 564,
+		"./vi.js": 564,
+		"./x-pseudo": 565,
+		"./x-pseudo.js": 565,
+		"./yo": 566,
+		"./yo.js": 566,
+		"./zh-cn": 567,
+		"./zh-cn.js": 567,
+		"./zh-hk": 568,
+		"./zh-hk.js": 568,
+		"./zh-tw": 569,
+		"./zh-tw.js": 569
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -42091,11 +40356,11 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 499;
+	webpackContext.id = 461;
 
 
 /***/ },
-/* 500 */
+/* 462 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42103,7 +40368,7 @@
 	//! author : Werner Mollentze : https://github.com/wernerm
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -42173,7 +40438,7 @@
 
 
 /***/ },
-/* 501 */
+/* 463 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42183,7 +40448,7 @@
 	//! author : forabi https://github.com/forabi
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -42320,7 +40585,7 @@
 
 
 /***/ },
-/* 502 */
+/* 464 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42328,7 +40593,7 @@
 	//! author : Noureddine LOUAHEDJ : https://github.com/noureddineme
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -42384,7 +40649,7 @@
 
 
 /***/ },
-/* 503 */
+/* 465 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42392,7 +40657,7 @@
 	//! author : Ali Hmer: https://github.com/kikoanis
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -42515,7 +40780,7 @@
 
 
 /***/ },
-/* 504 */
+/* 466 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42524,7 +40789,7 @@
 	//! author : Abdel Said : https://github.com/abdelsaid
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -42580,7 +40845,7 @@
 
 
 /***/ },
-/* 505 */
+/* 467 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42588,7 +40853,7 @@
 	//! author : Suhail Alkowaileet : https://github.com/xsoh
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -42690,7 +40955,7 @@
 
 
 /***/ },
-/* 506 */
+/* 468 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42698,7 +40963,7 @@
 	//! author : Nader Toukabri : https://github.com/naderio
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -42754,7 +41019,7 @@
 
 
 /***/ },
-/* 507 */
+/* 469 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42762,7 +41027,7 @@
 	//! author : topchiyev : https://github.com/topchiyev
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -42864,7 +41129,7 @@
 
 
 /***/ },
-/* 508 */
+/* 470 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42874,7 +41139,7 @@
 	//! Author : Menelion Elensúle : https://github.com/Oire
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -43003,7 +41268,7 @@
 
 
 /***/ },
-/* 509 */
+/* 471 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43011,7 +41276,7 @@
 	//! author : Krasen Borisov : https://github.com/kraz
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -43098,7 +41363,7 @@
 
 
 /***/ },
-/* 510 */
+/* 472 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43106,7 +41371,7 @@
 	//! author : Kaushik Gandhi : https://github.com/kaushikgandhi
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -43222,7 +41487,7 @@
 
 
 /***/ },
-/* 511 */
+/* 473 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43230,7 +41495,7 @@
 	//! author : Thupten N. Chakrishar : https://github.com/vajradog
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -43346,7 +41611,7 @@
 
 
 /***/ },
-/* 512 */
+/* 474 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43354,7 +41619,7 @@
 	//! author : Jean-Baptiste Le Duigou : https://github.com/jbleduigou
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -43459,7 +41724,7 @@
 
 
 /***/ },
-/* 513 */
+/* 475 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43468,7 +41733,7 @@
 	//! based on (hr) translation by Bojan Marković
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -43607,7 +41872,7 @@
 
 
 /***/ },
-/* 514 */
+/* 476 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43615,7 +41880,7 @@
 	//! author : Juan G. Hurtado : https://github.com/juanghurtado
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -43693,7 +41958,7 @@
 
 
 /***/ },
-/* 515 */
+/* 477 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43701,7 +41966,7 @@
 	//! author : petrbela : https://github.com/petrbela
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -43870,7 +42135,7 @@
 
 
 /***/ },
-/* 516 */
+/* 478 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43878,7 +42143,7 @@
 	//! author : Anatoly Mironov : https://github.com/mirontoli
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -43938,7 +42203,7 @@
 
 
 /***/ },
-/* 517 */
+/* 479 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43947,7 +42212,7 @@
 	//! author : https://github.com/ryangreaves
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -44024,7 +42289,7 @@
 
 
 /***/ },
-/* 518 */
+/* 480 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44032,7 +42297,7 @@
 	//! author : Ulrik Nielsen : https://github.com/mrbase
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -44089,7 +42354,7 @@
 
 
 /***/ },
-/* 519 */
+/* 481 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44099,7 +42364,7 @@
 	//! author : Mikolaj Dadela : https://github.com/mik01aj
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -44172,7 +42437,7 @@
 
 
 /***/ },
-/* 520 */
+/* 482 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44183,7 +42448,7 @@
 	//! author : Mikolaj Dadela : https://github.com/mik01aj
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -44256,7 +42521,7 @@
 
 
 /***/ },
-/* 521 */
+/* 483 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44264,7 +42529,7 @@
 	//! author : Jawish Hameed : https://github.com/jawish
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -44361,7 +42626,7 @@
 
 
 /***/ },
-/* 522 */
+/* 484 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44369,7 +42634,7 @@
 	//! author : Aggelos Karalias : https://github.com/mehiel
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -44464,7 +42729,7 @@
 
 
 /***/ },
-/* 523 */
+/* 485 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44472,7 +42737,7 @@
 	//! author : Jared Morse : https://github.com/jarcoal
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -44536,7 +42801,7 @@
 
 
 /***/ },
-/* 524 */
+/* 486 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44544,7 +42809,7 @@
 	//! author : Jonathan Abourbih : https://github.com/jonbca
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -44604,7 +42869,7 @@
 
 
 /***/ },
-/* 525 */
+/* 487 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44612,7 +42877,7 @@
 	//! author : Chris Gedrim : https://github.com/chrisgedrim
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -44676,7 +42941,7 @@
 
 
 /***/ },
-/* 526 */
+/* 488 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44684,7 +42949,7 @@
 	//! author : Chris Cartlidge : https://github.com/chriscartlidge
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -44748,7 +43013,7 @@
 
 
 /***/ },
-/* 527 */
+/* 489 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44756,7 +43021,7 @@
 	//! author : Luke McGregor : https://github.com/lukemcgregor
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -44820,7 +43085,7 @@
 
 
 /***/ },
-/* 528 */
+/* 490 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44830,7 +43095,7 @@
 	//!          Se ne, bonvolu korekti kaj avizi min por ke mi povas lerni!
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -44898,7 +43163,7 @@
 
 
 /***/ },
-/* 529 */
+/* 491 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44906,7 +43171,7 @@
 	//! author : Julio Napurí : https://github.com/julionc
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -44984,14 +43249,14 @@
 
 
 /***/ },
-/* 530 */
+/* 492 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 	//! locale : Spanish (Dominican Republic) [es-do]
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -45069,7 +43334,7 @@
 
 
 /***/ },
-/* 531 */
+/* 493 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45078,7 +43343,7 @@
 	//! improvements : Illimar Tambek : https://github.com/ragulka
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -45154,7 +43419,7 @@
 
 
 /***/ },
-/* 532 */
+/* 494 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45162,7 +43427,7 @@
 	//! author : Eneko Illarramendi : https://github.com/eillarra
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -45225,7 +43490,7 @@
 
 
 /***/ },
-/* 533 */
+/* 495 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45233,7 +43498,7 @@
 	//! author : Ebrahim Byagowi : https://github.com/ebraminio
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -45337,7 +43602,7 @@
 
 
 /***/ },
-/* 534 */
+/* 496 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45345,7 +43610,7 @@
 	//! author : Tarmo Aidantausta : https://github.com/bleadof
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -45449,7 +43714,7 @@
 
 
 /***/ },
-/* 535 */
+/* 497 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45457,7 +43722,7 @@
 	//! author : Ragnar Johannesen : https://github.com/ragnar123
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -45514,7 +43779,7 @@
 
 
 /***/ },
-/* 536 */
+/* 498 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45522,7 +43787,7 @@
 	//! author : John Fischer : https://github.com/jfroffice
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -45583,7 +43848,7 @@
 
 
 /***/ },
-/* 537 */
+/* 499 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45591,7 +43856,7 @@
 	//! author : Jonathan Abourbih : https://github.com/jonbca
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -45648,7 +43913,7 @@
 
 
 /***/ },
-/* 538 */
+/* 500 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45656,7 +43921,7 @@
 	//! author : Gaspard Bucher : https://github.com/gaspard
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -45717,7 +43982,7 @@
 
 
 /***/ },
-/* 539 */
+/* 501 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45725,7 +43990,7 @@
 	//! author : Robin van der Vliet : https://github.com/robin0van0der0v
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -45795,7 +44060,7 @@
 
 
 /***/ },
-/* 540 */
+/* 502 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45803,7 +44068,7 @@
 	//! author : Jon Ashdown : https://github.com/jonashdown
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -45876,7 +44141,7 @@
 
 
 /***/ },
-/* 541 */
+/* 503 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45884,7 +44149,7 @@
 	//! author : Juan G. Hurtado : https://github.com/juanghurtado
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -45958,7 +44223,7 @@
 
 
 /***/ },
-/* 542 */
+/* 504 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45968,7 +44233,7 @@
 	//! author : Tal Ater : https://github.com/TalAter
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -46062,7 +44327,7 @@
 
 
 /***/ },
-/* 543 */
+/* 505 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46070,7 +44335,7 @@
 	//! author : Mayank Singhal : https://github.com/mayanksinghal
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -46191,7 +44456,7 @@
 
 
 /***/ },
-/* 544 */
+/* 506 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46199,7 +44464,7 @@
 	//! author : Bojan Marković : https://github.com/bmarkovic
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -46341,7 +44606,7 @@
 
 
 /***/ },
-/* 545 */
+/* 507 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46349,7 +44614,7 @@
 	//! author : Adam Brunner : https://github.com/adambrunner
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -46455,7 +44720,7 @@
 
 
 /***/ },
-/* 546 */
+/* 508 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46463,7 +44728,7 @@
 	//! author : Armendarabyan : https://github.com/armendarabyan
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -46555,7 +44820,7 @@
 
 
 /***/ },
-/* 547 */
+/* 509 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46564,7 +44829,7 @@
 	//! reference: http://id.wikisource.org/wiki/Pedoman_Umum_Ejaan_Bahasa_Indonesia_yang_Disempurnakan
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -46643,7 +44908,7 @@
 
 
 /***/ },
-/* 548 */
+/* 510 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46651,7 +44916,7 @@
 	//! author : Hinrik Örn Sigurðsson : https://github.com/hinrik
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -46775,7 +45040,7 @@
 
 
 /***/ },
-/* 549 */
+/* 511 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46784,7 +45049,7 @@
 	//! author: Mattia Larentis: https://github.com/nostalgiaz
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -46850,7 +45115,7 @@
 
 
 /***/ },
-/* 550 */
+/* 512 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46858,7 +45123,7 @@
 	//! author : LI Long : https://github.com/baryon
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -46931,7 +45196,7 @@
 
 
 /***/ },
-/* 551 */
+/* 513 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46940,7 +45205,7 @@
 	//! reference: http://jv.wikipedia.org/wiki/Basa_Jawa
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -47019,7 +45284,7 @@
 
 
 /***/ },
-/* 552 */
+/* 514 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -47027,7 +45292,7 @@
 	//! author : Irakli Janiashvili : https://github.com/irakli-janiashvili
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -47113,7 +45378,7 @@
 
 
 /***/ },
-/* 553 */
+/* 515 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -47121,7 +45386,7 @@
 	//! authors : Nurlan Rakhimzhanov : https://github.com/nurlan
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -47205,7 +45470,7 @@
 
 
 /***/ },
-/* 554 */
+/* 516 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -47213,7 +45478,7 @@
 	//! author : Kruy Vanna : https://github.com/kruyvanna
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -47268,7 +45533,7 @@
 
 
 /***/ },
-/* 555 */
+/* 517 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -47277,7 +45542,7 @@
 	//! author : Jeeeyul Lee <jeeeyul@gmail.com>
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -47338,7 +45603,7 @@
 
 
 /***/ },
-/* 556 */
+/* 518 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -47346,7 +45611,7 @@
 	//! author : Chyngyz Arystan uulu : https://github.com/chyngyz
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -47431,7 +45696,7 @@
 
 
 /***/ },
-/* 557 */
+/* 519 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -47440,7 +45705,7 @@
 	//! author : David Raison : https://github.com/kwisatz
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -47573,7 +45838,7 @@
 
 
 /***/ },
-/* 558 */
+/* 520 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -47581,7 +45846,7 @@
 	//! author : Ryan Hart : https://github.com/ryanhart2
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -47648,7 +45913,7 @@
 
 
 /***/ },
-/* 559 */
+/* 521 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -47656,7 +45921,7 @@
 	//! author : Mindaugas Mozūras : https://github.com/mmozuras
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -47770,7 +46035,7 @@
 
 
 /***/ },
-/* 560 */
+/* 522 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -47779,7 +46044,7 @@
 	//! author : Jānis Elmeris : https://github.com/JanisE
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -47872,7 +46137,7 @@
 
 
 /***/ },
-/* 561 */
+/* 523 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -47880,7 +46145,7 @@
 	//! author : Miodrag Nikač <miodrag@restartit.me> : https://github.com/miodragnikac
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -47988,7 +46253,7 @@
 
 
 /***/ },
-/* 562 */
+/* 524 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -47996,7 +46261,7 @@
 	//! author : John Corrigan <robbiecloset@gmail.com> : https://github.com/johnideal
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -48057,7 +46322,7 @@
 
 
 /***/ },
-/* 563 */
+/* 525 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -48065,7 +46330,7 @@
 	//! author : Borislav Mickov : https://github.com/B0k0
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -48152,7 +46417,7 @@
 
 
 /***/ },
-/* 564 */
+/* 526 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -48160,7 +46425,7 @@
 	//! author : Floyd Pink : https://github.com/floydpink
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -48238,7 +46503,7 @@
 
 
 /***/ },
-/* 565 */
+/* 527 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -48247,7 +46512,7 @@
 	//! author : Vivek Athalye : https://github.com/vnathalye
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -48402,7 +46667,7 @@
 
 
 /***/ },
-/* 566 */
+/* 528 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -48410,7 +46675,7 @@
 	//! author : Weldan Jamili : https://github.com/weldan
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -48489,7 +46754,7 @@
 
 
 /***/ },
-/* 567 */
+/* 529 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -48498,7 +46763,7 @@
 	//! author : Weldan Jamili : https://github.com/weldan
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -48577,7 +46842,7 @@
 
 
 /***/ },
-/* 568 */
+/* 530 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -48587,7 +46852,7 @@
 	//! author : Tin Aung Lin : https://github.com/thanyawzinmin
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -48678,7 +46943,7 @@
 
 
 /***/ },
-/* 569 */
+/* 531 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -48687,7 +46952,7 @@
 	//!           Sigurd Gartmann : https://github.com/sigurdga
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -48746,7 +47011,7 @@
 
 
 /***/ },
-/* 570 */
+/* 532 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -48754,7 +47019,7 @@
 	//! author : suvash : https://github.com/suvash
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -48874,7 +47139,7 @@
 
 
 /***/ },
-/* 571 */
+/* 533 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -48883,7 +47148,7 @@
 	//! author : Jacob Middag : https://github.com/middagj
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -48965,7 +47230,7 @@
 
 
 /***/ },
-/* 572 */
+/* 534 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -48974,7 +47239,7 @@
 	//! author : Jacob Middag : https://github.com/middagj
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -49056,7 +47321,7 @@
 
 
 /***/ },
-/* 573 */
+/* 535 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -49064,7 +47329,7 @@
 	//! author : https://github.com/mechuwind
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -49121,7 +47386,7 @@
 
 
 /***/ },
-/* 574 */
+/* 536 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -49129,7 +47394,7 @@
 	//! author : Harpreet Singh : https://github.com/harpreetkhalsagtbit
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -49250,7 +47515,7 @@
 
 
 /***/ },
-/* 575 */
+/* 537 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -49258,7 +47523,7 @@
 	//! author : Rafal Hirsz : https://github.com/evoL
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -49360,7 +47625,7 @@
 
 
 /***/ },
-/* 576 */
+/* 538 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -49368,7 +47633,7 @@
 	//! author : Jefferson : https://github.com/jalex79
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -49430,7 +47695,7 @@
 
 
 /***/ },
-/* 577 */
+/* 539 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -49438,7 +47703,7 @@
 	//! author : Caio Ribeiro Pereira : https://github.com/caio-ribeiro-pereira
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -49496,7 +47761,7 @@
 
 
 /***/ },
-/* 578 */
+/* 540 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -49505,7 +47770,7 @@
 	//! author : Valentin Agachi : https://github.com/avaly
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -49576,7 +47841,7 @@
 
 
 /***/ },
-/* 579 */
+/* 541 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -49586,7 +47851,7 @@
 	//! author : Коренберг Марк : https://github.com/socketpair
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -49764,7 +48029,7 @@
 
 
 /***/ },
-/* 580 */
+/* 542 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -49772,7 +48037,7 @@
 	//! authors : Bård Rolstad Henriksen : https://github.com/karamell
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -49830,7 +48095,7 @@
 
 
 /***/ },
-/* 581 */
+/* 543 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -49838,7 +48103,7 @@
 	//! author : Sampath Sitinamaluwa : https://github.com/sampathsris
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -49906,7 +48171,7 @@
 
 
 /***/ },
-/* 582 */
+/* 544 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -49915,7 +48180,7 @@
 	//! based on work of petrbela : https://github.com/petrbela
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -50061,7 +48326,7 @@
 
 
 /***/ },
-/* 583 */
+/* 545 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -50069,7 +48334,7 @@
 	//! author : Robert Sedovšek : https://github.com/sedovsek
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -50228,7 +48493,7 @@
 
 
 /***/ },
-/* 584 */
+/* 546 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -50238,7 +48503,7 @@
 	//! author : Oerd Cukalla : https://github.com/oerd
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -50303,7 +48568,7 @@
 
 
 /***/ },
-/* 585 */
+/* 547 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -50311,7 +48576,7 @@
 	//! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -50418,7 +48683,7 @@
 
 
 /***/ },
-/* 586 */
+/* 548 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -50426,7 +48691,7 @@
 	//! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -50533,7 +48798,7 @@
 
 
 /***/ },
-/* 587 */
+/* 549 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -50541,7 +48806,7 @@
 	//! author : Nicolai Davies<mail@nicolai.io> : https://github.com/nicolaidavies
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -50627,7 +48892,7 @@
 
 
 /***/ },
-/* 588 */
+/* 550 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -50635,7 +48900,7 @@
 	//! author : Jens Alm : https://github.com/ulmus
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -50701,7 +48966,7 @@
 
 
 /***/ },
-/* 589 */
+/* 551 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -50709,7 +48974,7 @@
 	//! author : Fahad Kassim : https://github.com/fadsel
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -50765,7 +49030,7 @@
 
 
 /***/ },
-/* 590 */
+/* 552 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -50773,7 +49038,7 @@
 	//! author : Arjunkumar Krishnamoorthy : https://github.com/tk120404
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -50900,7 +49165,7 @@
 
 
 /***/ },
-/* 591 */
+/* 553 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -50908,7 +49173,7 @@
 	//! author : Krishna Chaitanya Thota : https://github.com/kcthota
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -50994,7 +49259,7 @@
 
 
 /***/ },
-/* 592 */
+/* 554 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51003,7 +49268,7 @@
 	//! author : Onorio De J. Afonso : https://github.com/marobo
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -51067,7 +49332,7 @@
 
 
 /***/ },
-/* 593 */
+/* 555 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51075,7 +49340,7 @@
 	//! author : Kridsada Thanabulpong : https://github.com/sirn
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -51139,7 +49404,7 @@
 
 
 /***/ },
-/* 594 */
+/* 556 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51147,7 +49412,7 @@
 	//! author : Dan Hagman : https://github.com/hagmandan
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -51206,7 +49471,7 @@
 
 
 /***/ },
-/* 595 */
+/* 557 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51214,7 +49479,7 @@
 	//! author : Dominika Kruk : https://github.com/amaranthrose
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -51331,7 +49596,7 @@
 
 
 /***/ },
-/* 596 */
+/* 558 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51340,7 +49605,7 @@
 	//!           Burak Yiğit Kaya: https://github.com/BYK
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -51426,7 +49691,7 @@
 
 
 /***/ },
-/* 597 */
+/* 559 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51435,7 +49700,7 @@
 	//! author : Iustì Canun
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -51522,7 +49787,7 @@
 
 
 /***/ },
-/* 598 */
+/* 560 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51530,7 +49795,7 @@
 	//! author : Abdel Said : https://github.com/abdelsaid
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -51585,7 +49850,7 @@
 
 
 /***/ },
-/* 599 */
+/* 561 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51593,7 +49858,7 @@
 	//! author : Abdel Said : https://github.com/abdelsaid
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -51648,7 +49913,7 @@
 
 
 /***/ },
-/* 600 */
+/* 562 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51657,7 +49922,7 @@
 	//! Author : Menelion Elensúle : https://github.com/Oire
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -51799,7 +50064,7 @@
 
 
 /***/ },
-/* 601 */
+/* 563 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51807,7 +50072,7 @@
 	//! author : Sardor Muminov : https://github.com/muminoff
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -51862,7 +50127,7 @@
 
 
 /***/ },
-/* 602 */
+/* 564 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51870,7 +50135,7 @@
 	//! author : Bang Nguyen : https://github.com/bangnk
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -51946,7 +50211,7 @@
 
 
 /***/ },
-/* 603 */
+/* 565 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -51954,7 +50219,7 @@
 	//! author : Andrew Hood : https://github.com/andrewhood125
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -52019,7 +50284,7 @@
 
 
 /***/ },
-/* 604 */
+/* 566 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -52027,7 +50292,7 @@
 	//! author : Atolagbe Abisoye : https://github.com/andela-batolagbe
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -52084,7 +50349,7 @@
 
 
 /***/ },
-/* 605 */
+/* 567 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -52093,7 +50358,7 @@
 	//! author : Zeno Zeng : https://github.com/zenozeng
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -52216,7 +50481,7 @@
 
 
 /***/ },
-/* 606 */
+/* 568 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -52226,7 +50491,7 @@
 	//! author : Konstantin : https://github.com/skfd
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -52326,7 +50591,7 @@
 
 
 /***/ },
-/* 607 */
+/* 569 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -52335,7 +50600,7 @@
 	//! author : Chris Lam : https://github.com/hehachris
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(498)) :
+	    true ? factory(__webpack_require__(460)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -52435,22 +50700,1727 @@
 
 
 /***/ },
-/* 608 */
+/* 570 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(27);
+	var react_router_1 = __webpack_require__(234);
+	var HearthstoneSeasonsItem = (function (_super) {
+	    __extends(HearthstoneSeasonsItem, _super);
+	    function HearthstoneSeasonsItem() {
+	        _super.apply(this, arguments);
+	    }
+	    HearthstoneSeasonsItem.prototype.render = function () {
+	        var data = this.props.data;
+	        return (React.createElement("tr", null, 
+	            React.createElement("td", null, data._id), 
+	            React.createElement("td", null, 
+	                React.createElement(react_router_1.Link, {to: '/admin/hearthstone-seasons/' + data.url}, data.title)
+	            ), 
+	            React.createElement("td", null, data.month), 
+	            React.createElement("td", null, data.rank), 
+	            React.createElement("td", null, data.url), 
+	            React.createElement("td", null, 
+	                React.createElement("button", {type: "button", className: "btn btn-danger", onClick: this.props.delete}, "×")
+	            )));
+	    };
+	    return HearthstoneSeasonsItem;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneSeasonsItem;
+
+
+/***/ },
+/* 571 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(27);
+	var react_router_1 = __webpack_require__(234);
+	var hearthstone_player_classes_1 = __webpack_require__(572);
+	var HearthstoneDecksItem = (function (_super) {
+	    __extends(HearthstoneDecksItem, _super);
+	    function HearthstoneDecksItem() {
+	        _super.apply(this, arguments);
+	    }
+	    HearthstoneDecksItem.prototype.render = function () {
+	        var _a = this.props, data = _a.data, active = _a.active, inactive = _a.inactive;
+	        return (React.createElement("tr", null, 
+	            React.createElement("td", null, data._id), 
+	            React.createElement("td", null, 
+	                React.createElement(react_router_1.Link, {to: '/admin/hearthstone-decks/' + data._id}, data.name)
+	            ), 
+	            React.createElement("td", null, hearthstone_player_classes_1.HearthstonePlayerClasses.find(function (player) { return player.value === data.playerClass; }).name), 
+	            React.createElement("td", null, data.active ? 'Active' : 'Inactive'), 
+	            React.createElement("td", null, 
+	                React.createElement("button", {className: "btn btn-warning", type: "button", onClick: data.active ? inactive : active}, data.active ? 'Inactive' : 'Active'), 
+	                React.createElement("button", {className: "btn btn-danger", type: "button", onClick: this.props.delete}, "×"))));
+	    };
+	    return HearthstoneDecksItem;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneDecksItem;
+
+
+/***/ },
+/* 572 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var HEARTHSTONE_PLAYER_CLASSES = [
+	    {
+	        value: 0,
+	        name: "Druid"
+	    },
+	    {
+	        value: 1,
+	        name: "Hunter"
+	    },
+	    {
+	        value: 2,
+	        name: "Mage"
+	    },
+	    {
+	        value: 3,
+	        name: "Paladin"
+	    },
+	    {
+	        value: 4,
+	        name: "Priest"
+	    },
+	    {
+	        value: 5,
+	        name: "Rogue"
+	    },
+	    {
+	        value: 6,
+	        name: "Shaman"
+	    },
+	    {
+	        value: 7,
+	        name: "Warlock"
+	    },
+	    {
+	        value: 8,
+	        name: "Warrior"
+	    }
+	];
+	exports.HearthstonePlayerClasses = HEARTHSTONE_PLAYER_CLASSES;
+
+
+/***/ },
+/* 573 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var moment = __webpack_require__(460);
+	var React = __webpack_require__(27);
+	var hearthstone_match_result_1 = __webpack_require__(574);
+	var hearthstone_player_classes_1 = __webpack_require__(572);
+	var HearthstoneMatchesItem = (function (_super) {
+	    __extends(HearthstoneMatchesItem, _super);
+	    function HearthstoneMatchesItem() {
+	        _super.apply(this, arguments);
+	    }
+	    HearthstoneMatchesItem.prototype.render = function () {
+	        var _a = this.props, data = _a.data, deck = _a.deck;
+	        return (React.createElement("tr", null, 
+	            React.createElement("td", null, data._id), 
+	            React.createElement("td", null, moment(data.time, 'x').format('YYYY-MM-DD HH:mm:ss')), 
+	            React.createElement("td", null, deck ? deck.name : data.deck_id), 
+	            React.createElement("td", null, hearthstone_player_classes_1.HearthstonePlayerClasses.find(function (r) { return r.value === data.opponent; }).name), 
+	            React.createElement("td", null, hearthstone_match_result_1.HearthstoneMatchResult.find(function (r) { return r.value === data.result; }).name), 
+	            React.createElement("td", null, 
+	                React.createElement("button", {className: "btn btn-danger", type: "button", onClick: this.props.delete}, "×")
+	            )));
+	    };
+	    return HearthstoneMatchesItem;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneMatchesItem;
+
+
+/***/ },
+/* 574 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var HEARTHSTONE_MATCH_RESULT = [
+	    {
+	        value: 1,
+	        name: 'Win'
+	    },
+	    {
+	        value: 0,
+	        name: 'Draw'
+	    },
+	    {
+	        value: -1,
+	        name: 'Lose'
+	    }
+	];
+	exports.HearthstoneMatchResult = HEARTHSTONE_MATCH_RESULT;
+
+
+/***/ },
+/* 575 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var react_redux_1 = __webpack_require__(204);
+	var games_action_1 = __webpack_require__(452);
+	var item_action_1 = __webpack_require__(576);
+	var game_fields_constants_1 = __webpack_require__(577);
+	var item_component_1 = __webpack_require__(578);
+	var mapStateToProps = function (state) {
+	    return {
+	        list: state.games,
+	        item: state.item,
+	        type: 'Game',
+	        fields: game_fields_constants_1.default,
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        initItemCreate: function () { return dispatch(item_action_1.initItemCreate()); },
+	        getItem: function (params) { return dispatch(games_action_1.fetchGame(params.url)); },
+	        setItem: function (item) { return dispatch(item_action_1.setItem(item)); },
+	        createItem: function (item) { return dispatch(games_action_1.createGame(item)); },
+	        updateItem: function (item, params) { return dispatch(games_action_1.updateGame(item, params)); },
+	        changeItem: function (field, value) { return dispatch(item_action_1.changeItem({ field: field, value: value })); },
+	    };
+	};
+	var Game = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(item_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Game;
+
+
+/***/ },
+/* 576 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var redux_actions_1 = __webpack_require__(292);
+	var action_types_constants_1 = __webpack_require__(447);
+	var item = action_types_constants_1.default.item;
+	var initItemCreate = redux_actions_1.createAction(item.init);
+	exports.initItemCreate = initItemCreate;
+	var setItem = redux_actions_1.createAction(item.set);
+	exports.setItem = setItem;
+	var changeItem = redux_actions_1.createAction(item.change);
+	exports.changeItem = changeItem;
+
+
+/***/ },
+/* 577 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var game_genres_1 = __webpack_require__(458);
+	var game_platforms_1 = __webpack_require__(457);
+	var GameFields = [
+	    {
+	        name: 'image',
+	        type: 'image',
+	        placeholder: 'https://placeholdit.imgix.net/~text?txtsize=30&txt=570%C3%97570&w=150&h=150',
+	    },
+	    {
+	        name: 'title',
+	        type: 'input',
+	    },
+	    {
+	        name: 'name',
+	        type: 'input',
+	    },
+	    {
+	        name: 'developer',
+	        type: 'input',
+	    },
+	    {
+	        name: 'publisher',
+	        type: 'input',
+	    },
+	    {
+	        name: 'release_at',
+	        type: 'date',
+	    },
+	    {
+	        name: 'buy_at',
+	        type: 'date',
+	    },
+	    {
+	        name: 'rate',
+	        type: 'radio',
+	        enum: ['1', '2', '3', '4', '5'],
+	    },
+	    {
+	        name: 'url',
+	        type: 'input',
+	    },
+	    {
+	        name: 'platform',
+	        type: 'select',
+	        enum: game_platforms_1.GamePlatforms,
+	    },
+	    {
+	        name: 'genre',
+	        type: 'select',
+	        enum: game_genres_1.GameGenres,
+	    },
+	    {
+	        name: 'description',
+	        type: 'text',
+	    },
+	];
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = GameFields;
+
+
+/***/ },
+/* 578 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(27);
+	var page_header_component_1 = __webpack_require__(454);
+	var alert_component_1 = __webpack_require__(450);
+	var form_component_1 = __webpack_require__(579);
+	var Item = (function (_super) {
+	    __extends(Item, _super);
+	    function Item() {
+	        _super.apply(this, arguments);
+	    }
+	    Item.prototype.componentWillMount = function () {
+	        var _a = this.props, initItemCreate = _a.initItemCreate, type = _a.type, params = _a.params;
+	        if (Object.values(params).indexOf('add') < 0) {
+	            document.title = "Edit - " + type + " | Admin";
+	        }
+	        else {
+	            document.title = "Add - " + type + " | Admin";
+	        }
+	        initItemCreate();
+	    };
+	    Item.prototype.componentDidMount = function () {
+	        var _a = this.props, params = _a.params, type = _a.type, list = _a.list, getItem = _a.getItem, setItem = _a.setItem;
+	        var items = list.items;
+	        var item = this.handleItemSearch();
+	        if (item) {
+	            setItem(item);
+	        }
+	        else if (Object.values(params).indexOf('add') < 0) {
+	            getItem(params);
+	        }
+	    };
+	    Item.prototype.componentWillUpdate = function (nextProps, nextState) {
+	        var item = nextProps.item, setItem = nextProps.setItem;
+	        var obj = this.handleItemSearch();
+	        if (!item.data && obj) {
+	            setItem(obj);
+	        }
+	    };
+	    Item.prototype.handleItemSearch = function () {
+	        var _a = this.props, type = _a.type, list = _a.list, params = _a.params;
+	        var items = list.items;
+	        if (type === 'Gourmet') {
+	            return items.find(function (v) { return v._id === params['id']; });
+	        }
+	        else {
+	            return items.find(function (v) { return v.url === params['url']; });
+	        }
+	    };
+	    Item.prototype.handlePost = function () {
+	        var _a = this.props, item = _a.item, createItem = _a.createItem, updateItem = _a.updateItem, params = _a.params;
+	        if (Object.values(params).indexOf('add') < 0) {
+	            updateItem(item.data, params);
+	        }
+	        else {
+	            createItem(item.data);
+	        }
+	        window.scrollTo(0, 0);
+	    };
+	    Item.prototype.render = function () {
+	        var _a = this.props, type = _a.type, fields = _a.fields, item = _a.item, list = _a.list, changeItem = _a.changeItem;
+	        var isFetching = list.isFetching, isPosting = list.isPosting, posted = list.posted, error = list.error;
+	        var title = (item.data ? 'Edit' : 'Add') + " - " + type;
+	        return (React.createElement("div", {className: "container-fluid"}, 
+	            React.createElement(page_header_component_1.default, {title: title}), 
+	            React.createElement(alert_component_1.default, {isPosting: isPosting, isFetching: isFetching, posted: posted, error: error}), 
+	            React.createElement(form_component_1.default, {fields: fields, data: item.data, change: function (f, v) { return changeItem(f, v); }, submit: this.handlePost.bind(this)})));
+	    };
+	    return Item;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Item;
+
+
+/***/ },
+/* 579 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(27);
+	var field_component_1 = __webpack_require__(580);
+	var Form = (function (_super) {
+	    __extends(Form, _super);
+	    function Form() {
+	        _super.apply(this, arguments);
+	    }
+	    Form.prototype.handleSubmit = function (e) {
+	        e.preventDefault();
+	        var submit = this.props.submit;
+	        submit();
+	    };
+	    Form.prototype.render = function () {
+	        var _a = this.props, fields = _a.fields, data = _a.data, change = _a.change;
+	        return (React.createElement("form", {onSubmit: this.handleSubmit.bind(this)}, 
+	            React.createElement("table", {className: "table table-bordered"}, 
+	                React.createElement("tbody", null, fields.map(function (field, key) {
+	                    return React.createElement(field_component_1.default, {field: field, key: key, data: data ? data[field.name] : '', change: function (f, v) { return change(f, v); }});
+	                }))
+	            ), 
+	            React.createElement("div", {className: "form-group"}, 
+	                React.createElement("button", {className: "btn btn-success", type: "submit"}, "Submit")
+	            )));
+	    };
+	    return Form;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Form;
+
+
+/***/ },
+/* 580 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(27);
+	var moment = __webpack_require__(460);
+	var image_container_1 = __webpack_require__(581);
+	var Field = (function (_super) {
+	    __extends(Field, _super);
+	    function Field() {
+	        _super.apply(this, arguments);
+	    }
+	    Field.prototype.handleChange = function (e) {
+	        var _a = this.props, change = _a.change, field = _a.field;
+	        change(field.name, e.target.value);
+	    };
+	    Field.prototype.handleField = function (field, data) {
+	        var _this = this;
+	        switch (field.type) {
+	            case 'image':
+	                return React.createElement(image_container_1.default, {image: data ? JSON.parse(data).url : field.placeholder, change: function (f, v) { return _this.props.change(f, v); }});
+	            case 'text':
+	                return React.createElement("textarea", {value: data, className: "form-control", rows: 20, onChange: this.handleChange.bind(this)});
+	            case 'select':
+	                return (React.createElement("select", {className: "form-control", value: data, onChange: this.handleChange.bind(this)}, field.enum.map(function (option) {
+	                    return React.createElement("option", {value: option.value, key: option.value}, option.value + ' - ' + option.name);
+	                })));
+	            case 'date':
+	                return React.createElement("input", {className: "form-control", type: "date", value: moment(data, 'x').format('YYYY-MM-DD'), onChange: this.handleChange.bind(this)});
+	            case 'radio':
+	                return (React.createElement("div", null, field.enum.map(function (radio) {
+	                    return (React.createElement("label", {className: "radio-inline", key: radio}, 
+	                        React.createElement("input", {type: "radio", value: radio, checked: data === radio, onChange: _this.handleChange.bind(_this)}), 
+	                        radio));
+	                })));
+	            case 'checkbox':
+	                var checked_1 = typeof data === 'boolean' ? data : (data === 'true');
+	                return (React.createElement("div", null, field.enum.map(function (check) {
+	                    return (React.createElement("label", {className: "checkbox-inline", key: check.value}, 
+	                        React.createElement("input", {type: "checkbox", value: check.value, checked: checked_1 === check.value, onChange: _this.handleChange.bind(_this)}), 
+	                        check.name));
+	                })));
+	            default:
+	                return React.createElement("input", {type: "text", className: "form-control", onChange: this.handleChange.bind(this), placeholder: 'ENTER ' + field.name.toUpperCase(), value: data || ''});
+	        }
+	    };
+	    Field.prototype.render = function () {
+	        var _a = this.props, field = _a.field, data = _a.data;
+	        return (React.createElement("tr", null, 
+	            React.createElement("td", null, 
+	                React.createElement("label", null, field.name.toUpperCase())
+	            ), 
+	            React.createElement("td", null, this.handleField(field, data))));
+	    };
+	    return Field;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Field;
+
+
+/***/ },
+/* 581 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var axios_1 = __webpack_require__(1);
+	var react_redux_1 = __webpack_require__(204);
+	var redux_actions_1 = __webpack_require__(292);
+	var action_types_constants_1 = __webpack_require__(447);
+	var image_upload_component_1 = __webpack_require__(582);
+	var image = action_types_constants_1.default.image;
+	var mapStateToProps = function (state, ownProps) {
+	    return {
+	        image: state.image,
+	        imageUrl: ownProps.image,
+	        change: ownProps.change,
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    var uploadImage = redux_actions_1.createAction(image.post, function (file) { return axios_1.default.post('/images', file); });
+	    var initImage = redux_actions_1.createAction(image.init);
+	    return {
+	        upload: function (file) { return dispatch(uploadImage(file)); },
+	        init: function () { return dispatch(initImage()); },
+	    };
+	};
+	var Image = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(image_upload_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Image;
+
+
+/***/ },
+/* 582 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(27);
+	var ImageUpload = (function (_super) {
+	    __extends(ImageUpload, _super);
+	    function ImageUpload() {
+	        _super.apply(this, arguments);
+	    }
+	    ImageUpload.prototype.componentWillMount = function () {
+	        var init = this.props.init;
+	        init();
+	    };
+	    ImageUpload.prototype.componentWillUpdate = function (nextProps, nextState) {
+	        var change = this.props.change;
+	        var image = nextProps.image;
+	        if (!this.props.image.fetched && image.fetched) {
+	            change('image', JSON.stringify(image.image));
+	        }
+	    };
+	    ImageUpload.prototype.handleUpload = function (e) {
+	        var upload = this.props.upload;
+	        var data = new FormData();
+	        data.append('file', e.target.files[0]);
+	        upload(data);
+	    };
+	    ImageUpload.prototype.handleStatus = function (image) {
+	        var isPosting = image.isPosting, error = image.error;
+	        if (isPosting) {
+	            return React.createElement("div", {className: "alert alert-info"}, "Posting...");
+	        }
+	        else if (error) {
+	            return React.createElement("div", {className: "alert alert-danger"}, error.data);
+	        }
+	    };
+	    ImageUpload.prototype.render = function () {
+	        var _a = this.props, image = _a.image, imageUrl = _a.imageUrl, change = _a.change;
+	        return (React.createElement("div", {className: "clearfix"}, 
+	            React.createElement("div", {className: "admin-image-upload"}, 
+	                React.createElement("img", {src: imageUrl, alt: ""}), 
+	                React.createElement("input", {type: "file", onChange: this.handleUpload.bind(this)})), 
+	            this.handleStatus(image)));
+	    };
+	    return ImageUpload;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = ImageUpload;
+
+
+/***/ },
+/* 583 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var react_redux_1 = __webpack_require__(204);
+	var gourmets_action_1 = __webpack_require__(584);
+	var list_component_1 = __webpack_require__(453);
+	var mapStateToProps = function (state) {
+	    return {
+	        list: state.gourmets,
+	        type: 'Gourmets',
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        getList: function (page) {
+	            if (page === void 0) { page = null; }
+	            return dispatch(gourmets_action_1.fetchGourmets(page));
+	        },
+	        postDelete: function (url) { return dispatch(gourmets_action_1.deleteGourmet(url)); },
+	    };
+	};
+	var Gourmets = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(list_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Gourmets;
+
+
+/***/ },
+/* 584 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var redux_actions_1 = __webpack_require__(292);
+	var axios_1 = __webpack_require__(1);
+	var action_types_constants_1 = __webpack_require__(447);
+	var gourmets = action_types_constants_1.default.gourmets;
+	var fetchGourmets = redux_actions_1.createAction(gourmets.fetch_list, function (page) {
+	    var url = "/gourmets?limit=30" + (page ? '&page=' + page : '');
+	    return axios_1.default.get(url);
+	});
+	exports.fetchGourmets = fetchGourmets;
+	var fetchGourmet = redux_actions_1.createAction(gourmets.fetch_item, function (id) { return axios_1.default.get('/gourmets/' + id); });
+	exports.fetchGourmet = fetchGourmet;
+	var createGourmet = redux_actions_1.createAction(gourmets.post, function (gourmet) { return axios_1.default.post('/gourmets', gourmets); });
+	exports.createGourmet = createGourmet;
+	var updateGourmet = redux_actions_1.createAction(gourmets.post, function (gourmet, id) { return axios_1.default.post('/gourmets/' + id, gourmet); });
+	exports.updateGourmet = updateGourmet;
+	var deleteGourmet = redux_actions_1.createAction(gourmets.delete, function (id) { return axios_1.default.post('/gourmets/' + id + '/delete'); });
+	exports.deleteGourmet = deleteGourmet;
+
+
+/***/ },
+/* 585 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var react_redux_1 = __webpack_require__(204);
+	var gourmets_action_1 = __webpack_require__(584);
+	var item_action_1 = __webpack_require__(576);
+	var gourmet_fields_constants_1 = __webpack_require__(586);
+	var item_component_1 = __webpack_require__(578);
+	var mapStateToProps = function (state) {
+	    return {
+	        list: state.gourmets,
+	        item: state.item,
+	        type: 'Gourmet',
+	        fields: gourmet_fields_constants_1.default,
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        initItemCreate: function () { return dispatch(item_action_1.initItemCreate()); },
+	        getItem: function (params) { return dispatch(gourmets_action_1.fetchGourmet(params.id)); },
+	        setItem: function (item) { return dispatch(item_action_1.setItem(item)); },
+	        createItem: function (item) { return dispatch(gourmets_action_1.createGourmet(item)); },
+	        updateItem: function (item, params) { return dispatch(gourmets_action_1.updateGourmet(item, params.id)); },
+	        changeItem: function (field, value) { return dispatch(item_action_1.changeItem({ field: field, value: value })); },
+	    };
+	};
+	var Gourmet = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(item_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Gourmet;
+
+
+/***/ },
+/* 586 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var GourmetFields = [
+	    {
+	        name: 'image',
+	        type: 'image',
+	        placeholder: 'https://placeholdit.imgix.net/~text?txtsize=30&txt=300%C3%97300&w=150&h=150',
+	    },
+	    {
+	        name: 'food',
+	        type: 'input',
+	    },
+	    {
+	        name: 'restaurant',
+	        type: 'input',
+	    },
+	    {
+	        name: 'date',
+	        type: 'date',
+	    },
+	    {
+	        name: 'url',
+	        type: 'input',
+	    },
+	];
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = GourmetFields;
+
+
+/***/ },
+/* 587 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var react_redux_1 = __webpack_require__(204);
+	var hearthstone_seasons_action_1 = __webpack_require__(588);
+	var list_component_1 = __webpack_require__(453);
+	var mapStateToProps = function (state) {
+	    return {
+	        list: state.hearthstoneSeasons,
+	        type: 'Hearthstone-Seasons',
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        getList: function (page) {
+	            if (page === void 0) { page = null; }
+	            return dispatch(hearthstone_seasons_action_1.fetchSeasons(page));
+	        },
+	        postDelete: function (url) { return dispatch(hearthstone_seasons_action_1.deleteSeason(url)); },
+	    };
+	};
+	var HearthstoneSeasons = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(list_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneSeasons;
+
+
+/***/ },
+/* 588 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var redux_actions_1 = __webpack_require__(292);
+	var axios_1 = __webpack_require__(1);
+	var action_types_constants_1 = __webpack_require__(447);
+	var hearthstone_seasons = action_types_constants_1.default.hearthstone_seasons;
+	var fetchSeasons = redux_actions_1.createAction(hearthstone_seasons.fetch_list, function (page) {
+	    if (page === void 0) { page = null; }
+	    var url = "/hearthstone-seasons?limit=30" + (page ? '&page=' + page : '');
+	    return axios_1.default.get(url);
+	});
+	exports.fetchSeasons = fetchSeasons;
+	var fetchSeason = redux_actions_1.createAction(hearthstone_seasons.fetch_item, function (url) { return axios_1.default.get('/hearthstone-seasons/' + url); });
+	exports.fetchSeason = fetchSeason;
+	var createSeason = redux_actions_1.createAction(hearthstone_seasons.post, function (season) { return axios_1.default.post('/hearthstone-seasons/', season); });
+	exports.createSeason = createSeason;
+	var updateSeason = redux_actions_1.createAction(hearthstone_seasons.post, function (season, url) { return axios_1.default.post('/hearthstone-seasons/' + url, season); });
+	exports.updateSeason = updateSeason;
+	var deleteSeason = redux_actions_1.createAction(hearthstone_seasons.post, function (url) { return axios_1.default.post('/hearthstone-seasons/' + url + '/delete'); });
+	exports.deleteSeason = deleteSeason;
+
+
+/***/ },
+/* 589 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var react_redux_1 = __webpack_require__(204);
+	var hearthstone_seasons_action_1 = __webpack_require__(588);
+	var item_action_1 = __webpack_require__(576);
+	var hearthstone_season_fields_constants_1 = __webpack_require__(590);
+	var item_component_1 = __webpack_require__(578);
+	var mapStateToProps = function (state) {
+	    return {
+	        list: state.hearthstoneSeasons,
+	        item: state.item,
+	        type: 'Hearthstone-Season',
+	        fields: hearthstone_season_fields_constants_1.default,
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        initItemCreate: function () { return dispatch(item_action_1.initItemCreate()); },
+	        getItem: function (params) { return dispatch(hearthstone_seasons_action_1.fetchSeason(params.url)); },
+	        setItem: function (item) { return dispatch(item_action_1.setItem(item)); },
+	        createItem: function (item) { return dispatch(hearthstone_seasons_action_1.createSeason(item)); },
+	        updateItem: function (item, params) { return dispatch(hearthstone_seasons_action_1.updateSeason(item, params.url)); },
+	        changeItem: function (field, value) { return dispatch(item_action_1.changeItem({ field: field, value: value })); },
+	    };
+	};
+	var HearthstoneSeason = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(item_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneSeason;
+
+
+/***/ },
+/* 590 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var hearthstone_season_ranked_1 = __webpack_require__(591);
+	var HearthstoneSeasonFields = [
+	    {
+	        name: 'image',
+	        type: 'image',
+	        placeholder: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=760%C3%97270&w=442&h=150',
+	    },
+	    {
+	        name: 'title',
+	        type: 'input',
+	    },
+	    {
+	        name: 'month',
+	        type: 'date',
+	    },
+	    {
+	        name: 'rank',
+	        type: 'select',
+	        enum: hearthstone_season_ranked_1.HearthstoneSeasonRanked,
+	    },
+	    {
+	        name: 'url',
+	        type: 'input',
+	    },
+	    {
+	        name: 'description',
+	        type: 'text',
+	    },
+	];
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneSeasonFields;
+
+
+/***/ },
+/* 591 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var HEARTHSTONE_SEASON_RANKED = [
+	    {
+	        value: 0,
+	        name: 'Legend'
+	    },
+	    {
+	        value: 1,
+	        name: 'Innkeeper'
+	    },
+	    {
+	        value: 2,
+	        name: 'The Black Knight'
+	    },
+	    {
+	        value: 3,
+	        name: 'Molten Giant'
+	    },
+	    {
+	        value: 4,
+	        name: '	Mountain Giant'
+	    },
+	    {
+	        value: 5,
+	        name: 'Sea Giant'
+	    },
+	    {
+	        value: 6,
+	        name: 'Ancient of War'
+	    },
+	    {
+	        value: 7,
+	        name: 'Sunwalker'
+	    },
+	    {
+	        value: 8,
+	        name: 'Frostwolf Warlord'
+	    },
+	    {
+	        value: 9,
+	        name: 'Silver Hand Knight'
+	    },
+	    {
+	        value: 10,
+	        name: 'Ogre Magi'
+	    },
+	    {
+	        value: 11,
+	        name: 'Big Game Hunter'
+	    },
+	    {
+	        value: 12,
+	        name: 'Warsong Commander'
+	    },
+	    {
+	        value: 13,
+	        name: '	Dread Corsair'
+	    },
+	    {
+	        value: 14,
+	        name: '	Raid Leader'
+	    },
+	    {
+	        value: 15,
+	        name: 'Silvermoon Guardian'
+	    },
+	    {
+	        value: 16,
+	        name: '	Questing Adventurer'
+	    },
+	    {
+	        value: 17,
+	        name: 'Tauren Warrior'
+	    },
+	    {
+	        value: 18,
+	        name: 'Sorcerer\'s Apprentice'
+	    },
+	    {
+	        value: 19,
+	        name: 'Novice Engineer'
+	    },
+	    {
+	        value: 20,
+	        name: '	Shieldbearer'
+	    },
+	    {
+	        value: 21,
+	        name: '	Southsea Deckhand'
+	    },
+	    {
+	        value: 22,
+	        name: 'Murloc Raider'
+	    },
+	    {
+	        value: 23,
+	        name: 'Argent Squire'
+	    },
+	    {
+	        value: 24,
+	        name: 'Leper Gnome'
+	    },
+	    {
+	        value: 25,
+	        name: '	Angry Chicken'
+	    },
+	];
+	exports.HearthstoneSeasonRanked = HEARTHSTONE_SEASON_RANKED;
+
+
+/***/ },
+/* 592 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var react_redux_1 = __webpack_require__(204);
+	var hearthstone_decks_action_1 = __webpack_require__(593);
+	var list_component_1 = __webpack_require__(453);
+	var mapStateToProps = function (state) {
+	    return {
+	        list: state.hearthstoneDecks,
+	        type: 'Hearthstone-Decks',
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        getList: function (page) {
+	            if (page === void 0) { page = null; }
+	            return dispatch(hearthstone_decks_action_1.fetchDecks({ page: page }));
+	        },
+	        postDelete: function (id) { return dispatch(hearthstone_decks_action_1.deleteDeck(id)); },
+	        activeDeck: function (id) { return dispatch(hearthstone_decks_action_1.activeDeck(id)); },
+	        inactiveDeck: function (id) { return dispatch(hearthstone_decks_action_1.inactiveDeck(id)); },
+	    };
+	};
+	var HearthstoneDecks = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(list_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneDecks;
+
+
+/***/ },
+/* 593 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var redux_actions_1 = __webpack_require__(292);
+	var axios_1 = __webpack_require__(1);
+	var action_types_constants_1 = __webpack_require__(447);
+	var hearthstone_decks = action_types_constants_1.default.hearthstone_decks;
+	var fetchDecks = redux_actions_1.createAction(hearthstone_decks.fetch_list, function (params) {
+	    var base = '/hearthstone-decks';
+	    var url = base + "?limit=30";
+	    if (params.hasOwnProperty('page') && params.page) {
+	        url = url + "&page=" + params.page;
+	    }
+	    else if (params.hasOwnProperty('ids')) {
+	        url = base + "?ids=" + params.ids.join(',');
+	    }
+	    else if (params.hasOwnProperty('active')) {
+	        url = base + "?active=" + params.active;
+	    }
+	    return axios_1.default.get(url);
+	});
+	exports.fetchDecks = fetchDecks;
+	var fetchDeck = redux_actions_1.createAction(hearthstone_decks.fetch_item, function (id) { return axios_1.default.get('/hearthstone-decks/' + id); });
+	exports.fetchDeck = fetchDeck;
+	var createDeck = redux_actions_1.createAction(hearthstone_decks.post, function (deck) { return axios_1.default.post('/hearthstone-decks/', deck); });
+	exports.createDeck = createDeck;
+	var updateDeck = redux_actions_1.createAction(hearthstone_decks.post, function (deck, id) { return axios_1.default.post('/hearthstone-decks/' + id, deck); });
+	exports.updateDeck = updateDeck;
+	var deleteDeck = redux_actions_1.createAction(hearthstone_decks.post, function (id) { return axios_1.default.post('/hearthstone-decks/' + id + '/delete'); });
+	exports.deleteDeck = deleteDeck;
+	var activeDeck = redux_actions_1.createAction(hearthstone_decks.active, function (id) { return axios_1.default.post('/hearthstone-decks/' + id + '/active'); });
+	exports.activeDeck = activeDeck;
+	var inactiveDeck = redux_actions_1.createAction(hearthstone_decks.inactive, function (id) { return axios_1.default.post('/hearthstone-decks/' + id + '/inactive'); });
+	exports.inactiveDeck = inactiveDeck;
+
+
+/***/ },
+/* 594 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var react_redux_1 = __webpack_require__(204);
+	var hearthstone_decks_action_1 = __webpack_require__(593);
+	var item_action_1 = __webpack_require__(576);
+	var hearthstone_deck_page_component_1 = __webpack_require__(595);
+	var mapStateToProps = function (state) {
+	    return {
+	        list: state.hearthstoneDecks,
+	        deck: state.item,
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        getDeck: function (id) { return dispatch(hearthstone_decks_action_1.fetchDeck(id)); },
+	        setDeck: function (deck) { return dispatch(item_action_1.setItem(deck)); },
+	        changeDeck: function (field, value) { return dispatch(item_action_1.changeItem({ field: field, value: value })); },
+	        createDeck: function (deck) { return dispatch(hearthstone_decks_action_1.createDeck(deck)); },
+	        updateDeck: function (deck, id) { return dispatch(hearthstone_decks_action_1.updateDeck(deck, id)); },
+	        initCreateDeck: function () { return dispatch(item_action_1.initItemCreate()); },
+	    };
+	};
+	var HearthstoneDeck = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(hearthstone_deck_page_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneDeck;
+
+
+/***/ },
+/* 595 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(27);
+	var hearthstone_deck_fields_constants_1 = __webpack_require__(596);
+	var page_header_component_1 = __webpack_require__(454);
+	var alert_component_1 = __webpack_require__(450);
+	var form_component_1 = __webpack_require__(579);
+	var hearthstone_deck_cards_container_1 = __webpack_require__(597);
+	var hearthstone_cards_container_1 = __webpack_require__(600);
+	var HearthstoneDeckPage = (function (_super) {
+	    __extends(HearthstoneDeckPage, _super);
+	    function HearthstoneDeckPage() {
+	        _super.apply(this, arguments);
+	    }
+	    HearthstoneDeckPage.prototype.componentWillMount = function () {
+	        var _a = this.props, params = _a.params, initCreateDeck = _a.initCreateDeck;
+	        if (params['id'] === 'add') {
+	            document.title = 'Add - Hearthstone Decks | Admin';
+	        }
+	        else {
+	            document.title = 'Edit - Hearthstone Decks | Admin';
+	        }
+	        initCreateDeck();
+	    };
+	    HearthstoneDeckPage.prototype.componentDidMount = function () {
+	        var _a = this.props, params = _a.params, list = _a.list, getDeck = _a.getDeck, setDeck = _a.setDeck, changeDeck = _a.changeDeck;
+	        var item = list.items.find(function (v) { return v._id === params['id']; });
+	        if (params['id'] === 'add') {
+	        }
+	        else {
+	            if (item) {
+	                setDeck(item);
+	            }
+	            else {
+	                getDeck(params['id']);
+	            }
+	        }
+	    };
+	    HearthstoneDeckPage.prototype.componentWillUpdate = function (nextProps, nextState) {
+	        var params = nextProps.params, list = nextProps.list, deck = nextProps.deck, setDeck = nextProps.setDeck;
+	        var item = list.items.find(function (v) { return v._id === params['id']; });
+	        if (!deck.data && item) {
+	            setDeck(item);
+	        }
+	    };
+	    HearthstoneDeckPage.prototype.handleChange = function (field, value) {
+	        var changeDeck = this.props.changeDeck;
+	        changeDeck(field, value);
+	    };
+	    HearthstoneDeckPage.prototype.handleCardsSort = function (cards) {
+	        cards.sort(function (a, b) {
+	            if (a.cost > b.cost)
+	                return 1;
+	            if (a.cost < b.cost)
+	                return -1;
+	            if (a.name > b.name)
+	                return 1;
+	            if (a.name > b.name)
+	                return -1;
+	            return 0;
+	        });
+	        return cards;
+	    };
+	    HearthstoneDeckPage.prototype.handleCardsChange = function (selected) {
+	        var changeDeck = this.props.changeDeck;
+	        var sorted = this.handleCardsSort(selected);
+	        var storage = sorted.map(function (e) { return JSON.stringify(e); });
+	        var cards = [];
+	        var _loop_1 = function(card) {
+	            var element = cards.findIndex(function (e) { return e.card === card._id; });
+	            var filter = sorted.filter(function (e) { return e._id === card._id; });
+	            if (element < 0) {
+	                cards.push({
+	                    card: card._id,
+	                    count: filter.length,
+	                });
+	            }
+	        };
+	        for (var _i = 0, sorted_1 = sorted; _i < sorted_1.length; _i++) {
+	            var card = sorted_1[_i];
+	            _loop_1(card);
+	        }
+	        changeDeck('cards', cards);
+	        window.localStorage.setItem('selected_cards', storage.join(';'));
+	    };
+	    HearthstoneDeckPage.prototype.handleSubmit = function (e) {
+	        var _a = this.props, params = _a.params, deck = _a.deck, createDeck = _a.createDeck, updateDeck = _a.updateDeck;
+	        if (params['id'] === 'add') {
+	            createDeck(deck.data);
+	        }
+	        else {
+	            updateDeck(deck.data, params['id']);
+	        }
+	    };
+	    HearthstoneDeckPage.prototype.render = function () {
+	        var _a = this.props, params = _a.params, list = _a.list, deck = _a.deck, changeDeck = _a.changeDeck;
+	        var isFetching = list.isFetching, isPosting = list.isPosting, posted = list.posted, error = list.error;
+	        return (React.createElement("div", {className: "container-fluid"}, 
+	            React.createElement(page_header_component_1.default, {title: params['id'] === 'add' ? 'Add Deck' : 'Edit Deck'}), 
+	            React.createElement(alert_component_1.default, {isPosting: isPosting, isFetching: isFetching, posted: posted, error: error}), 
+	            React.createElement(form_component_1.default, {fields: hearthstone_deck_fields_constants_1.default, data: deck.data, submit: this.handleSubmit.bind(this), change: this.handleChange.bind(this)}), 
+	            React.createElement(hearthstone_deck_cards_container_1.default, {change: this.handleCardsChange.bind(this)}), 
+	            React.createElement(hearthstone_cards_container_1.default, {change: this.handleCardsChange.bind(this), sort: this.handleCardsSort.bind(this)})));
+	    };
+	    return HearthstoneDeckPage;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneDeckPage;
+
+
+/***/ },
+/* 596 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var hearthstone_player_classes_1 = __webpack_require__(572);
+	var HearthstoneDeckFields = [
+	    {
+	        name: 'name',
+	        type: 'input',
+	    },
+	    {
+	        name: 'playerClass',
+	        type: 'select',
+	        enum: hearthstone_player_classes_1.HearthstonePlayerClasses,
+	    },
+	    {
+	        name: 'active',
+	        type: 'checkbox',
+	        enum: [
+	            {
+	                value: true,
+	                name: 'Active',
+	            },
+	            {
+	                value: false,
+	                name: 'Inactive',
+	            },
+	        ],
+	    },
+	];
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneDeckFields;
+
+
+/***/ },
+/* 597 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var react_redux_1 = __webpack_require__(204);
+	var hearthstone_cards_action_1 = __webpack_require__(598);
+	var hearthstone_cards_box_component_1 = __webpack_require__(599);
+	var mapStateToProps = function (state, ownProps) {
+	    return {
+	        cards: state.hearthstoneCards,
+	        deck: state.item,
+	        change: ownProps.change,
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        getCards: function (params) { return dispatch(hearthstone_cards_action_1.fetchCards(params)); },
+	    };
+	};
+	var HearthstoneDeckCards = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(hearthstone_cards_box_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneDeckCards;
+
+
+/***/ },
+/* 598 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var redux_actions_1 = __webpack_require__(292);
+	var axios_1 = __webpack_require__(1);
+	var action_types_constants_1 = __webpack_require__(447);
+	var fetchCards = redux_actions_1.createAction(action_types_constants_1.default.hearthstone_cards.fetch_list, function (params) {
+	    var url = '/hearthstone-cards/?standard=true';
+	    if (typeof params !== 'object') {
+	        return axios_1.default.get(url + '&playerClass=-1');
+	    }
+	    if (params.hasOwnProperty('playerClass')) {
+	        url = url + "&playerClass=" + params.playerClass;
+	        if (params.playerClass === -1) {
+	            url = url + "&cost=" + (params.hasOwnProperty('cost') ? params.cost : 1);
+	        }
+	    }
+	    else if (params.hasOwnProperty('ids')) {
+	        url = url + "&ids=" + params.ids.join(',');
+	    }
+	    else {
+	        url = url + "&playerClass=-1";
+	    }
+	    return axios_1.default.get(url);
+	});
+	exports.fetchCards = fetchCards;
+	var changeActiveCost = redux_actions_1.createAction(action_types_constants_1.default.hearthstone_cards.active_cost);
+	exports.changeActiveCost = changeActiveCost;
+
+
+/***/ },
+/* 599 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(27);
+	var HearthstoneCardsBox = (function (_super) {
+	    __extends(HearthstoneCardsBox, _super);
+	    function HearthstoneCardsBox() {
+	        _super.apply(this, arguments);
+	    }
+	    HearthstoneCardsBox.prototype.componentWillMount = function () {
+	        window.localStorage.removeItem('selected_cards');
+	    };
+	    HearthstoneCardsBox.prototype.componentWillUpdate = function (nextProps, nextState) {
+	        var cards = nextProps.cards, deck = nextProps.deck, getCards = nextProps.getCards;
+	        var data = deck.data;
+	        var selected = window.localStorage.getItem('selected_cards');
+	        if (!this.props.deck.data && data) {
+	            var array = data.cards.map(function (e) { return e.card; });
+	            if (array) {
+	                var ids = [];
+	                var _loop_1 = function(element) {
+	                    if (cards.items.findIndex(function (e) { return e._id === element; }) < 0) {
+	                        ids.push(element);
+	                    }
+	                };
+	                for (var _i = 0, array_1 = array; _i < array_1.length; _i++) {
+	                    var element = array_1[_i];
+	                    _loop_1(element);
+	                }
+	                getCards({ ids: ids });
+	            }
+	        }
+	        if (data && !selected) {
+	            var diff = data.cards.filter(function (c) { return cards.items.findIndex(function (e) { return e._id === c.card; }) < 0; });
+	            if (!diff.length) {
+	                var selectedCards = [];
+	                var _loop_2 = function(card) {
+	                    var cardItem = cards.items.find(function (c) { return c._id === card.card; });
+	                    if (cardItem) {
+	                        var str = JSON.stringify(cardItem);
+	                        selectedCards.push(str);
+	                        if (card.count === 2) {
+	                            selectedCards.push(str);
+	                        }
+	                    }
+	                };
+	                for (var _a = 0, _b = data.cards; _a < _b.length; _a++) {
+	                    var card = _b[_a];
+	                    _loop_2(card);
+	                }
+	                if (selectedCards.length) {
+	                    window.localStorage.setItem('selected_cards', selectedCards.join(';'));
+	                }
+	            }
+	        }
+	    };
+	    HearthstoneCardsBox.prototype.handleCardsTotal = function () {
+	        var deck = this.props.deck;
+	        var total = 0;
+	        if (deck.data) {
+	            var totalArray = deck.data.cards.map(function (e) { return e.count; });
+	            total = totalArray.reduce(function (a, b) { return a + b; });
+	        }
+	        return total;
+	    };
+	    HearthstoneCardsBox.prototype.handleRemoveCard = function (id) {
+	        var change = this.props.change;
+	        var storage = window.localStorage.getItem('selected_cards');
+	        var array = storage ? storage.split(';') : [];
+	        var selectedCards = array.map(function (e) { return JSON.parse(e); });
+	        var index = selectedCards.findIndex(function (e) { return e._id === id; });
+	        if (index < 0)
+	            return false;
+	        selectedCards.splice(index, 1);
+	        change(selectedCards);
+	    };
+	    HearthstoneCardsBox.prototype.render = function () {
+	        var _this = this;
+	        var _a = this.props, deck = _a.deck, cards = _a.cards;
+	        var deckCards = deck.data ? deck.data.cards : [];
+	        return (React.createElement("div", {className: "row"}, 
+	            React.createElement("div", {className: "col-sm-12"}, 
+	                React.createElement("div", {className: "panel panel-default"}, 
+	                    React.createElement("div", {className: "panel-heading"}, 
+	                        React.createElement("h3", {className: "panel-title"}, 
+	                            "Deck Cards ", 
+	                            React.createElement("small", null, this.handleCardsTotal()))
+	                    ), 
+	                    React.createElement("div", {className: "panel-body"}, 
+	                        React.createElement("div", {className: "row"}, deckCards.map(function (card, key) {
+	                            return (React.createElement("div", {className: "col-sm-2", key: key}, 
+	                                React.createElement("button", {className: "btn btn-link btn-block", type: "button", onClick: _this.handleRemoveCard.bind(_this, card.card)}, 
+	                                    React.createElement("span", {className: "pull-left"}, cards.items.find(function (c) { return c._id === card.card; }) ? cards.items.find(function (c) { return c._id === card.card; }).name : ''), 
+	                                    React.createElement("span", {className: "pull-right"}, card.count))
+	                            ));
+	                        }))
+	                    ))
+	            )
+	        ));
+	    };
+	    return HearthstoneCardsBox;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneCardsBox;
+
+
+/***/ },
+/* 600 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var react_redux_1 = __webpack_require__(204);
+	var hearthstone_cards_action_1 = __webpack_require__(598);
+	var hearthstone_cards_list_component_1 = __webpack_require__(601);
+	var mapStateToProps = function (state, ownProps) {
+	    return {
+	        deck: state.item,
+	        cards: state.hearthstoneCards,
+	        change: ownProps.change,
+	        sort: ownProps.sort,
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        getCards: function (params) { return dispatch(hearthstone_cards_action_1.fetchCards(params)); },
+	        activeCost: function (cost) { return dispatch(hearthstone_cards_action_1.changeActiveCost(cost)); },
+	    };
+	};
+	var HearthstoneCards = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(hearthstone_cards_list_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneCards;
+
+
+/***/ },
+/* 601 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(27);
+	var hearthstone_card_rarity_1 = __webpack_require__(602);
+	var hearthstone_player_classes_1 = __webpack_require__(572);
+	var pagination_component_1 = __webpack_require__(455);
+	var HearthstoneCardsList = (function (_super) {
+	    __extends(HearthstoneCardsList, _super);
+	    function HearthstoneCardsList() {
+	        _super.apply(this, arguments);
+	    }
+	    HearthstoneCardsList.prototype.componentDidMount = function () {
+	        var _a = this.props, cards = _a.cards, getCards = _a.getCards, deck = _a.deck;
+	        if (cards.fetchedCosts.indexOf(1) < 0) {
+	            getCards({ playerClass: -1, cost: 1 });
+	        }
+	    };
+	    HearthstoneCardsList.prototype.componentWillUpdate = function (nextProps, nextState) {
+	        var getCards = this.props.getCards;
+	        var thisCards = this.props.cards;
+	        var thisDeck = this.props.deck.data;
+	        var nextCards = nextProps.cards;
+	        var nextDeck = nextProps.deck.data;
+	        if (!thisDeck && nextDeck
+	            && !thisCards.fetchedPlayerClasses.includes(nextDeck.playerClass)) {
+	            getCards({ playerClass: nextDeck.playerClass });
+	        }
+	        if (thisDeck
+	            && thisDeck.playerClass !== nextDeck.playerClass
+	            && !thisCards.fetchedPlayerClasses.includes(nextDeck.playerClass)) {
+	            getCards({ playerClass: nextDeck.playerClass });
+	        }
+	        if (thisCards.activeCost !== nextCards.activeCost
+	            && !thisCards.fetchedCosts.includes(nextCards.activeCost)) {
+	            getCards({ playerClass: -1, cost: nextCards.activeCost });
+	        }
+	    };
+	    HearthstoneCardsList.prototype.handleSelectCard = function (id) {
+	        var _a = this.props, cards = _a.cards, deck = _a.deck, change = _a.change;
+	        var card = cards.items.find(function (c) { return c._id === id; });
+	        var legend = hearthstone_card_rarity_1.HearthstoneCardRarity.find(function (rarity) { return rarity.name === 'Legendary'; }).value;
+	        var storage = window.localStorage.getItem('selected_cards');
+	        var array = storage ? storage.split(';') : [];
+	        var selectedCards = array.map(function (e) { return JSON.parse(e); });
+	        if (!card)
+	            return false;
+	        if (selectedCards.length === 30)
+	            return false;
+	        if (card.rarity === legend && selectedCards.indexOf(card) >= 0)
+	            return false;
+	        if (card.rarity !== legend && selectedCards.filter(function (c) { return c._id === card._id; }).length === 2)
+	            return false;
+	        selectedCards.push(card);
+	        change(selectedCards);
+	    };
+	    HearthstoneCardsList.prototype.handleCards = function (neutral) {
+	        if (neutral === void 0) { neutral = true; }
+	        var _a = this.props, cards = _a.cards, deck = _a.deck, sort = _a.sort;
+	        var fetchedCosts = cards.fetchedCosts, fetchedPlayerClasses = cards.fetchedPlayerClasses, activeCost = cards.activeCost, items = cards.items;
+	        var list = [];
+	        if (neutral && fetchedCosts.includes(activeCost)) {
+	            if (activeCost === 1) {
+	                list = sort(cards.items.filter(function (e) { return e.playerClass === -1 && e.cost < 2; }));
+	            }
+	            else if (activeCost === 7) {
+	                list = sort(cards.items.filter(function (e) { return e.playerClass === -1 && e.cost > 6; }));
+	            }
+	            else {
+	                list = sort(cards.items.filter(function (e) { return e.playerClass === -1 && e.cost === activeCost; }));
+	            }
+	        }
+	        if (!neutral && deck.data && fetchedPlayerClasses.includes(deck.data.playerClass)) {
+	            list = sort(cards.items.filter(function (e) { return e.playerClass === deck.data.playerClass; }));
+	        }
+	        return list;
+	    };
+	    HearthstoneCardsList.prototype.render = function () {
+	        var _this = this;
+	        var _a = this.props, cards = _a.cards, deck = _a.deck, activeCost = _a.activeCost;
+	        var neutralCards = this.handleCards();
+	        var classCards = this.handleCards(false);
+	        return (React.createElement("div", {className: "row"}, 
+	            React.createElement("div", {className: "col-sm-12"}, 
+	                React.createElement("ul", {className: "nav nav-tabs", role: "tablist"}, 
+	                    React.createElement("li", {role: "presentation", className: "active"}, 
+	                        React.createElement("a", {href: "#neutralCards", "aria-controls": "neutralCards", role: "tab", "data-toggle": "tab"}, "Neutral")
+	                    ), 
+	                    React.createElement("li", {role: "presentation"}, 
+	                        React.createElement("a", {href: "#classCards", "aria-controls": "classCards", role: "tab", "data-toggle": "tab"}, deck.data ? hearthstone_player_classes_1.HearthstonePlayerClasses.find(function (player) { return player.value === deck.data.playerClass; }).name : 'Druid')
+	                    )), 
+	                React.createElement("div", {className: "tab-content"}, 
+	                    React.createElement("div", {className: "tab-pane active", id: "neutralCards"}, 
+	                        React.createElement("ul", {className: "row list-unstyled"}, neutralCards.map(function (card, key) {
+	                            return (React.createElement("li", {className: "col-sm-2", key: key}, 
+	                                React.createElement("button", {className: "btn btn-link", type: "button", onClick: _this.handleSelectCard.bind(_this, card._id)}, card.cost + ' - ' + card.name)
+	                            ));
+	                        })), 
+	                        React.createElement(pagination_component_1.default, {total: 7, current: cards.activeCost, per: 1, clickEvent: function (cost) { return activeCost(cost); }})), 
+	                    React.createElement("div", {className: "tab-pane", id: "classCards"}, 
+	                        React.createElement("ul", {className: "row list-unstyled"}, classCards.map(function (card, key) {
+	                            return (React.createElement("li", {className: "col-sm-2", key: key}, 
+	                                React.createElement("button", {className: "btn btn-link", type: "button", onClick: _this.handleSelectCard.bind(_this, card._id)}, card.cost + ' - ' + card.name)
+	                            ));
+	                        }))
+	                    )))
+	        ));
+	    };
+	    return HearthstoneCardsList;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneCardsList;
+	;
+
+
+/***/ },
+/* 602 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var HEARTHSTONE_CARD_RARITY = [
+	    {
+	        value: 0,
+	        name: "Free"
+	    },
+	    {
+	        value: 1,
+	        name: "Common"
+	    },
+	    {
+	        value: 2,
+	        name: "Rare"
+	    },
+	    {
+	        value: 3,
+	        name: "Epic"
+	    },
+	    {
+	        value: 4,
+	        name: "Legendary"
+	    }
+	];
+	exports.HearthstoneCardRarity = HEARTHSTONE_CARD_RARITY;
+
+
+/***/ },
+/* 603 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var react_redux_1 = __webpack_require__(204);
+	var hearthstone_matches_action_1 = __webpack_require__(604);
+	var hearthstone_decks_action_1 = __webpack_require__(593);
+	var list_component_1 = __webpack_require__(453);
+	var mapStateToProps = function (state) {
+	    return {
+	        list: state.hearthstoneMatches,
+	        decks: state.hearthstoneDecks,
+	        type: 'Hearthstone-Matches',
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        getList: function (page) {
+	            if (page === void 0) { page = null; }
+	            return dispatch(hearthstone_matches_action_1.fetchMatches(page));
+	        },
+	        getDecks: function (ids) { return dispatch(hearthstone_decks_action_1.fetchDecks({ ids: ids })); },
+	        postDelete: function (id) { return dispatch(hearthstone_matches_action_1.deleteMatch(id)); },
+	    };
+	};
+	var HearthstoneMatches = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(list_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneMatches;
+
+
+/***/ },
+/* 604 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var redux_actions_1 = __webpack_require__(292);
+	var axios_1 = __webpack_require__(1);
+	var action_types_constants_1 = __webpack_require__(447);
+	var hearthstone_matches = action_types_constants_1.default.hearthstone_matches;
+	var fetchMatches = redux_actions_1.createAction(hearthstone_matches.fetch_list, function (page) {
+	    if (page === void 0) { page = null; }
+	    var url = "/hearthstone-matches?limit=100" + (page ? '&page=' + page : '');
+	    return axios_1.default.get(url);
+	});
+	exports.fetchMatches = fetchMatches;
+	var createMatch = redux_actions_1.createAction(hearthstone_matches.post, function (match) { return axios_1.default.post('/hearthstone-matches/', match); });
+	exports.createMatch = createMatch;
+	var deleteMatch = redux_actions_1.createAction(hearthstone_matches.delete, function (id) { return axios_1.default.post('/hearthstone-matches/' + id + '/delete'); });
+	exports.deleteMatch = deleteMatch;
+
+
+/***/ },
+/* 605 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var react_redux_1 = __webpack_require__(204);
+	var hearthstone_matches_action_1 = __webpack_require__(604);
+	var hearthstone_decks_action_1 = __webpack_require__(593);
+	var item_action_1 = __webpack_require__(576);
+	var hearthstone_match_add_component_1 = __webpack_require__(606);
+	var mapStateToProps = function (state) {
+	    return {
+	        decks: state.hearthstoneDecks,
+	        matches: state.hearthstoneMatches,
+	        match: state.item,
+	    };
+	};
+	var mapDispatchToProps = function (dispatch) {
+	    return {
+	        getDecks: function () { return dispatch(hearthstone_decks_action_1.fetchDecks({ active: true })); },
+	        initMatch: function () { return dispatch(item_action_1.initItemCreate()); },
+	        setMatch: function (match) { return dispatch(item_action_1.setItem(match)); },
+	        changeMatch: function (field, value) { return dispatch(item_action_1.changeItem({ field: field, value: value })); },
+	        createMatch: function (match) { return dispatch(hearthstone_matches_action_1.createMatch(match)); },
+	    };
+	};
+	var HearthstoneMatch = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(hearthstone_match_add_component_1.default);
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneMatch;
+
+
+/***/ },
+/* 606 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(27);
+	var moment = __webpack_require__(460);
+	var page_header_component_1 = __webpack_require__(454);
+	var alert_component_1 = __webpack_require__(450);
+	var hearthstone_player_classes_1 = __webpack_require__(572);
+	var hearthstone_match_result_1 = __webpack_require__(574);
+	var HearthstoneMatchAdd = (function (_super) {
+	    __extends(HearthstoneMatchAdd, _super);
+	    function HearthstoneMatchAdd() {
+	        _super.apply(this, arguments);
+	    }
+	    HearthstoneMatchAdd.prototype.componentWillMount = function () {
+	        var _a = this.props, initMatch = _a.initMatch, setMatch = _a.setMatch;
+	        var match = {
+	            deck: '',
+	            opponent: 0,
+	            result: 0,
+	        };
+	        initMatch();
+	        setMatch(match);
+	    };
+	    HearthstoneMatchAdd.prototype.componentDidMount = function () {
+	        var _a = this.props, decks = _a.decks, getDecks = _a.getDecks;
+	        if (!decks.fetchedPages.includes(1)) {
+	            getDecks();
+	        }
+	    };
+	    HearthstoneMatchAdd.prototype.handleChange = function (e) {
+	        var _a = e.target, name = _a.name, value = _a.value;
+	        var changeMatch = this.props.changeMatch;
+	        changeMatch(name, value);
+	    };
+	    HearthstoneMatchAdd.prototype.handleSubmit = function (result) {
+	        var _a = this.props, match = _a.match, changeMatch = _a.changeMatch, createMatch = _a.createMatch;
+	        changeMatch('result', result);
+	        createMatch(match.data);
+	    };
+	    HearthstoneMatchAdd.prototype.handleTotal = function () {
+	        var matches = this.props.matches;
+	        var today = moment().startOf('day').valueOf();
+	        return matches.items.filter(function (item) { return item.time > today; });
+	    };
+	    HearthstoneMatchAdd.prototype.render = function () {
+	        var _this = this;
+	        var _a = this.props, decks = _a.decks, match = _a.match, matches = _a.matches;
+	        var activeDecks = decks.items.filter(function (e) { return e.active; });
+	        var today = this.handleTotal();
+	        var wins = today.filter(function (e) { return e.result === 1; });
+	        var pet = (wins.length / today.length * 100).toFixed(2);
+	        return (React.createElement("div", {className: "container-fluid"}, 
+	            React.createElement(page_header_component_1.default, {title: 'Add Match'}), 
+	            React.createElement(alert_component_1.default, {isFetching: decks.isFetching, isPosting: matches.isPosting, posted: false, error: matches.error}), 
+	            React.createElement("form", null, 
+	                React.createElement("div", {className: "form-group"}, 
+	                    React.createElement("label", {htmlFor: "deck"}, "Deck:"), 
+	                    React.createElement("select", {name: "deck", value: match.data ? match.data.deck : '', id: "deck", className: "form-control", onChange: this.handleChange.bind(this)}, activeDecks.map(function (deck, key) {
+	                        return React.createElement("option", {value: deck._id, key: key}, deck.name);
+	                    }))), 
+	                React.createElement("div", {className: "form-group"}, 
+	                    React.createElement("label", {htmlFor: "opponent"}, "Opponent:"), 
+	                    React.createElement("select", {name: "opponent", value: match.data ? match.data.opponent : 0, id: "opponent", className: "form-control", onChange: this.handleChange.bind(this)}, hearthstone_player_classes_1.HearthstonePlayerClasses.map(function (value) {
+	                        return React.createElement("option", {key: value.value, value: value.value.toString()}, value.name);
+	                    }))), 
+	                React.createElement("div", {className: "form-group"}, 
+	                    React.createElement("label", null, "Result:"), 
+	                    React.createElement("div", {className: "btn-group btn-group-justified"}, hearthstone_match_result_1.HearthstoneMatchResult.map(function (result) {
+	                        return (React.createElement("div", {className: "btn-group", key: result.value}, 
+	                            React.createElement("button", {type: "button", className: "btn btn-default btn-lg", onClick: _this.handleSubmit.bind(_this, result.value)}, result.name)
+	                        ));
+	                    })))), 
+	            React.createElement("div", {className: "row"}, 
+	                React.createElement("div", {className: "col-sm-12 text-center"}, 
+	                    React.createElement("h3", null, 
+	                        "Total: ", 
+	                        today.length, 
+	                        " Win: ", 
+	                        wins.length, 
+	                        " PET: ", 
+	                        pet, 
+	                        "%")
+	                )
+	            )));
+	    };
+	    return HearthstoneMatchAdd;
+	}(React.Component));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HearthstoneMatchAdd;
+
+
+/***/ },
+/* 607 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var redux_1 = __webpack_require__(211);
-	var logger = __webpack_require__(609);
-	var redux_promise_middleware_1 = __webpack_require__(615);
-	var redux_thunk_1 = __webpack_require__(617);
-	var reducers_1 = __webpack_require__(618);
+	var logger = __webpack_require__(608);
+	var redux_promise_middleware_1 = __webpack_require__(614);
+	var redux_thunk_1 = __webpack_require__(616);
+	var reducers_1 = __webpack_require__(617);
 	var middleware = redux_1.applyMiddleware(logger(), redux_thunk_1.default, redux_promise_middleware_1.default());
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = redux_1.createStore(reducers_1.default, middleware);
 
 
 /***/ },
-/* 609 */
+/* 608 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -52461,11 +52431,11 @@
 	  value: true
 	});
 
-	var _core = __webpack_require__(610);
+	var _core = __webpack_require__(609);
 
-	var _helpers = __webpack_require__(611);
+	var _helpers = __webpack_require__(610);
 
-	var _defaults = __webpack_require__(614);
+	var _defaults = __webpack_require__(613);
 
 	var _defaults2 = _interopRequireDefault(_defaults);
 
@@ -52568,7 +52538,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 610 */
+/* 609 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -52578,9 +52548,9 @@
 	});
 	exports.printBuffer = printBuffer;
 
-	var _helpers = __webpack_require__(611);
+	var _helpers = __webpack_require__(610);
 
-	var _diff = __webpack_require__(612);
+	var _diff = __webpack_require__(611);
 
 	var _diff2 = _interopRequireDefault(_diff);
 
@@ -52709,7 +52679,7 @@
 	}
 
 /***/ },
-/* 611 */
+/* 610 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -52733,7 +52703,7 @@
 	var timer = exports.timer = typeof performance !== "undefined" && performance !== null && typeof performance.now === "function" ? performance : Date;
 
 /***/ },
-/* 612 */
+/* 611 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -52743,7 +52713,7 @@
 	});
 	exports.default = diffLogger;
 
-	var _deepDiff = __webpack_require__(613);
+	var _deepDiff = __webpack_require__(612);
 
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 
@@ -52829,7 +52799,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 613 */
+/* 612 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global) {/*!
@@ -53258,7 +53228,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 614 */
+/* 613 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -53309,7 +53279,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 615 */
+/* 614 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -53326,7 +53296,7 @@
 
 	exports.default = promiseMiddleware;
 
-	var _isPromise = __webpack_require__(616);
+	var _isPromise = __webpack_require__(615);
 
 	var _isPromise2 = _interopRequireDefault(_isPromise);
 
@@ -53483,7 +53453,7 @@
 	}
 
 /***/ },
-/* 616 */
+/* 615 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -53504,7 +53474,7 @@
 	}
 
 /***/ },
-/* 617 */
+/* 616 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -53532,20 +53502,20 @@
 	exports['default'] = thunk;
 
 /***/ },
-/* 618 */
+/* 617 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var redux_1 = __webpack_require__(211);
-	var counts_reducer_1 = __webpack_require__(619);
-	var image_reducer_1 = __webpack_require__(620);
-	var games_reducer_1 = __webpack_require__(621);
-	var gourmets_reducer_1 = __webpack_require__(623);
-	var hearthstone_seasons_reducer_1 = __webpack_require__(624);
-	var hearthstone_decks_reducer_1 = __webpack_require__(625);
-	var hearthstone_cards_reducer_1 = __webpack_require__(626);
-	var hearthstone_matches_reducer_1 = __webpack_require__(627);
-	var item_reducer_1 = __webpack_require__(628);
+	var counts_reducer_1 = __webpack_require__(618);
+	var image_reducer_1 = __webpack_require__(619);
+	var games_reducer_1 = __webpack_require__(620);
+	var gourmets_reducer_1 = __webpack_require__(622);
+	var hearthstone_seasons_reducer_1 = __webpack_require__(623);
+	var hearthstone_decks_reducer_1 = __webpack_require__(624);
+	var hearthstone_cards_reducer_1 = __webpack_require__(625);
+	var hearthstone_matches_reducer_1 = __webpack_require__(626);
+	var item_reducer_1 = __webpack_require__(627);
 	var reducers = redux_1.combineReducers({
 	    counts: counts_reducer_1.default,
 	    image: image_reducer_1.default,
@@ -53562,7 +53532,7 @@
 
 
 /***/ },
-/* 619 */
+/* 618 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -53597,7 +53567,7 @@
 
 
 /***/ },
-/* 620 */
+/* 619 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -53640,11 +53610,11 @@
 
 
 /***/ },
-/* 621 */
+/* 620 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var reducer_1 = __webpack_require__(622);
+	var reducer_1 = __webpack_require__(621);
 	var action_types_constants_1 = __webpack_require__(447);
 	var initialState = {
 	    isFetching: false,
@@ -53676,7 +53646,7 @@
 
 
 /***/ },
-/* 622 */
+/* 621 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -53836,11 +53806,11 @@
 
 
 /***/ },
-/* 623 */
+/* 622 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var reducer_1 = __webpack_require__(622);
+	var reducer_1 = __webpack_require__(621);
 	var action_types_constants_1 = __webpack_require__(447);
 	var initialState = {
 	    isFetching: false,
@@ -53868,11 +53838,11 @@
 
 
 /***/ },
-/* 624 */
+/* 623 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var reducer_1 = __webpack_require__(622);
+	var reducer_1 = __webpack_require__(621);
 	var action_types_constants_1 = __webpack_require__(447);
 	var initialState = {
 	    isFetching: false,
@@ -53900,11 +53870,11 @@
 
 
 /***/ },
-/* 625 */
+/* 624 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var reducer_1 = __webpack_require__(622);
+	var reducer_1 = __webpack_require__(621);
 	var action_types_constants_1 = __webpack_require__(447);
 	var initialState = {
 	    isFetching: false,
@@ -53966,7 +53936,7 @@
 
 
 /***/ },
-/* 626 */
+/* 625 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -54040,11 +54010,11 @@
 
 
 /***/ },
-/* 627 */
+/* 626 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var reducer_1 = __webpack_require__(622);
+	var reducer_1 = __webpack_require__(621);
 	var action_types_constants_1 = __webpack_require__(447);
 	var initialState = {
 	    isFetching: false,
@@ -54072,7 +54042,7 @@
 
 
 /***/ },
-/* 628 */
+/* 627 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";

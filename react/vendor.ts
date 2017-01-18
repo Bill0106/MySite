@@ -9,3 +9,4 @@ import 'redux-thunk';
 import 'redux-actions';
 
 import 'axios';
+import 'moment';
