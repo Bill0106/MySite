@@ -9,6 +9,7 @@ import HearthstoneSeason from './containers/hearthstone-season.container';
 import HearthstoneDecks from './containers/hearthstone-decks.container';
 import HearthstoneDeck from './containers/hearthstone-deck.container';
 import HearthstoneMatches from './containers/hearthstone-matches.container';
+import HearthstoneMatchAdd from './containers/hearthstone-match.container';
 
 const ROUTING_CONFIG = [
     {
@@ -25,6 +26,7 @@ const ROUTING_CONFIG = [
             { path: 'hearthstone-decks', component: HearthstoneDecks },
             { path: 'hearthstone-decks/:id', component: HearthstoneDeck },
             { path: 'hearthstone-matches', component: HearthstoneMatches },
+            { path: 'hearthstone-matches/add', component: HearthstoneMatchAdd },
         ],
     },
 ];

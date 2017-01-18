@@ -27,7 +27,7 @@ const fetchedPages = (pages: any, url: string) => {
         queryObj[pair[0]] = pair[1];
     });
 
-    if (queryObj.hasOwnProperty('ids')) {
+    if (queryObj.hasOwnProperty('ids') || queryObj.hasOwnProperty('active')) {
         return pages;
     }
 

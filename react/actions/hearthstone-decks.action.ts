@@ -12,6 +12,8 @@ const fetchDecks = createAction(hearthstone_decks.fetch_list, (params: any) => {
         url = `${url}&page=${params.page}`;
     } else if (params.hasOwnProperty('ids')) {
         url = `${base}?ids=${params.ids.join(',')}`;
+    } else if (params.hasOwnProperty('active')) {
+        url = `${base}?active=${params.active}`;
     }
 
     return axios.get(url);

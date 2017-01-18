@@ -62,12 +62,7 @@ const create = async (ctx) => {
         let match = new HearthstoneMatch.repositry(data);
         await match.save();
 
-        ctx.body = {
-            success: true,
-            data: {
-                id: match._id,
-            },
-        };
+        ctx.body = match;
     } catch (error) {
         ctx.status = ctx.status || 500;
         ctx.body = error.message;

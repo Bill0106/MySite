@@ -28,7 +28,6 @@ class App extends React.Component<void, void> {
                                         <li><Link to="/admin/hearthstone-matches">Matches</Link></li>
                                     </ul>
                                 </li>
-                                <li><Link to="/admin/blogs" activeClassName="active">Blogs</Link></li>
                             </ul>
                         </div>
                     </div>
