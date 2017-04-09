@@ -4,11 +4,11 @@ import axios from 'axios';
 import * as Card from '../models/hearthstone-card.model';
 
 import { Keys } from '../../config/keys';
-import { HsPlayerClasses } from '../../config/hs-player-classes';
-import { HsCardRarity } from '../../config/hs-card-rarity';
+import { HearthstonePlayerClasses } from '../../config/hearthstone-player-classes';
+import { HearthstoneCardRarity } from '../../config/hearthstone-card-rarity';
 
 const CARD_TYPE = ['Spell', 'Minion', 'Weapon'];
-const CARD_SET = ['Naxxramas', 'Goblins vs Gnomes'];
+const CARD_SET = ['Naxxramas', 'Goblins vs Gnomes', 'Blackrock Mountain', 'The Grand Tournament', 'The League of Explorers', 'Hall of Fame'];
 
 const handle = async () => {
     console.log('Requesting API ...');
@@ -34,8 +34,8 @@ const handle = async () => {
                 name: item.name,
                 image: item.img,
                 cost: item.cost,
-                playerClass: item.playerClass == 'Neutral' ? -1 : HsPlayerClasses.find(player => player.name == item.playerClass).value,
-                rarity: HsCardRarity.find(rarity => rarity.name == item.rarity).value,
+                playerClass: item.playerClass == 'Neutral' ? -1 : HearthstonePlayerClasses.find(player => player.name == item.playerClass).value,
+                rarity: HearthstoneCardRarity.find(rarity => rarity.name == item.rarity).value,
                 standard: CARD_SET.indexOf(item.cardSet) >= 0 ? false : true
             }
 
